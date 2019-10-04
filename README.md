@@ -1,3 +1,45 @@
+**Note to everyone involved in the project: the instructions for editing and creating files, as well as cloning the repository from Bitbucket are below the brief**
+
+---
+
+# Brief
+
+**Background**
+
+One of the projects worked on by the Bio-Inspired Flight Lab at the University of Bristol is the Urban Gull Project, setup by two PhD students Cara and Anouk. This project that started in 2016 focuses on analysing urban gull flight behaviour to identify how to save energy and navigate in the city environment. The data is used to develop control schemes in path planning for gull-sized UAVs to improve flight performance and avoid turbulence, as well as to compare the behaviour and energetic costs of urban gulls with gull populations in traditional rural areas.
+
+The lab has developed an outreach workshop related to their research which they take into schools and science events, to show the diversity of STEM careers and boost public engagement. This workshop engages participants with real life scenarios and problems related to drones, as well as empowering students to take part in their research by asking them to look out for gulls from their project.
+
+The outreach project has been successful and shortlisted for the GEDC Airbus diversity award (only project from UK).
+
+**The client's request**
+
+The client is looking to "have a platform similar to their workshop, where members of the public can engage with bio-inspired engineering, drones and gulls". They request that the platform be "easily accessible, fun and engaging for all ages, genders and background".
+
+One solution the client has suggested is to create a game app, where users are given a problem, asked to customize the sensors on the drone and use it to solve the problem. The user will then be awarded points for how well they did in the game. An example problem would be delivering a kidney from hospital to hospital. The client also suggested a scoreboard to add a competitive element to the game, as well as adding tidbits of information about flight paths and bio-inspired engineering, drones and gulls. These pieces of trivia could be displayed during gameplay, hidden in the game levels, or even unlocked through achievements.
+
+While the client only proposed one solution, they are open to other ideas as long as it is related to their research and workshop, as described above. The engineering outreach team uses this workshop regularly, so the app will be used long term.
+
+**Other information**
+
+For more information about the project or to try out the workshop, please contact:
+
+Anouk Spelt
+
+anouk.spelt@bristol.ac.uk
+
+For more information, check out:
+
+* https://www.bristol.ac.uk/aerodynamicsresearch/research-projects/bif/
+
+* http://alturl.com/r862d
+
+* https://engineering.blogs.bristol.ac.uk/urban-gulluav-drones-bristol/
+
+**Instructions on how to edit and create files as well as clone from Bitbucket below**
+
+---
+
 **Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
 
 When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
