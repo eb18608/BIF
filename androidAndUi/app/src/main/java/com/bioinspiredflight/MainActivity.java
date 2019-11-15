@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,9 +18,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("playButton", "Pressed!");
+                /*
                 Toast.makeText(getApplicationContext(), "Not implemented yet",
                         Toast.LENGTH_SHORT)
                         .show();
+                 */
+                Intent playGame = new Intent(MainActivity.this, GameActivity.class);
+                startActivity(playGame);
             }
         });
     }

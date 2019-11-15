@@ -1,33 +1,47 @@
 package com.bioinspiredflight;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
+import android.content.Intent;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+//import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.view.View;
+import processing.android.PFragment;
+import processing.android.CompatUtils;
+import processing.core.PApplet;
 
 public class GameActivity extends AppCompatActivity {
+    private PApplet sketch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        FrameLayout frame = new FrameLayout(this);
+        frame.setId(CompatUtils.getUniqueViewId());
+        setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        sketch = new Placeholder();
+        PFragment fragment = new PFragment(sketch);
+        fragment.setView(frame, this);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (sketch != null) {
+            sketch.onRequestPermissionsResult(
+                    requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    @CallSuper
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (sketch != null) {
+            sketch.onNewIntent(intent);
+        }
+    }
 }
