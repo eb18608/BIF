@@ -9,11 +9,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+    public void init(){
         //Play button will switch to game activity
         Button playButton = findViewById(R.id.playButton);
         playButton.setOnClickListener(new View.OnClickListener(){
@@ -26,6 +22,15 @@ public class MainActivity extends AppCompatActivity {
                         .show();
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        init();
+
     }
 
 }
