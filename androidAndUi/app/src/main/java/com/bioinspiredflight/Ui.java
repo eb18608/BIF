@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,12 +41,15 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
         });
         widgets.add(testButton);
         testJoystick = new Joystick(context);
-        testJoystick.setDimensions(0, 0, Math.min(getWidth(), getHeight()) / 3,
+        testJoystick.setDimensions(
+                getWidth(),
+                getHeight(),
+                Math.min(getWidth(), getHeight()) / 3,
                 Math.min(getWidth(), getHeight()) / 5);
         widgets.add(testJoystick);
     }
 
-    public void drawUi(FrameLayout frame){
+    public void drawUi(RelativeLayout frame){
         for (View widget : widgets){
             frame.addView(widget);
         }

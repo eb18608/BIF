@@ -5,10 +5,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
-public class Joystick extends SurfaceView implements SurfaceHolder.Callback{
+public class Joystick extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener{
 
     private float centerX;
     private float centerY;
@@ -18,6 +22,12 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback{
     public Joystick(Context context) {
         super(context);
         getHolder().addCallback(this);
+        setOnTouchListener(this);
+    }
+    public Joystick(Context context, AttributeSet attributes) {
+        super(context);
+        getHolder().addCallback(this);
+        setOnTouchListener(this);
     }
 
     public void setDimensions(float centerX, float centerY,
@@ -66,7 +76,7 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback{
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        //setup();
+        setup();
         drawJoystick(centerX, centerY);
     }
 
@@ -78,5 +88,21 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        //return false;
+        if (v.equals(this)){
+            Log.i("Screen", "Responding...");
+            if (event.getAction() != MotionEvent.ACTION_UP){
+                drawJoystick(event.getX(), event.getY());
+                Log.i("Joystick", "Touched!");
+            } else {
+                drawJoystick(centerX, centerY);
+                Log.i("Joystick", "Released!");
+            }
+        }
+        return true;
     }
 }
