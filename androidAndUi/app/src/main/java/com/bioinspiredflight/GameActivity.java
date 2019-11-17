@@ -2,8 +2,11 @@ package com.bioinspiredflight;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 //import android.support.v7.app.AppCompatActivity;
 import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +21,8 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FrameLayout frame = new FrameLayout(this);
+        final FrameLayout frame = new FrameLayout(this);
+        final Ui ui = new Ui(frame, this);
         frame.setId(CompatUtils.getUniqueViewId());
         setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
@@ -26,6 +30,7 @@ public class GameActivity extends AppCompatActivity {
         sketch = new Placeholder();
         PFragment fragment = new PFragment(sketch);
         fragment.setView(frame, this);
+        ui.drawUi();
     }
 
     @Override
