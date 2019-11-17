@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 //import android.support.v7.app.AppCompatActivity;
 import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import processing.android.PFragment;
 import processing.android.CompatUtils;
@@ -22,16 +24,23 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final FrameLayout frame = new FrameLayout(this);
+        final RelativeLayout uiLayout = new RelativeLayout(this);
         //final Ui ui = new Ui(frame, this);
-        final Ui ui = new Ui(this);
         frame.setId(CompatUtils.getUniqueViewId());
-        setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-
+        uiLayout.setId(CompatUtils.getUniqueViewId());
+        setContentView(frame, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        ));
+        addContentView(uiLayout, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        ));
         sketch = new Placeholder();
-        PFragment fragment = new PFragment(sketch);
-        fragment.setView(frame, this);
-        ui.drawUi(frame);
+        PFragment pFragment = new PFragment(sketch);
+        pFragment.setView(frame, this);
+        final Ui ui = new Ui(this);
+        ui.drawUi(uiLayout);
     }
 
     @Override
