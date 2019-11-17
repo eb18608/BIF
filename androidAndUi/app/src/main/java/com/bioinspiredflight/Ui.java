@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import processing.android.CompatUtils;
+
 public class Ui extends SurfaceView implements SurfaceHolder.Callback{
 
     private Button testButton;
@@ -31,6 +33,7 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
         testButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         testButton.setText("Test Button");
+        testButton.setId(CompatUtils.getUniqueViewId());
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,11 +44,7 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
         });
         widgets.add(testButton);
         testJoystick = new Joystick(context);
-        testJoystick.setDimensions(
-                getWidth(),
-                getHeight(),
-                Math.min(getWidth(), getHeight()) / 3,
-                Math.min(getWidth(), getHeight()) / 5);
+        testJoystick.setId(CompatUtils.getUniqueViewId());
         widgets.add(testJoystick);
     }
 

@@ -18,6 +18,7 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
     private float centerY;
     private float baseRadius;
     private float hatRadius;
+    private JoystickListener listener;
 
     public Joystick(Context context) {
         super(context);
@@ -29,36 +30,21 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
         getHolder().addCallback(this);
         setOnTouchListener(this);
     }
-
-    public void setDimensions(float centerX, float centerY,
-                                   float baseRadius, float hatRadius){
-        setCenterX(centerX);
-        setCenterY(centerY);
-        setBaseRadius(baseRadius);
-        setHatRadius(hatRadius);
-    }
-
-    public void setCenterX(float centerX){
-        this.centerX = centerX;
-    }
-
-    public void setCenterY(float centerY) {
-        this.centerY = centerY;
-    }
-
-    public void setBaseRadius(float baseRadius) {
-        this.baseRadius = baseRadius;
-    }
-
-    public void setHatRadius(float hatRadius) {
-        this.hatRadius = hatRadius;
+    public Joystick(Context context, AttributeSet attributes, int style) {
+        super(context);
+        getHolder().addCallback(this);
+        setOnTouchListener(this);
     }
 
     private void setup(){
-        centerX = getWidth() / 2;
-        centerY = getHeight() / 2;
-        baseRadius = Math.min(getWidth(), getHeight()) / 3;
-        hatRadius = Math.min(getWidth(), getHeight()) / 5;
+        baseRadius = Math.min(getWidth(), getHeight()) / 5;
+        hatRadius = Math.min(getWidth(), getHeight()) / 7;
+        centerX = getWidth() - baseRadius;
+        centerY = getHeight() - baseRadius;
+    }
+
+    public void addJoystickListener(JoystickListener listener){
+        this.listener = listener;
     }
 
     private void drawJoystick(float x, float y){
@@ -94,15 +80,45 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
     public boolean onTouch(View v, MotionEvent event) {
         //return false;
         if (v.equals(this)){
-            Log.i("Screen", "Responding...");
+            //Log.i("Screen", "Responding...");
             if (event.getAction() != MotionEvent.ACTION_UP){
-                drawJoystick(event.getX(), event.getY());
+                float displacement = (float)
+                        Math.sqrt(Math.pow(event.getX() - centerX, 2)
+                        + Math.pow(event.getY() - centerY, 2));
+                if (displacement < baseRadius){
+                    drawJoystick(event.getX(), event.getY());
+                    if (listener != null){
+                        listener.onJoystickMoved(
+                                (event.getX() - centerX) / baseRadius,
+                                (event.getY() - centerY) / baseRadius,
+                                getId()
+                        );
+                    }
+                } else {
+                    float ratio = baseRadius/displacement;
+                    float constrainedX =
+                            centerX + (event.getX() - centerX) * ratio;
+                    float constrainedY =
+                            centerY + (event.getY() - centerY) * ratio;
+                    drawJoystick(constrainedX, constrainedY);
+                    if (listener != null){
+                        listener.onJoystickMoved(
+                                (constrainedX - centerX) / baseRadius,
+                                (constrainedY - centerY) / baseRadius,
+                                getId()
+                        );
+                    }
+                }
                 Log.i("Joystick", "Touched!");
             } else {
                 drawJoystick(centerX, centerY);
-                Log.i("Joystick", "Released!");
+                //Log.i("Joystick", "Released!");
             }
         }
         return true;
+    }
+
+    public interface JoystickListener{
+        void onJoystickMoved(float xPercent, float yPercent, int id);
     }
 }
