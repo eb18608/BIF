@@ -22,7 +22,8 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final FrameLayout frame = new FrameLayout(this);
-        final Ui ui = new Ui(frame, this);
+        //final Ui ui = new Ui(frame, this);
+        final Ui ui = new Ui(this);
         frame.setId(CompatUtils.getUniqueViewId());
         setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
@@ -30,7 +31,7 @@ public class GameActivity extends AppCompatActivity {
         sketch = new Placeholder();
         PFragment fragment = new PFragment(sketch);
         fragment.setView(frame, this);
-        ui.drawUi();
+        ui.drawUi(frame);
     }
 
     @Override
