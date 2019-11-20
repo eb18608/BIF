@@ -9,8 +9,8 @@ import processing.core.PApplet;
 public class Placeholder extends PApplet{
 
     public void settings() {
-        size(800, 700);
-        //fullScreen();
+        //size(800, 700);
+        fullScreen();
     }
 
     public void setup() {
