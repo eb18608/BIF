@@ -21,10 +21,12 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
     private float hatRadius;
     private JoystickListener listener;
     private boolean usingJoystick;
+    private boolean joystickOutOfPlace;
 
     public Joystick(Context context) {
         super(context);
         usingJoystick = false;
+        joystickOutOfPlace = false;
         getHolder().addCallback(this);
         setOnTouchListener(this);
         this.setZOrderOnTop(true);
@@ -127,9 +129,13 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
                 }
                 Log.i("Joystick", "Touched!");
             } else {
-                drawJoystick(centerX, centerY);
                 //Log.i("Joystick", "Released!");
                 usingJoystick = false;
+                joystickOutOfPlace = true;
+            }
+            if (joystickOutOfPlace){
+                drawJoystick(centerX, centerY);
+                joystickOutOfPlace = false;
             }
         }
         return true;
