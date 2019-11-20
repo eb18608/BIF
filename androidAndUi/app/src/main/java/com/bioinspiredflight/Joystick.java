@@ -20,9 +20,11 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
     private float baseRadius;
     private float hatRadius;
     private JoystickListener listener;
+    private boolean usingJoystick;
 
     public Joystick(Context context) {
         super(context);
+        usingJoystick = false;
         getHolder().addCallback(this);
         setOnTouchListener(this);
         this.setZOrderOnTop(true);
@@ -33,11 +35,17 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
         super(context);
         getHolder().addCallback(this);
         setOnTouchListener(this);
+        this.setZOrderOnTop(true);
+        this.getHolder()
+                .setFormat(PixelFormat.TRANSPARENT);
     }
     public Joystick(Context context, AttributeSet attributes, int style) {
         super(context);
         getHolder().addCallback(this);
         setOnTouchListener(this);
+        this.setZOrderOnTop(true);
+        this.getHolder()
+                .setFormat(PixelFormat.TRANSPARENT);
     }
 
     private void setup(){
@@ -84,11 +92,15 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
     public boolean onTouch(View v, MotionEvent event) {
         //return false;
         if (v.equals(this)){
+
+            float displacement = (float)
+                    Math.sqrt(Math.pow(event.getX() - centerX, 2)
+                            + Math.pow(event.getY() - centerY, 2));
+            if (displacement < baseRadius){
+                usingJoystick = true;
+            }
             //Log.i("Screen", "Responding...");
-            if (event.getAction() != MotionEvent.ACTION_UP){
-                float displacement = (float)
-                        Math.sqrt(Math.pow(event.getX() - centerX, 2)
-                        + Math.pow(event.getY() - centerY, 2));
+            if (event.getAction() != MotionEvent.ACTION_UP && usingJoystick){
                 if (displacement < baseRadius){
                     drawJoystick(event.getX(), event.getY());
                     if (listener != null){
@@ -117,6 +129,7 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
             } else {
                 drawJoystick(centerX, centerY);
                 //Log.i("Joystick", "Released!");
+                usingJoystick = false;
             }
         }
         return true;
