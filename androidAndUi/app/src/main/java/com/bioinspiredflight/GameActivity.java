@@ -1,5 +1,6 @@
 package com.bioinspiredflight;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
@@ -23,6 +24,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         final FrameLayout frame = new FrameLayout(this);
         final RelativeLayout uiLayout = new RelativeLayout(this);
         //final Ui ui = new Ui(frame, this);
