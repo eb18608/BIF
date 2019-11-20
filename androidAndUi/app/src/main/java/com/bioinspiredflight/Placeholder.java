@@ -14,7 +14,7 @@ public class Placeholder extends PApplet{
     }
 
     public void setup() {
-
+        ellipse(400, 400, 50, 50);
     }
 
     public void draw() {
