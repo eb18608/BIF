@@ -45,6 +45,7 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
         widgets.add(testButton);
         testJoystick = new Joystick(context);
         testJoystick.setId(CompatUtils.getUniqueViewId());
+        testJoystick.addJoystickListener(new JoystickToVector3D());
         widgets.add(testJoystick);
     }
 
