@@ -28,4 +28,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation files('libs\\android_core_275.jar')
+    implementation files('libs\\vecmath-1.5.1.jar')
 }
