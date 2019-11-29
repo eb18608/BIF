@@ -51,10 +51,12 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
     }
 
     private void setup(){
-        baseRadius = Math.min(getWidth(), getHeight()) / 6.5f;
-        hatRadius = Math.min(getWidth(), getHeight()) / 9f;
-        centerX = getWidth() - (baseRadius * 2f);
-        centerY = getHeight() - (baseRadius * 2f);
+        int h = getHeight();
+        int w = getWidth();
+        baseRadius = Math.min(w, h) / 6.5f;
+        hatRadius = Math.min(w, h) / 9f;
+        centerX = w - (baseRadius * 2f);
+        centerY = h - (baseRadius * 2f);
     }
 
     public void addJoystickListener(JoystickListener listener){
