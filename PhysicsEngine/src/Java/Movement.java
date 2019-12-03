@@ -1,7 +1,12 @@
 package Java;
 import javax.vecmath.Vector3d;
+/*Movement is my testing class for the visitor functions capabilities
+Movement is meant to simulate any object in the game that will be affected by any form of movement interaction
+If a player, then would have all the interactions (control from player input, environment obstacles or even wall
+collisions*/
 
-public abstract class Movement {
+
+public class Movement implements Visitor{
     private int mass;
     private boolean gravityOn;
     private Vector3d pos;
@@ -43,22 +48,76 @@ public abstract class Movement {
     public int getMass() {return mass;  }
 
 
-    public Vector3d forceApplied(Vector3d currentAcc,Vector3d inputForce, int mass, int frametime){
-        this.acc.x = ((currentAcc.x + (frametime*inputForce.x))/mass);
-        this.acc.y = ((currentAcc.y + (frametime*inputForce.y))/mass);
-        this.acc.z = ((currentAcc.z + (frametime*inputForce.z))/mass);
+    public Vector3d forceApplied(Vector3d currentAcc,Vector3d inputForce, int mass, double frametime){
 
-        return this.acc;
+        Vector3d newAcc = new Vector3d();
+
+        newAcc.x = ((currentAcc.x + (frametime*inputForce.x))/mass);
+        newAcc.y = ((currentAcc.y + (frametime*inputForce.y))/mass);
+        newAcc.z = ((currentAcc.z + (frametime*inputForce.z))/mass);
+
+        return newAcc;
     }
 
-    public Vector3d calcVel(Vector3d currentVel, Vector3d accVector, int mass, int frametime){
-        this.vel.x = ((currentVel.x + (frametime*accVector.x)));
-        this.vel.y = ((currentVel.y + (frametime*accVector.y)));
-        this.vel.z = ((currentVel.z + (frametime*accVector.z)));
+    public Vector3d calcVel(Vector3d currentVel, Vector3d accVector, double frametime){
+        Vector3d newVel = new Vector3d();
 
-        return this.vel;
+        newVel.x = (currentVel.x + (frametime*accVector.x));
+        newVel.y = (currentVel.y + (frametime*accVector.y));
+        newVel.z = (currentVel.z + (frametime*accVector.z));
+
+        return newVel;
 
     }
+
+    public Vector3d calcPos(Vector3d currentPos, Vector3d velVector, double frametime){
+        Vector3d newPos = new Vector3d();
+
+        newPos.x = (currentPos.x +(frametime*velVector.x));
+        newPos.y = (currentPos.y +(frametime*velVector.y));
+        newPos.z = (currentPos.z +(frametime*velVector.z));
+
+        return newPos;
+    }
+
+    public void updateMover(Vector3d resultAcc, Vector3d resultVel, Vector3d resultPos, Movement thisMover){
+        thisMover.acc = resultAcc;
+        thisMover.vel = resultVel;
+        thisMover.pos = resultPos;
+    }
+
+    @Override
+    public void visit(ControlMod control) {
+        Vector3d resultantAcc = forceApplied(this.acc, control.controlMod, this.mass, this.frametime);
+        Vector3d resultantVel = calcVel(this.vel, resultantAcc, this.frametime);
+        Vector3d resultantPos = calcPos(this.pos, resultantVel, this.frametime);
+
+        updateMover(resultantAcc, resultantVel, resultantPos, this);
+    }
+
+
+    @Override
+    public void visit(EnviroMod enviro) {
+        Vector3d resultantAcc = forceApplied(this.acc, enviro.environMod, this.mass, this.frametime);
+        Vector3d resultantVel = calcVel(this.vel, resultantAcc, this.frametime);
+        Vector3d resultantPos = calcPos(this.pos, resultantVel, this.frametime);
+
+        updateMover(resultantAcc, resultantVel, resultantPos, this);
+    }
+
+    @Override
+    public void visit(CollideMod collide) {
+        Vector3d resultantAcc = this.acc;
+        Vector3d resultantVel = collide.collideMod;
+        Vector3d resultantPos = this.pos;
+
+        updateMover(resultantAcc, resultantVel, resultantPos, this);
+    }
+
+//    @Override
+//    public Vector3d accept(Visitor visit) {
+//        return visit.visit(visit, this, this.frametime);
+//    }
 
 
 //    Vector3d gravityVector = new Vector3d(0, 9.81, 0);
@@ -67,4 +126,5 @@ public abstract class Movement {
 //        //This is wrong
 //        return acc;
 //    }
+
 }
