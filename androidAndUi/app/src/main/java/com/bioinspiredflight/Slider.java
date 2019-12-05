@@ -15,19 +15,19 @@ import android.view.View;
 public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener {
 
     private float length;
-    private float sliderRadius;
-    private float centerX;
-    private float centerY;
-    private float sliderWidthFromCenter;
-    private float sliderHeightFromCenter;
+    public float sliderRadius;
+    public float centerX;
+    public float centerY;
+    public float sliderWidthFromCenter;
+    public float sliderHeightFromCenter;
     private int left, top, right, bottom;
-    private boolean usingSlider;
+    public boolean usingSlider;
 
     public Slider(Context context) {
         super(context);
         getHolder().addCallback(this);
         setOnTouchListener(this);
-        //this.setZOrderOnTop(true);
+        this.setZOrderOnTop(true);
         //this.setZOrderMediaOverlay(true);
         this.getHolder()
                 .setFormat(PixelFormat.TRANSPARENT);
@@ -50,7 +50,7 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         bottom = (int) (centerY + sliderHeightFromCenter);
     }
 
-    private void drawSlider(float x, float y){
+    public void drawSlider(float x, float y){
         if (getHolder().getSurface().isValid()){
             System.out.println("...");
             Canvas canvas = this.getHolder().lockCanvas();
@@ -65,10 +65,21 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         }
     }
 
+    public boolean withinBounds(float x, float y){
+        boolean result = false;
+        float displacementX = x - centerX;
+        float displacementY = y - centerY;
+        if (displacementX >= -sliderWidthFromCenter && displacementX <= sliderWidthFromCenter
+                && displacementY >= -sliderHeightFromCenter && displacementY <= sliderHeightFromCenter) {
+            result = true;
+        }
+        return result;
+    }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
-        if (v.equals(this)) {
+        System.out.println("slide");
+        //if (v.equals(this)) {
             float displacementX = (float) event.getX() - centerX;
             float displacementY = (float) event.getY() - centerY;
             if (displacementX >= -sliderWidthFromCenter && displacementX <= sliderWidthFromCenter
@@ -79,14 +90,15 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
                 //System.out.println("Touching slider");
                 if (displacementY >= -sliderHeightFromCenter && displacementY <= sliderHeightFromCenter){
                     drawSlider(centerX, event.getY());
+                    return true;
                 }
             } else {
                 usingSlider = false;
                 drawSlider(centerX, centerY);
                 System.out.println("Released slider");
             }
-        }
-        return true;
+        //}
+        return false;
     }
 
     @Override

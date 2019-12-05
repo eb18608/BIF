@@ -22,6 +22,7 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
     private Button testButton;
     private Joystick testJoystick;
     private Slider testSlider;
+    private UiSurfaceView uiSurfaceView;
     private ArrayList<View> widgets;
     //private final FrameLayout frame;
     //private final AppCompatActivity gameActivity;
@@ -44,6 +45,7 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
             }
         });
         //widgets.add(testButton);
+
         testJoystick = new Joystick(context);
         testJoystick.setId(CompatUtils.getUniqueViewId());
         testJoystick.addJoystickListener(new JoystickToVector3D());
@@ -51,6 +53,8 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
         testSlider = new Slider(context);
         testSlider.setId(CompatUtils.getUniqueViewId());
         widgets.add(testSlider);
+        uiSurfaceView = new UiSurfaceView(context, testJoystick, testSlider);
+        widgets.add(uiSurfaceView);
 
     }
 
