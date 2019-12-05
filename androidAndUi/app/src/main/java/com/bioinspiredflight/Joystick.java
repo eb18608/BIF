@@ -15,13 +15,13 @@ import android.view.View;
 
 public class Joystick extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener{
 
-    private float centerX;
-    private float centerY;
-    private float baseRadius;
-    private float hatRadius;
+    public float centerX;
+    public float centerY;
+    public float baseRadius;
+    public float hatRadius;
     private JoystickListener listener;
-    private boolean usingJoystick;
-    private boolean joystickOutOfPlace;
+    public boolean usingJoystick;
+    public boolean joystickOutOfPlace;
 
     public Joystick(Context context) {
         super(context);
@@ -63,7 +63,7 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
         this.listener = listener;
     }
 
-    private void drawJoystick(float x, float y){
+    public void drawJoystick(float x, float y){
         if (getHolder().getSurface().isValid()){
             Canvas canvas = this.getHolder().lockCanvas();
             Paint colors  = new Paint();
@@ -92,10 +92,22 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
 
     }
 
+    public boolean withinBounds(float x, float y){
+        boolean result = false;
+        float displacement = (float)
+                Math.sqrt(Math.pow(x - centerX, 2)
+                        + Math.pow(y - centerY, 2));
+        if (displacement < baseRadius){
+            result = true;
+        }
+        return result;
+    }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         //return false;
-        if (v.equals(this)){
+        System.out.println("joy");
+        //if (v.equals(this)){
 
             float displacement = (float)
                     Math.sqrt(Math.pow(event.getX() - centerX, 2)
@@ -139,7 +151,7 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
                 drawJoystick(centerX, centerY);
                 joystickOutOfPlace = false;
             }
-        }
+        //}
         return true;
     }
 
