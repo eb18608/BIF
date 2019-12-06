@@ -48,14 +48,20 @@ public class Movement implements Visitor{
     public int getMass() {return mass;  }
 
 
-    public Vector3d forceApplied(Vector3d currentAcc,Vector3d inputForce, int mass, double frametime){
-
+    public Vector3d forceApplied(Vector3d currentAcc,Vector3d inputForce, int mass, double frametime) {
+        double gravity = 9.81;
         Vector3d newAcc = new Vector3d();
+        if (gravityOn) {
+            newAcc.x = ((currentAcc.x + (frametime * inputForce.x)) / mass);
+            newAcc.y = ((currentAcc.y + (frametime * inputForce.y)) / mass);
+            newAcc.z = ((currentAcc.z + (frametime * inputForce.z)) / mass) - gravity;
 
-        newAcc.x = ((currentAcc.x + (frametime*inputForce.x))/mass);
-        newAcc.y = ((currentAcc.y + (frametime*inputForce.y))/mass);
-        newAcc.z = ((currentAcc.z + (frametime*inputForce.z))/mass);
+        } else {
+            newAcc.x = ((currentAcc.x + (frametime * inputForce.x)) / mass);
+            newAcc.y = ((currentAcc.y + (frametime * inputForce.y)) / mass);
+            newAcc.z = ((currentAcc.z + (frametime * inputForce.z)) / mass);
 
+        }
         return newAcc;
     }
 
