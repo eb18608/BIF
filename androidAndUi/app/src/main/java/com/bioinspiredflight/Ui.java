@@ -6,13 +6,9 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import processing.android.CompatUtils;
@@ -24,6 +20,7 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
     private Slider testSlider;
     private UiSurfaceView uiSurfaceView;
     private ArrayList<View> widgets;
+    private InputToOutput io;
     //private final FrameLayout frame;
     //private final AppCompatActivity gameActivity;
 
@@ -48,12 +45,13 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
 
         testJoystick = new Joystick(context);
         testJoystick.setId(CompatUtils.getUniqueViewId());
-        testJoystick.addJoystickListener(new JoystickToVector3D());
+        testJoystick.addJoystickListener(new InputToOutput());
         widgets.add(testJoystick);
         testSlider = new Slider(context);
         testSlider.setId(CompatUtils.getUniqueViewId());
         widgets.add(testSlider);
-        uiSurfaceView = new UiSurfaceView(context, testJoystick, testSlider);
+        this.io = new InputToOutput();
+        uiSurfaceView = new UiSurfaceView(context, testJoystick, testSlider, io);
         widgets.add(uiSurfaceView);
 
     }

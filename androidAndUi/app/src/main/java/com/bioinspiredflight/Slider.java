@@ -22,6 +22,7 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
     public float sliderHeightFromCenter;
     private int left, top, right, bottom;
     public boolean usingSlider;
+    private SliderListener listener;
 
     public Slider(Context context) {
         super(context);
@@ -76,6 +77,10 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         return result;
     }
 
+    public void addSliderListener(SliderListener listener){
+        this.listener = listener;
+    }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         System.out.println("slide");
@@ -115,6 +120,10 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
+    }
+
+    public interface SliderListener{
+        void onSliderMoved(float zValue, int id);
     }
 
 }

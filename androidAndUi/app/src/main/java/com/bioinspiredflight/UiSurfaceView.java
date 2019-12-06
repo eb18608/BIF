@@ -12,8 +12,9 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
     private Joystick joystick;
     private Slider slider;
+    private InputToOutput io;
 
-    public UiSurfaceView(Context context, Joystick joystick, Slider slider) {
+    public UiSurfaceView(Context context, Joystick joystick, Slider slider, InputToOutput io) {
         super(context);
         getHolder().addCallback(this);
         setOnTouchListener(this);
@@ -22,6 +23,9 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                 .setFormat(PixelFormat.TRANSPARENT);
         this.joystick = joystick;
         this.slider = slider;
+        this.io = io;
+        this.joystick.addJoystickListener(io);
+        this.slider.addSliderListener(io);
     }
 
     @Override
@@ -89,6 +93,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     private void moveJoystick(float x, float y){
         float centerX = joystick.centerX;
         float centerY = joystick.centerY;
+        float baseRadius = joystick.baseRadius;
         if (joystick.withinBounds(x, y)){
             joystick.usingJoystick = true;
         }
@@ -96,33 +101,33 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         if (joystick.usingJoystick){
             if (joystick.withinBounds(x, y)){
                 joystick.drawJoystick(x, y);
-                /*
-                if (listener != null){
-                    listener.onJoystickMoved(
-                            (event.getX() - centerX) / baseRadius,
-                            (event.getY() - centerY) / baseRadius,
+
+                if (io != null){
+                    io.onJoystickMoved(
+                            (x - centerX) / baseRadius,
+                            (y - centerY) / baseRadius,
                             getId()
                     );
-                }*/
+                }
                 Log.i("Joystick", "Touched!");
             } else {
                 float displacement = (float)
                         Math.sqrt(Math.pow(x - centerX, 2)
                                 + Math.pow(y - centerY, 2));
-                float ratio = joystick.baseRadius/displacement;
+                float ratio = baseRadius/displacement;
                 float constrainedX =
                         centerX + (x - centerX) * ratio;
                 float constrainedY =
                         centerY + (y - centerY) * ratio;
                 joystick.drawJoystick(constrainedX, constrainedY);
-                /*
-                if (listener != null){
-                    listener.onJoystickMoved(
+
+                if (io != null){
+                    io.onJoystickMoved(
                             (constrainedX - centerX) / baseRadius,
                             (constrainedY - centerY) / baseRadius,
                             getId()
                     );
-                }*/
+                }
                 Log.i("Joystick", "Out of bounds!");
             }
 
@@ -140,13 +145,32 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         }
         float centerX = slider.centerX;
         float centerY = slider.centerY;
-        float displacementX = x - centerX;
-        float displacementY = y - centerY;
+        //float displacementX = x - centerX;
+        float displacementY = centerY - y;
         if (slider.usingSlider) {
             //System.out.println("Touching slider");
             if (displacementY >= -slider.sliderHeightFromCenter && displacementY <= slider.sliderHeightFromCenter){
                 slider.drawSlider(centerX, y);
                 //return true;
+                if (io != null){
+                    io.onSliderMoved(
+                            displacementY,
+                            getId()
+                    );
+                }
+            } else {
+                float constrainedY;
+                if (displacementY < -slider.sliderHeightFromCenter){
+                    constrainedY = -slider.sliderHeightFromCenter;
+                } else {
+                    constrainedY = slider.sliderHeightFromCenter;
+                }
+                if (io != null){
+                    io.onSliderMoved(
+                            constrainedY,
+                            getId()
+                    );
+                }
             }
         } else {
             slider.usingSlider = false;
