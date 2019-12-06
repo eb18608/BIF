@@ -10,14 +10,22 @@ import android.widget.RelativeLayout;
 import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bioinspiredflight.physics.ControlMod;
+import com.bioinspiredflight.physics.Movement;
+import com.bioinspiredflight.ui.InputToOutput;
 import com.bioinspiredflight.ui.Ui;
+
+import javax.vecmath.Vector3d;
 
 import processing.android.PFragment;
 import processing.android.CompatUtils;
 import processing.core.PApplet;
 
 public class GameActivity extends AppCompatActivity {
-    private PApplet sketch;
+    private Placeholder sketch;
+    private InputToOutput io;
+    private Movement movingObject;
+    private ControlMod controlMod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +45,16 @@ public class GameActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT
         ));
         sketch = new Placeholder();
+        this.io = new InputToOutput();
+        Vector3d startPos = new Vector3d(0, 0, 0);
+        this.movingObject = new Movement(1.0, false, startPos);
+        final Ui ui = new Ui(this, io);
+        this.controlMod = new ControlMod(io);
         PFragment pFragment = new PFragment(sketch);
         pFragment.setView(frame, this);
-        final Ui ui = new Ui(this);
         ui.drawUi(uiLayout);
+        sketch.setMovingObject(movingObject, controlMod, io);
+        //movingObject.visit(controlMod);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.bioinspiredflight.ui;
 
 import android.content.Context;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,7 +11,7 @@ import java.util.ArrayList;
 
 import processing.android.CompatUtils;
 
-public class Ui extends SurfaceView implements SurfaceHolder.Callback{
+public class Ui {
 
     private Button testButton;
     private Joystick testJoystick;
@@ -24,9 +22,7 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
     //private final FrameLayout frame;
     //private final AppCompatActivity gameActivity;
 
-    public Ui(final Context context) {
-        super(context);
-        getHolder().addCallback(this);
+    public Ui(final Context context, InputToOutput io) {
         widgets = new ArrayList<>();
         testButton = new Button(context);
         testButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -50,7 +46,8 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
         testSlider = new Slider(context);
         testSlider.setId(CompatUtils.getUniqueViewId());
         widgets.add(testSlider);
-        this.io = new InputToOutput();
+        //this.io = new InputToOutput();
+        this.io = io;
         uiSurfaceView = new UiSurfaceView(context, testJoystick, testSlider, io);
         widgets.add(uiSurfaceView);
 
@@ -63,6 +60,7 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
         }
     }
 
+    /*
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
 
@@ -76,5 +74,5 @@ public class Ui extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
-    }
+    }*/
 }
