@@ -15,4 +15,9 @@ public class CollideMod implements ModVisitable {
     public void accept(Visitor visit) {
         visit.visit(this);
     }
+
+    @Override
+    public void accept(Visitor visit, Movement movement){
+        visit.visit(this, movement);
+    }
 }

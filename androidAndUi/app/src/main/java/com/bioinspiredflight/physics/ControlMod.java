@@ -8,16 +8,21 @@ public class ControlMod implements ModVisitable{
 
     Vector3d controlMod;
 
-    ControlMod(InputToOutput io){
+    public ControlMod(InputToOutput io){
         this.controlMod = io.getVector();
     }
-
 
 
     @Override
     public void accept(Visitor visit) {
         visit.visit(this);
     }
+
+    @Override
+    public void accept(Visitor visit, Movement movement){
+        visit.visit(this, movement);
+    }
+
 }
 
 

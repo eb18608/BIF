@@ -54,9 +54,9 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                 MotionEvent.PointerCoords coords1 = new MotionEvent.PointerCoords();
                 MotionEvent.PointerCoords coords2 = new MotionEvent.PointerCoords();
                 event.getPointerCoords(event.findPointerIndex(pointerId0), coords1);
-                System.out.printf("%.3f, %.3f\n", coords1.x, coords1.y);
+                //System.out.printf("%.3f, %.3f\n", coords1.x, coords1.y);
                 event.getPointerCoords(event.findPointerIndex(pointerId1), coords2);
-                System.out.printf("%.3f, %.3f\n", coords2.x, coords2.y);
+                //System.out.printf("%.3f, %.3f\n", coords2.x, coords2.y);
                 updateUi((int) coords1.x, (int) coords1.y, v, event);
                 updateUi((int) coords2.x, (int) coords2.y, v, event);
             } else {
@@ -109,7 +109,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                             getId()
                     );
                 }
-                Log.i("Joystick", "Touched!");
+                //Log.i("Joystick", "Touched!");
             } else {
                 float displacement = (float)
                         Math.sqrt(Math.pow(x - centerX, 2)
@@ -128,11 +128,11 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                             getId()
                     );
                 }
-                Log.i("Joystick", "Out of bounds!");
+                //Log.i("Joystick", "Out of bounds!");
             }
 
         } else {
-            Log.i("Joystick", "Released!");
+            //Log.i("Joystick", "Released!");
             joystick.usingJoystick = false;
             joystick.joystickOutOfPlace = true;
         }
@@ -175,7 +175,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         } else {
             slider.usingSlider = false;
             slider.drawSlider(centerX, centerY);
-            System.out.println("Released slider");
+            //System.out.println("Released slider");
         }
     }
 }

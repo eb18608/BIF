@@ -14,6 +14,8 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
 
     public InputToOutput(){
         vector3d = new Vector3d();
+        vector3d.setX(0);
+        vector3d.setY(0);
         vector3d.setZ(0);
         //this.joystick = joystick;
         //this.x = 0;
@@ -26,7 +28,7 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         vector3d.setX(xPercent);
         vector3d.setY(-yPercent);
         //vector3d.setZ(0);
-        System.out.println(vector3d.toString());
+        //System.out.println(vector3d.toString());
     }
 
     @Override
@@ -34,7 +36,7 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         //this.zValue = zValue;
         vector3d.setZ(zValue);
         //System.out.println(this.zValue);
-        System.out.println(vector3d.toString());
+        //System.out.println(vector3d.toString());
     }
 
     public Vector3d getVector(){

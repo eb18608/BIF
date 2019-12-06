@@ -6,16 +6,24 @@ If a player, then would have all the interactions (control from player input, en
 collisions*/
 
 
-public class Movement implements Visitor{
-    private int mass;
+public class Movement{
+    private double mass;
     private boolean gravityOn;
     private Vector3d pos;
     private Vector3d vel;
     private Vector3d acc;
-    private int framerate = 30;
-    private double frametime = 1/ framerate;
+    private final double framerate = 30;
+    public final double frametime = 1/ framerate;
 
-    public Movement(int mass, boolean gravityOn, Vector3d p, Vector3d v, Vector3d a) {
+    public Movement(double mass, boolean gravityOn, Vector3d p) {
+        this.mass = mass;
+        this.gravityOn = gravityOn;
+        this.acc = p;
+        this.vel = new Vector3d();
+        this.pos = new Vector3d();
+    }
+
+    public Movement(double mass, boolean gravityOn, Vector3d p, Vector3d v, Vector3d a) {
         this.mass = mass;
         this.gravityOn = gravityOn;
         this.pos = p;
@@ -53,23 +61,35 @@ public class Movement implements Visitor{
 
     public void setMass(int m) {this.mass = m;  }
 
-    public int getMass() {return mass;  }
+    public double getMass() {return mass;  }
 
 
-    public Vector3d forceApplied(Vector3d currentAcc,Vector3d inputForce, int mass, double frametime) {
+    public Vector3d forceApplied(Vector3d currentAcc,Vector3d inputForce, double mass, double frametime) {
         double gravity = 9.81;
+        //System.out.println(inputForce.toString());
         Vector3d newAcc = new Vector3d();
         if (gravityOn) {
-            newAcc.x = ((currentAcc.x + (frametime * inputForce.x)) / mass);
-            newAcc.y = ((currentAcc.y + (frametime * inputForce.y)) / mass);
-            newAcc.z = ((currentAcc.z + (frametime * inputForce.z)) / mass) - gravity;
+            newAcc.x = ((currentAcc.x + (frametime * 100*inputForce.x)) / mass);
+            newAcc.y = ((currentAcc.y + (frametime * 100*inputForce.y)) / mass);
+            newAcc.z = ((currentAcc.z + (frametime * 100*inputForce.z)) / mass) - gravity;
 
         } else {
-            newAcc.x = ((currentAcc.x + (frametime * inputForce.x)) / mass);
-            newAcc.y = ((currentAcc.y + (frametime * inputForce.y)) / mass);
-            newAcc.z = ((currentAcc.z + (frametime * inputForce.z)) / mass);
+            newAcc.setX((currentAcc.x + (frametime * 100*inputForce.x)) / mass);
+            newAcc.setY((currentAcc.y + (frametime * 100*inputForce.y)) / mass);
+            newAcc.setZ((currentAcc.z + (frametime * 100*inputForce.z)) / mass);
 
         }
+        //Vector3d newAcc = new Vector3d();
+        //System.out.printf("X: %.3f, Y: %.3f, Z: %.3f\n", currentAcc.getX(), currentAcc.getY(), currentAcc.getZ());
+        //this.acc.x = (currentAcc.getX() + (frametime * inputForce.x)) / mass;
+        //this.acc.y = (currentAcc.getY() + (frametime * inputForce.y)) / mass;
+        //this.acc.z = (currentAcc.getZ() + (frametime * inputForce.z)) / mass;
+        //this.acc.x = currentAcc.getX() + (frametime * inputForce.x) ;
+        //this.acc.y = 420;
+        //this.acc.z = 69;
+
+        //System.out.printf("X: %.3f, Y: %.3f, Z: %.3f\n", acc.x, acc.y, acc.z);
+        //System.out.println(this.acc.toString());
         return newAcc;
     }
 
@@ -98,34 +118,9 @@ public class Movement implements Visitor{
         thisMover.acc = resultAcc;
         thisMover.vel = resultVel;
         thisMover.pos = resultPos;
-    }
-
-    @Override
-    public void visit(ControlMod control) {
-        Vector3d resultantAcc = forceApplied(this.acc, control.controlMod, this.mass, this.frametime);
-        Vector3d resultantVel = calcVel(this.vel, resultantAcc, this.frametime);
-        Vector3d resultantPos = calcPos(this.pos, resultantVel, this.frametime);
-
-        updateMover(resultantAcc, resultantVel, resultantPos, this);
-    }
-
-
-    @Override
-    public void visit(EnviroMod enviro) {
-        Vector3d resultantAcc = forceApplied(this.acc, enviro.environMod, this.mass, this.frametime);
-        Vector3d resultantVel = calcVel(this.vel, resultantAcc, this.frametime);
-        Vector3d resultantPos = calcPos(this.pos, resultantVel, this.frametime);
-
-        updateMover(resultantAcc, resultantVel, resultantPos, this);
-    }
-
-    @Override
-    public void visit(CollideMod collide) {
-        Vector3d resultantAcc = this.acc;
-        Vector3d resultantVel = collide.collideMod;
-        Vector3d resultantPos = this.pos;
-
-        updateMover(resultantAcc, resultantVel, resultantPos, this);
+        System.out.printf("\nAcc: %s\n", this.acc.toString());
+        System.out.printf("Vel: %s\n", this.vel.toString());
+        System.out.printf("Pos: %s\n", this.pos.toString());
     }
 
 //    @Override

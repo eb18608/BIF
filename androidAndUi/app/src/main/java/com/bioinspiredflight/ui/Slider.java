@@ -53,7 +53,7 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
 
     public void drawSlider(float x, float y){
         if (getHolder().getSurface().isValid()){
-            System.out.println("...");
+            //System.out.println("...");
             Canvas canvas = this.getHolder().lockCanvas();
             Paint colors  = new Paint();
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
