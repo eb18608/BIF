@@ -1,4 +1,7 @@
-package com.bioinspiredflight;
+package com.bioinspiredflight.ui;
+
+import com.bioinspiredflight.ui.Joystick;
+import com.bioinspiredflight.ui.Slider;
 
 import javax.vecmath.Vector3d;
 
