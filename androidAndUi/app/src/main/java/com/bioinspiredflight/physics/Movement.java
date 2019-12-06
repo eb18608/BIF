@@ -15,6 +15,14 @@ public class Movement implements Visitor{
     private int framerate = 30;
     private double frametime = 1/ framerate;
 
+    public Movement(int mass, boolean gravityOn, Vector3d p, Vector3d v, Vector3d a) {
+        this.mass = mass;
+        this.gravityOn = gravityOn;
+        this.pos = p;
+        this.vel = v;
+        this.acc = a;
+    }
+
     //Get the individual components of the position vector to do math on them
     public double getPosX() {return pos.x; }
     public double getPosZ() {return pos.z; }

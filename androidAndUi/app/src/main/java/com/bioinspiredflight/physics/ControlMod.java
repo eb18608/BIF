@@ -1,15 +1,17 @@
 package com.bioinspiredflight.physics;
 
+import com.bioinspiredflight.ui.InputToOutput;
+
 import javax.vecmath.Vector3d;
 
 public class ControlMod implements ModVisitable{
 
     Vector3d controlMod;
 
-    ControlMod(Vector3d vectorXY, Vector3d vectorZ){
-        this.controlMod = vectorXY;
-        this.controlMod.z = vectorZ.z;
+    ControlMod(InputToOutput io){
+        this.controlMod = io.getVector();
     }
+
 
 
     @Override
@@ -17,3 +19,5 @@ public class ControlMod implements ModVisitable{
         visit.visit(this);
     }
 }
+
+
