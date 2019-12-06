@@ -2,13 +2,14 @@ package com.bioinspiredflight;
 
 import javax.vecmath.Vector3d;
 
-public class JoystickToVector3D implements Joystick.JoystickListener {
+public class InputToOutput implements Joystick.JoystickListener, Slider.SliderListener {
 
     //final private Joystick joystick;
     //final private float x, y;
     final private Vector3d vector3d;
+    private float zValue;
 
-    public JoystickToVector3D(){
+    public InputToOutput(){
         vector3d = new Vector3d();
         //this.joystick = joystick;
         //this.x = 0;
@@ -24,8 +25,18 @@ public class JoystickToVector3D implements Joystick.JoystickListener {
         System.out.println(vector3d.toString());
     }
 
+    @Override
+    public void onSliderMoved(float zValue, int id) {
+        this.zValue = zValue;
+        System.out.println(this.zValue);
+    }
+
     public Vector3d getVector(){
         return vector3d;
+    }
+
+    public float getZValue(){
+        return zValue;
     }
 
 }
