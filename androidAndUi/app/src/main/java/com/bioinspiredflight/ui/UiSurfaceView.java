@@ -59,28 +59,54 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                 //System.out.printf("%.3f, %.3f\n", coords2.x, coords2.y);
                 updateUi((int) coords1.x, (int) coords1.y, v, event);
                 updateUi((int) coords2.x, (int) coords2.y, v, event);
+                if (event.getActionMasked() == MotionEvent.ACTION_POINTER_UP
+                        || event.getActionMasked() == MotionEvent.ACTION_UP){
+                    System.out.println("...");
+                    if (pointerId0 == event.getPointerId(event.getActionIndex())){
+                        resetJoystick(coords1.x, coords1.y, false);
+                        resetSlider(coords1.x, coords1.y, false);
+                    } else if (pointerId1 == event.getPointerId(event.getActionIndex())){
+                        resetJoystick(coords2.x, coords2.y, false);
+                        resetSlider(coords2.x, coords2.y, false);
+                    }
+                }
             } else {
                 //System.out.println("...");
                 //moveJoystick(event.getX(), event.getY());
                 updateUi((int) event.getX(), (int) event.getY(), v, event);
-            }
-            if (!joystick.usingJoystick){
-                joystick.drawJoystick(joystick.centerX, joystick.centerY);
-                joystick.joystickOutOfPlace = false;
+                if (event.getAction() == MotionEvent.ACTION_UP){
+                    resetJoystick(event.getX(), event.getY(), true);
+                    resetSlider(event.getX(), event.getY(), true);
+                }
             }
         }
         return true;
     }
 
+    // Only call this on ACTION_POINTER_UP or ACTION_UP
+    private void resetJoystick(float x, float y, boolean ignoreConstraints){
+        System.out.println("reset");
+        if (x > getWidth() / 2 || ignoreConstraints){
+            joystick.drawJoystick(joystick.centerX, joystick.centerY);
+            joystick.usingJoystick = false;
+            if (io != null){
+                io.onJoystickMoved(0, 0, getId());
+            }
+        }
+    }
+
+    // Only call this on ACTION_POINTER_UP or ACTION_UP
+    private void resetSlider(float x, float y, boolean ignoreConstraints){
+        if (x <= getWidth() / 2 || ignoreConstraints){
+            slider.drawSlider(slider.centerX, slider.centerY);
+            slider.usingSlider = false;
+            if (io != null){
+                io.onSliderMoved(0, getId());
+            }
+        }
+    }
+
     private void updateUi(int x, int y, View v, MotionEvent event){
-        /*
-        if (joystick.withinBounds(x, y)){
-            //joystick.onTouch(v, event);
-            moveJoystick(x, y);
-        } else if (slider.withinBounds(x, y)){
-            //slider.onTouch(v, event);
-            moveSlider(x, y);
-        }*/
         if (x > getWidth() / 2){
             //joystick.onTouch(v, event);
             moveJoystick(x, y);
@@ -132,7 +158,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
             }
 
         } else {
-            //Log.i("Joystick", "Released!");
+            Log.i("Joystick", "Released!");
             joystick.usingJoystick = false;
             joystick.joystickOutOfPlace = true;
         }
@@ -154,7 +180,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                 //return true;
                 if (io != null){
                     io.onSliderMoved(
-                            displacementY,
+                            displacementY/slider.sliderHeightFromCenter,
                             getId()
                     );
                 }
@@ -167,7 +193,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                 }
                 if (io != null){
                     io.onSliderMoved(
-                            constrainedY,
+                            constrainedY/slider.sliderHeightFromCenter,
                             getId()
                     );
                 }

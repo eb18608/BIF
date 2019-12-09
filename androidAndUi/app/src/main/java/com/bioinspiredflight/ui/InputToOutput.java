@@ -28,15 +28,15 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         vector3d.setX(xPercent);
         vector3d.setY(-yPercent);
         //vector3d.setZ(0);
-        //System.out.println(vector3d.toString());
+        System.out.println(vector3d.toString());
     }
 
     @Override
-    public void onSliderMoved(float zValue, int id) {
+    public void onSliderMoved(float zPercent, int id) {
         //this.zValue = zValue;
-        vector3d.setZ(zValue);
+        vector3d.setZ(zPercent);
         //System.out.println(this.zValue);
-        //System.out.println(vector3d.toString());
+        System.out.println(vector3d.toString());
     }
 
     public Vector3d getVector(){

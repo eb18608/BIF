@@ -42,7 +42,7 @@ public class Placeholder extends PApplet{
         }
         //movingObject.visit(controlMod);
         //controlMod.update(io);
-        controlMod.accept(visitor, movingObject);
+        //controlMod.accept(visitor, movingObject);
     }
 
 }
