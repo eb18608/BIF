@@ -1,5 +1,6 @@
 package com.bioinspiredflight;
 
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 //import android.support.v7.app.AppCompatActivity;
 import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.Movement;
@@ -26,6 +28,7 @@ public class GameActivity extends AppCompatActivity {
     private InputToOutput io;
     private Movement movingObject;
     private ControlMod controlMod;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,9 @@ public class GameActivity extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         final FrameLayout frame = new FrameLayout(this);
         final RelativeLayout uiLayout = new RelativeLayout(this);
-        //final Ui ui = new Ui(frame, this);
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean sliderToggle = preferences.getBoolean("switch_snap_slider", true);
+
         frame.setId(CompatUtils.getUniqueViewId());
         uiLayout.setId(CompatUtils.getUniqueViewId());
         setContentView(frame, new ViewGroup.LayoutParams(
@@ -48,13 +53,12 @@ public class GameActivity extends AppCompatActivity {
         this.io = new InputToOutput();
         Vector3d startPos = new Vector3d(0, 0, 0);
         this.movingObject = new Movement(1.0, false, startPos);
-        final Ui ui = new Ui(this, io);
+        final Ui ui = new Ui(this, io, sliderToggle);
         this.controlMod = new ControlMod(io);
         PFragment pFragment = new PFragment(sketch);
         pFragment.setView(frame, this);
         ui.drawUi(uiLayout);
         sketch.setMovingObject(movingObject, controlMod, io);
-        //movingObject.visit(controlMod);
     }
 
     @Override

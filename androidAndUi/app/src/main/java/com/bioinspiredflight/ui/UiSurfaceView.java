@@ -1,6 +1,7 @@
 package com.bioinspiredflight.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -8,11 +9,14 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import androidx.preference.PreferenceManager;
+
 public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener {
 
     private Joystick joystick;
     private Slider slider;
     private InputToOutput io;
+    private boolean sliderToggle;
 
     public UiSurfaceView(Context context, Joystick joystick, Slider slider, InputToOutput io) {
         super(context);
@@ -26,7 +30,24 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         this.io = io;
         this.joystick.addJoystickListener(io);
         this.slider.addSliderListener(io);
+        this.sliderToggle = true;
     }
+
+    public UiSurfaceView(Context context, Joystick joystick, Slider slider, InputToOutput io, boolean sliderToggle) {
+        super(context);
+        getHolder().addCallback(this);
+        setOnTouchListener(this);
+        this.setZOrderOnTop(true);
+        this.getHolder()
+                .setFormat(PixelFormat.TRANSPARENT);
+        this.joystick = joystick;
+        this.slider = slider;
+        this.io = io;
+        this.joystick.addJoystickListener(io);
+        this.slider.addSliderListener(io);
+        this.sliderToggle = sliderToggle;
+    }
+
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
@@ -64,10 +85,14 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                     System.out.println("...");
                     if (pointerId0 == event.getPointerId(event.getActionIndex())){
                         resetJoystick(coords1.x, coords1.y, false);
-                        resetSlider(coords1.x, coords1.y, false);
+                        if (sliderToggle){
+                            resetSlider(coords1.x, coords1.y, false);
+                        }
                     } else if (pointerId1 == event.getPointerId(event.getActionIndex())){
                         resetJoystick(coords2.x, coords2.y, false);
-                        resetSlider(coords2.x, coords2.y, false);
+                        if (sliderToggle){
+                            resetSlider(coords2.x, coords2.y, false);
+                        }
                     }
                 }
             } else {
@@ -76,7 +101,9 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                 updateUi((int) event.getX(), (int) event.getY(), v, event);
                 if (event.getAction() == MotionEvent.ACTION_UP){
                     resetJoystick(event.getX(), event.getY(), true);
-                    resetSlider(event.getX(), event.getY(), true);
+                    if (sliderToggle){
+                        resetSlider(event.getX(), event.getY(), true);
+                    }
                 }
             }
         }
