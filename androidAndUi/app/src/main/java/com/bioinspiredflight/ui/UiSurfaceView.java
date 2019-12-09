@@ -46,7 +46,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (v.equals(this)){
-
+            //...
             if (event.getPointerCount() > 1){
                 //System.out.println("aituy");
                 int pointerId0 = event.getPointerId(0);
