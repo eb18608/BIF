@@ -29,6 +29,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(playGame);
             }
         });
+        Button settingsButton = findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Log.i("settingsButton", "Pressed!");
+                /*
+                Toast.makeText(getApplicationContext(), "Not implemented yet",
+                        Toast.LENGTH_SHORT)
+                        .show();
+                 */
+                Intent settings = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settings);
+            }
+        });
     }
 
     @Override

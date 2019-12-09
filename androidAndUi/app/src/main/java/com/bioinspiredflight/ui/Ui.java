@@ -53,6 +53,37 @@ public class Ui {
 
     }
 
+    public Ui(final Context context, InputToOutput io, boolean sliderToggle) {
+        widgets = new ArrayList<>();
+        testButton = new Button(context);
+        testButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        testButton.setText("Test Button");
+        testButton.setId(CompatUtils.getUniqueViewId());
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context.getApplicationContext(), "It works!",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+        //widgets.add(testButton);
+
+        testJoystick = new Joystick(context);
+        testJoystick.setId(CompatUtils.getUniqueViewId());
+        testJoystick.addJoystickListener(new InputToOutput());
+        widgets.add(testJoystick);
+        testSlider = new Slider(context);
+        testSlider.setId(CompatUtils.getUniqueViewId());
+        widgets.add(testSlider);
+        //this.io = new InputToOutput();
+        this.io = io;
+        uiSurfaceView = new UiSurfaceView(context, testJoystick, testSlider, io, sliderToggle);
+        widgets.add(uiSurfaceView);
+
+    }
+
     public void drawUi(RelativeLayout frame){
         for (View widget : widgets){
             frame.addView(widget);
