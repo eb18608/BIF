@@ -107,17 +107,24 @@ public class Movement {
 
     public Vector3d forceApplied(Vector3d currentAcc, Vector3d inputForce, double mass, double frametime) {
         double gravity = 9.81;
+        double scale = 500;
         //System.out.println(inputForce.toString());
         Vector3d newAcc = new Vector3d();
         if (gravityOn) {
-            newAcc.x = ((currentAcc.x + (frametime * 100 * inputForce.x)) / mass);
-            newAcc.y = ((currentAcc.y + (frametime * 100 * inputForce.y)) / mass);
-            newAcc.z = ((currentAcc.z + (frametime * 100 * inputForce.z)) / mass) - gravity;
+            //newAcc.x = ((currentAcc.x + (frametime * 100 * inputForce.x)) / mass);
+            //newAcc.y = ((currentAcc.y + (frametime * 100 * inputForce.y)) / mass);
+            //newAcc.z = ((currentAcc.z + (frametime * 100 * inputForce.z)) / mass) - gravity;
+            newAcc.x = ((frametime * scale * inputForce.x)) / mass;
+            newAcc.y = ((frametime * scale * inputForce.y)) / mass;
+            newAcc.z = (((frametime * scale * inputForce.z)) / mass) - gravity;
 
         } else {
-            newAcc.setX((currentAcc.x + (frametime * 100 * inputForce.x)) / mass);
-            newAcc.setY((currentAcc.y + (frametime * 100 * inputForce.y)) / mass);
-            newAcc.setZ((currentAcc.z + (frametime * 100 * inputForce.z)) / mass);
+            //newAcc.setX((currentAcc.x + (frametime * 100 * inputForce.x)) / mass);
+            //newAcc.setY((currentAcc.y + (frametime * 100 * inputForce.y)) / mass);
+            //newAcc.setZ((currentAcc.z + (frametime * 100 * inputForce.z)) / mass);
+            newAcc.x = ((frametime * scale * inputForce.x)) / mass;
+            newAcc.y = ((frametime * scale * inputForce.y)) / mass;
+            newAcc.z = ((frametime * scale * inputForce.z)) / mass;
 
         }
         //Vector3d newAcc = new Vector3d();
