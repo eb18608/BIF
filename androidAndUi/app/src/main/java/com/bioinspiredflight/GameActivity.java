@@ -21,10 +21,9 @@ import javax.vecmath.Vector3d;
 
 import processing.android.PFragment;
 import processing.android.CompatUtils;
-import processing.core.PApplet;
 
 public class GameActivity extends AppCompatActivity {
-    private Placeholder sketch;
+    private GameSketch sketch;
     private InputToOutput io;
     private Movement movingObject;
     private ControlMod controlMod;
@@ -49,7 +48,7 @@ public class GameActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
         ));
-        sketch = new Placeholder();
+        sketch = new GameSketch();
         this.io = new InputToOutput();
         Vector3d startPos = new Vector3d(0, 0, 0);
         this.movingObject = new Movement(1.0, false, startPos);
