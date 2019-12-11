@@ -9,7 +9,7 @@ public class droneObject {
      d = dep;
      coords = new PVector(x, y, z);
      hitbox = createShape(BOX, w, h, d);
-     body = loadShape("textured_drone.obj");
+     body = loadShape("textured_drone_sans_propellers.obj");
      propellerFL = loadShape("textured_propeller.obj");
      propellerFR = loadShape("textured_propeller.obj");
      propellerBL = loadShape("textured_propeller.obj");
@@ -33,15 +33,17 @@ public class droneObject {
    }
    
    public void move(float x, float y, float z) {
-     coords.add(x, y, z);
-     pushMatrix();
-     //hitbox.translate(x, y, z);
-     //body.translate(x, y, z);
+     float totalX = (z * sin(rotation)) + (x * cos(rotation));
+     float totalZ = (z * cos(rotation)) + (x * sin(rotation));
+     coords.add(totalX, y, totalZ);
+     /*pushMatrix();
+     hitbox.translate(x, y, z);
+     body.translate(x, y, z);
      propellerFL.translate(x, y, z);
      propellerFR.translate(x, y, z);
      propellerBL.translate(x, y, z);
      propellerBR.translate(x, y, z);
-     popMatrix();
+     popMatrix();*/
  }
    
    public void draw() {
@@ -49,29 +51,31 @@ public class droneObject {
      shape(body);
      
      pushMatrix();
-     translate(22, 2, 22);
+     translate(-22, 2, 22);
      shape(propellerFL);
      popMatrix();
      
      pushMatrix();
-     translate(-22, 2, 22);
+     translate(22, 2, 22);
      shape(propellerFR);
      popMatrix();
      
      pushMatrix();
-     translate(22, 2, -22);
+     translate(-22, 2, -22);
      shape(propellerBL);
      popMatrix();
      
      pushMatrix();
-     translate(-22, 2, -22);
+     translate(22, 2, -22);
      shape(propellerBR);
      popMatrix();
    }
   
 }
 
+PImage texture;
 droneObject drone;
+float rotation;
 
 public void spinPropellers() {
   pushMatrix();
@@ -83,19 +87,10 @@ public void spinPropellers() {
 }
 
 public void setCamera() {
-  float eyex = drone.coords.x - 200;
+  float eyex = drone.coords.x - (200 * sin(rotation));
   float eyey = drone.coords.y + 100;
-  float eyez = drone.coords.z;
+  float eyez = drone.coords.z - (200 * cos(rotation));
   camera(eyex, eyey, eyez, drone.coords.x, drone.coords.y, drone.coords.z, 0, -1, 0); 
-}
-
-PImage texture;
-
-public void setup() {
-  size(1600, 900, P3D);
-  drone = new droneObject(77, 16, 77, 0, 100, 0);
-  texture = loadImage("SkyscraperFront.png");
-  textureMode(NORMAL);
 }
 
 public void building(PImage texture) {
@@ -129,12 +124,19 @@ public void building(PImage texture) {
   endShape();
 }
 
+public void setup() {
+  size(1600, 900, P3D);
+  drone = new droneObject(77, 16, 77, 0, 100, 100);
+  texture = loadImage("SkyscraperFront.png");
+  textureMode(NORMAL);
+}
+
 public void draw() {
   background(100);
   lights();
   spinPropellers();
-  drone.move(0.2, 0, 0);
   setCamera();
+  drone.move(0, 0, 0);
   
   pushMatrix();
   translate(200, 0, 50);
@@ -142,16 +144,14 @@ public void draw() {
   popMatrix();
   
   pushMatrix();
+  rotation = PI/8;
+  rotateY(rotation);
   translate(drone.coords.x, drone.coords.y, drone.coords.z);
   drone.draw();
+  rotateY(-rotation);
   popMatrix();
   
   drone.hitbox.setVisible(false);
-  
-  drone.propellerFL.setVisible(false);
-  drone.propellerFR.setVisible(false);
-  drone.propellerBL.setVisible(false);
-  drone.propellerBR.setVisible(false);
   
   System.out.println("x: " + drone.coords.x + " y: " + drone.coords.y + " z: " + drone.coords.z);
 }
