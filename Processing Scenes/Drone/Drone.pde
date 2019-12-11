@@ -33,9 +33,7 @@ public class droneObject {
    }
    
    public void move(float x, float y, float z) {
-     float totalX = (z * sin(rotation)) + (x * cos(rotation));
-     float totalZ = (z * cos(rotation)) + (x * sin(rotation));
-     coords.add(totalX, y, totalZ);
+     coords.add(x, y, z);
      /*pushMatrix();
      hitbox.translate(x, y, z);
      body.translate(x, y, z);
@@ -136,7 +134,7 @@ public void draw() {
   lights();
   spinPropellers();
   setCamera();
-  drone.move(0, 0, 0);
+  drone.move(0.2, 0, 0.2);
   
   pushMatrix();
   translate(200, 0, 50);
@@ -144,9 +142,9 @@ public void draw() {
   popMatrix();
   
   pushMatrix();
-  rotation = PI/8;
-  rotateY(rotation);
   translate(drone.coords.x, drone.coords.y, drone.coords.z);
+  rotation = PI/4;
+  rotateY(rotation);
   drone.draw();
   rotateY(-rotation);
   popMatrix();
