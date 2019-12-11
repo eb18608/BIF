@@ -15,7 +15,7 @@ import processing.core.PVector;
  * This is a placeholder class for Processing code.
  * The game is going to run from here.
  */
-public class Placeholder extends PApplet{
+public class GameSketch extends PApplet{
 
     private Movement movingObject;
     private ControlMod controlMod;
