@@ -106,7 +106,7 @@ public class Movement {
 
 
     public Vector3d forceApplied(Vector3d currentAcc, Vector3d inputForce, double mass, double frametime) {
-        double gravity = 9.81;
+        double gravity = 0;
         double scale = 500;
         //System.out.println(inputForce.toString());
         Vector3d newAcc = new Vector3d();
@@ -143,10 +143,14 @@ public class Movement {
 
     public Vector3d calcVel(Vector3d currentVel, Vector3d accVector, double frametime) {
         Vector3d newVel = new Vector3d();
-
+        double gravity = 0.3;
         newVel.x = (currentVel.x + (frametime * accVector.x));
         newVel.y = (currentVel.y + (frametime * accVector.y));
         newVel.z = (currentVel.z + (frametime * accVector.z));
+
+        if (gravityOn){
+            newVel.z -= gravity;
+        }
 
         //limitVelocity(newVel);
 
@@ -217,6 +221,7 @@ public class Movement {
         double maxVelX = 5;
         double maxVelY = 5;
         double maxVelZ = 5;
+        double terminalVel = 6;
         if (vel.getX() > maxVelX) {
             //this.getAcc().setX(0);
             vel.setX(maxVelX);
@@ -236,7 +241,11 @@ public class Movement {
             vel.setZ(maxVelZ);
         } else if (vel.getZ() < -maxVelZ) {
             //this.getAcc().setZ(0);
-            vel.setZ(-maxVelZ);
+            if (gravityOn){
+                vel.setZ(-terminalVel);
+            } else {
+                vel.setZ(-maxVelZ);
+            }
         }
     }
 
