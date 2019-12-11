@@ -218,24 +218,24 @@ public class Movement {
         double maxVelY = 5;
         double maxVelZ = 5;
         if (vel.getX() > maxVelX) {
-            this.getAcc().setX(0);
+            //this.getAcc().setX(0);
             vel.setX(maxVelX);
         } else if (vel.getX() < -maxVelX) {
-            this.getAcc().setX(0);
+            //this.getAcc().setX(0);
             vel.setX(-maxVelX);
         }
         if (vel.getY() > maxVelY) {
-            this.getAcc().setY(0);
+            //this.getAcc().setY(0);
             vel.setY(maxVelY);
         } else if (vel.getY() < -maxVelY) {
-            this.getAcc().setY(0);
+            //this.getAcc().setY(0);
             vel.setY(-maxVelY);
         }
         if (vel.getZ() > maxVelZ) {
-            this.getAcc().setZ(0);
+            //this.getAcc().setZ(0);
             vel.setZ(maxVelZ);
         } else if (vel.getZ() < -maxVelZ) {
-            this.getAcc().setZ(0);
+            //this.getAcc().setZ(0);
             vel.setZ(-maxVelZ);
         }
     }
