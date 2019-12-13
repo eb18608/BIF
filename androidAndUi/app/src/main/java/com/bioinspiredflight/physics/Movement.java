@@ -111,33 +111,17 @@ public class Movement {
         //System.out.println(inputForce.toString());
         Vector3d newAcc = new Vector3d();
         if (gravityOn) {
-            //newAcc.x = ((currentAcc.x + (frametime * 100 * inputForce.x)) / mass);
-            //newAcc.y = ((currentAcc.y + (frametime * 100 * inputForce.y)) / mass);
-            //newAcc.z = ((currentAcc.z + (frametime * 100 * inputForce.z)) / mass) - gravity;
             newAcc.x = ((frametime * scale * inputForce.x)) / mass;
             newAcc.y = ((frametime * scale * inputForce.y)) / mass;
             newAcc.z = (((frametime * scale * inputForce.z)) / mass) - gravity;
 
         } else {
-            //newAcc.setX((currentAcc.x + (frametime * 100 * inputForce.x)) / mass);
-            //newAcc.setY((currentAcc.y + (frametime * 100 * inputForce.y)) / mass);
-            //newAcc.setZ((currentAcc.z + (frametime * 100 * inputForce.z)) / mass);
             newAcc.x = ((frametime * scale * inputForce.x)) / mass;
             newAcc.y = ((frametime * scale * inputForce.y)) / mass;
             newAcc.z = ((frametime * scale * inputForce.z)) / mass;
 
         }
-        //Vector3d newAcc = new Vector3d();
-        //System.out.printf("X: %.3f, Y: %.3f, Z: %.3f\n", currentAcc.getX(), currentAcc.getY(), currentAcc.getZ());
-        //this.acc.x = (currentAcc.getX() + (frametime * inputForce.x)) / mass;
-        //this.acc.y = (currentAcc.getY() + (frametime * inputForce.y)) / mass;
-        //this.acc.z = (currentAcc.getZ() + (frametime * inputForce.z)) / mass;
-        //this.acc.x = currentAcc.getX() + (frametime * inputForce.x) ;
-        //this.acc.y = 420;
-        //this.acc.z = 69;
 
-        //System.out.printf("X: %.3f, Y: %.3f, Z: %.3f\n", acc.x, acc.y, acc.z);
-        //System.out.println(this.acc.toString());
         return newAcc;
     }
 
@@ -151,8 +135,6 @@ public class Movement {
         if (gravityOn){
             newVel.z -= gravity;
         }
-
-        //limitVelocity(newVel);
 
         return newVel;
 
@@ -176,8 +158,6 @@ public class Movement {
         thisMover.vel = resultVel;
         thisMover.pos = resultPos;
 
-        //limitAcceleration(resultAcc);
-
 
         floorLock(resultVel, resultPos);
         //System.out.printf("Movement stuff\n");
@@ -186,61 +166,24 @@ public class Movement {
         //System.out.printf("Pos: %s\n", this.pos.toString());
     }
 
-
-    public void limitAcceleration(Vector3d acc) {
-        double maxAccX = 5;
-        double maxAccY = 5;
-        double maxAccZ = 5;
-        if (acc.getX() > maxAccX) {
-            //this.getAcc().setX(0);
-            acc.setX(maxAccX);
-        } else if (acc.getX() < -maxAccX) {
-            //this.getAcc().setX(0);
-            acc.setX(-maxAccX);
-        }
-        if (acc.getY() > maxAccY) {
-            //this.getAcc().setY(0);
-            acc.setY(maxAccY);
-        } else if (acc.getY() < -maxAccY) {
-            //this.getAcc().setY(0);
-            acc.setY(-maxAccY);
-        }
-        if (acc.getZ() > maxAccZ) {
-            //this.getAcc().setZ(0);
-            acc.setZ(maxAccZ);
-        } else if (acc.getZ() < -maxAccZ) {
-            //this.getAcc().setZ(0);
-            acc.setZ(-maxAccZ);
-        }
-    }
-
     public void limitVelocity(Vector3d vel) {
-        //double velX = getVelX();
-        //double velY = getVelY();
-        //double velZ = getVelZ();
         double maxVelX = 5;
         double maxVelY = 5;
         double maxVelZ = 5;
         double terminalVel = 6;
         if (vel.getX() > maxVelX) {
-            //this.getAcc().setX(0);
             vel.setX(maxVelX);
         } else if (vel.getX() < -maxVelX) {
-            //this.getAcc().setX(0);
             vel.setX(-maxVelX);
         }
         if (vel.getY() > maxVelY) {
-            //this.getAcc().setY(0);
             vel.setY(maxVelY);
         } else if (vel.getY() < -maxVelY) {
-            //this.getAcc().setY(0);
             vel.setY(-maxVelY);
         }
         if (vel.getZ() > maxVelZ) {
-            //this.getAcc().setZ(0);
             vel.setZ(maxVelZ);
         } else if (vel.getZ() < -maxVelZ) {
-            //this.getAcc().setZ(0);
             if (gravityOn){
                 vel.setZ(-terminalVel);
             } else {
@@ -250,14 +193,10 @@ public class Movement {
     }
 
     public void airResistance(Vector3d acc, Vector3d vel) {
-        //double velX = vel.getX();
-        //double velY = vel.getY();
-        //double velZ = vel.getZ();
         double velX = vel.getX();
         double velY = vel.getY();
         double velZ = vel.getZ();
         double newVel;
-        //if (acc.getX() == 0) {
         if (velX > 0) {
             newVel = velX - 0.1;
             if (velX < 0) {
@@ -271,8 +210,6 @@ public class Movement {
             }
             vel.setX(newVel);
         }
-        //}
-        //if (acc.getY() == 0) {
         if (velY > 0) {
             newVel = velY - 0.1;
             if (velY < 0) {
@@ -286,8 +223,6 @@ public class Movement {
             }
             vel.setY(newVel);
         }
-        //}
-        //if (acc.getZ() == 0){
         if (velZ > 0) {
             newVel = velZ - 0.1;
             if (velZ < 0) {
@@ -301,64 +236,7 @@ public class Movement {
             }
             vel.setZ(newVel);
         }
-        //}
     }
-
-    /*
-    public void airResistance(Vector3d acc, Vector3d vel) {
-        //double velX = vel.getX();
-        //double velY = vel.getY();
-        //double velZ = vel.getZ();
-        double accX = acc.getX();
-        double accY = acc.getY();
-        double accZ = acc.getZ();
-        double newAcc;
-        //if (acc.getX() == 0) {
-        if (accX > 0) {
-            newAcc = accX - 0.1;
-            if (accX < 0) {
-                newAcc = 0;
-            }
-            acc.setX(newAcc);
-        } else {
-            newAcc = accX + 0.1;
-            if (newAcc > 0) {
-                newAcc = 0;
-            }
-            acc.setX(newAcc);
-        }
-        //}
-        //if (acc.getY() == 0) {
-        if (accY > 0) {
-            newAcc = accY - 0.1;
-            if (accY < 0) {
-                newAcc = 0;
-            }
-            acc.setY(newAcc);
-        } else {
-            newAcc = accY + 0.1;
-            if (newAcc > 0) {
-                newAcc = 0;
-            }
-            acc.setY(newAcc);
-        }
-        //}
-        //if (acc.getZ() == 0){
-        if (accZ > 0) {
-            newAcc = accZ - 0.1;
-            if (accZ < 0) {
-                newAcc = 0;
-            }
-            acc.setZ(newAcc);
-        } else {
-            newAcc = accZ + 0.1;
-            if (newAcc > 0) {
-                newAcc = 0;
-            }
-            acc.setZ(newAcc);
-        }
-        //}
-    }*/
 
     public void floorLock(Vector3d vel, Vector3d pos) {
         if (pos.getZ() < 0 && vel.getZ() < 0) {
@@ -366,18 +244,5 @@ public class Movement {
             pos.setZ(0);
         }
     }
-
-//    @Override
-//    public Vector3d accept(Visitor visit) {
-//        return visit.visit(visit, this, this.frametime);
-//    }
-
-
-//    Vector3d gravityVector = new Vector3d(0, 9.81, 0);
-//
-//    public Vector3d velocityCalc(Vector3d acc, Vector3d currentVel){
-//        //This is wrong
-//        return acc;
-//    }
 
 }

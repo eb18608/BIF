@@ -20,7 +20,6 @@ public class ModVisitor implements Visitor{
                 resultantAcc,
                 movement.frametime);
 
-        //movement.airResistance(resultantAcc, resultantVel);
         Vector3d resultantPos = movement.calcPos(
                 movement.getPos(),
                 resultantVel,
