@@ -125,8 +125,8 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     // Only call this on ACTION_POINTER_UP or ACTION_UP
     private void resetSlider(float x, float y, boolean ignoreConstraints){
         if (x <= getWidth() / 2 || ignoreConstraints){
-            slider.drawSlider(slider.centerX, slider.centerY);
-            slider.usingSlider = false;
+            slider.drawSlider(slider.getCenterX(), slider.getCenterY());
+            slider.setUsingSlider(false);
             if (io != null){
                 io.onSliderMoved(0, getId());
             }
@@ -194,39 +194,41 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
     private void moveSlider(float x, float y){
         if (slider.withinBounds(x, y)) {
-            slider.usingSlider = true;
+            slider.setUsingSlider(true);
         }
-        float centerX = slider.centerX;
-        float centerY = slider.centerY;
+        float centerX = slider.getCenterX();
+        float centerY = slider.getCenterY();
+        float heightFromCenter = slider.getSliderHeightFromCenter();
         //float displacementX = x - centerX;
         float displacementY = centerY - y;
-        if (slider.usingSlider) {
+        if (slider.isUsingSlider()) {
             //System.out.println("Touching slider");
-            if (displacementY >= -slider.sliderHeightFromCenter && displacementY <= slider.sliderHeightFromCenter){
+            if (displacementY >= -heightFromCenter
+                    && displacementY <= heightFromCenter){
                 slider.drawSlider(centerX, y);
                 //return true;
                 if (io != null){
                     io.onSliderMoved(
-                            displacementY/slider.sliderHeightFromCenter,
+                            displacementY / heightFromCenter,
                             getId()
                     );
                 }
             } else {
                 float constrainedY;
-                if (displacementY < -slider.sliderHeightFromCenter){
-                    constrainedY = -slider.sliderHeightFromCenter;
+                if (displacementY < -heightFromCenter){
+                    constrainedY = -heightFromCenter;
                 } else {
-                    constrainedY = slider.sliderHeightFromCenter;
+                    constrainedY = heightFromCenter;
                 }
                 if (io != null){
                     io.onSliderMoved(
-                            constrainedY/slider.sliderHeightFromCenter,
+                            constrainedY/heightFromCenter,
                             getId()
                     );
                 }
             }
         } else {
-            slider.usingSlider = false;
+            slider.setUsingSlider(false);
             slider.drawSlider(centerX, centerY);
             //System.out.println("Released slider");
         }

@@ -15,14 +15,70 @@ import android.view.View;
 public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener {
 
     private float length;
-    public float sliderRadius;
-    public float centerX;
-    public float centerY;
-    public float sliderWidthFromCenter;
-    public float sliderHeightFromCenter;
+    private float sliderRadius;
+    private float centerX;
+    private float centerY;
+    private float sliderWidthFromCenter;
+    private float sliderHeightFromCenter;
     private int left, top, right, bottom;
-    public boolean usingSlider;
+    private boolean usingSlider;
     private SliderListener listener;
+
+    public float getLength() {
+        return length;
+    }
+
+    public float getSliderRadius() {
+        return sliderRadius;
+    }
+
+    public float getCenterX() {
+        return centerX;
+    }
+
+    public float getCenterY() {
+        return centerY;
+    }
+
+    public float getSliderWidthFromCenter() {
+        return sliderWidthFromCenter;
+    }
+
+    public float getSliderHeightFromCenter() {
+        return sliderHeightFromCenter;
+    }
+
+    public boolean isUsingSlider() {
+        return usingSlider;
+    }
+
+    public void setLength(float length) {
+        this.length = length;
+    }
+
+    public void setSliderRadius(float sliderRadius) {
+        this.sliderRadius = sliderRadius;
+    }
+
+    public void setCenterX(float centerX) {
+        this.centerX = centerX;
+    }
+
+    public void setCenterY(float centerY) {
+        this.centerY = centerY;
+    }
+
+    public void setSliderWidthFromCenter(float sliderWidthFromCenter) {
+        this.sliderWidthFromCenter = sliderWidthFromCenter;
+    }
+
+    public void setSliderHeightFromCenter(float sliderHeightFromCenter) {
+        this.sliderHeightFromCenter = sliderHeightFromCenter;
+    }
+
+    public void setUsingSlider(boolean usingSlider) {
+        this.usingSlider = usingSlider;
+    }
 
     public Slider(Context context) {
         super(context);
