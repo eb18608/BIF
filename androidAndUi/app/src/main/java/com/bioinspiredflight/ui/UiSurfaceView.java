@@ -114,8 +114,8 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     private void resetJoystick(float x, float y, boolean ignoreConstraints){
         System.out.println("reset");
         if (x > getWidth() / 2 || ignoreConstraints){
-            joystick.drawJoystick(joystick.centerX, joystick.centerY);
-            joystick.usingJoystick = false;
+            joystick.drawJoystick(joystick.getCenterX(), joystick.getCenterY());
+            joystick.setUsingJoystick(false);
             if (io != null){
                 io.onJoystickMoved(0, 0, getId());
             }
@@ -144,14 +144,14 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     }
 
     private void moveJoystick(float x, float y){
-        float centerX = joystick.centerX;
-        float centerY = joystick.centerY;
-        float baseRadius = joystick.baseRadius;
+        float centerX = joystick.getCenterX();
+        float centerY = joystick.getCenterY();
+        float baseRadius = joystick.getBaseRadius();
         if (joystick.withinBounds(x, y)){
-            joystick.usingJoystick = true;
+            joystick.setUsingJoystick(true);
         }
         //Log.i("Screen", "Responding...");
-        if (joystick.usingJoystick){
+        if (joystick.isUsingJoystick()){
             if (joystick.withinBounds(x, y)){
                 joystick.drawJoystick(x, y);
 
@@ -186,8 +186,8 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
         } else {
             Log.i("Joystick", "Released!");
-            joystick.usingJoystick = false;
-            joystick.joystickOutOfPlace = true;
+            joystick.setUsingJoystick(false);
+            joystick.setJoystickOutOfPlace(true);
         }
 
     }
