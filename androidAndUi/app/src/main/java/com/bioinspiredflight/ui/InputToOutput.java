@@ -10,7 +10,6 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
     //final private Joystick joystick;
     //final private float x, y;
     final private Vector3d vector3d;
-    //private float zValue;
 
     public InputToOutput(){
         vector3d = new Vector3d();
