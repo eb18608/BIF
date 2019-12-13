@@ -153,7 +153,7 @@ public class Movement {
     public void updateMover(Vector3d resultAcc, Vector3d resultVel, Vector3d resultPos, Movement thisMover) {
 
         thisMover.acc = resultAcc;
-        limitVelocity(resultVel);
+        limitVelocity(resultAcc, resultVel);
         airResistance(resultAcc, resultVel);
         thisMover.vel = resultVel;
         thisMover.pos = resultPos;
@@ -166,7 +166,7 @@ public class Movement {
         //System.out.printf("Pos: %s\n", this.pos.toString());
     }
 
-    public void limitVelocity(Vector3d vel) {
+    public void limitVelocity(Vector3d acc, Vector3d vel) {
         double maxVelX = 5;
         double maxVelY = 5;
         double maxVelZ = 5;
@@ -183,7 +183,7 @@ public class Movement {
         }
         if (vel.getZ() > maxVelZ) {
             vel.setZ(maxVelZ);
-        } else if (vel.getZ() < -maxVelZ) {
+        } else if (vel.getZ() < -maxVelZ && acc.getZ() <= 0) {
             if (gravityOn){
                 vel.setZ(-terminalVel);
             } else {
