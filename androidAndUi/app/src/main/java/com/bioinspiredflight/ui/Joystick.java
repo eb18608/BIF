@@ -15,13 +15,61 @@ import android.view.View;
 
 public class Joystick extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener{
 
-    public float centerX;
-    public float centerY;
-    public float baseRadius;
-    public float hatRadius;
+    private float centerX;
+    private float centerY;
+    private float baseRadius;
+    private float hatRadius;
     private JoystickListener listener;
-    public boolean usingJoystick;
-    public boolean joystickOutOfPlace;
+    private boolean usingJoystick;
+    private boolean joystickOutOfPlace;
+
+    public float getCenterX() {
+        return centerX;
+    }
+
+    public float getCenterY() {
+        return centerY;
+    }
+
+    public float getBaseRadius() {
+        return baseRadius;
+    }
+
+    public float getHatRadius(){
+        return hatRadius;
+    }
+
+    public boolean isUsingJoystick() {
+        return usingJoystick;
+    }
+
+    public boolean isJoystickOutOfPlace() {
+        return joystickOutOfPlace;
+    }
+
+    public void setCenterX(float centerX) {
+        this.centerX = centerX;
+    }
+
+    public void setCenterY(float centerY) {
+        this.centerY = centerY;
+    }
+
+    public void setBaseRadius(float baseRadius) {
+        this.baseRadius = baseRadius;
+    }
+
+    public void setHatRadius(float hatRadius) {
+        this.hatRadius = hatRadius;
+    }
+
+    public void setUsingJoystick(boolean usingJoystick) {
+        this.usingJoystick = usingJoystick;
+    }
+
+    public void setJoystickOutOfPlace(boolean joystickOutOfPlace) {
+        this.joystickOutOfPlace = joystickOutOfPlace;
+    }
 
     public Joystick(Context context) {
         super(context);

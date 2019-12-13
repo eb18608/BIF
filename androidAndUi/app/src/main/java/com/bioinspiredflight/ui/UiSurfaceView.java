@@ -114,8 +114,8 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     private void resetJoystick(float x, float y, boolean ignoreConstraints){
         System.out.println("reset");
         if (x > getWidth() / 2 || ignoreConstraints){
-            joystick.drawJoystick(joystick.centerX, joystick.centerY);
-            joystick.usingJoystick = false;
+            joystick.drawJoystick(joystick.getCenterX(), joystick.getCenterY());
+            joystick.setUsingJoystick(false);
             if (io != null){
                 io.onJoystickMoved(0, 0, getId());
             }
@@ -125,8 +125,8 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     // Only call this on ACTION_POINTER_UP or ACTION_UP
     private void resetSlider(float x, float y, boolean ignoreConstraints){
         if (x <= getWidth() / 2 || ignoreConstraints){
-            slider.drawSlider(slider.centerX, slider.centerY);
-            slider.usingSlider = false;
+            slider.drawSlider(slider.getCenterX(), slider.getCenterY());
+            slider.setUsingSlider(false);
             if (io != null){
                 io.onSliderMoved(0, getId());
             }
@@ -144,14 +144,14 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     }
 
     private void moveJoystick(float x, float y){
-        float centerX = joystick.centerX;
-        float centerY = joystick.centerY;
-        float baseRadius = joystick.baseRadius;
+        float centerX = joystick.getCenterX();
+        float centerY = joystick.getCenterY();
+        float baseRadius = joystick.getBaseRadius();
         if (joystick.withinBounds(x, y)){
-            joystick.usingJoystick = true;
+            joystick.setUsingJoystick(true);
         }
         //Log.i("Screen", "Responding...");
-        if (joystick.usingJoystick){
+        if (joystick.isUsingJoystick()){
             if (joystick.withinBounds(x, y)){
                 joystick.drawJoystick(x, y);
 
@@ -186,47 +186,49 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
         } else {
             Log.i("Joystick", "Released!");
-            joystick.usingJoystick = false;
-            joystick.joystickOutOfPlace = true;
+            joystick.setUsingJoystick(false);
+            joystick.setJoystickOutOfPlace(true);
         }
 
     }
 
     private void moveSlider(float x, float y){
         if (slider.withinBounds(x, y)) {
-            slider.usingSlider = true;
+            slider.setUsingSlider(true);
         }
-        float centerX = slider.centerX;
-        float centerY = slider.centerY;
+        float centerX = slider.getCenterX();
+        float centerY = slider.getCenterY();
+        float heightFromCenter = slider.getSliderHeightFromCenter();
         //float displacementX = x - centerX;
         float displacementY = centerY - y;
-        if (slider.usingSlider) {
+        if (slider.isUsingSlider()) {
             //System.out.println("Touching slider");
-            if (displacementY >= -slider.sliderHeightFromCenter && displacementY <= slider.sliderHeightFromCenter){
+            if (displacementY >= -heightFromCenter
+                    && displacementY <= heightFromCenter){
                 slider.drawSlider(centerX, y);
                 //return true;
                 if (io != null){
                     io.onSliderMoved(
-                            displacementY/slider.sliderHeightFromCenter,
+                            displacementY / heightFromCenter,
                             getId()
                     );
                 }
             } else {
                 float constrainedY;
-                if (displacementY < -slider.sliderHeightFromCenter){
-                    constrainedY = -slider.sliderHeightFromCenter;
+                if (displacementY < -heightFromCenter){
+                    constrainedY = -heightFromCenter;
                 } else {
-                    constrainedY = slider.sliderHeightFromCenter;
+                    constrainedY = heightFromCenter;
                 }
                 if (io != null){
                     io.onSliderMoved(
-                            constrainedY/slider.sliderHeightFromCenter,
+                            constrainedY/heightFromCenter,
                             getId()
                     );
                 }
             }
         } else {
-            slider.usingSlider = false;
+            slider.setUsingSlider(false);
             slider.drawSlider(centerX, centerY);
             //System.out.println("Released slider");
         }
