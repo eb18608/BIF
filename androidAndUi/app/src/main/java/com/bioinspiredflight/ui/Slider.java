@@ -42,12 +42,20 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         return centerY;
     }
 
-    public float getSliderWidthFromCenter() {
+    public float getVerticalSliderWidthFromCenter() {
         return verticalSliderWidthFromCenter;
     }
 
     public float getVerticalSliderHeightFromCenter() {
         return verticalSliderHeightFromCenter;
+    }
+
+    public float getHorizontalSliderWidthFromCenter() {
+        return horizontalSliderWidthFromCenter;
+    }
+
+    public float getHorizontalSliderHeightFromCenter() {
+        return horizontalSliderHeightFromCenter;
     }
 
     public boolean isUsingSlider() {
@@ -152,20 +160,26 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         this.listener = listener;
     }
 
+
+    // Note that this function is only called if Slider is used on its own
+    // and NOT as a part of UiSurfaceView
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         System.out.println("slide");
         //if (v.equals(this)) {
             float displacementX = (float) event.getX() - centerX;
             float displacementY = (float) event.getY() - centerY;
-            if (displacementX >= -verticalSliderWidthFromCenter && displacementX <= verticalSliderWidthFromCenter
+            if (displacementX >= -horizontalSliderWidthFromCenter && displacementX <= horizontalSliderWidthFromCenter
                     && displacementY >= -verticalSliderHeightFromCenter && displacementY <= verticalSliderHeightFromCenter) {
                 usingSlider = true;
             }
             if (event.getAction() != MotionEvent.ACTION_UP && usingSlider) {
-                //System.out.println("Touching slider");
-                if (displacementY >= -verticalSliderHeightFromCenter && displacementY <= verticalSliderHeightFromCenter){
-                    drawSlider(centerX, event.getY());
+                System.out.println("Touching slider");
+                if (displacementY >= -verticalSliderHeightFromCenter
+                        && displacementY <= verticalSliderHeightFromCenter
+                        && displacementX >= -horizontalSliderWidthFromCenter
+                        && displacementX <= horizontalSliderWidthFromCenter){
+                    drawSlider(event.getX(), event.getY());
                     return true;
                 }
             } else {
