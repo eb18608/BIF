@@ -107,6 +107,13 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         verticalTop = (int) (centerY - verticalSliderHeightFromCenter);
         verticalRight = (int) (centerX + verticalSliderWidthFromCenter);
         verticalBottom = (int) (centerY + verticalSliderHeightFromCenter);
+
+        horizontalSliderWidthFromCenter = w / 15f;
+        horizontalSliderHeightFromCenter = h / 20f;
+        horizontalLeft = (int) (centerX - horizontalSliderWidthFromCenter);
+        horizontalTop = (int) (centerY - horizontalSliderHeightFromCenter);
+        horizontalRight = (int) (centerX + horizontalSliderWidthFromCenter);
+        horizontalBottom = (int) (centerY + horizontalSliderHeightFromCenter);
     }
 
     public void drawSlider(float x, float y){
@@ -117,6 +124,12 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             colors.setARGB(255, 50, 50, 50);
             canvas.drawRect(new Rect(verticalLeft, verticalTop, verticalRight, verticalBottom), colors);
+            canvas.drawRect(new Rect(
+                    horizontalLeft,
+                    (int) (y + horizontalSliderHeightFromCenter),
+                    horizontalRight,
+                    (int) (y - horizontalSliderHeightFromCenter)),
+                    colors);
             //colors.setARGB(255, 50, 50, 50);
             colors.setARGB(255, 0, 0xdb, 0xff);
             canvas.drawCircle(x, y, sliderRadius, colors);
