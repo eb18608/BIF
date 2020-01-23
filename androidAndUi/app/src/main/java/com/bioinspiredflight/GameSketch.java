@@ -21,6 +21,7 @@ public class GameSketch extends PApplet{
     private ControlMod controlMod;
     private InputToOutput io;
     private ModVisitor visitor;
+    private final float rotationSpeed = 0.1f;
 
     public void setMovingObject(Movement movingObject, ControlMod controlMod, InputToOutput io){
         this.movingObject = movingObject;
@@ -198,7 +199,7 @@ public class GameSketch extends PApplet{
 
         pushMatrix();
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
-        //rotation = PI/4;      //put rotation value here
+        rotation += io.getRotation() * rotationSpeed;      //put rotation value here
         rotateY(rotation);
         drone.draw();
         rotateY(-rotation);

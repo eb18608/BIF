@@ -125,7 +125,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
             slider.drawSlider(slider.getCenterX(), slider.getCenterY());
             slider.setUsingSlider(false);
             if (io != null){
-                io.onSliderMoved(0, getId());
+                io.onSliderMoved(0, 0, getId());
             }
         }
     }
@@ -212,6 +212,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                 if (io != null){
                     io.onSliderMoved(
                             displacementY / verticalHeightFromCenter,
+                            displacementX / horizontalWidthFromCenter,
                             getId()
                     );
                 }
@@ -235,7 +236,8 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                 slider.drawSlider(constrainedX, constrainedY);
                 if (io != null){
                     io.onSliderMoved(
-                            constrainedY/verticalHeightFromCenter,
+                            constrainedY / verticalHeightFromCenter,
+                            constrainedX / horizontalWidthFromCenter,
                             getId()
                     );
                 }

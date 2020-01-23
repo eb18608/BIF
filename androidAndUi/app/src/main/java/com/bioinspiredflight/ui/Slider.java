@@ -208,7 +208,7 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
     }
 
     public interface SliderListener{
-        void onSliderMoved(float zPercent, int id);
+        void onSliderMoved(float zPercent, float rotation, int id);
     }
 
 }
