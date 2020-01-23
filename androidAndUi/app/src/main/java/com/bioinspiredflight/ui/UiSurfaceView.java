@@ -1,15 +1,12 @@
 package com.bioinspiredflight.ui;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-
-import androidx.preference.PreferenceManager;
 
 public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener {
 
@@ -198,7 +195,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         }
         float centerX = slider.getCenterX();
         float centerY = slider.getCenterY();
-        float heightFromCenter = slider.getSliderHeightFromCenter();
+        float heightFromCenter = slider.getVerticalSliderHeightFromCenter();
         //float displacementX = x - centerX;
         float displacementY = centerY - y;
         if (slider.isUsingSlider()) {
