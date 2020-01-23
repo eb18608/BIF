@@ -198,7 +198,7 @@ public class GameSketch extends PApplet{
 
         pushMatrix();
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
-        //rotation = PI/4;
+        //rotation = PI/4;      //put rotation value here
         rotateY(rotation);
         drone.draw();
         rotateY(-rotation);
