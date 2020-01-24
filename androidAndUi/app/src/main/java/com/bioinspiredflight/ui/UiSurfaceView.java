@@ -200,7 +200,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         //float displacementX = x - centerX;
         float displacementY = centerY - y;
         float displacementX = centerX - x;
-        //System.out.printf("DisplacementX: %.3f, DisplacementY: %.3f\n", displacementX, displacementY);
+        //
         if (slider.isUsingSlider()) {
             //System.out.println("Touching slider");
             if (displacementY >= -verticalHeightFromCenter
@@ -209,6 +209,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                     && displacementX <= horizontalWidthFromCenter){
                 slider.drawSlider(x, y);
                 //return true;
+                //System.out.printf("X: %.3f, Y: %.3f\n", displacementX, displacementY);
                 if (io != null){
                     io.onSliderMoved(
                             displacementY / verticalHeightFromCenter,
@@ -232,12 +233,15 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                     constrainedX = centerX - horizontalWidthFromCenter;
                 } else {
                     constrainedX = x;
+                    //System.out.println("lol");
                 }
                 slider.drawSlider(constrainedX, constrainedY);
+                //System.out.printf("X: %.3f, Y: %.3f\n", constrainedX, constrainedY);
+                //System.out.printf("CenterX: %.3f, Width: %.3f\n", centerX, horizontalWidthFromCenter);
                 if (io != null){
                     io.onSliderMoved(
-                            constrainedY / verticalHeightFromCenter,
-                            constrainedX / horizontalWidthFromCenter,
+                            (centerY - constrainedY) / verticalHeightFromCenter,
+                            (centerX - constrainedX) / horizontalWidthFromCenter,
                             getId()
                     );
                 }

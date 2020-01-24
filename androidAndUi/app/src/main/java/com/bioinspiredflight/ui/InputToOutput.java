@@ -39,6 +39,7 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         this.rotation = rotation;
         //System.out.println(this.zValue);
         System.out.println(vector3d.toString());
+        //System.out.println(rotation);
     }
 
     public Vector3d getVector(){
