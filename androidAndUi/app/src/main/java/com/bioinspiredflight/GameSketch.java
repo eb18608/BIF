@@ -179,6 +179,7 @@ public class GameSketch extends PApplet{
         drone = new droneObject(77, 16, 77, 0, 0, 100);
         texture = loadImage("SkyscraperFront.png");
         textureMode(NORMAL);
+        io.setRotationSpeed(rotationSpeed);
     }
 
     public void draw() {
