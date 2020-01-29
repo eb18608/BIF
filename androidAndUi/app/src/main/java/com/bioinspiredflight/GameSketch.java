@@ -179,7 +179,6 @@ public class GameSketch extends PApplet{
         drone = new droneObject(77, 16, 77, 0, 0, 100);
         texture = loadImage("SkyscraperFront.png");
         textureMode(NORMAL);
-        io.setRotationSpeed(rotationSpeed);
     }
 
     public void draw() {
@@ -201,6 +200,9 @@ public class GameSketch extends PApplet{
         pushMatrix();
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
         rotation += io.getRotation() * rotationSpeed;      //put rotation value here
+        io.setTotalRotation(-rotation);
+        //System.out.printf("R for movement: %.3f\n", io.getTotalRotation());
+        //System.out.printf("Camera R: %.3f\n", rotation);
         rotateY(rotation);
         drone.draw();
         rotateY(-rotation);

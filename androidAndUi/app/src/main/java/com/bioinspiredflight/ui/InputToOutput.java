@@ -15,7 +15,6 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
     final private Vector3d vector3d;
     private float rotation;
     private float totalRotation;
-    private float rotationSpeed;  // a positive value is inverted
 
     public InputToOutput(){
         vector3d = new Vector3d();
@@ -44,10 +43,9 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         //this.zValue = zValue;
         vector3d.setZ(zPercent);
         this.rotation = rotation;
-        this.totalRotation -= rotation * rotationSpeed;
+        //this.totalRotation -= rotation * rotationSpeed;
         //System.out.println(this.zValue);
         //System.out.println(vector3d.toString());
-        //System.out.println(rotation);
     }
 
     public Vector3d getVector(){
@@ -57,12 +55,13 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
     public float getRotation() {
         return rotation;
     }
-    /*public float getZValue(){
-        return zValue;
-    }*/
 
-    public void setRotationSpeed(final float rotationSpeed){
-        this.rotationSpeed = rotationSpeed / 2f;
+    public float getTotalRotation() {
+        return totalRotation;
+    }
+
+    public void setTotalRotation(float totalRotation) {
+        this.totalRotation = totalRotation;
     }
 
     private void rotateVector(){
@@ -70,7 +69,7 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         double y = vector3d.getY();
         double newX = (cos(totalRotation) * x) - (sin(totalRotation) * y);
         double newY = (sin(totalRotation) * x) + (cos(totalRotation) * y);
-        System.out.printf("NewX: %.3f, NewY: %.3f\n", newX, newY);
+        //System.out.printf("NewX: %.3f, NewY: %.3f\n", newX, newY);
         vector3d.setX(newX);
         vector3d.setY(newY);
     }

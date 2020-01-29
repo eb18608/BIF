@@ -200,7 +200,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         //float displacementX = x - centerX;
         float displacementY = centerY - y;
         float displacementX = centerX - x;
-        //
+        System.out.println(slider.isUsingSlider());
         if (slider.isUsingSlider()) {
             //System.out.println("Touching slider");
             if (displacementY >= -verticalHeightFromCenter
