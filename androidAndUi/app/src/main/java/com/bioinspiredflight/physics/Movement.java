@@ -161,8 +161,8 @@ public class Movement {
 
         floorLock(resultVel, resultPos);
         //System.out.printf("Movement stuff\n");
-        System.out.printf("Acc: %s\n", this.acc.toString());
-        System.out.printf("Vel: %s\n", this.vel.toString());
+        //System.out.printf("Acc: %s\n", this.acc.toString());
+        //System.out.printf("Vel: %s\n", this.vel.toString());
         //System.out.printf("Pos: %s\n", this.pos.toString());
     }
 
