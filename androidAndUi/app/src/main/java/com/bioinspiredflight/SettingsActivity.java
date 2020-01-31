@@ -49,7 +49,11 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         Toast.makeText(getApplicationContext(), Integer.toString(item.getItemId()),
                 Toast.LENGTH_SHORT).show();
-        super.onBackPressed();
+        switch (item.getItemId()){
+            case android.R.id.home:
+                super.onBackPressed();
+                break;
+        }
         return true;
     }
 
