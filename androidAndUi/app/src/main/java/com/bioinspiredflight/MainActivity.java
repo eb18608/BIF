@@ -20,13 +20,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("playButton", "Pressed!");
-                /*
-                Toast.makeText(getApplicationContext(), "Not implemented yet",
-                        Toast.LENGTH_SHORT)
-                        .show();
-                 */
                 Intent playGame = new Intent(MainActivity.this, GameActivity.class);
                 startActivity(playGame);
+            }
+        });
+        Button achievementsButton = findViewById(R.id.achievementsButton);
+        achievementsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("achievementsButton", "Pressed!");
+                Intent achievements = new Intent(MainActivity.this, AchievementsActivity.class);
+                startActivity(achievements);
             }
         });
         Button settingsButton = findViewById(R.id.settingsButton);
@@ -35,11 +39,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("settingsButton", "Pressed!");
-                /*
-                Toast.makeText(getApplicationContext(), "Not implemented yet",
-                        Toast.LENGTH_SHORT)
-                        .show();
-                 */
                 Intent settings = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(settings);
             }
