@@ -1,15 +1,12 @@
 package com.bioinspiredflight.ui;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-
-import androidx.preference.PreferenceManager;
 
 public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener {
 
@@ -128,7 +125,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
             slider.drawSlider(slider.getCenterX(), slider.getCenterY());
             slider.setUsingSlider(false);
             if (io != null){
-                io.onSliderMoved(0, getId());
+                io.onSliderMoved(0, 0, getId());
             }
         }
     }
@@ -198,31 +195,53 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         }
         float centerX = slider.getCenterX();
         float centerY = slider.getCenterY();
-        float heightFromCenter = slider.getSliderHeightFromCenter();
+        float verticalHeightFromCenter = slider.getVerticalSliderHeightFromCenter();
+        float horizontalWidthFromCenter = slider.getHorizontalSliderWidthFromCenter();
         //float displacementX = x - centerX;
         float displacementY = centerY - y;
+        float displacementX = centerX - x;
+        System.out.println(slider.isUsingSlider());
         if (slider.isUsingSlider()) {
             //System.out.println("Touching slider");
-            if (displacementY >= -heightFromCenter
-                    && displacementY <= heightFromCenter){
-                slider.drawSlider(centerX, y);
+            if (displacementY >= -verticalHeightFromCenter
+                    && displacementY <= verticalHeightFromCenter
+                    && displacementX >= -horizontalWidthFromCenter
+                    && displacementX <= horizontalWidthFromCenter){
+                slider.drawSlider(x, y);
                 //return true;
+                //System.out.printf("X: %.3f, Y: %.3f\n", displacementX, displacementY);
                 if (io != null){
                     io.onSliderMoved(
-                            displacementY / heightFromCenter,
+                            displacementY / verticalHeightFromCenter,
+                            displacementX / horizontalWidthFromCenter,
                             getId()
                     );
                 }
             } else {
                 float constrainedY;
-                if (displacementY < -heightFromCenter){
-                    constrainedY = -heightFromCenter;
+                float constrainedX;
+                if (displacementY < -verticalHeightFromCenter){
+                    constrainedY = centerY + verticalHeightFromCenter;
+                } else if (displacementY > verticalHeightFromCenter){
+                    constrainedY = centerY - verticalHeightFromCenter;
                 } else {
-                    constrainedY = heightFromCenter;
+                    constrainedY = y;
                 }
+                if (displacementX < -horizontalWidthFromCenter){
+                    constrainedX = centerX + horizontalWidthFromCenter;
+                } else if (displacementX > horizontalWidthFromCenter){
+                    constrainedX = centerX - horizontalWidthFromCenter;
+                } else {
+                    constrainedX = x;
+                    //System.out.println("lol");
+                }
+                slider.drawSlider(constrainedX, constrainedY);
+                //System.out.printf("X: %.3f, Y: %.3f\n", constrainedX, constrainedY);
+                //System.out.printf("CenterX: %.3f, Width: %.3f\n", centerX, horizontalWidthFromCenter);
                 if (io != null){
                     io.onSliderMoved(
-                            constrainedY/heightFromCenter,
+                            (centerY - constrainedY) / verticalHeightFromCenter,
+                            (centerX - constrainedX) / horizontalWidthFromCenter,
                             getId()
                     );
                 }

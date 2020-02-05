@@ -21,6 +21,7 @@ public class GameSketch extends PApplet{
     private ControlMod controlMod;
     private InputToOutput io;
     private ModVisitor visitor;
+    private final float rotationSpeed = -0.1f;  // a positive value is inverted
 
     public void setMovingObject(Movement movingObject, ControlMod controlMod, InputToOutput io){
         this.movingObject = movingObject;
