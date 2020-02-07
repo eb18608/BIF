@@ -1,6 +1,17 @@
 package com.bioinspiredflight.physics;
 
+
+import com.bioinspiredflight.GameSketch;
+
+import javax.vecmath.Vector2d;
 import javax.vecmath.Vector3d;
+
+import static androidx.core.math.MathUtils.clamp;
+import static java.lang.Double.doubleToLongBits;
+import static java.lang.Double.max;
+import static java.lang.Double.min;
+import static java.lang.Math.sqrt;
+import static java.sql.DriverManager.println;
 /*Movement is my testing class for the visitor functions capabilities
 Movement is meant to simulate any object in the game that will be affected by any form of movement interaction
 If a player, then would have all the interactions (control from player input, environment obstacles or even wall
@@ -15,6 +26,17 @@ public class Movement {
     private Vector3d acc;
     private final double framerate = 30;
     public final double frametime = 1 / framerate;
+    public boolean collided;
+    public double radius;
+    private double height;
+
+    public Movement(double mass, boolean gravityOn, Vector3d p,double height,double radius){
+        this.mass = mass;
+        this.gravityOn = gravityOn;
+        this.acc = p;
+        this.height = height;
+        this.radius = radius;
+    }
 
     public Movement(double mass, boolean gravityOn, Vector3d p) {
         this.mass = mass;
@@ -244,5 +266,129 @@ public class Movement {
             pos.setZ(0);
         }
     }
+
+    //Circle to box collisions only happen at X and Z (Z is the our Y co-ordinate)
+
+    public boolean collisionDetectorXY(Movement drone, GameSketch.buildingObject object2){
+        //Create Vectors for: Centre for drone and building, differences, clamps
+        Vector2d droneCentre = new Vector2d();
+        Vector2d objectCentre = new Vector2d();
+        Vector2d objectBounds = new Vector2d();
+        Vector2d centreDifference = new Vector2d();
+        Vector2d clampedDifference = new Vector2d();
+        Vector2d closestPoint = new Vector2d();
+
+        //Assign Drone centre:
+        droneCentre.x = drone.getPosX();
+        droneCentre.y = drone.getPosY();
+
+        //Assign Object's centre:
+        objectCentre.x = object2.coords.x;
+        objectCentre.y = object2.coords.z;
+
+        //Set object's bounds:
+        objectBounds.x = object2.w/2;
+        objectBounds.y = object2.d/2;
+
+        //Get difference vector (of centre's)
+        centreDifference.x = droneCentre.x - objectCentre.x;
+        centreDifference.y = droneCentre.y - objectCentre.y;
+
+        //Set clamped value
+        clampedDifference.x = clamp(centreDifference.x, -1*objectBounds.x, objectBounds.x);
+        clampedDifference.y = clamp(centreDifference.y, -1*objectBounds.y, objectBounds.y);
+
+        //Set closest point from box's bounds to centre
+        closestPoint.x = objectCentre.x + clampedDifference.x;
+        closestPoint.y = objectCentre.y + clampedDifference.y;
+
+        centreDifference.x = droneCentre.x - closestPoint.x;
+        centreDifference.y = droneCentre.y - closestPoint.y;
+
+        boolean overlap = lengthOfVector(centreDifference) < radius;
+        return overlap;
+
+
+////      println("Called XY Overlap checker");
+//
+//        //Declaring lots of vectors
+//        //Centre
+//        Vector2d droneCentre = new Vector2d();
+//        Vector2d object2Centre = new Vector2d();
+//        //Difference and Clamp is where we will measure closeness
+//        Vector2d difference = new Vector2d();
+//        Vector2d clampX = new Vector2d();
+//        Vector2d clampY = new Vector2d();
+//
+//        Vector2d closestPoint = new Vector2d();
+//        //Bound of the box
+//        Vector2d object2Bound = new Vector2d();
+//
+//        //Set droneCentre (position of drone)
+//        droneCentre.x = drone.pos.x;
+//        droneCentre.y = drone.pos.y;
+//        println("Position of Drone: " + droneCentre);
+//        println("Position of building: " + object2Centre);
+//        //Set object2's centre (position of building maybe)
+//        object2Centre.x = object2.
+//        object2Centre.y = object2.
+//        //Half-width of object (usually for building)
+//        object2Bound.x = (double)object2.getWidth()/2;
+//        object2Bound.y = (double)object2.getDepth()/2;
+//        //Difference between 2 centres of drone and object
+//        difference.x = droneCentre.x - object2Centre.x;
+//        difference.y = droneCentre.y - object2Centre.y;
+//        println("Difference in positioning: " + difference);
+//        //Difference between them but bounded by the dimensions of the object
+//        clampX.x = clamp(difference.x, object2Bound.x, (-1*object2Bound.x));
+//        clampX.y = clamp(difference.y, object2Bound.y, (-1*object2Bound.y));
+//        //Point on object 2's bound which is closest to drone
+//        closestPoint.add(object2Centre ,clampX);
+//        //Calculating displacement vector between drone and closest point
+//        difference.x = droneCentre.x - closestPoint.x;
+//        difference.y = droneCentre.y - closestPoint.y;
+//        //Absolute distance of drone to closest point
+//        double lengthOfDiff = lengthVector2d(difference);
+//
+//        return lengthOfDiff < drone.width;
+    }
+
+    public boolean collisionDetectorZ(Movement drone, GameSketch.buildingObject object2){
+        double droneZmax = drone.getPosZ() + drone.height/2;
+        double objectZmax = object2.coords.y + object2.h/2;
+
+        double droneZmin = drone.getPosZ() - drone.height/2;
+        double objectZmin = object2.coords.y - object2.h/2;
+
+        boolean overlapZ;
+        if(droneZmax > objectZmin && droneZmax < objectZmax){
+            overlapZ = true;
+        } else if (droneZmin < objectZmax && droneZmin > objectZmin){
+            overlapZ = true;
+        }
+        else overlapZ = false;
+
+        return overlapZ;
+    }
+
+    public double clamp(double x, double min, double max){
+        return max(min, min(max, x));
+    }
+
+    public double lengthOfVector(Vector2d vec){
+        double length = sqrt((vec.x*vec.x) + (vec.y*vec.y));
+        return length;
+    }
+
+    public void isCollision(Movement drone, GameSketch.buildingObject object2){
+        if(collisionDetectorXY(drone,object2) && collisionDetectorZ(drone, object2)){
+            drone.collided = true;
+
+        }else{
+            drone.collided = false;
+        }
+    }
+
+
 
 }

@@ -88,8 +88,8 @@ public class GameSketch extends PApplet{
     }
 
     public class buildingObject {
-        float h, w, d;
-        PVector coords;
+        public float h, w, d;
+        public PVector coords;
 
         public buildingObject(float wid, float hei, float dep, float x, float y, float z) {
             h = hei;
