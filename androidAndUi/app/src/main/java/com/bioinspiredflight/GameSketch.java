@@ -31,9 +31,9 @@ public class GameSketch extends PApplet{
     }
 
     public class droneObject {
-        private float h, w, d;
-        private PVector coords;
-        private PShape hitbox, body, propellerFL, propellerFR, propellerBL, propellerBR;
+        float h, w, d;
+        PVector coords;
+        PShape hitbox, body, propellerFL, propellerFR, propellerBL, propellerBR;
 
         public droneObject(float wid, float hei, float dep, float x, float y, float z) {
             h = hei;
@@ -47,11 +47,6 @@ public class GameSketch extends PApplet{
             propellerBL = loadShape("textured_propeller.obj");
             propellerBR = loadShape("textured_propeller.obj");
         }
-
-        public float getHeight() { return h; }
-        public float getWidth() { return w; }
-        public float getDepth() { return d; }
-        public PVector getCoords() { return coords; }
 
         public void move(float x, float y, float z) {
             coords.add(x, y, z);
@@ -93,8 +88,8 @@ public class GameSketch extends PApplet{
     }
 
     public class buildingObject {
-        private float h, w, d;
-        private PVector coords;
+        float h, w, d;
+        PVector coords;
 
         public buildingObject(float wid, float hei, float dep, float x, float y, float z) {
             h = hei;
@@ -102,17 +97,13 @@ public class GameSketch extends PApplet{
             d = dep;
             coords = new PVector(x, y, z);
         }
-
-        public float getHeight() { return h; }
-        public float getWidth() { return w; }
-        public float getDepth() { return d; }
-        public PVector getCoords() { return coords; }
     }
 
     PImage texture;
     droneObject drone;
-    buildingObject building;
+    buildingObject[] buildings = new buildingObject[1];
     float rotation;
+    int[] minimapCoords = {1440, 160};
 
     public void setCamera() {
         float eyex = drone.coords.x - (200 * sin(rotation));
@@ -155,8 +146,8 @@ public class GameSketch extends PApplet{
 
     public void setup() {
         frameRate(30);
-        drone = new droneObject(77, 16, 77, 0, 0, 100);
-        building = new buildingObject(400, 600, 400, 200, 0, 50);
+        drone = new droneObject(77, 16, 77, 0, 0, 0);
+        buildings[0] = new buildingObject(400, 600, 400, 200, 0, 50);
         textureMode(NORMAL);
     }
 
@@ -165,6 +156,8 @@ public class GameSketch extends PApplet{
         float droneLeftRight = (float) movingObject.getVelX();
         float droneForwardBack = (float) movingObject.getVelY();
         float droneUpDown = (float) movingObject.getVelZ();
+
+        // 3D Section
         background(100);
         lights();
         drone.spinPropellers(0.3f);
@@ -172,14 +165,14 @@ public class GameSketch extends PApplet{
         setCamera();
 
         pushMatrix();
-        translate(building.getCoords().x, building.getCoords().y, building.getCoords().z);
-        renderBuilding(building.getWidth(), building.getHeight(), building.getDepth());
+        translate(buildings[0].coords.x, buildings[0].coords.y, buildings[0].coords.z);
+        renderBuilding(buildings[0].w, buildings[0].h, buildings[0].d);
         popMatrix();
 
         pushMatrix();
         rotation += io.getRotation() * rotationSpeed;
         io.setTotalRotation(-rotation);
-        translate(drone.getCoords().x, drone.getCoords().y, drone.getCoords().z);
+        translate(drone.coords.x, drone.coords.y, drone.coords.z);
         rotateY(rotation);
         drone.draw();
         rotateY(-rotation);
@@ -187,6 +180,16 @@ public class GameSketch extends PApplet{
 
         drone.hitbox.setVisible(false);
 
+        // 2D Section
+        camera();
+        hint(DISABLE_DEPTH_TEST);
+
+        fill(153);
+        circle(minimapCoords[0], minimapCoords[1], 300);
+        fill(204, 102, 0, 100);
+        arc(minimapCoords[0], minimapCoords[1], 150, 150, rotation, HALF_PI);
+
+        hint(ENABLE_DEPTH_TEST);
     }
     public void settings() {
         size(1600, 900, P3D);
