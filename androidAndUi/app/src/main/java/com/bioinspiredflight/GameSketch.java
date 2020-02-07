@@ -177,6 +177,8 @@ public class GameSketch extends PApplet{
         popMatrix();
 
         pushMatrix();
+        rotation += io.getRotation() * rotationSpeed;
+        io.setTotalRotation(-rotation);
         translate(drone.getCoords().x, drone.getCoords().y, drone.getCoords().z);
         rotateY(rotation);
         drone.draw();
