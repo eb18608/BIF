@@ -1,8 +1,11 @@
 package com.bioinspiredflight;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -11,6 +14,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bioinspiredflight.utilities.FileHandler;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class AchievementsActivity extends AppCompatActivity {
@@ -39,6 +54,7 @@ public class AchievementsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             //actionBar.setHomeButtonEnabled(true);
         }
+        FileHandler.createTestFile(getApplicationContext());
     }
 
     private void displayAchievements(LinearLayout layout){
@@ -49,6 +65,11 @@ public class AchievementsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        String[] fileList = getApplicationContext().fileList();
+        System.out.println(fileList.toString());
+        for (String fileName : fileList){
+            System.out.println(fileName);
+        }
         switch (item.getItemId()){
             case android.R.id.home:
                 super.onBackPressed();
