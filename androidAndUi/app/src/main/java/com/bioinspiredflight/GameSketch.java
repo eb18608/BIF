@@ -31,9 +31,9 @@ public class GameSketch extends PApplet{
     }
 
     public class droneObject {
-        private float h, w, d;
-        private PVector coords;
-        private PShape hitbox, body, propellerFL, propellerFR, propellerBL, propellerBR;
+        float h, w, d;
+        PVector coords;
+        PShape hitbox, body, propellerFL, propellerFR, propellerBL, propellerBR;
 
         public droneObject(float wid, float hei, float dep, float x, float y, float z) {
             h = hei;
@@ -47,11 +47,6 @@ public class GameSketch extends PApplet{
             propellerBL = loadShape("textured_propeller.obj");
             propellerBR = loadShape("textured_propeller.obj");
         }
-
-        public float getHeight() { return h; }
-        public float getWidth() { return w; }
-        public float getDepth() { return d; }
-        public PVector getCoords() { return coords; }
 
         public void move(float x, float y, float z) {
             coords.add(x, y, z);
@@ -93,8 +88,8 @@ public class GameSketch extends PApplet{
     }
 
     public class buildingObject {
-        private float h, w, d;
-        private PVector coords;
+        float h, w, d;
+        PVector coords;
 
         public buildingObject(float wid, float hei, float dep, float x, float y, float z) {
             h = hei;
@@ -102,11 +97,6 @@ public class GameSketch extends PApplet{
             d = dep;
             coords = new PVector(x, y, z);
         }
-
-        public float getHeight() { return h; }
-        public float getWidth() { return w; }
-        public float getDepth() { return d; }
-        public PVector getCoords() { return coords; }
     }
 
     PImage texture;
@@ -172,14 +162,14 @@ public class GameSketch extends PApplet{
         setCamera();
 
         pushMatrix();
-        translate(building.getCoords().x, building.getCoords().y, building.getCoords().z);
-        renderBuilding(building.getWidth(), building.getHeight(), building.getDepth());
+        translate(building.coords.x, building.coords.y, building.coords.z);
+        renderBuilding(building.w, building.h, building.d);
         popMatrix();
 
         pushMatrix();
         rotation += io.getRotation() * rotationSpeed;
         io.setTotalRotation(-rotation);
-        translate(drone.getCoords().x, drone.getCoords().y, drone.getCoords().z);
+        translate(drone.coords.x, drone.coords.y, drone.coords.z);
         rotateY(rotation);
         drone.draw();
         rotateY(-rotation);
