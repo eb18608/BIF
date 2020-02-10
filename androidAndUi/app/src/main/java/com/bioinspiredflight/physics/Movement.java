@@ -30,12 +30,14 @@ public class Movement {
     public double radius;
     private double height;
 
-    public Movement(double mass, boolean gravityOn, Vector3d p,double height,double radius){
+    public Movement(double mass, boolean gravityOn, Vector3d p,float height,float radius){
         this.mass = mass;
         this.gravityOn = gravityOn;
         this.acc = p;
-        this.height = height;
-        this.radius = radius;
+        this.vel = new Vector3d();
+        this.pos = new Vector3d();
+        this.height = (double)height;
+        this.radius = (double) radius;
     }
 
     public Movement(double mass, boolean gravityOn, Vector3d p) {

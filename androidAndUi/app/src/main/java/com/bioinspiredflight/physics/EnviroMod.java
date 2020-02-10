@@ -1,5 +1,7 @@
 package com.bioinspiredflight.physics;
 
+import com.bioinspiredflight.GameSketch;
+
 import javax.vecmath.Vector3d;
 
 public class EnviroMod implements ModVisitable{
@@ -19,6 +21,11 @@ public class EnviroMod implements ModVisitable{
     @Override
     public void accept(Visitor visit, Movement movement){
         visit.visit(this, movement);
+    }
+
+    @Override
+    public void accept(Visitor visit, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone) {
+
     }
 }
 

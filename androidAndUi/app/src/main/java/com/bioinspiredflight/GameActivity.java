@@ -12,6 +12,7 @@ import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.ui.InputToOutput;
@@ -28,6 +29,7 @@ public class GameActivity extends AppCompatActivity {
     private Movement movingObject;
     private ControlMod controlMod;
     private SharedPreferences preferences;
+    private CollideMod collideMod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +53,14 @@ public class GameActivity extends AppCompatActivity {
         sketch = new GameSketch();
         this.io = new InputToOutput();
         Vector3d startPos = new Vector3d(0, 0, 0);
-        this.movingObject = new Movement(1.0, true, startPos);
+        this.movingObject = new Movement(1.0, true, startPos, sketch.drone.h, sketch.drone.w);
         final Ui ui = new Ui(this, io, sliderToggle);
         this.controlMod = new ControlMod(io);
+        this.collideMod = new CollideMod(new Vector3d());
         PFragment pFragment = new PFragment(sketch);
         pFragment.setView(frame, this);
         ui.drawUi(uiLayout);
-        sketch.setMovingObject(movingObject, controlMod, io);
+        sketch.setMovingObject(movingObject, controlMod, io, collideMod);
     }
 
     @Override

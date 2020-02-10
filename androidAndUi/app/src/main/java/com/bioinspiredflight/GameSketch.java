@@ -1,5 +1,6 @@
 package com.bioinspiredflight;
 
+import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.ModVisitable;
 import com.bioinspiredflight.physics.ModVisitor;
@@ -22,12 +23,14 @@ public class GameSketch extends PApplet{
     private InputToOutput io;
     private ModVisitor visitor;
     private final float rotationSpeed = -0.1f;  // a positive value is inverted
+    private CollideMod collideMod;
 
-    public void setMovingObject(Movement movingObject, ControlMod controlMod, InputToOutput io){
+    public void setMovingObject(Movement movingObject, ControlMod controlMod, InputToOutput io, CollideMod collideMod){
         this.movingObject = movingObject;
         this.controlMod = controlMod;
         this.io = io;
         this.visitor = new ModVisitor();
+        this.collideMod = collideMod;
     }
 
     public class droneObject {
@@ -153,6 +156,12 @@ public class GameSketch extends PApplet{
 
     public void draw() {
         controlMod.accept(visitor, movingObject);
+        if(movingObject.collided == true) {
+            int i;
+            for (i = 0; i < buildings.length; i++){
+                collideMod.accept(visitor, movingObject, buildings[i], drone);
+            }
+        }
         float droneLeftRight = (float) movingObject.getVelX();
         float droneForwardBack = (float) movingObject.getVelY();
         float droneUpDown = (float) movingObject.getVelZ();

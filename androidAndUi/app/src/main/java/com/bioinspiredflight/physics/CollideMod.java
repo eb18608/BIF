@@ -1,12 +1,14 @@
 package com.bioinspiredflight.physics;
 
+import com.bioinspiredflight.GameSketch;
+
 import javax.vecmath.Vector3d;
 
 public class CollideMod implements ModVisitable {
 
     Vector3d collideMod;
 
-    CollideMod(Vector3d moveVector){
+    public CollideMod(Vector3d moveVector){
         this.collideMod = moveVector;
     }
 
@@ -17,7 +19,13 @@ public class CollideMod implements ModVisitable {
     }
 
     @Override
-    public void accept(Visitor visit, Movement movement){
-        visit.visit(this, movement);
+    public void accept(Visitor visit, Movement movement) {
+
+    }
+
+
+    @Override
+    public void accept(Visitor visit, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone) {
+        visit.visit(this, movement, buildingObject, drone);
     }
 }
