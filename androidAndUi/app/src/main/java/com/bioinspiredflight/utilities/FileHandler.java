@@ -1,6 +1,7 @@
 package com.bioinspiredflight.utilities;
 
 import android.content.Context;
+import android.os.Build;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 public abstract class FileHandler {
@@ -49,43 +51,54 @@ public abstract class FileHandler {
         }
     }
 
-    public TreeMap<String, String> readFile(Context context, String file){
+    public static TreeMap<String, String> readFile(Context context, String fileName){
         System.out.println("Reading file...");
-        TreeMap<String,String> schedule = new TreeMap<>();
+        TreeMap<String,String> table = new TreeMap<>();
         try {
-            FileInputStream inputStream = context.openFileInput(file);
+            FileInputStream inputStream = context.openFileInput(fileName);
             InputStreamReader reader = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             }
             CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL);
             for (CSVRecord record : parser){
-                //enter data from record into hashtable,
-                //converting the first field into a Date object
+                //enter data from record into hashtable
+                System.out.printf("%s, %s\n", record.get(0), record.get(1));
+                table.put(record.get(0), record.get(1));
             }
             parser.close();
             reader.close();
         } catch (Exception e){
-
+            System.out.printf("Failed to read file: %s\n", fileName);
+            e.printStackTrace();
         }
-        return schedule;
+        return table;
     }
 
-    public void writeFile(Context context, String file, TreeMap<String, String> schedule){
+    public static void writeFile(Context context, String fileName,
+                                 TreeMap<String, String> table,
+                                 String columnName1, String columnName2){
         System.out.println("Writing file...");
         try {
             //Create a new file if it doesn't exist, otherwise do nothing
-            File f = new File(context.getFilesDir(), file);
+            File f = new File(context.getFilesDir(), fileName);
             f.createNewFile();
             BufferedWriter writer = new BufferedWriter(new FileWriter(f));
-            writer.write("Time,Activity\n");
-            for (Map.Entry<String, String> entry : schedule.entrySet()){
+            writer.write(columnName1 + "," + columnName2 + "\n");
+            for (Map.Entry<String, String> entry : table.entrySet()){
                 //do stuff
+                writer.write(entry.getKey() + "," + entry.getValue() + "\n");
             }
             writer.close();
         } catch (Exception e){
-
+            System.out.printf("Failed to write to file: %s\n", fileName);
+            e.printStackTrace();
         }
+    }
+
+    public static boolean checkIfFileExists(Context context, String fileName){
+        File file = new File(context.getFilesDir(), fileName);
+        return file.isFile();
     }
 
 }
