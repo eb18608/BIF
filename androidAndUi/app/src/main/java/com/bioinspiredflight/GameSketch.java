@@ -31,16 +31,14 @@ public class GameSketch extends PApplet{
     }
 
     public class droneObject {
-        float h, w, d;
+        float h, di;
         PVector coords;
-        PShape hitbox, body, propellerFL, propellerFR, propellerBL, propellerBR;
+        PShape body, propellerFL, propellerFR, propellerBL, propellerBR;
 
-        public droneObject(float wid, float hei, float dep, float x, float y, float z) {
+        public droneObject(float hei, float diameter, float x, float y, float z) {
             h = hei;
-            w = wid;
-            d = dep;
+            di = diameter;
             coords = new PVector(x, y, z);
-            hitbox = createShape(BOX, w, h, d);
             body = loadShape("textured_circular_drone_sans_propellers.obj");
             propellerFL = loadShape("textured_propeller.obj");
             propellerFR = loadShape("textured_propeller.obj");
@@ -53,7 +51,6 @@ public class GameSketch extends PApplet{
         }
 
         public void draw() {
-            shape(hitbox);
             shape(body);
 
             pushMatrix();
@@ -106,6 +103,7 @@ public class GameSketch extends PApplet{
     }
 
     PImage texture;
+    PImage droneIcon;
     droneObject drone;
     buildingObject[] buildings = new buildingObject[4];
     float rotation;
@@ -151,13 +149,14 @@ public class GameSketch extends PApplet{
 
     public void setup() {
         frameRate(30);
-        drone = new droneObject(77, 16, 77, 0, 0, 0);
+        drone = new droneObject(15, 105, 0, 0, 0);
         buildings[0] = new buildingObject(400, 600, 400, 300, 300, 300);
         buildings[1] = new buildingObject(400, 600, 400, 300, 300, 720);
         buildings[2] = new buildingObject(400, 600, 400, 720, 300, 300);
         buildings[3] = new buildingObject(400, 600, 400, 720, 300, 720);
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
+        droneIcon = loadImage("DroneIcon.png");
     }
 
     public void draw() {
@@ -173,11 +172,10 @@ public class GameSketch extends PApplet{
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera();
 
-        for (int i = 0; i < buildings.length; i++) {
+        for (buildingObject b : buildings) {
             pushMatrix();
-            translate(buildings[i].coords.x - buildings[i].w/2,
-                    buildings[i].coords.y - buildings[i].h/2, buildings[i].coords.z - buildings[i].d/2);
-            renderBuilding(buildings[i].w, buildings[i].h, buildings[i].d);
+            translate(b.coords.x - b.w/2, b.coords.y - b.h/2, b.coords.z - b.d/2);
+            renderBuilding(b.w, b.h, b.d);
             //buildings[i].draw();
             popMatrix();
         }
@@ -191,17 +189,31 @@ public class GameSketch extends PApplet{
         rotateY(-rotation);
         popMatrix();
 
-        drone.hitbox.setVisible(false);
-
         // 2D Section
         camera();
         hint(DISABLE_DEPTH_TEST);
 
+
+        translate(minimapCoords[0], minimapCoords[1]);
         fill(153);
-        circle(minimapCoords[0], minimapCoords[1], 300);
+        circle(0, 0, 300);
+        fill(200);
+        pushMatrix();
+        translate(-drone.coords.x/10, drone.coords.z/10);
+        for (buildingObject b : buildings) {
+            pushMatrix();
+            translate(b.coords.x/10 - b.w/20, -b.coords.z/10 - b.d/20);
+            rect(0, 0, b.w/10, b.d/10);
+            popMatrix();
+        }
+        pushMatrix();
         fill(204, 102, 0, 100);
-        arc(minimapCoords[0], minimapCoords[1], 300, 300, rotation - (3 *PI)/4, rotation - PI/4);
+        arc(0, 0, 300, 300, rotation - (3 *PI)/4, rotation - PI/4);
         fill(0);
+        rotate(rotation);
+        image(droneIcon, -drone.di/20, -drone.di/20, drone.di/10, drone.di/10);
+        popMatrix();
+        popMatrix();
         hint(ENABLE_DEPTH_TEST);
     }
     public void settings() {
