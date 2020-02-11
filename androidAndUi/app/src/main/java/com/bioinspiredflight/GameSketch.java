@@ -10,6 +10,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
+import processing.core.PGraphics;
 
 /**
  * This is a placeholder class for Processing code.
@@ -147,6 +148,16 @@ public class GameSketch extends PApplet{
         endShape();
     }
 
+    public float distanceToDrone(buildingObject b) {
+        float x = Math.abs(drone.coords.x - b.coords.x);
+        float z = Math.abs(drone.coords.z - b.coords.z);
+        return (float)Math.sqrt((x*x) + (z*z));
+    }
+
+    public float avg(float i, float j) {
+        return ((i+j)/2);
+    }
+
     public void setup() {
         frameRate(30);
         drone = new droneObject(15, 105, 0, 0, 0);
@@ -156,7 +167,7 @@ public class GameSketch extends PApplet{
         buildings[3] = new buildingObject(400, 600, 400, 720, 300, 720);
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
-        droneIcon = loadImage("DroneIcon.png");
+        droneIcon = loadImage("DroneIconSimple.png");
     }
 
     public void draw() {
@@ -193,27 +204,31 @@ public class GameSketch extends PApplet{
         camera();
         hint(DISABLE_DEPTH_TEST);
 
-
         translate(minimapCoords[0], minimapCoords[1]);
+
         fill(153);
         circle(0, 0, 300);
-        fill(200);
+
         pushMatrix();
         rotate(-rotation);
         pushMatrix();
         translate(-drone.coords.x/10, drone.coords.z/10);
         for (buildingObject b : buildings) {
-            pushMatrix();
-            translate(b.coords.x/10 - b.w/20, -b.coords.z/10 - b.d/20);
-            rect(0, 0, b.w/10, b.d/10);
-            popMatrix();
+            if (distanceToDrone(b) + avg(b.w/2, b.d/2) < 1500) {
+                pushMatrix();
+                translate(b.coords.x/10 - b.w/20, -b.coords.z/10 - b.d/20);
+                fill(200);
+                rect(0, 0, b.w/10, b.d/10);
+                popMatrix();
+            }
         }
         popMatrix();
         popMatrix();
-        fill(204, 102, 0, 100);
-        arc(0, 0, 300, 300, rotation - (3 *PI)/4, rotation - PI/4);
+        //fill(220, 242, 241, 100);
+        //arc(0, 0, 300, 300, rotation - (3 *PI)/4, rotation - PI/4);
         fill(0);
-        image(droneIcon, -drone.di/20, -drone.di/20, drone.di/10, drone.di/10);
+        image(droneIcon, -drone.di/15, -drone.di/15, drone.di/7.5f, drone.di/7.5f);
+
         hint(ENABLE_DEPTH_TEST);
     }
     public void settings() {
