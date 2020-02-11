@@ -91,20 +91,26 @@ public class GameSketch extends PApplet{
     }
 
     public class buildingObject {
-        public float h, w, d;
-        public PVector coords;
+        float h, w, d;
+        PVector coords;
+        PShape body;
 
         public buildingObject(float wid, float hei, float dep, float x, float y, float z) {
             h = hei;
             w = wid;
             d = dep;
             coords = new PVector(x, y, z);
+            body = loadShape("textured_drone_sans_propellers.obj");
+        }
+
+        public void draw() {
+            shape(body);
         }
     }
 
     PImage texture;
     droneObject drone;
-    buildingObject[] buildings = new buildingObject[1];
+    buildingObject[] buildings = new buildingObject[4];
     float rotation;
     int[] minimapCoords = {1440, 160};
 
@@ -117,7 +123,6 @@ public class GameSketch extends PApplet{
 
     public void renderBuilding(float wid, float hei, float dep) {
         beginShape(QUADS);
-        texture = loadImage("SkyscraperFront.png");
         texture(texture);
         //frontface
         vertex(0, 0, 0, 1, 1);
@@ -150,8 +155,12 @@ public class GameSketch extends PApplet{
     public void setup() {
         frameRate(30);
         drone = new droneObject(77, 16, 77, 0, 0, 0);
-        buildings[0] = new buildingObject(400, 600, 400, 200, 0, 50);
+        buildings[0] = new buildingObject(400, 600, 400, 300, 300, 300);
+        buildings[1] = new buildingObject(400, 600, 400, 300, 300, 720);
+        buildings[2] = new buildingObject(400, 600, 400, 720, 300, 300);
+        buildings[3] = new buildingObject(400, 600, 400, 720, 300, 720);
         textureMode(NORMAL);
+        texture = loadImage("SkyscraperFront.png");
     }
 
     public void draw() {
@@ -173,10 +182,14 @@ public class GameSketch extends PApplet{
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera();
 
-        pushMatrix();
-        translate(buildings[0].coords.x, buildings[0].coords.y, buildings[0].coords.z);
-        renderBuilding(buildings[0].w, buildings[0].h, buildings[0].d);
-        popMatrix();
+        for (int i = 0; i < buildings.length; i++) {
+            pushMatrix();
+            translate(buildings[i].coords.x - buildings[i].w/2,
+                    buildings[i].coords.y - buildings[i].h/2, buildings[i].coords.z - buildings[i].d/2);
+            renderBuilding(buildings[i].w, buildings[i].h, buildings[i].d);
+            //buildings[i].draw();
+            popMatrix();
+        }
 
         pushMatrix();
         rotation += io.getRotation() * rotationSpeed;
@@ -196,8 +209,8 @@ public class GameSketch extends PApplet{
         fill(153);
         circle(minimapCoords[0], minimapCoords[1], 300);
         fill(204, 102, 0, 100);
-        arc(minimapCoords[0], minimapCoords[1], 150, 150, rotation, HALF_PI);
-
+        arc(minimapCoords[0], minimapCoords[1], 300, 300, rotation - (3 *PI)/4, rotation - PI/4);
+        fill(0);
         hint(ENABLE_DEPTH_TEST);
     }
     public void settings() {
