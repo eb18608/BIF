@@ -199,6 +199,8 @@ public class GameSketch extends PApplet{
         circle(0, 0, 300);
         fill(200);
         pushMatrix();
+        rotate(-rotation);
+        pushMatrix();
         translate(-drone.coords.x/10, drone.coords.z/10);
         for (buildingObject b : buildings) {
             pushMatrix();
@@ -206,14 +208,12 @@ public class GameSketch extends PApplet{
             rect(0, 0, b.w/10, b.d/10);
             popMatrix();
         }
-        pushMatrix();
+        popMatrix();
+        popMatrix();
         fill(204, 102, 0, 100);
         arc(0, 0, 300, 300, rotation - (3 *PI)/4, rotation - PI/4);
         fill(0);
-        rotate(rotation);
         image(droneIcon, -drone.di/20, -drone.di/20, drone.di/10, drone.di/10);
-        popMatrix();
-        popMatrix();
         hint(ENABLE_DEPTH_TEST);
     }
     public void settings() {
