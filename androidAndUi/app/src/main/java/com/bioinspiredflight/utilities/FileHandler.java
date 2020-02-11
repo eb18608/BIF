@@ -76,18 +76,21 @@ public abstract class FileHandler {
     }
 
     public static void writeFile(Context context, String fileName,
-                                 TreeMap<String, String> table,
-                                 String columnName1, String columnName2){
+                                 TreeMap<String, String> table){
         System.out.println("Writing file...");
         try {
             //Create a new file if it doesn't exist, otherwise do nothing
             File f = new File(context.getFilesDir(), fileName);
             f.createNewFile();
             BufferedWriter writer = new BufferedWriter(new FileWriter(f));
-            writer.write(columnName1 + "," + columnName2 + "\n");
+            String str;
+            //writer.write(str);
+            //System.out.printf("Size of entry set: %d\n", table.entrySet().size());
             for (Map.Entry<String, String> entry : table.entrySet()){
                 //do stuff
-                writer.write(entry.getKey() + "," + entry.getValue() + "\n");
+                str = entry.getKey() + "," + entry.getValue() + "\n";
+                writer.write(str);
+                System.out.printf("%s", str);
             }
             writer.close();
         } catch (Exception e){
