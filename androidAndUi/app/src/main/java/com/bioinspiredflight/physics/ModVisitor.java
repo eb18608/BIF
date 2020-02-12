@@ -66,8 +66,12 @@ public class ModVisitor implements Visitor{
         movement.collisionDetectorXY(movement, buildingObject);
         movement.collisionDetectorZ(movement, buildingObject);
         movement.isCollision(movement, buildingObject);
-
         movement.updateMover(resultantAcc, resultantVel, resultantPos, movement);
+
+        System.out.println("Collided? " + movement.collided);
+        System.out.println(movement.getPos());
+        System.out.println(buildingObject.coords);
+
     }
 
     @Override

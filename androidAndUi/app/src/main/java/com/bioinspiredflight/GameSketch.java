@@ -55,6 +55,14 @@ public class GameSketch extends PApplet{
             coords.add(x, y, z);
         }
 
+        public float getH() {
+            return h;
+        }
+
+        public float getW() {
+            return w;
+        }
+
         public void draw() {
             shape(hitbox);
             shape(body);
@@ -91,8 +99,8 @@ public class GameSketch extends PApplet{
     }
 
     public class buildingObject {
-        float h, w, d;
-        PVector coords;
+        public float h, w, d;
+        public PVector coords;
         PShape body;
 
         public buildingObject(float wid, float hei, float dep, float x, float y, float z) {
@@ -155,6 +163,7 @@ public class GameSketch extends PApplet{
     public void setup() {
         frameRate(30);
         drone = new droneObject(77, 16, 77, 0, 0, 0);
+        movingObject.setMovementSize(drone);
         buildings[0] = new buildingObject(400, 600, 400, 300, 300, 300);
         buildings[1] = new buildingObject(400, 600, 400, 300, 300, 720);
         buildings[2] = new buildingObject(400, 600, 400, 720, 300, 300);
@@ -164,13 +173,24 @@ public class GameSketch extends PApplet{
     }
 
     public void draw() {
-        controlMod.accept(visitor, movingObject);
-        if(movingObject.collided == true) {
-            int i;
-            for (i = 0; i < buildings.length; i++){
-                collideMod.accept(visitor, movingObject, buildings[i], drone);
-            }
+        int b;
+        for (b = 0; b < buildings.length; b++) {
+        controlMod.accept(visitor, movingObject, buildings[b], drone);
+//        while(movingObject.collided == true){
+//            movingObject.collide(movingObject, buildings[b]);
+//            controlMod.accept(visitor, movingObject, buildings[b], drone);
+//        }
+//        while(movingObject.collided == true){
+//            collideMod.accept(visitor, movingObject, buildings[b], drone);
+//            controlMod.accept(visitor, movingObject, buildings[b], drone);
+//            }
         }
+//        if(movingObject.collided == true) {
+//            int i;
+//            for (i = 0; i < buildings.length; i++){
+//                collideMod.accept(visitor, movingObject, buildings[i], drone);
+//            }
+//        }
         float droneLeftRight = (float) movingObject.getVelX();
         float droneForwardBack = (float) movingObject.getVelY();
         float droneUpDown = (float) movingObject.getVelZ();

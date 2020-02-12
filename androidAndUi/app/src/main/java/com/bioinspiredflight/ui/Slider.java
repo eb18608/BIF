@@ -165,7 +165,7 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
     // and NOT as a part of UiSurfaceView
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        System.out.println("slide");
+//        System.out.println("slide");
         //if (v.equals(this)) {
             float displacementX = (float) event.getX() - centerX;
             float displacementY = (float) event.getY() - centerY;
@@ -174,7 +174,7 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
                 usingSlider = true;
             }
             if (event.getAction() != MotionEvent.ACTION_UP && usingSlider) {
-                System.out.println("Touching slider");
+//                System.out.println("Touching slider");
                 if (displacementY >= -verticalSliderHeightFromCenter
                         && displacementY <= verticalSliderHeightFromCenter
                         && displacementX >= -horizontalSliderWidthFromCenter
@@ -185,7 +185,7 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
             } else {
                 usingSlider = false;
                 drawSlider(centerX, centerY);
-                System.out.println("Released slider");
+//                System.out.println("Released slider");
             }
         //}
         return false;

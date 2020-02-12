@@ -53,7 +53,7 @@ public class GameActivity extends AppCompatActivity {
         sketch = new GameSketch();
         this.io = new InputToOutput();
         Vector3d startPos = new Vector3d(0, 0, 0);
-        this.movingObject = new Movement(1.0, true, startPos, sketch.drone.h, sketch.drone.w);
+        this.movingObject = new Movement(1.0, true, startPos);
         final Ui ui = new Ui(this, io, sliderToggle);
         this.controlMod = new ControlMod(io);
         this.collideMod = new CollideMod(new Vector3d());

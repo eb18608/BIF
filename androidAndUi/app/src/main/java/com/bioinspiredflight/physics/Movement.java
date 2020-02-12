@@ -2,7 +2,7 @@ package com.bioinspiredflight.physics;
 
 
 import com.bioinspiredflight.GameSketch;
-
+import processing.core.PVector;
 import javax.vecmath.Vector2d;
 import javax.vecmath.Vector3d;
 
@@ -19,28 +19,32 @@ collisions*/
 
 
 public class Movement {
-    private double mass;
+    private float mass;
     private boolean gravityOn;
     private Vector3d pos;
     private Vector3d vel;
     private Vector3d acc;
-    private final double framerate = 30;
-    public final double frametime = 1 / framerate;
+    private final float framerate = 30;
+    public final float frametime = 1 / framerate;
     public boolean collided;
-    public double radius;
-    private double height;
+    public float radius;
+    private float height;
 
-    public Movement(double mass, boolean gravityOn, Vector3d p,float height,float radius){
+    public Movement(float mass, boolean gravityOn, Vector3d p,float height,float radius){
         this.mass = mass;
         this.gravityOn = gravityOn;
         this.acc = p;
         this.vel = new Vector3d();
         this.pos = new Vector3d();
-        this.height = (double)height;
-        this.radius = (double) radius;
+        this.height = height;
+        this.radius = radius;
+    }
+    public void setMovementSize(GameSketch.droneObject drone){
+        this.radius = drone.getW()/2;
+        this.height = drone.getH();
     }
 
-    public Movement(double mass, boolean gravityOn, Vector3d p) {
+    public Movement(float mass, boolean gravityOn, Vector3d p) {
         this.mass = mass;
         this.gravityOn = gravityOn;
         this.acc = p;
@@ -48,7 +52,7 @@ public class Movement {
         this.pos = new Vector3d();
     }
 
-    public Movement(double mass, boolean gravityOn, Vector3d p, Vector3d v, Vector3d a) {
+    public Movement(float mass, boolean gravityOn, Vector3d p, Vector3d v, Vector3d a) {
         this.mass = mass;
         this.gravityOn = gravityOn;
         this.pos = p;
@@ -57,11 +61,11 @@ public class Movement {
     }
 
     //Get the individual components of the position vector to do math on them
-    public double getPosX() {
+    public float getPosX() {
         return pos.x;
     }
 
-    public double getPosZ() {
+    public float getPosZ() {
         return pos.z;
     }
 
@@ -272,6 +276,7 @@ public class Movement {
     //Circle to box collisions only happen at X and Z (Z is the our Y co-ordinate)
 
     public boolean collisionDetectorXY(Movement drone, GameSketch.buildingObject object2){
+//        System.out.println("Called XY Collision detector");
         //Create Vectors for: Centre for drone and building, differences, clamps
         Vector2d droneCentre = new Vector2d();
         Vector2d objectCentre = new Vector2d();
@@ -356,6 +361,7 @@ public class Movement {
     }
 
     public boolean collisionDetectorZ(Movement drone, GameSketch.buildingObject object2){
+//        System.out.println("Called Z Collision detector");
         double droneZmax = drone.getPosZ() + drone.height/2;
         double objectZmax = object2.coords.y + object2.h/2;
 
@@ -383,11 +389,18 @@ public class Movement {
     }
 
     public void isCollision(Movement drone, GameSketch.buildingObject object2){
+//        System.out.println("isCollision used to check");
         if(collisionDetectorXY(drone,object2) && collisionDetectorZ(drone, object2)){
             drone.collided = true;
 
         }else{
             drone.collided = false;
+        }
+    }
+
+    public void collide(Movement drone, GameSketch.buildingObject object2){
+        if (drone.collided == true){
+            setVel(new Vector3d(0, 0, 0));
         }
     }
 
