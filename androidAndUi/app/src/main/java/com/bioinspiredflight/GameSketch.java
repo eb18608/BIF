@@ -24,6 +24,7 @@ public class GameSketch extends PApplet{
     private ModVisitor visitor;
     private final float rotationSpeed = -0.1f;  // a positive value is inverted
     private CollideMod collideMod;
+    private final float scale = 1.0f;
 
     public void setMovingObject(Movement movingObject, ControlMod controlMod, InputToOutput io, CollideMod collideMod){
         this.movingObject = movingObject;
@@ -35,20 +36,32 @@ public class GameSketch extends PApplet{
 
     public class droneObject {
         float h, w, d;
+        final float scale;
         PVector coords;
         PShape hitbox, body, propellerFL, propellerFR, propellerBL, propellerBR;
 
-        public droneObject(float wid, float hei, float dep, float x, float y, float z) {
+        public droneObject(float wid, float hei, float dep, float x, float y, float z,
+                           final float s) {
             h = hei;
             w = wid;
             d = dep;
             coords = new PVector(x, y, z);
             hitbox = createShape(BOX, w, h, d);
             body = loadShape("textured_circular_drone_sans_propellers.obj");
-            propellerFL = loadShape("textured_propeller.obj");
-            propellerFR = loadShape("textured_propeller.obj");
-            propellerBL = loadShape("textured_propeller.obj");
-            propellerBR = loadShape("textured_propeller.obj");
+            System.out.printf("Initial depth: %.3f\n", body.getDepth());
+            scale = s;
+            body.scale(scale);
+            System.out.printf("Scaled depth: %.3f\n", body.getDepth());
+            propellerFL = loadPropeller(scale);
+            propellerFR = loadPropeller(scale);
+            propellerBL = loadPropeller(scale);
+            propellerBR = loadPropeller(scale);
+        }
+
+        private PShape loadPropeller(float scale){
+            PShape shape = loadShape("textured_propeller.obj");
+            shape.scale(scale);
+            return shape;
         }
 
         public void move(float x, float y, float z) {
@@ -67,26 +80,29 @@ public class GameSketch extends PApplet{
         }
 
         public void draw() {
+            final float propellerXZ = 22f * this.scale;
+            final float propellerY = 2f * this.scale;
+
             shape(hitbox);
             shape(body);
 
             pushMatrix();
-            translate(-22, 2, 22);
+            translate(-propellerXZ, propellerY, propellerXZ);
             shape(propellerFL);
             popMatrix();
 
             pushMatrix();
-            translate(22, 2, 22);
+            translate(propellerXZ, propellerY, propellerXZ);
             shape(propellerFR);
             popMatrix();
 
             pushMatrix();
-            translate(-22, 2, -22);
+            translate(-propellerXZ, propellerY, -propellerXZ);
             shape(propellerBL);
             popMatrix();
 
             pushMatrix();
-            translate(22, 2, -22);
+            translate(propellerXZ, propellerY, -propellerXZ);
             shape(propellerBR);
             popMatrix();
         }
@@ -125,10 +141,10 @@ public class GameSketch extends PApplet{
     float rotation;
     int[] minimapCoords = {1440, 160};
 
-    public void setCamera() {
-        float eyex = drone.coords.x - (200 * sin(rotation));
-        float eyey = drone.coords.y + 100;
-        float eyez = drone.coords.z - (200 * cos(rotation));
+    public void setCamera(float scale) {
+        float eyex = drone.coords.x - (scale * 200 * sin(rotation));
+        float eyey = drone.coords.y + (scale * 100);
+        float eyez = drone.coords.z - (scale * 200 * cos(rotation));
         camera(eyex, eyey, eyez, drone.coords.x, drone.coords.y, drone.coords.z, 0, -1, 0);
     }
 
@@ -165,12 +181,15 @@ public class GameSketch extends PApplet{
 
     public void setup() {
         frameRate(30);
-        drone = new droneObject(77, 16, 77, 0, 0, 0);
+        drone = new droneObject(77, 16, 77, 0, 0, 0, scale);
         movingObject.setMovementSize(drone);
-        buildings[0] = new buildingObject(400, 600, 400, 300, 300, 300);
-        buildings[1] = new buildingObject(400, 600, 400, 300, 300, 720);
-        buildings[2] = new buildingObject(400, 600, 400, 720, 300, 300);
-        buildings[3] = new buildingObject(400, 600, 400, 720, 300, 720);
+        float width = 400 * scale;
+        float height = 600 * scale;
+        float depth = 400 * scale;
+        buildings[0] = new buildingObject(width, height, depth, 300, height/2, 300);
+        buildings[1] = new buildingObject(width, height, depth, 300, height/2, 720);
+        buildings[2] = new buildingObject(width, height, depth, 720, height/2, 300);
+        buildings[3] = new buildingObject(width, height, depth, 720, height/2, 720);
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
     }
@@ -203,7 +222,7 @@ public class GameSketch extends PApplet{
         lights();
         drone.spinPropellers(0.3f);
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
-        setCamera();
+        setCamera(scale);
 
         for (int i = 0; i < buildings.length; i++) {
             pushMatrix();
