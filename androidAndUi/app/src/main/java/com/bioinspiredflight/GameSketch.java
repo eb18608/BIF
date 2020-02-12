@@ -52,7 +52,10 @@ public class GameSketch extends PApplet{
         }
 
         public void move(float x, float y, float z) {
-            coords.add(x, y, z);
+            coords.x = x;
+            coords.y = y;
+            coords.z = z;
+            //coords.add(x, y, z);
         }
 
         public float getH() {
@@ -186,9 +189,14 @@ public class GameSketch extends PApplet{
 
         controlMod.accept(visitor, movingObject);
 
+        /*
         float droneLeftRight = movingObject.getX(movingObject.getVel());
         float droneForwardBack = movingObject.getY(movingObject.getVel());
         float droneUpDown = movingObject.getZ(movingObject.getVel());
+         */
+        float droneLeftRight = movingObject.getX(movingObject.getPos());
+        float droneForwardBack = movingObject.getY(movingObject.getPos());
+        float droneUpDown = movingObject.getZ(movingObject.getPos());
 
         // 3D Section
         background(100);
