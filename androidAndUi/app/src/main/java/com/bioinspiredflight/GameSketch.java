@@ -2,7 +2,6 @@ package com.bioinspiredflight;
 
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
-import com.bioinspiredflight.physics.ModVisitable;
 import com.bioinspiredflight.physics.ModVisitor;
 import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.ui.InputToOutput;
@@ -35,7 +34,7 @@ public class GameSketch extends PApplet{
     }
 
     public class droneObject {
-        float h, w, d;
+        float h, di, d;
         final float scale;
         PVector coords;
         PShape hitbox, body, propellerFL, propellerFR, propellerBL, propellerBR;
@@ -43,10 +42,10 @@ public class GameSketch extends PApplet{
         public droneObject(float wid, float hei, float dep, float x, float y, float z,
                            final float s) {
             h = hei;
-            w = wid;
+            di = wid;
             d = dep;
             coords = new PVector(x, y, z);
-            hitbox = createShape(BOX, w, h, d);
+            hitbox = createShape(BOX, di, h, d);
             body = loadShape("textured_circular_drone_sans_propellers.obj");
             System.out.printf("Initial depth: %.3f\n", body.getDepth());
             scale = s;
@@ -68,15 +67,14 @@ public class GameSketch extends PApplet{
             coords.x = x;
             coords.y = y;
             coords.z = z;
-            //coords.add(x, y, z);
         }
 
         public float getH() {
             return h;
         }
 
-        public float getW() {
-            return w;
+        public float getDi() {
+            return di;
         }
 
         public void draw() {
@@ -136,6 +134,7 @@ public class GameSketch extends PApplet{
     }
 
     PImage texture;
+    PImage droneIcon;
     droneObject drone;
     buildingObject[] buildings = new buildingObject[4];
     float rotation;
@@ -179,6 +178,16 @@ public class GameSketch extends PApplet{
         endShape();
     }
 
+    public float distanceToDrone(buildingObject b) {
+        float x = Math.abs(drone.coords.x - b.coords.x);
+        float z = Math.abs(drone.coords.z - b.coords.z);
+        return (float)Math.sqrt((x*x) + (z*z));
+    }
+
+    public float avg(float i, float j) {
+        return ((i+j)/2);
+    }
+
     public void setup() {
         frameRate(30);
         drone = new droneObject(77, 16, 77, 0, 0, 0, scale);
@@ -192,6 +201,7 @@ public class GameSketch extends PApplet{
         buildings[3] = new buildingObject(width, height, depth, 720, height/2, 720);
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
+        droneIcon = loadImage("DroneIcon.png");
     }
 
     public void draw() {
@@ -208,11 +218,6 @@ public class GameSketch extends PApplet{
 
         controlMod.accept(visitor, movingObject);
 
-        /*
-        float droneLeftRight = movingObject.getX(movingObject.getVel());
-        float droneForwardBack = movingObject.getY(movingObject.getVel());
-        float droneUpDown = movingObject.getZ(movingObject.getVel());
-         */
         float droneLeftRight = movingObject.getX(movingObject.getPos());
         float droneForwardBack = movingObject.getY(movingObject.getPos());
         float droneUpDown = movingObject.getZ(movingObject.getPos());
@@ -224,11 +229,11 @@ public class GameSketch extends PApplet{
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
 
-        for (int i = 0; i < buildings.length; i++) {
+        for (buildingObject bd : buildings) {
             pushMatrix();
-            translate(buildings[i].coords.x - buildings[i].w/2,
-                    buildings[i].coords.y - buildings[i].h/2, buildings[i].coords.z - buildings[i].d/2);
-            renderBuilding(buildings[i].w, buildings[i].h, buildings[i].d);
+            translate(bd.coords.x - bd.w/2,
+                    bd.coords.y - bd.h/2, bd.coords.z - bd.d/2);
+            renderBuilding(bd.w, bd.h, bd.d);
             //buildings[i].draw();
             popMatrix();
         }
@@ -248,11 +253,29 @@ public class GameSketch extends PApplet{
         camera();
         hint(DISABLE_DEPTH_TEST);
 
+        translate(minimapCoords[0], minimapCoords[1]);
+
         fill(153);
-        circle(minimapCoords[0], minimapCoords[1], 300);
-        fill(204, 102, 0, 100);
-        arc(minimapCoords[0], minimapCoords[1], 300, 300, rotation - (3 *PI)/4, rotation - PI/4);
+        circle(0, 0, 300);
+
+        pushMatrix();
+        rotate(-rotation);
+        pushMatrix();
+        translate(-drone.coords.x/10, drone.coords.z/10);
+        for (buildingObject bd : buildings) {
+            if (distanceToDrone(bd) + avg(bd.w/2, bd.d/2) < 1500) {
+                pushMatrix();
+                translate(bd.coords.x/10 - bd.w/20, -bd.coords.z/10 - bd.d/20);
+                fill(200);
+                rect(0, 0, bd.w/10, bd.d/10);
+                popMatrix();
+            }
+        }
+        popMatrix();
+        popMatrix();
         fill(0);
+        image(droneIcon, -drone.di/15, -drone.di/15, drone.di/7.5f, drone.di/7.5f);
+
         hint(ENABLE_DEPTH_TEST);
     }
     public void settings() {

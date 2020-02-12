@@ -3,15 +3,9 @@ package com.bioinspiredflight.physics;
 
 import com.bioinspiredflight.GameSketch;
 import processing.core.PVector;
-import javax.vecmath.Vector2d;
-import javax.vecmath.Vector3d;
 
 import static androidx.core.math.MathUtils.clamp;
-import static java.lang.Double.doubleToLongBits;
-import static java.lang.Double.max;
-import static java.lang.Double.min;
 import static java.lang.Math.sqrt;
-import static java.sql.DriverManager.println;
 /*Movement is my testing class for the visitor functions capabilities
 Movement is meant to simulate any object in the game that will be affected by any form of movement interaction
 If a player, then would have all the interactions (control from player input, environment obstacles or even wall
@@ -40,7 +34,7 @@ public class Movement {
         this.radius = radius;
     }
     public void setMovementSize(GameSketch.droneObject drone){
-        this.radius = drone.getW()/2;
+        this.radius = drone.getDi()/2;
         this.height = drone.getH();
     }
 
