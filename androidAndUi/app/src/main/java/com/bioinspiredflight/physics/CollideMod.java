@@ -4,11 +4,13 @@ import com.bioinspiredflight.GameSketch;
 
 import javax.vecmath.Vector3d;
 
+import processing.core.PVector;
+
 public class CollideMod implements ModVisitable {
 
-    Vector3d collideMod;
+    PVector collideMod;
 
-    public CollideMod(Vector3d moveVector){
+    public CollideMod(PVector moveVector){
         this.collideMod = moveVector;
     }
 

@@ -22,6 +22,7 @@ import javax.vecmath.Vector3d;
 
 import processing.android.PFragment;
 import processing.android.CompatUtils;
+import processing.core.PVector;
 
 public class GameActivity extends AppCompatActivity {
     private GameSketch sketch;
@@ -52,11 +53,11 @@ public class GameActivity extends AppCompatActivity {
         ));
         sketch = new GameSketch();
         this.io = new InputToOutput();
-        Vector3d startPos = new Vector3d(0, 0, 0);
-        this.movingObject = new Movement(1.0, true, startPos);
+        PVector startPos = new PVector(0, 0, 0);
+        this.movingObject = new Movement(1.0f, true, startPos);
         final Ui ui = new Ui(this, io, sliderToggle);
         this.controlMod = new ControlMod(io);
-        this.collideMod = new CollideMod(new Vector3d());
+        this.collideMod = new CollideMod(new PVector(0.0f,0.0f,0.0f));
         PFragment pFragment = new PFragment(sketch);
         pFragment.setView(frame, this);
         ui.drawUi(uiLayout);

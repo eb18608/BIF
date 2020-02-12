@@ -21,21 +21,21 @@ collisions*/
 public class Movement {
     private float mass;
     private boolean gravityOn;
-    private Vector3d pos;
-    private Vector3d vel;
-    private Vector3d acc;
+    private PVector pos;
+    private PVector vel;
+    private PVector acc;
     private final float framerate = 30;
     public final float frametime = 1 / framerate;
     public boolean collided;
     public float radius;
     private float height;
 
-    public Movement(float mass, boolean gravityOn, Vector3d p,float height,float radius){
+    public Movement(float mass, boolean gravityOn, PVector p, float height,float radius){
         this.mass = mass;
         this.gravityOn = gravityOn;
         this.acc = p;
-        this.vel = new Vector3d();
-        this.pos = new Vector3d();
+        this.vel = new PVector(0.0f, 0.0f, 0.0f);
+        this.pos = new PVector(0.0f, 0.0f, 0.0f);
         this.height = height;
         this.radius = radius;
     }
@@ -44,15 +44,15 @@ public class Movement {
         this.height = drone.getH();
     }
 
-    public Movement(float mass, boolean gravityOn, Vector3d p) {
+    public Movement(float mass, boolean gravityOn, PVector p) {
         this.mass = mass;
         this.gravityOn = gravityOn;
         this.acc = p;
-        this.vel = new Vector3d();
-        this.pos = new Vector3d();
+        this.vel = new PVector(0.0f, 0.0f, 0.0f);
+        this.pos = new PVector(0.0f, 0.0f, 0.0f);
     }
 
-    public Movement(float mass, boolean gravityOn, Vector3d p, Vector3d v, Vector3d a) {
+    public Movement(float mass, boolean gravityOn, PVector p, PVector v, PVector a) {
         this.mass = mass;
         this.gravityOn = gravityOn;
         this.pos = p;
@@ -60,84 +60,113 @@ public class Movement {
         this.acc = a;
     }
 
-    //Get the individual components of the position vector to do math on them
-    public float getPosX() {
-        return pos.x;
+    //Get individual component from PVector
+    public float getX(PVector p){
+        return p.x;
+    }
+    public float getY(PVector p){
+        return p.y;
+    }
+    public float getZ(PVector p){
+        return p.z;
     }
 
-    public float getPosZ() {
-        return pos.z;
+
+    //Set individual componend in PVector
+    public void setX(PVector p, float x){
+        p.x = x;
+    }
+    public void setY(PVector p, float y){
+        p.y = y;
+    }
+    public void setZ(PVector p, float z){
+        p.z = z;
+    }
+    public void setV(PVector p, float x, float y, float z){
+        p.x = x;
+        p.y = y;
+        p.z = z;
     }
 
-    public double getPosY() {
-        return pos.y;
-    }
 
-    //Get the individual components of the velocity vector to do math on them
-    public double getVelX() {
-        return vel.x;
-    }
-
-    public double getVelZ() {
-        return vel.z;
-    }
-
-    public double getVelY() {
-        return vel.y;
-    }
-
-    //Get the individual components of the acceleration vector to do math on them
-    public double getAccX() {
-        return acc.x;
-    }
-
-    public double getAccZ() {
-        return acc.z;
-    }
-
-    public double getAccY() {
-        return acc.y;
-    }
+//    //Get the individual components of the position vector to do math on them
+//    public double getPosX() {
+//        return pos.x;
+//    }
+//
+//    public double getPosZ() {
+//        return pos.z;
+//    }
+//
+//    public double getPosY() {
+//        return pos.y;
+//    }
+//
+//    //Get the individual components of the velocity vector to do math on them
+//    public double getVelX() {
+//        return vel.x;
+//    }
+//
+//    public double getVelZ() {
+//        return vel.z;
+//    }
+//
+//    public double getVelY() {
+//        return vel.y;
+//    }
+//
+//    //Get the individual components of the acceleration vector to do math on them
+//    public double getAccX() {
+//        return acc.x;
+//    }
+//
+//    public double getAccZ() {
+//        return acc.z;
+//    }
+//
+//    public double getAccY() {
+//        return acc.y;
+//    }
 
     //Set the values for pos, vel, acc
-    public Vector3d getAcc() {
+    public PVector getAcc() {
         return acc;
     }
 
-    public Vector3d getVel() {
+    public PVector getVel() {
         return vel;
     }
 
-    public Vector3d getPos() {
+    public PVector getPos() {
         return pos;
     }
 
-    public void setPos(Vector3d pos) {
+    public void setPos(PVector pos) {
         this.pos = pos;
     }
 
-    public void setVel(Vector3d vel) {
+    public void setVel(PVector vel) {
         this.vel = vel;
     }
 
-    public void setAcc(Vector3d acc) {
+    public void setAcc(PVector acc) {
         this.acc = acc;
     }
 
-    public void setMass(int m) {
+    public void setMass(float m) {
         this.mass = m;
     }
 
-    public double getMass() {
+    public float getMass() {
         return mass;
     }
 
 
-    public Vector3d forceApplied(Vector3d currentAcc, Vector3d inputForce, double mass, double frametime) {
-        double gravity = 0;
-        double scale = 500;
+    public PVector forceApplied(PVector currentAcc, PVector inputForce, float mass, float frametime) {
+        float gravity = 0;
+        float scale = 500;
         //System.out.println(inputForce.toString());
-        Vector3d newAcc = new Vector3d();
+        PVector newAcc = new PVector(0.0f, 0.0f, 0.0f);
         if (gravityOn) {
             newAcc.x = ((frametime * scale * inputForce.x)) / mass;
             newAcc.y = ((frametime * scale * inputForce.y)) / mass;
@@ -153,9 +182,9 @@ public class Movement {
         return newAcc;
     }
 
-    public Vector3d calcVel(Vector3d currentVel, Vector3d accVector, double frametime) {
-        Vector3d newVel = new Vector3d();
-        double gravity = 0.3;
+    public PVector calcVel(PVector currentVel, PVector accVector, float frametime) {
+        PVector newVel = new PVector();
+        float gravity = 0.3f;
         newVel.x = (currentVel.x + (frametime * accVector.x));
         newVel.y = (currentVel.y + (frametime * accVector.y));
         newVel.z = (currentVel.z + (frametime * accVector.z));
@@ -168,8 +197,8 @@ public class Movement {
 
     }
 
-    public Vector3d calcPos(Vector3d currentPos, Vector3d velVector, double frametime) {
-        Vector3d newPos = new Vector3d();
+    public PVector calcPos(PVector currentPos, PVector velVector, float frametime) {
+        PVector newPos = new PVector();
 
         newPos.x = (currentPos.x + (frametime * velVector.x));
         newPos.y = (currentPos.y + (frametime * velVector.y));
@@ -178,7 +207,7 @@ public class Movement {
         return newPos;
     }
 
-    public void updateMover(Vector3d resultAcc, Vector3d resultVel, Vector3d resultPos, Movement thisMover) {
+    public void updateMover(PVector resultAcc, PVector resultVel, PVector resultPos, Movement thisMover) {
 
         thisMover.acc = resultAcc;
         limitVelocity(resultAcc, resultVel);
@@ -194,100 +223,100 @@ public class Movement {
         //System.out.printf("Pos: %s\n", this.pos.toString());
     }
 
-    public void limitVelocity(Vector3d acc, Vector3d vel) {
-        double maxVelX = 5;
-        double maxVelY = 5;
-        double maxVelZ = 5;
-        double terminalVel = 6;
-        if (vel.getX() > maxVelX) {
-            vel.setX(maxVelX);
-        } else if (vel.getX() < -maxVelX) {
-            vel.setX(-maxVelX);
+    public void limitVelocity(PVector acc, PVector vel) {
+        float maxVelX = 5;
+        float maxVelY = 5;
+        float maxVelZ = 5;
+        float terminalVel = 6;
+        if (getX(vel) > maxVelX) {
+            setX(vel ,maxVelX);
+        } else if (getX(vel) < -maxVelX) {
+            setX(vel ,-maxVelX);
         }
-        if (vel.getY() > maxVelY) {
-            vel.setY(maxVelY);
-        } else if (vel.getY() < -maxVelY) {
-            vel.setY(-maxVelY);
+        if (getY(vel) > maxVelY) {
+            setY(vel, maxVelY);
+        } else if (getY(vel) < -maxVelY) {
+            setY(vel, -maxVelY);
         }
-        if (vel.getZ() > maxVelZ) {
-            vel.setZ(maxVelZ);
-        } else if (vel.getZ() < -maxVelZ && acc.getZ() <= 0) {
+        if (getZ(vel) > maxVelZ) {
+            setZ(vel, maxVelZ);
+        } else if (getZ(vel) < -maxVelZ && getZ(acc) <= 0) {
             if (gravityOn){
-                vel.setZ(-terminalVel);
+                setZ(vel, -terminalVel);
             } else {
-                vel.setZ(-maxVelZ);
+                setZ(vel, -maxVelZ);
             }
         }
     }
 
-    public void airResistance(Vector3d acc, Vector3d vel) {
-        double velX = vel.getX();
-        double velY = vel.getY();
-        double velZ = vel.getZ();
-        double newVel;
+    public void airResistance(PVector acc, PVector vel) {
+        float velX = getX(vel);
+        float velY = getY(vel);
+        float velZ = getZ(vel);
+        float newVel;
         if (velX > 0) {
-            newVel = velX - 0.1;
+            newVel = velX - 0.1f;
             if (velX < 0) {
                 newVel = 0;
             }
-            vel.setX(newVel);
+            setX(vel, newVel);
         } else {
-            newVel = velX + 0.1;
+            newVel = velX + 0.1f;
             if (newVel > 0) {
                 newVel = 0;
             }
-            vel.setX(newVel);
+            setX(vel, newVel);
         }
         if (velY > 0) {
-            newVel = velY - 0.1;
+            newVel = velY - 0.1f;
             if (velY < 0) {
                 newVel = 0;
             }
-            vel.setY(newVel);
+            setY(vel, newVel);
         } else {
-            newVel = velY + 0.1;
+            newVel = velY + 0.1f;
             if (newVel > 0) {
                 newVel = 0;
             }
-            vel.setY(newVel);
+            setY(vel, newVel);
         }
         if (velZ > 0) {
-            newVel = velZ - 0.1;
+            newVel = velZ - 0.1f;
             if (velZ < 0) {
                 newVel = 0;
             }
-            vel.setZ(newVel);
+            setZ(vel, newVel);
         } else {
-            newVel = velZ + 0.1;
+            newVel = velZ + 0.1f;
             if (newVel > 0) {
                 newVel = 0;
             }
-            vel.setZ(newVel);
+            setZ(vel, newVel);
         }
     }
 
-    public void floorLock(Vector3d vel, Vector3d pos) {
-        if (pos.getZ() < 0 && vel.getZ() < 0) {
-            vel.setZ(0);
-            pos.setZ(0);
+    public void floorLock(PVector vel, PVector pos) {
+        if (getZ(pos) < 0 && getZ(vel) < 0) {
+            setZ(vel,0);
+            setZ(pos,0);
         }
     }
 
     //Circle to box collisions only happen at X and Z (Z is the our Y co-ordinate)
 
-    public boolean collisionDetectorXY(Movement drone, GameSketch.buildingObject object2){
+    public boolean  collisionDetectorXY(Movement drone, GameSketch.buildingObject object2){
 //        System.out.println("Called XY Collision detector");
         //Create Vectors for: Centre for drone and building, differences, clamps
-        Vector2d droneCentre = new Vector2d();
-        Vector2d objectCentre = new Vector2d();
-        Vector2d objectBounds = new Vector2d();
-        Vector2d centreDifference = new Vector2d();
-        Vector2d clampedDifference = new Vector2d();
-        Vector2d closestPoint = new Vector2d();
+        PVector droneCentre = new PVector(0.0f, 0.0f);
+        PVector objectCentre = new PVector(0.0f, 0.0f);
+        PVector objectBounds = new PVector(0.0f, 0.0f);
+        PVector centreDifference = new PVector(0.0f, 0.0f);
+        PVector clampedDifference = new PVector(0.0f, 0.0f);
+        PVector closestPoint = new PVector(0.0f, 0.0f);
 
         //Assign Drone centre:
-        droneCentre.x = drone.getPosX();
-        droneCentre.y = drone.getPosY();
+        droneCentre.x = drone.getX(pos);
+        droneCentre.y = drone.getY(pos);
 
         //Assign Object's centre:
         objectCentre.x = object2.coords.x;
@@ -312,7 +341,7 @@ public class Movement {
         centreDifference.x = droneCentre.x - closestPoint.x;
         centreDifference.y = droneCentre.y - closestPoint.y;
 
-        boolean overlap = lengthOfVector(centreDifference) < radius;
+        boolean overlap = lengthOfVector(centreDifference) <= radius;
         return overlap;
 
 
@@ -362,10 +391,10 @@ public class Movement {
 
     public boolean collisionDetectorZ(Movement drone, GameSketch.buildingObject object2){
 //        System.out.println("Called Z Collision detector");
-        double droneZmax = drone.getPosZ() + drone.height/2;
+        double droneZmax = drone.getZ(pos) + drone.height/2;
         double objectZmax = object2.coords.y + object2.h/2;
 
-        double droneZmin = drone.getPosZ() - drone.height/2;
+        double droneZmin = drone.getZ(pos) - drone.height/2;
         double objectZmin = object2.coords.y - object2.h/2;
 
         boolean overlapZ;
@@ -379,12 +408,12 @@ public class Movement {
         return overlapZ;
     }
 
-    public double clamp(double x, double min, double max){
-        return max(min, min(max, x));
+    public float clamp(float x, float min, float max){
+        return Math.max(min, Math.min(max, x));
     }
 
-    public double lengthOfVector(Vector2d vec){
-        double length = sqrt((vec.x*vec.x) + (vec.y*vec.y));
+    public double lengthOfVector(PVector vec){
+        float length = (float)sqrt((vec.x*vec.x) + (vec.y*vec.y));
         return length;
     }
 
@@ -398,12 +427,8 @@ public class Movement {
         }
     }
 
-    public void collide(Movement drone, GameSketch.buildingObject object2){
-        if (drone.collided == true){
-            setVel(new Vector3d(0, 0, 0));
-        }
-    }
-
-
-
+//    public void collide(Movement drone, GameSketch.buildingObject object2){
+//        if (drone.collided == true){
+//            setVel(new Vector3d(0, 0, 0));
+//        }
 }

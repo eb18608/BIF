@@ -174,26 +174,21 @@ public class GameSketch extends PApplet{
 
     public void draw() {
         int b;
-        for (b = 0; b < buildings.length; b++) {
-        controlMod.accept(visitor, movingObject, buildings[b], drone);
-//        while(movingObject.collided == true){
-//            movingObject.collide(movingObject, buildings[b]);
-//            controlMod.accept(visitor, movingObject, buildings[b], drone);
-//        }
-//        while(movingObject.collided == true){
-//            collideMod.accept(visitor, movingObject, buildings[b], drone);
-//            controlMod.accept(visitor, movingObject, buildings[b], drone);
-//            }
+        for (b = 0; b < buildings.length ; b++){
+            movingObject.collisionDetectorZ(movingObject, buildings[b]);
+            movingObject.collisionDetectorXY(movingObject, buildings[b]);
+            movingObject.isCollision(movingObject, buildings[b]);
+
+            System.out.println("collided? " + movingObject.collided);
+            System.out.println("building position: " + buildings[b].coords);
+            System.out.println("drone position: "+ movingObject.getPos());
         }
-//        if(movingObject.collided == true) {
-//            int i;
-//            for (i = 0; i < buildings.length; i++){
-//                collideMod.accept(visitor, movingObject, buildings[i], drone);
-//            }
-//        }
-        float droneLeftRight = (float) movingObject.getVelX();
-        float droneForwardBack = (float) movingObject.getVelY();
-        float droneUpDown = (float) movingObject.getVelZ();
+
+        controlMod.accept(visitor, movingObject);
+
+        float droneLeftRight = movingObject.getX(movingObject.getVel());
+        float droneForwardBack = movingObject.getY(movingObject.getVel());
+        float droneUpDown = movingObject.getZ(movingObject.getVel());
 
         // 3D Section
         background(100);

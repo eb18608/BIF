@@ -4,12 +4,14 @@ import com.bioinspiredflight.GameSketch;
 
 import javax.vecmath.Vector3d;
 
+import processing.core.PVector;
+
 public class EnviroMod implements ModVisitable{
 
 
-        Vector3d environMod;
+        PVector environMod;
 
-        EnviroMod(Vector3d moveVector){
+        EnviroMod(PVector moveVector){
             this.environMod = moveVector;
         }
 

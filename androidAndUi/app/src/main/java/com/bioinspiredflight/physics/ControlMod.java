@@ -5,9 +5,12 @@ import com.bioinspiredflight.ui.InputToOutput;
 
 import javax.vecmath.Vector3d;
 
+import processing.core.PApplet;
+import processing.core.PVector;
+
 public class ControlMod implements ModVisitable{
 
-    Vector3d controlMod;
+    PVector controlMod;
 
     public ControlMod(InputToOutput io){
         this.controlMod = io.getVector();
