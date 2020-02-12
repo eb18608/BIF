@@ -164,7 +164,7 @@ public class Movement {
 
     public PVector forceApplied(PVector currentAcc, PVector inputForce, float mass, float frametime) {
         float gravity = 0;
-        float scale = 500;
+        float scale = 7500;
         //System.out.println(inputForce.toString());
         PVector newAcc = new PVector(0.0f, 0.0f, 0.0f);
         if (gravityOn) {
@@ -184,7 +184,7 @@ public class Movement {
 
     public PVector calcVel(PVector currentVel, PVector accVector, float frametime) {
         PVector newVel = new PVector();
-        float gravity = 0.3f;
+        float gravity = 3f;
         newVel.x = (currentVel.x + (frametime * accVector.x));
         newVel.y = (currentVel.y + (frametime * accVector.y));
         newVel.z = (currentVel.z + (frametime * accVector.z));
@@ -224,10 +224,10 @@ public class Movement {
     }
 
     public void limitVelocity(PVector acc, PVector vel) {
-        float maxVelX = 5;
-        float maxVelY = 5;
-        float maxVelZ = 5;
-        float terminalVel = 6;
+        final float maxVelX = 100;
+        final float maxVelY = 100;
+        final float maxVelZ = 100;
+        final float terminalVel = 150;
         if (getX(vel) > maxVelX) {
             setX(vel ,maxVelX);
         } else if (getX(vel) < -maxVelX) {
@@ -253,41 +253,42 @@ public class Movement {
         float velX = getX(vel);
         float velY = getY(vel);
         float velZ = getZ(vel);
+        final float decel = 1.5f;
         float newVel;
         if (velX > 0) {
-            newVel = velX - 0.1f;
+            newVel = velX - decel;
             if (velX < 0) {
                 newVel = 0;
             }
             setX(vel, newVel);
         } else {
-            newVel = velX + 0.1f;
+            newVel = velX + decel;
             if (newVel > 0) {
                 newVel = 0;
             }
             setX(vel, newVel);
         }
         if (velY > 0) {
-            newVel = velY - 0.1f;
+            newVel = velY - decel;
             if (velY < 0) {
                 newVel = 0;
             }
             setY(vel, newVel);
         } else {
-            newVel = velY + 0.1f;
+            newVel = velY + decel;
             if (newVel > 0) {
                 newVel = 0;
             }
             setY(vel, newVel);
         }
         if (velZ > 0) {
-            newVel = velZ - 0.1f;
+            newVel = velZ - decel;
             if (velZ < 0) {
                 newVel = 0;
             }
             setZ(vel, newVel);
         } else {
-            newVel = velZ + 0.1f;
+            newVel = velZ + decel;
             if (newVel > 0) {
                 newVel = 0;
             }
