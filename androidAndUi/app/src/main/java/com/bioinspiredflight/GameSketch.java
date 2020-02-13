@@ -39,13 +39,11 @@ public class GameSketch extends PApplet{
         PVector coords;
         PShape hitbox, body, propellerFL, propellerFR, propellerBL, propellerBR;
 
-        public droneObject(float wid, float hei, float dep, float x, float y, float z,
+        public droneObject(float diameter, float hei, float x, float y, float z,
                            final float s) {
             h = hei;
-            di = wid;
-            d = dep;
+            di = diameter;
             coords = new PVector(x, y, z);
-            hitbox = createShape(BOX, di, h, d);
             body = loadShape("textured_circular_drone_sans_propellers.obj");
             System.out.printf("Initial depth: %.3f\n", body.getDepth());
             scale = s;
@@ -190,7 +188,7 @@ public class GameSketch extends PApplet{
 
     public void setup() {
         frameRate(30);
-        drone = new droneObject(77, 16, 77, 0, 0, 0, scale);
+        drone = new droneObject(105, 16,  0, 0, 0, scale);
         movingObject.setMovementSize(drone);
         float width = 400 * scale;
         float height = 600 * scale;
@@ -246,8 +244,6 @@ public class GameSketch extends PApplet{
         drone.draw();
         rotateY(-rotation);
         popMatrix();
-
-        drone.hitbox.setVisible(false);
 
         // 2D Section
         camera();
