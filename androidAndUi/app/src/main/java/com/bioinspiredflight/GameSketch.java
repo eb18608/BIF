@@ -34,10 +34,10 @@ public class GameSketch extends PApplet{
     }
 
     public class droneObject {
-        float h, di, d;
+        float h, di;
         final float scale;
         PVector coords;
-        PShape hitbox, body, propellerFL, propellerFR, propellerBL, propellerBR;
+        PShape body, propellerFL, propellerFR, propellerBL, propellerBR;
 
         public droneObject(float diameter, float hei, float x, float y, float z,
                            final float s) {
@@ -79,7 +79,6 @@ public class GameSketch extends PApplet{
             final float propellerXZ = 22f * this.scale;
             final float propellerY = 2f * this.scale;
 
-            shape(hitbox);
             shape(body);
 
             pushMatrix();
@@ -136,7 +135,6 @@ public class GameSketch extends PApplet{
     droneObject drone;
     buildingObject[] buildings = new buildingObject[4];
     float rotation;
-    int[] minimapCoords = {1440, 160};
 
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
@@ -212,7 +210,7 @@ public class GameSketch extends PApplet{
             System.out.println("building position: " + b.coords);
             System.out.println("drone position: "+ movingObject.getPos());
         }
-
+        System.out.println(width);
         controlMod.accept(visitor, movingObject);
 
         float droneLeftRight = movingObject.getX(movingObject.getPos());
@@ -248,7 +246,7 @@ public class GameSketch extends PApplet{
         camera();
         hint(DISABLE_DEPTH_TEST);
 
-        translate(minimapCoords[0], minimapCoords[1]);
+        translate(width - 160, 160);
 
         fill(153);
         circle(0, 0, 300);
@@ -274,7 +272,7 @@ public class GameSketch extends PApplet{
         hint(ENABLE_DEPTH_TEST);
     }
     public void settings() {
-        size(1600, 900, P3D);
+        fullScreen(P3D);
 
     }
 }
