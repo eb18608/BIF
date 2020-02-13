@@ -53,8 +53,13 @@ public class AchievementsActivity extends AppCompatActivity {
         TableRow currentRow;
         final int padding = 18;
         int rowNum = 0;
-        ViewGroup.LayoutParams params =
-                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+
+        TableRow.LayoutParams statusRowParams =
+                new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        statusRowParams.weight = 1.0f;
+        statusRowParams.gravity = Gravity.RIGHT;
+
 
         for (Map.Entry<String, String> entry : achievementsTable.entrySet()){
             System.out.println(entry.toString());
@@ -65,16 +70,12 @@ public class AchievementsActivity extends AppCompatActivity {
             text1.setGravity(Gravity.LEFT);
             text2 = new TextView(this);
             text2.setText(string2);
-            text2.setGravity(Gravity.RIGHT);
-            //text2.setLayoutParams(params);
+            text2.setLayoutParams(statusRowParams);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 text2.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             }
-            spacing = new TextView(this);
-            spacing.setText("       ");
             currentRow = new TableRow(this);
             currentRow.addView(text1);
-            currentRow.addView(spacing);
             currentRow.addView(text2);
             currentRow.setPadding(padding, padding, padding, padding);
             if (rowNum != 0){
