@@ -26,9 +26,16 @@ public class EnviroMod implements ModVisitable{
     }
 
     @Override
-    public void accept(Visitor visit, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone) {
+    public void accept(Visitor visit, Movement movement, GameSketch sketch) {
 
     }
+
+
+
+//    @Override
+//    public void accept(Visitor visit, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone) {
+//
+//    }
 }
 
 

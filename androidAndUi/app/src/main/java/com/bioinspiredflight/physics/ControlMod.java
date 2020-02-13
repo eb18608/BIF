@@ -27,10 +27,19 @@ public class ControlMod implements ModVisitable{
         visit.visit(this, movement);
     }
 
-    @Override
-    public void accept(Visitor visit, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone) {
 
+
+    @Override
+    public void accept(Visitor visit, Movement movement, GameSketch sketch) {
+        visit.visit(this, movement, sketch);
     }
+
+
+
+//    @Override
+//    public void accept(Visitor visit, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone) {
+//
+//    }
 
 }
 

@@ -25,9 +25,9 @@ public class CollideMod implements ModVisitable {
 
     }
 
-
     @Override
-    public void accept(Visitor visit, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone) {
-        visit.visit(this, movement, buildingObject, drone);
+    public void accept(Visitor visit, Movement movement, GameSketch sketch) {
+        visit.visit(this, movement, sketch);
     }
+
 }

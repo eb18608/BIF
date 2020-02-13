@@ -24,7 +24,11 @@ public class GameSketch extends PApplet{
     private final float rotationSpeed = -0.1f;  // a positive value is inverted
     private CollideMod collideMod;
     private final float scale = 1.0f;
+    private PVector lastNonCollision = new PVector();
 
+    public PVector getLastPosition(){ return lastNonCollision; }
+
+    public void setLastPosition(PVector pos) {this.lastNonCollision = pos;}
     public void setMovingObject(Movement movingObject, ControlMod controlMod, InputToOutput io, CollideMod collideMod){
         this.movingObject = movingObject;
         this.controlMod = controlMod;
@@ -205,18 +209,86 @@ public class GameSketch extends PApplet{
     }
 
     public void draw() {
-        int b;
-        for (b = 0; b < buildings.length ; b++){
-            movingObject.collisionDetectorZ(movingObject, buildings[b]);
-            movingObject.collisionDetectorXY(movingObject, buildings[b]);
-            movingObject.isCollision(movingObject, buildings[b]);
 
-            System.out.println("collided? " + movingObject.collided);
-            System.out.println("building position: " + buildings[b].coords);
-            System.out.println("drone position: "+ movingObject.getPos());
+
+        int b;
+        for (b = 0; b < buildings.length && movingObject.collided == false ; b++) {
+                movingObject.collisionDetectorZ(movingObject, buildings[b]);
+                movingObject.collisionDetectorXY(movingObject, buildings[b]);
+                movingObject.isCollision(movingObject, buildings[b]);
+                System.out.println("collided? " + movingObject.collided);
+                System.out.println("building position: " + buildings[b].coords);
+                System.out.println("drone position: " + movingObject.getPos());
         }
 
+        if(movingObject.collided == true){
+            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
+            collideMod.accept(visitor, movingObject, this);
+            float droneLeftRight = movingObject.getX(movingObject.getPos());
+            float droneForwardBack = movingObject.getY(movingObject.getPos());
+            float droneUpDown = movingObject.getZ(movingObject.getPos());
+
+            // 3D Section
+            background(100);
+            lights();
+            drone.spinPropellers(0.3f);
+            drone.move(droneLeftRight, droneUpDown, droneForwardBack);
+            setCamera(scale);
+
+            for (buildingObject bd : buildings) {
+                pushMatrix();
+                translate(bd.coords.x - bd.w/2,
+                        bd.coords.y - bd.h/2, bd.coords.z - bd.d/2);
+                renderBuilding(bd.w, bd.h, bd.d);
+                //buildings[i].draw();
+                popMatrix();
+            }
+
+            pushMatrix();
+            rotation += io.getRotation() * rotationSpeed;
+            io.setTotalRotation(-rotation);
+            translate(drone.coords.x, drone.coords.y, drone.coords.z);
+            rotateY(rotation);
+            drone.draw();
+            rotateY(-rotation);
+            popMatrix();
+
+            drone.hitbox.setVisible(false);
+
+            // 2D Section
+            camera();
+            hint(DISABLE_DEPTH_TEST);
+
+            translate(minimapCoords[0], minimapCoords[1]);
+
+            fill(153);
+            circle(0, 0, 300);
+
+            pushMatrix();
+            rotate(-rotation);
+            pushMatrix();
+            translate(-drone.coords.x/10, drone.coords.z/10);
+            for (buildingObject bd : buildings) {
+                if (distanceToDrone(bd) + avg(bd.w/2, bd.d/2) < 1500) {
+                    pushMatrix();
+                    translate(bd.coords.x/10 - bd.w/20, -bd.coords.z/10 - bd.d/20);
+                    fill(200);
+                    rect(0, 0, bd.w/10, bd.d/10);
+                    popMatrix();
+                }
+            }
+            popMatrix();
+            popMatrix();
+            fill(0);
+            image(droneIcon, -drone.di/15, -drone.di/15, drone.di/7.5f, drone.di/7.5f);
+
+            hint(ENABLE_DEPTH_TEST);
+            movingObject.collided = false;
+        }else
+            setLastPosition(movingObject.getPos());
         controlMod.accept(visitor, movingObject);
+
+        System.out.println("Saved Position: "+ lastNonCollision);
 
         float droneLeftRight = movingObject.getX(movingObject.getPos());
         float droneForwardBack = movingObject.getY(movingObject.getPos());
@@ -277,6 +349,7 @@ public class GameSketch extends PApplet{
         image(droneIcon, -drone.di/15, -drone.di/15, drone.di/7.5f, drone.di/7.5f);
 
         hint(ENABLE_DEPTH_TEST);
+
     }
     public void settings() {
         size(1600, 900, P3D);
