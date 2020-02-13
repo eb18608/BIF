@@ -203,14 +203,13 @@ public class GameSketch extends PApplet{
     }
 
     public void draw() {
-        int b;
-        for (b = 0; b < buildings.length ; b++){
-            movingObject.collisionDetectorZ(movingObject, buildings[b]);
-            movingObject.collisionDetectorXY(movingObject, buildings[b]);
-            movingObject.isCollision(movingObject, buildings[b]);
+        for (buildingObject b : buildings){
+            movingObject.collisionDetectorZ(movingObject, b);
+            movingObject.collisionDetectorXY(movingObject, b);
+            movingObject.isCollision(movingObject, b);
 
             System.out.println("collided? " + movingObject.collided);
-            System.out.println("building position: " + buildings[b].coords);
+            System.out.println("building position: " + b.coords);
             System.out.println("drone position: "+ movingObject.getPos());
         }
 
@@ -227,11 +226,11 @@ public class GameSketch extends PApplet{
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
 
-        for (buildingObject bd : buildings) {
+        for (buildingObject b : buildings) {
             pushMatrix();
-            translate(bd.coords.x - bd.w/2,
-                    bd.coords.y - bd.h/2, bd.coords.z - bd.d/2);
-            renderBuilding(bd.w, bd.h, bd.d);
+            translate(b.coords.x - b.w/2,
+                    b.coords.y - b.h/2, b.coords.z - b.d/2);
+            renderBuilding(b.w, b.h, b.d);
             //buildings[i].draw();
             popMatrix();
         }
@@ -258,12 +257,12 @@ public class GameSketch extends PApplet{
         rotate(-rotation);
         pushMatrix();
         translate(-drone.coords.x/10, drone.coords.z/10);
-        for (buildingObject bd : buildings) {
-            if (distanceToDrone(bd) + avg(bd.w/2, bd.d/2) < 1500) {
+        for (buildingObject b : buildings) {
+            if (distanceToDrone(b) + avg(b.w/2, b.d/2) < 1500) {
                 pushMatrix();
-                translate(bd.coords.x/10 - bd.w/20, -bd.coords.z/10 - bd.d/20);
+                translate(b.coords.x/10 - b.w/20, -b.coords.z/10 - b.d/20);
                 fill(200);
-                rect(0, 0, bd.w/10, bd.d/10);
+                rect(0, 0, b.w/10, b.d/10);
                 popMatrix();
             }
         }
