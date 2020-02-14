@@ -91,37 +91,11 @@ public class AchievementsActivity extends AppCompatActivity {
     }
 
     private TreeMap<String, String> getAchievementsTable(){
-        // COMMENT OUT THIS LINE AFTER TESTING
-        //new File(getApplicationContext().getFilesDir(), achievementsFileName).delete();
-        // COMMENT OUT THIS LINE AFTER TESTING
-
         boolean fileAlreadyExists =
                 FileHandler.checkIfFileExists(getApplicationContext(), achievementsFileName);
         TreeMap<String, String> achievementsTable;
-        if (fileAlreadyExists){
-            Toast.makeText(this, "Achievements exists", Toast.LENGTH_SHORT).show();
-            achievementsTable =
-                    FileHandler.readFile(getApplicationContext(), achievementsFileName);
-        } else {
-            Toast.makeText(this, "Creating new achievements file", Toast.LENGTH_SHORT).show();
-            achievementsTable = createNewAchievementsTable();
-            FileHandler.writeFile(
-                    getApplicationContext(),
-                    achievementsFileName,
-                    achievementsTable);
-        }
-        return achievementsTable;
-    }
-
-    private TreeMap<String, String> createNewAchievementsTable(){
-        TreeMap<String, String> achievementsTable = new TreeMap<>();
-        achievementsTable.put("Achievements", "Status");
-        achievementsTable.put("Lorem ipsum", "...");
-        achievementsTable.put("Say Coloradooooo", "I'M A GIRAFFE");
-        achievementsTable.put(
-                "They are rage. Brutal and without mercy. But you...you will be worse.",
-                "Rip and tear until it is DONE.");
-        System.out.printf("Size: %d\n", achievementsTable.entrySet().size());
+        achievementsTable =
+                FileHandler.readFile(getApplicationContext(), achievementsFileName);
         return achievementsTable;
     }
 
