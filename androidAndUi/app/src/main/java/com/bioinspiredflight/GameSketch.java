@@ -207,8 +207,7 @@ public class GameSketch extends PApplet{
     public void draw() {
 
 
-        int b;
-        for (b = 0; b < buildings.length && movingObject.collided == false ; b++) {
+        for (int b = 0; b < buildings.length && movingObject.collided == false ; b++) {
                 movingObject.collisionDetectorZ(movingObject, buildings[b]);
                 movingObject.collisionDetectorXY(movingObject, buildings[b]);
                 movingObject.isCollision(movingObject, buildings[b]);
@@ -249,13 +248,12 @@ public class GameSketch extends PApplet{
             rotateY(-rotation);
             popMatrix();
 
-            drone.hitbox.setVisible(false);
+
 
             // 2D Section
             camera();
             hint(DISABLE_DEPTH_TEST);
 
-            translate(minimapCoords[0], minimapCoords[1]);
 
             fill(153);
             circle(0, 0, 300);
