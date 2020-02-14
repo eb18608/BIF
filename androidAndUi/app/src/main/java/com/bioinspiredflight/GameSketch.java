@@ -204,100 +204,7 @@ public class GameSketch extends PApplet{
         droneIcon = loadImage("DroneIcon.png");
     }
 
-    public void draw() {
-
-
-        for (int b = 0; b < buildings.length && movingObject.collided == false ; b++) {
-                movingObject.collisionDetectorZ(movingObject, buildings[b]);
-                movingObject.collisionDetectorXY(movingObject, buildings[b]);
-                movingObject.isCollision(movingObject, buildings[b]);
-                System.out.println("collided? " + movingObject.collided);
-                System.out.println("building position: " + buildings[b].coords);
-                System.out.println("drone position: " + movingObject.getPos());
-        }
-
-        if(movingObject.collided == true){
-            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
-            collideMod.accept(visitor, movingObject, this);
-            float droneLeftRight = movingObject.getX(movingObject.getPos());
-            float droneForwardBack = movingObject.getY(movingObject.getPos());
-            float droneUpDown = movingObject.getZ(movingObject.getPos());
-
-            // 3D Section
-            background(100);
-            lights();
-            drone.spinPropellers(0.3f);
-            drone.move(droneLeftRight, droneUpDown, droneForwardBack);
-            setCamera(scale);
-
-            for (buildingObject bd : buildings) {
-                pushMatrix();
-                translate(bd.coords.x - bd.w/2,
-                        bd.coords.y - bd.h/2, bd.coords.z - bd.d/2);
-                renderBuilding(bd.w, bd.h, bd.d);
-                //buildings[i].draw();
-                popMatrix();
-            }
-
-            pushMatrix();
-            rotation += io.getRotation() * rotationSpeed;
-            io.setTotalRotation(-rotation);
-            translate(drone.coords.x, drone.coords.y, drone.coords.z);
-            rotateY(rotation);
-            drone.draw();
-            rotateY(-rotation);
-            popMatrix();
-
-
-
-            // 2D Section
-            camera();
-            hint(DISABLE_DEPTH_TEST);
-
-
-            fill(153);
-            circle(0, 0, 300);
-
-            pushMatrix();
-            rotate(-rotation);
-            pushMatrix();
-            translate(-drone.coords.x/10, drone.coords.z/10);
-            for (buildingObject bd : buildings) {
-                if (distanceToDrone(bd) + avg(bd.w/2, bd.d/2) < 1500) {
-                    pushMatrix();
-                    translate(bd.coords.x/10 - bd.w/20, -bd.coords.z/10 - bd.d/20);
-                    fill(200);
-                    rect(0, 0, bd.w/10, bd.d/10);
-                    popMatrix();
-                }
-            }
-            popMatrix();
-            popMatrix();
-            fill(0);
-            image(droneIcon, -drone.di/15, -drone.di/15, drone.di/7.5f, drone.di/7.5f);
-
-            hint(ENABLE_DEPTH_TEST);
-            movingObject.collided = false;
-        }else
-            setLastPosition(movingObject.getPos());
-        for (buildingObject b : buildings){
-            movingObject.collisionDetectorZ(movingObject, b);
-            movingObject.collisionDetectorXY(movingObject, b);
-            movingObject.isCollision(movingObject, b);
-
-            System.out.println("collided? " + movingObject.collided);
-            System.out.println("building position: " + b.coords);
-            System.out.println("drone position: "+ movingObject.getPos());
-        }
-        System.out.println(width);
-        controlMod.accept(visitor, movingObject);
-
-        System.out.println("Saved Position: "+ lastNonCollision);
-
-        float droneLeftRight = movingObject.getX(movingObject.getPos());
-        float droneForwardBack = movingObject.getY(movingObject.getPos());
-        float droneUpDown = movingObject.getZ(movingObject.getPos());
-
+    public void draw3d(float droneLeftRight, float droneUpDown, float droneForwardBack){
         // 3D Section
         background(100);
         lights();
@@ -305,11 +212,11 @@ public class GameSketch extends PApplet{
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
 
-        for (buildingObject b : buildings) {
+        for (buildingObject bd : buildings) {
             pushMatrix();
-            translate(b.coords.x - b.w/2,
-                    b.coords.y - b.h/2, b.coords.z - b.d/2);
-            renderBuilding(b.w, b.h, b.d);
+            translate(bd.coords.x - bd.w/2,
+                    bd.coords.y - bd.h/2, bd.coords.z - bd.d/2);
+            renderBuilding(bd.w, bd.h, bd.d);
             //buildings[i].draw();
             popMatrix();
         }
@@ -322,7 +229,9 @@ public class GameSketch extends PApplet{
         drone.draw();
         rotateY(-rotation);
         popMatrix();
+    }
 
+    public void draw2d(){
         // 2D Section
         camera();
         hint(DISABLE_DEPTH_TEST);
@@ -351,6 +260,49 @@ public class GameSketch extends PApplet{
         image(droneIcon, -drone.di/15, -drone.di/15, drone.di/7.5f, drone.di/7.5f);
 
         hint(ENABLE_DEPTH_TEST);
+    }
+
+    public void draw() {
+
+
+        for (int b = 0; b < buildings.length && movingObject.collided == false ; b++) {
+                movingObject.collisionDetectorZ(movingObject, buildings[b]);
+                movingObject.collisionDetectorXY(movingObject, buildings[b]);
+                movingObject.isCollision(movingObject, buildings[b]);
+                System.out.println("collided? " + movingObject.collided);
+                System.out.println("building position: " + buildings[b].coords);
+                System.out.println("drone position: " + movingObject.getPos());
+        }
+
+        if(movingObject.collided == true){
+            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
+            collideMod.accept(visitor, movingObject, this);
+
+            movingObject.collided = false;
+        } else {
+            setLastPosition(movingObject.getPos());
+        }
+        for (buildingObject b : buildings){
+            movingObject.collisionDetectorZ(movingObject, b);
+            movingObject.collisionDetectorXY(movingObject, b);
+            movingObject.isCollision(movingObject, b);
+
+            System.out.println("collided? " + movingObject.collided);
+            System.out.println("building position: " + b.coords);
+            System.out.println("drone position: "+ movingObject.getPos());
+        }
+        System.out.println(width);
+        controlMod.accept(visitor, movingObject);
+
+        System.out.println("Saved Position: "+ lastNonCollision);
+
+        float droneLeftRight = movingObject.getX(movingObject.getPos());
+        float droneForwardBack = movingObject.getY(movingObject.getPos());
+        float droneUpDown = movingObject.getZ(movingObject.getPos());
+
+        draw3d(droneLeftRight, droneUpDown, droneForwardBack);
+
+        draw2d();
 
     }
     public void settings() {
