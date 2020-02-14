@@ -38,18 +38,16 @@ public class GameSketch extends PApplet{
     }
 
     public class droneObject {
-        float h, di, d;
+        float h, di;
         final float scale;
         PVector coords;
-        PShape hitbox, body, propellerFL, propellerFR, propellerBL, propellerBR;
+        PShape body, propellerFL, propellerFR, propellerBL, propellerBR;
 
-        public droneObject(float wid, float hei, float dep, float x, float y, float z,
+        public droneObject(float diameter, float hei, float x, float y, float z,
                            final float s) {
             h = hei;
-            di = wid;
-            d = dep;
+            di = diameter;
             coords = new PVector(x, y, z);
-            hitbox = createShape(BOX, di, h, d);
             body = loadShape("textured_circular_drone_sans_propellers.obj");
             System.out.printf("Initial depth: %.3f\n", body.getDepth());
             scale = s;
@@ -85,7 +83,6 @@ public class GameSketch extends PApplet{
             final float propellerXZ = 22f * this.scale;
             final float propellerY = 2f * this.scale;
 
-            shape(hitbox);
             shape(body);
 
             pushMatrix();
@@ -142,7 +139,6 @@ public class GameSketch extends PApplet{
     droneObject drone;
     buildingObject[] buildings = new buildingObject[4];
     float rotation;
-    int[] minimapCoords = {1440, 160};
 
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
@@ -194,7 +190,7 @@ public class GameSketch extends PApplet{
 
     public void setup() {
         frameRate(30);
-        drone = new droneObject(77, 16, 77, 0, 0, 0, scale);
+        drone = new droneObject(105, 16,  0, 0, 0, scale);
         movingObject.setMovementSize(drone);
         float width = 400 * scale;
         float height = 600 * scale;
@@ -286,6 +282,16 @@ public class GameSketch extends PApplet{
             movingObject.collided = false;
         }else
             setLastPosition(movingObject.getPos());
+        for (buildingObject b : buildings){
+            movingObject.collisionDetectorZ(movingObject, b);
+            movingObject.collisionDetectorXY(movingObject, b);
+            movingObject.isCollision(movingObject, b);
+
+            System.out.println("collided? " + movingObject.collided);
+            System.out.println("building position: " + b.coords);
+            System.out.println("drone position: "+ movingObject.getPos());
+        }
+        System.out.println(width);
         controlMod.accept(visitor, movingObject);
 
         System.out.println("Saved Position: "+ lastNonCollision);
@@ -301,11 +307,11 @@ public class GameSketch extends PApplet{
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
 
-        for (buildingObject bd : buildings) {
+        for (buildingObject b : buildings) {
             pushMatrix();
-            translate(bd.coords.x - bd.w/2,
-                    bd.coords.y - bd.h/2, bd.coords.z - bd.d/2);
-            renderBuilding(bd.w, bd.h, bd.d);
+            translate(b.coords.x - b.w/2,
+                    b.coords.y - b.h/2, b.coords.z - b.d/2);
+            renderBuilding(b.w, b.h, b.d);
             //buildings[i].draw();
             popMatrix();
         }
@@ -319,13 +325,11 @@ public class GameSketch extends PApplet{
         rotateY(-rotation);
         popMatrix();
 
-        drone.hitbox.setVisible(false);
-
         // 2D Section
         camera();
         hint(DISABLE_DEPTH_TEST);
 
-        translate(minimapCoords[0], minimapCoords[1]);
+        translate(width - 160, 160);
 
         fill(153);
         circle(0, 0, 300);
@@ -334,12 +338,12 @@ public class GameSketch extends PApplet{
         rotate(-rotation);
         pushMatrix();
         translate(-drone.coords.x/10, drone.coords.z/10);
-        for (buildingObject bd : buildings) {
-            if (distanceToDrone(bd) + avg(bd.w/2, bd.d/2) < 1500) {
+        for (buildingObject b : buildings) {
+            if (distanceToDrone(b) + avg(b.w/2, b.d/2) < 1500) {
                 pushMatrix();
-                translate(bd.coords.x/10 - bd.w/20, -bd.coords.z/10 - bd.d/20);
+                translate(b.coords.x/10 - b.w/20, -b.coords.z/10 - b.d/20);
                 fill(200);
-                rect(0, 0, bd.w/10, bd.d/10);
+                rect(0, 0, b.w/10, b.d/10);
                 popMatrix();
             }
         }
@@ -352,7 +356,7 @@ public class GameSketch extends PApplet{
 
     }
     public void settings() {
-        size(1600, 900, P3D);
+        fullScreen(P3D);
 
     }
 }
