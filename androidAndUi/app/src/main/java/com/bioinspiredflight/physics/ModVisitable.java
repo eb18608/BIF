@@ -2,7 +2,6 @@ package com.bioinspiredflight.physics;
 
 import com.bioinspiredflight.GameSketch;
 
-import processing.core.PVector;
 
 public interface ModVisitable {
     public void accept(Visitor visit);

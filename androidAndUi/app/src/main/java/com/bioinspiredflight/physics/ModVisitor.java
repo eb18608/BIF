@@ -2,8 +2,6 @@ package com.bioinspiredflight.physics;
 
 import com.bioinspiredflight.GameSketch;
 
-import javax.vecmath.Vector3d;
-
 import processing.core.PVector;
 
 public class ModVisitor implements Visitor{
@@ -148,6 +146,4 @@ public class ModVisitor implements Visitor{
 //    public void visit(EnviroMod enviro, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone) {
 //
 //    }
-
-
 }

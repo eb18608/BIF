@@ -49,10 +49,10 @@ public class GameSketch extends PApplet{
             di = diameter;
             coords = new PVector(x, y, z);
             body = loadShape("textured_circular_drone_sans_propellers.obj");
-            System.out.printf("Initial depth: %.3f\n", body.getDepth());
+//            System.out.printf("Initial depth: %.3f\n", body.getDepth());
             scale = s;
             body.scale(scale);
-            System.out.printf("Scaled depth: %.3f\n", body.getDepth());
+//            System.out.printf("Scaled depth: %.3f\n", body.getDepth());
             propellerFL = loadPropeller(scale);
             propellerFR = loadPropeller(scale);
             propellerBL = loadPropeller(scale);
@@ -269,32 +269,24 @@ public class GameSketch extends PApplet{
                 movingObject.collisionDetectorZ(movingObject, buildings[b]);
                 movingObject.collisionDetectorXY(movingObject, buildings[b]);
                 movingObject.isCollision(movingObject, buildings[b]);
-                System.out.println("collided? " + movingObject.collided);
-                System.out.println("building position: " + buildings[b].coords);
-                System.out.println("drone position: " + movingObject.getPos());
+//                System.out.println("collided? " + movingObject.collided);
+//                System.out.println("building position: " + buildings[b].coords);
+//                System.out.println("drone position: " + movingObject.getPos());
         }
 
         if(movingObject.collided == true){
-            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
+//            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
             collideMod.accept(visitor, movingObject, this);
 
             movingObject.collided = false;
         } else {
             setLastPosition(movingObject.getPos());
         }
-        for (buildingObject b : buildings){
-            movingObject.collisionDetectorZ(movingObject, b);
-            movingObject.collisionDetectorXY(movingObject, b);
-            movingObject.isCollision(movingObject, b);
 
-            System.out.println("collided? " + movingObject.collided);
-            System.out.println("building position: " + b.coords);
-            System.out.println("drone position: "+ movingObject.getPos());
-        }
-        System.out.println(width);
+//        System.out.println(width);
         controlMod.accept(visitor, movingObject);
 
-        System.out.println("Saved Position: "+ lastNonCollision);
+//        System.out.println("Saved Position: "+ lastNonCollision);
 
         float droneLeftRight = movingObject.getX(movingObject.getPos());
         float droneForwardBack = movingObject.getY(movingObject.getPos());
