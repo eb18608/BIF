@@ -207,15 +207,15 @@ public class GameSketch extends PApplet{
 
     public void setup() {
         frameRate(30);
-        drone = new DroneObject(105, 16,  0, 0, 0, scale, "textured_circular_drone_sans_propellers.obj");
+        drone = new DroneObject(this, 105, 16,  0, 0, 0, scale, "textured_circular_drone_sans_propellers.obj");
         movingObject.setMovementSize(drone);
         float width = 400 * scale;
         float height = 600 * scale;
         float depth = 400 * scale;
-        buildings[0] = new BuildingObject(width, height, depth, 300, height/2, 300, "textured_drone_sans_propellers.obj");
-        buildings[1] = new BuildingObject(width, height, depth, 300, height/2, 720, "textured_drone_sans_propellers.obj");
-        buildings[2] = new BuildingObject(width, height, depth, 720, height/2, 300, "textured_drone_sans_propellers.obj");
-        buildings[3] = new BuildingObject(width, height, depth, 720, height/2, 720, "textured_drone_sans_propellers.obj");
+        buildings[0] = new BuildingObject(this, width, height, depth, 300, height/2, 300, "textured_drone_sans_propellers.obj");
+        buildings[1] = new BuildingObject(this, width, height, depth, 300, height/2, 720, "textured_drone_sans_propellers.obj");
+        buildings[2] = new BuildingObject(this, width, height, depth, 720, height/2, 300, "textured_drone_sans_propellers.obj");
+        buildings[3] = new BuildingObject(this, width, height, depth, 720, height/2, 720, "textured_drone_sans_propellers.obj");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");

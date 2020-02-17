@@ -1,21 +1,22 @@
 package com.bioinspiredflight;
 
+import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
 
 public class DroneObject extends GameObject {
     float h, di;
     final float scale;
-    PVector coords;
-    PShape body, propellerFL, propellerFR, propellerBL, propellerBR;
+    PShape propellerFL, propellerFR, propellerBL, propellerBR;
 
 
-    public DroneObject(float diameter, float hei, float x, float y, float z,
+    public DroneObject(PApplet sketch, float diameter, float hei, float x, float y, float z,
                        final float s, String droneFilename) {
         h = hei;
         di = diameter;
         coords = new PVector(x, y, z);
-        body = loadShape(droneFilename);
+        this.sketch = sketch;
+        body = this.sketch.loadShape(droneFilename);
 //            System.out.printf("Initial depth: %.3f\n", body.getDepth());
         scale = s;
         body.scale(scale);
@@ -27,7 +28,7 @@ public class DroneObject extends GameObject {
     }
 
     private PShape loadPropeller(float scale) {
-        PShape shape = loadShape("textured_propeller.obj");
+        PShape shape = sketch.loadShape("textured_propeller.obj");
         shape.scale(scale);
         return shape;
     }
@@ -50,35 +51,35 @@ public class DroneObject extends GameObject {
         final float propellerXZ = 22f * this.scale;
         final float propellerY = 2f * this.scale;
 
-        shape(body);
+        sketch.shape(body);
 
-        pushMatrix();
-        translate(-propellerXZ, propellerY, propellerXZ);
-        shape(propellerFL);
-        popMatrix();
+        sketch.pushMatrix();
+        sketch.translate(-propellerXZ, propellerY, propellerXZ);
+        sketch.shape(propellerFL);
+        sketch.popMatrix();
 
-        pushMatrix();
-        translate(propellerXZ, propellerY, propellerXZ);
-        shape(propellerFR);
-        popMatrix();
+        sketch.pushMatrix();
+        sketch.translate(propellerXZ, propellerY, propellerXZ);
+        sketch.shape(propellerFR);
+        sketch.popMatrix();
 
-        pushMatrix();
-        translate(-propellerXZ, propellerY, -propellerXZ);
-        shape(propellerBL);
-        popMatrix();
+        sketch.pushMatrix();
+        sketch.translate(-propellerXZ, propellerY, -propellerXZ);
+        sketch.shape(propellerBL);
+        sketch.popMatrix();
 
-        pushMatrix();
-        translate(propellerXZ, propellerY, -propellerXZ);
-        shape(propellerBR);
-        popMatrix();
+        sketch.pushMatrix();
+        sketch.translate(propellerXZ, propellerY, -propellerXZ);
+        sketch.shape(propellerBR);
+        sketch.popMatrix();
     }
 
     public void spinPropellers(float multiplier) {
-        pushMatrix();
+        sketch.pushMatrix();
         this.propellerFL.rotateY(multiplier);
         this.propellerFR.rotateY(-multiplier);
         this.propellerBL.rotateY(multiplier);
         this.propellerBR.rotateY(-multiplier);
-        popMatrix();
+        sketch.popMatrix();
     }
 }

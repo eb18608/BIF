@@ -11,8 +11,9 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
-public abstract class GameObject extends PApplet {
+public abstract class GameObject {
     PShape body;
     PVector coords;
+    PApplet sketch;
 
 }

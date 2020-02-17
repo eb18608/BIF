@@ -1,19 +1,20 @@
 package com.bioinspiredflight;
 
+import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
 
 public class BuildingObject extends GameObject {
     private float h, w, d;
-    private PVector coords;
-    PShape body;
 
-    public BuildingObject(float wid, float hei, float dep, float x, float y, float z, String buildingFilename) {
+    public BuildingObject(PApplet sketch, float wid, float hei, float dep,
+                          float x, float y, float z, String buildingFilename) {
         h = hei;
         w = wid;
         d = dep;
         coords = new PVector(x, y, z);
-        body = loadShape(buildingFilename);
+        this.sketch = sketch;
+        body = this.sketch.loadShape(buildingFilename);
     }
     public PVector getCoords(){
         return this.coords;
@@ -31,6 +32,6 @@ public class BuildingObject extends GameObject {
     }
 
     public void draw() {
-        shape(body);
+        sketch.shape(body);
     }
 }
