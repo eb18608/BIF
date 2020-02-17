@@ -1,6 +1,6 @@
 package com.bioinspiredflight.physics;
 
-import com.bioinspiredflight.GameObject;
+import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.GameSketch;
 
 

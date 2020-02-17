@@ -1,12 +1,8 @@
 package com.bioinspiredflight.physics;
 
-import com.bioinspiredflight.GameObject;
 import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.ui.InputToOutput;
 
-import javax.vecmath.Vector3d;
-
-import processing.core.PApplet;
 import processing.core.PVector;
 
 public class ControlMod implements ModVisitable{

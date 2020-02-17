@@ -1,7 +1,7 @@
 package com.bioinspiredflight.physics;
 
-import com.bioinspiredflight.BuildingObject;
-import com.bioinspiredflight.GameObject;
+import com.bioinspiredflight.gameobjects.BuildingObject;
+import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.GameSketch;
 
 import processing.core.PVector;

@@ -1,22 +1,23 @@
-package com.bioinspiredflight;
+package com.bioinspiredflight.gameobjects;
+
+import com.bioinspiredflight.gameobjects.GameObject;
 
 import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
 
 public class DroneObject extends GameObject {
-    float h, di;
+    float h;
+    public float di;    //keeping this public for optimization reasons
     final float scale;
     PShape propellerFL, propellerFR, propellerBL, propellerBR;
 
 
     public DroneObject(PApplet sketch, float diameter, float hei, float x, float y, float z,
                        final float s, String droneFilename) {
+        super(sketch, x, y, z, droneFilename);
         h = hei;
         di = diameter;
-        coords = new PVector(x, y, z);
-        this.sketch = sketch;
-        body = this.sketch.loadShape(droneFilename);
 //            System.out.printf("Initial depth: %.3f\n", body.getDepth());
         scale = s;
         body.scale(scale);

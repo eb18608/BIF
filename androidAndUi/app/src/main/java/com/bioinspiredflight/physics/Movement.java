@@ -1,9 +1,9 @@
 package com.bioinspiredflight.physics;
 
 
-import com.bioinspiredflight.BuildingObject;
-import com.bioinspiredflight.DroneObject;
-import com.bioinspiredflight.GameSketch;
+import com.bioinspiredflight.gameobjects.BuildingObject;
+import com.bioinspiredflight.gameobjects.DroneObject;
+
 import processing.core.PVector;
 
 import static androidx.core.math.MathUtils.clamp;

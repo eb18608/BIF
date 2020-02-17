@@ -1,17 +1,15 @@
 package com.bioinspiredflight;
 
+import com.bioinspiredflight.gameobjects.BuildingObject;
+import com.bioinspiredflight.gameobjects.DroneObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.ModVisitor;
 import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.ui.InputToOutput;
-import com.bioinspiredflight.GameObject;
-import com.bioinspiredflight.BuildingObject;
-import com.bioinspiredflight.DroneObject;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-import processing.core.PShape;
 import processing.core.PVector;
 
 /**

@@ -1,7 +1,8 @@
-package com.bioinspiredflight;
+package com.bioinspiredflight.gameobjects;
+
+import com.bioinspiredflight.gameobjects.GameObject;
 
 import processing.core.PApplet;
-import processing.core.PShape;
 import processing.core.PVector;
 
 public class BuildingObject extends GameObject {
@@ -9,12 +10,10 @@ public class BuildingObject extends GameObject {
 
     public BuildingObject(PApplet sketch, float wid, float hei, float dep,
                           float x, float y, float z, String buildingFilename) {
+        super(sketch, x, y, z, buildingFilename);
         h = hei;
         w = wid;
         d = dep;
-        coords = new PVector(x, y, z);
-        this.sketch = sketch;
-        body = this.sketch.loadShape(buildingFilename);
     }
     public PVector getCoords(){
         return this.coords;
