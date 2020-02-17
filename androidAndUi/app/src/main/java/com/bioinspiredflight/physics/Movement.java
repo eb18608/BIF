@@ -1,6 +1,8 @@
 package com.bioinspiredflight.physics;
 
 
+import com.bioinspiredflight.BuildingObject;
+import com.bioinspiredflight.DroneObject;
 import com.bioinspiredflight.GameSketch;
 import processing.core.PVector;
 
@@ -33,7 +35,7 @@ public class Movement {
         this.height = height;
         this.radius = radius;
     }
-    public void setMovementSize(GameSketch.droneObject drone){
+    public void setMovementSize(DroneObject drone){
         this.radius = drone.getDi()/2;
         this.height = drone.getH();
     }
@@ -299,7 +301,7 @@ public class Movement {
 
     //Circle to box collisions only happen at X and Z (Z is the our Y co-ordinate)
 
-    public boolean  collisionDetectorXY(Movement drone, GameSketch.buildingObject object2){
+    public boolean  collisionDetectorXY(Movement drone, BuildingObject object2){
 //        System.out.println("Called XY Collision detector");
         //Create Vectors for: Centre for drone and building, differences, clamps
         PVector droneCentre = new PVector(0.0f, 0.0f);
@@ -314,12 +316,12 @@ public class Movement {
         droneCentre.y = drone.getY(pos);
 
         //Assign Object's centre:
-        objectCentre.x = object2.coords.x;
-        objectCentre.y = object2.coords.z;
+        objectCentre.x = object2.getCoords().x;
+        objectCentre.y = object2.getCoords().z;
 
         //Set object's bounds:
-        objectBounds.x = object2.w/2;
-        objectBounds.y = object2.d/2;
+        objectBounds.x = object2.getW()/2;
+        objectBounds.y = object2.getD()/2;
 
         //Get difference vector (of centre's)
         centreDifference.x = droneCentre.x - objectCentre.x;
@@ -384,13 +386,13 @@ public class Movement {
 //        return lengthOfDiff < drone.width;
     }
 
-    public boolean collisionDetectorZ(Movement drone, GameSketch.buildingObject object2){
+    public boolean collisionDetectorZ(Movement drone, BuildingObject object2){
 //        System.out.println("Called Z Collision detector");
         double droneZmax = drone.getZ(pos) + drone.height/2;
-        double objectZmax = object2.coords.y + object2.h/2;
+        double objectZmax = object2.getCoords().y + object2.getH()/2;
 
         double droneZmin = drone.getZ(pos) - drone.height/2;
-        double objectZmin = object2.coords.y - object2.h/2;
+        double objectZmin = object2.getCoords().y - object2.getH()/2;
 
         boolean overlapZ;
         if(droneZmax > objectZmin && droneZmax < objectZmax){
@@ -412,7 +414,7 @@ public class Movement {
         return length;
     }
 
-    public void isCollision(Movement drone, GameSketch.buildingObject object2){
+    public void isCollision(Movement drone, BuildingObject object2){
 //        System.out.println("isCollision used to check");
         if(collisionDetectorXY(drone,object2) && collisionDetectorZ(drone, object2)){
             drone.collided = true;

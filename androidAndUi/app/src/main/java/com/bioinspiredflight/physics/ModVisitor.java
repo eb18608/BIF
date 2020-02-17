@@ -1,5 +1,7 @@
 package com.bioinspiredflight.physics;
 
+import com.bioinspiredflight.BuildingObject;
+import com.bioinspiredflight.GameObject;
 import com.bioinspiredflight.GameSketch;
 
 import processing.core.PVector;
@@ -54,6 +56,13 @@ public class ModVisitor implements Visitor{
         movement.setPos(sketch.getLastPosition());
     }
 
+    @Override
+    public void visit(CollideMod collide, Movement movement, GameSketch sketch, GameObject gameObject) {
+        if (gameObject instanceof BuildingObject) {
+            movement.setVel(collide.collideMod);
+            movement.setPos(sketch.getLastPosition());
+        }
+    }
 //    @Override
 //    public void visit(ControlMod control, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone) {
 //        //System.out.println(control.controlMod.toString());

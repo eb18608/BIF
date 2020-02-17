@@ -5,6 +5,9 @@ import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.ModVisitor;
 import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.ui.InputToOutput;
+import com.bioinspiredflight.GameObject;
+import com.bioinspiredflight.BuildingObject;
+import com.bioinspiredflight.DroneObject;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -37,107 +40,121 @@ public class GameSketch extends PApplet{
         this.collideMod = collideMod;
     }
 
-    public class droneObject {
-        float h, di;
-        final float scale;
-        PVector coords;
-        PShape body, propellerFL, propellerFR, propellerBL, propellerBR;
+//    public class droneObject {
+//        float h, di;
+//        final float scale;
+//        PVector coords;
+//        PShape body, propellerFL, propellerFR, propellerBL, propellerBR;
+//
+//        public droneObject(float diameter, float hei, float x, float y, float z,
+//                           final float s) {
+//            h = hei;
+//            di = diameter;
+//            coords = new PVector(x, y, z);
+//            body = loadShape("textured_circular_drone_sans_propellers.obj");
+////            System.out.printf("Initial depth: %.3f\n", body.getDepth());
+//            scale = s;
+//            body.scale(scale);
+////            System.out.printf("Scaled depth: %.3f\n", body.getDepth());
+//            propellerFL = loadPropeller(scale);
+//            propellerFR = loadPropeller(scale);
+//            propellerBL = loadPropeller(scale);
+//            propellerBR = loadPropeller(scale);
+//        }
+//
+//        private PShape loadPropeller(float scale){
+//            PShape shape = loadShape("textured_propeller.obj");
+//            shape.scale(scale);
+//            return shape;
+//        }
+//
+//        public void move(float x, float y, float z) {
+//            coords.x = x;
+//            coords.y = y;
+//            coords.z = z;
+//        }
+//
+//        public float getH() {
+//            return h;
+//        }
+//
+//        public float getDi() {
+//            return di;
+//        }
+//
+//        public void draw() {
+//            final float propellerXZ = 22f * this.scale;
+//            final float propellerY = 2f * this.scale;
+//
+//            shape(body);
+//
+//            pushMatrix();
+//            translate(-propellerXZ, propellerY, propellerXZ);
+//            shape(propellerFL);
+//            popMatrix();
+//
+//            pushMatrix();
+//            translate(propellerXZ, propellerY, propellerXZ);
+//            shape(propellerFR);
+//            popMatrix();
+//
+//            pushMatrix();
+//            translate(-propellerXZ, propellerY, -propellerXZ);
+//            shape(propellerBL);
+//            popMatrix();
+//
+//            pushMatrix();
+//            translate(propellerXZ, propellerY, -propellerXZ);
+//            shape(propellerBR);
+//            popMatrix();
+//        }
+//
+//        public void spinPropellers(float multiplier) {
+//            pushMatrix();
+//            drone.propellerFL.rotateY(multiplier);
+//            drone.propellerFR.rotateY(-multiplier);
+//            drone.propellerBL.rotateY(multiplier);
+//            drone.propellerBR.rotateY(-multiplier);
+//            popMatrix();
+//        }
+//    }
 
-        public droneObject(float diameter, float hei, float x, float y, float z,
-                           final float s) {
-            h = hei;
-            di = diameter;
-            coords = new PVector(x, y, z);
-            body = loadShape("textured_circular_drone_sans_propellers.obj");
-//            System.out.printf("Initial depth: %.3f\n", body.getDepth());
-            scale = s;
-            body.scale(scale);
-//            System.out.printf("Scaled depth: %.3f\n", body.getDepth());
-            propellerFL = loadPropeller(scale);
-            propellerFR = loadPropeller(scale);
-            propellerBL = loadPropeller(scale);
-            propellerBR = loadPropeller(scale);
-        }
-
-        private PShape loadPropeller(float scale){
-            PShape shape = loadShape("textured_propeller.obj");
-            shape.scale(scale);
-            return shape;
-        }
-
-        public void move(float x, float y, float z) {
-            coords.x = x;
-            coords.y = y;
-            coords.z = z;
-        }
-
-        public float getH() {
-            return h;
-        }
-
-        public float getDi() {
-            return di;
-        }
-
-        public void draw() {
-            final float propellerXZ = 22f * this.scale;
-            final float propellerY = 2f * this.scale;
-
-            shape(body);
-
-            pushMatrix();
-            translate(-propellerXZ, propellerY, propellerXZ);
-            shape(propellerFL);
-            popMatrix();
-
-            pushMatrix();
-            translate(propellerXZ, propellerY, propellerXZ);
-            shape(propellerFR);
-            popMatrix();
-
-            pushMatrix();
-            translate(-propellerXZ, propellerY, -propellerXZ);
-            shape(propellerBL);
-            popMatrix();
-
-            pushMatrix();
-            translate(propellerXZ, propellerY, -propellerXZ);
-            shape(propellerBR);
-            popMatrix();
-        }
-
-        public void spinPropellers(float multiplier) {
-            pushMatrix();
-            drone.propellerFL.rotateY(multiplier);
-            drone.propellerFR.rotateY(-multiplier);
-            drone.propellerBL.rotateY(multiplier);
-            drone.propellerBR.rotateY(-multiplier);
-            popMatrix();
-        }
-    }
-
-    public class buildingObject {
-        public float h, w, d;
-        public PVector coords;
-        PShape body;
-
-        public buildingObject(float wid, float hei, float dep, float x, float y, float z) {
-            h = hei;
-            w = wid;
-            d = dep;
-            coords = new PVector(x, y, z);
-            body = loadShape("textured_drone_sans_propellers.obj");
-        }
-
-        public void draw() {
-            shape(body);
-        }
-    }
+//    public class buildingObject {
+//        private float h, w, d;
+//        private PVector coords;
+//        PShape body;
+//
+//        public buildingObject(float wid, float hei, float dep, float x, float y, float z) {
+//            h = hei;
+//            w = wid;
+//            d = dep;
+//            coords = new PVector(x, y, z);
+//            body = loadShape("textured_drone_sans_propellers.obj");
+//        }
+//        public PVector getCoords(){
+//            return this.coords;
+//        }
+//        public float getH(){
+//            return h;
+//        }
+//
+//        public float getW() {
+//            return w;
+//        }
+//
+//        public float getD() {
+//            return d;
+//        }
+//
+//        public void draw() {
+//            shape(body);
+//        }
+//    }
 
     PImage texture;
     PImage droneIcon;
-    droneObject drone;
-    buildingObject[] buildings = new buildingObject[4];
+    DroneObject drone;
+    BuildingObject[] buildings = new BuildingObject[4];
     float rotation;
 
     public void setCamera(float scale) {
@@ -178,9 +195,9 @@ public class GameSketch extends PApplet{
         endShape();
     }
 
-    public float distanceToDrone(buildingObject b) {
-        float x = Math.abs(drone.coords.x - b.coords.x);
-        float z = Math.abs(drone.coords.z - b.coords.z);
+    public float distanceToDrone(BuildingObject b) {
+        float x = Math.abs(drone.coords.x - b.getCoords().x);
+        float z = Math.abs(drone.coords.z - b.getCoords().z);
         return (float)Math.sqrt((x*x) + (z*z));
     }
 
@@ -190,15 +207,15 @@ public class GameSketch extends PApplet{
 
     public void setup() {
         frameRate(30);
-        drone = new droneObject(105, 16,  0, 0, 0, scale);
+        drone = new DroneObject(105, 16,  0, 0, 0, scale, "textured_circular_drone_sans_propellers.obj");
         movingObject.setMovementSize(drone);
         float width = 400 * scale;
         float height = 600 * scale;
         float depth = 400 * scale;
-        buildings[0] = new buildingObject(width, height, depth, 300, height/2, 300);
-        buildings[1] = new buildingObject(width, height, depth, 300, height/2, 720);
-        buildings[2] = new buildingObject(width, height, depth, 720, height/2, 300);
-        buildings[3] = new buildingObject(width, height, depth, 720, height/2, 720);
+        buildings[0] = new BuildingObject(width, height, depth, 300, height/2, 300, "textured_drone_sans_propellers.obj");
+        buildings[1] = new BuildingObject(width, height, depth, 300, height/2, 720, "textured_drone_sans_propellers.obj");
+        buildings[2] = new BuildingObject(width, height, depth, 720, height/2, 300, "textured_drone_sans_propellers.obj");
+        buildings[3] = new BuildingObject(width, height, depth, 720, height/2, 720, "textured_drone_sans_propellers.obj");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
@@ -212,11 +229,11 @@ public class GameSketch extends PApplet{
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
 
-        for (buildingObject bd : buildings) {
+        for (BuildingObject bd : buildings) {
             pushMatrix();
-            translate(bd.coords.x - bd.w/2,
-                    bd.coords.y - bd.h/2, bd.coords.z - bd.d/2);
-            renderBuilding(bd.w, bd.h, bd.d);
+            translate(bd.getCoords().x - bd.getW()/2,
+                    bd.getCoords().y - bd.getH()/2, bd.getCoords().z - bd.getD()/2);
+            renderBuilding(bd.getW(), bd.getH(), bd.getD());
             //buildings[i].draw();
             popMatrix();
         }
@@ -245,12 +262,12 @@ public class GameSketch extends PApplet{
         rotate(-rotation);
         pushMatrix();
         translate(-drone.coords.x/10, drone.coords.z/10);
-        for (buildingObject b : buildings) {
-            if (distanceToDrone(b) + avg(b.w/2, b.d/2) < 1500) {
+        for (BuildingObject b : buildings) {
+            if (distanceToDrone(b) + avg(b.getW()/2, b.getD()/2) < 1500) {
                 pushMatrix();
-                translate(b.coords.x/10 - b.w/20, -b.coords.z/10 - b.d/20);
+                translate(b.getCoords().x/10 - b.getW()/20, -b.getCoords().z/10 - b.getD()/20);
                 fill(200);
-                rect(0, 0, b.w/10, b.d/10);
+                rect(0, 0, b.getW()/10, b.getD()/10);
                 popMatrix();
             }
         }
