@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
-public abstract class FileHandler {
+public abstract class AchievementsFileHandler {
 
     public static void createTestFile(Context context){
         File testFile = new File(context.getFilesDir(), "testing.txt");
@@ -31,9 +31,7 @@ public abstract class FileHandler {
             writer.close();
             FileInputStream inputStream = context.openFileInput("testing.txt");
             InputStreamReader inputStreamReader = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-            }
+            inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             StringBuilder builder = new StringBuilder();
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
@@ -57,9 +55,7 @@ public abstract class FileHandler {
         try {
             FileInputStream inputStream = context.openFileInput(fileName);
             InputStreamReader reader = null;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-            }
+            reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL);
             for (CSVRecord record : parser){
                 //enter data from record into hashtable

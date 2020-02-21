@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
 
-import com.bioinspiredflight.utilities.FileHandler;
+import com.bioinspiredflight.utilities.AchievementsFileHandler;
 
 import java.io.File;
 import java.util.TreeMap;
@@ -51,11 +51,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         boolean fileAlreadyExists =
-                FileHandler.checkIfFileExists(getApplicationContext(), achievementsFileName);
+                AchievementsFileHandler.checkIfFileExists(getApplicationContext(), achievementsFileName);
         if (!fileAlreadyExists){
             Toast.makeText(this, "Creating new achievements file", Toast.LENGTH_SHORT).show();
             TreeMap<String, String> achievementsTable = createNewAchievementsTable();
-            FileHandler.writeFile(
+            AchievementsFileHandler.writeFile(
                     getApplicationContext(),
                     achievementsFileName,
                     achievementsTable);
