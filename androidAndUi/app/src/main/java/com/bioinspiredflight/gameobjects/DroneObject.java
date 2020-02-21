@@ -1,6 +1,9 @@
 package com.bioinspiredflight.gameobjects;
 
+import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.gameobjects.GameObject;
+import com.bioinspiredflight.physics.CollideMod;
+import com.bioinspiredflight.physics.Movement;
 
 import processing.core.PApplet;
 import processing.core.PShape;
@@ -82,5 +85,10 @@ public class DroneObject extends GameObject {
         this.propellerBL.rotateY(multiplier);
         this.propellerBR.rotateY(-multiplier);
         sketch.popMatrix();
+    }
+
+    @Override
+    public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
+
     }
 }

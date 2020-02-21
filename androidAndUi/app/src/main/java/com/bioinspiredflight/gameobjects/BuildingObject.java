@@ -1,6 +1,9 @@
 package com.bioinspiredflight.gameobjects;
 
+import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.gameobjects.GameObject;
+import com.bioinspiredflight.physics.CollideMod;
+import com.bioinspiredflight.physics.Movement;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -32,5 +35,11 @@ public class BuildingObject extends GameObject {
 
     public void draw() {
         sketch.shape(body);
+    }
+
+    @Override
+    public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
+        movement.setVel(collideMod.collideMod);
+        movement.setPos(sketch.getLastPosition());
     }
 }

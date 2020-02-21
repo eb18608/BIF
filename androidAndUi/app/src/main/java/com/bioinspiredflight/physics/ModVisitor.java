@@ -58,10 +58,7 @@ public class ModVisitor implements Visitor{
 
     @Override
     public void visit(CollideMod collide, Movement movement, GameSketch sketch, GameObject gameObject) {
-        if (gameObject instanceof BuildingObject) {
-            movement.setVel(collide.collideMod);
-            movement.setPos(sketch.getLastPosition());
-        }
+        gameObject.collide(collide, movement, sketch);
     }
 //    @Override
 //    public void visit(ControlMod control, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone) {

@@ -4,7 +4,7 @@ package com.bioinspiredflight.gameobjects;
 import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
-public abstract class GameObject {
+public abstract class GameObject implements Interactable{
     PShape body;
     public PVector coords;  //keeping this public for optimization reasons
     PApplet sketch;

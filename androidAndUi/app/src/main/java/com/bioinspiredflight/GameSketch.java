@@ -291,7 +291,7 @@ public class GameSketch extends PApplet{
 
         if(movingObject.collided == true){
 //            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
-            collideMod.accept(visitor, movingObject, this);
+            collideMod.accept(visitor, movingObject, this, buildings[1]);
 
             movingObject.collided = false;
         } else {

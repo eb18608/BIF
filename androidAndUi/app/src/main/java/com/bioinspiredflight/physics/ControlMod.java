@@ -1,6 +1,7 @@
 package com.bioinspiredflight.physics;
 
 import com.bioinspiredflight.GameSketch;
+import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.ui.InputToOutput;
 
 import processing.core.PVector;
@@ -29,6 +30,11 @@ public class ControlMod implements ModVisitable{
     @Override
     public void accept(Visitor visit, Movement movement, GameSketch sketch) {
         visit.visit(this, movement, sketch);
+    }
+
+    @Override
+    public void accept(Visitor visit, Movement movement, GameSketch sketch, GameObject gameObject) {
+
     }
 
 
