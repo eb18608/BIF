@@ -8,4 +8,8 @@ public interface Interactable {
 
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch);
 
+    public boolean isDrone();
+
+    public void draw();
+
 }

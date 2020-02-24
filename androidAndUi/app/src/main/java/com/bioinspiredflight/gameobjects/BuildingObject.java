@@ -11,9 +11,21 @@ import processing.core.PVector;
 public class BuildingObject extends GameObject {
     private float h, w, d;
 
-    public BuildingObject(PApplet sketch, float wid, float hei, float dep,
-                          float x, float y, float z, String buildingFilename) {
-        super(sketch, x, y, z, buildingFilename);
+    public BuildingObject(GameSketch sketch, float x, float y, float z,
+                          float scale) {
+        super(sketch, x, y, z);
+        objectFileName = "textured_drone_sans_propellers.obj";
+        loadShape();
+        h = 600 * scale;
+        w = 400 * scale;
+        d = 400 * scale;
+    }
+
+    public BuildingObject(GameSketch sketch, float wid, float hei, float dep,
+                          float x, float y, float z) {
+        super(sketch, x, y, z);
+        objectFileName = "textured_drone_sans_propellers.obj";
+        loadShape();
         h = hei;
         w = wid;
         d = dep;
@@ -33,13 +45,21 @@ public class BuildingObject extends GameObject {
         return d;
     }
 
+    @Override
     public void draw() {
         sketch.shape(body);
+        sketch.renderBuilding(this.getW(), this.getH(), this.getD());
     }
 
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         movement.setVel(collideMod.collideMod);
         movement.setPos(sketch.getLastPosition());
+    }
+
+    @Override
+    public boolean isDrone() {
+        //return false
+        return false;
     }
 }

@@ -15,10 +15,28 @@ public class DroneObject extends GameObject {
     final float scale;
     PShape propellerFL, propellerFR, propellerBL, propellerBR;
 
+    public DroneObject(GameSketch sketch, float x, float y, float z,
+                       final float s) {
+        super(sketch, x, y, z);
+        objectFileName = "textured_circular_drone_sans_propellers.obj";
+        loadShape();
+        h =  16;
+        di = 105;
+//            System.out.printf("Initial depth: %.3f\n", body.getDepth());
+        scale = s;
+        body.scale(scale);
+//            System.out.printf("Scaled depth: %.3f\n", body.getDepth());
+        propellerFL = loadPropeller(scale);
+        propellerFR = loadPropeller(scale);
+        propellerBL = loadPropeller(scale);
+        propellerBR = loadPropeller(scale);
+    }
 
-    public DroneObject(PApplet sketch, float diameter, float hei, float x, float y, float z,
-                       final float s, String droneFilename) {
-        super(sketch, x, y, z, droneFilename);
+    public DroneObject(GameSketch sketch, float diameter, float hei, float x, float y, float z,
+                       final float s) {
+        super(sketch, x, y, z);
+        objectFileName = "textured_circular_drone_sans_propellers.obj";
+        loadShape();
         h = hei;
         di = diameter;
 //            System.out.printf("Initial depth: %.3f\n", body.getDepth());
@@ -51,7 +69,10 @@ public class DroneObject extends GameObject {
         return di;
     }
 
+    @Override
     public void draw() {
+        this.spinPropellers(0.3f);
+
         final float propellerXZ = 22f * this.scale;
         final float propellerY = 2f * this.scale;
 
@@ -90,5 +111,10 @@ public class DroneObject extends GameObject {
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
 
+    }
+
+    @Override
+    public boolean isDrone() {
+        return true;
     }
 }
