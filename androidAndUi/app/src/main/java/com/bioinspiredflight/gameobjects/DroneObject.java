@@ -10,16 +10,16 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 public class DroneObject extends GameObject {
-    float h;
+    //float h;
     public float di;    //keeping this public for optimization reasons
     final float scale;
     PShape propellerFL, propellerFR, propellerBL, propellerBR;
 
-    public DroneObject(GameSketch sketch, float x, float y, float z,
+    public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
                        final float s) {
-        super(sketch, x, y, z);
-        objectFileName = "textured_circular_drone_sans_propellers.obj";
-        loadShape();
+        super(sketch, body, x, y, z);
+        //objectFileName = "textured_circular_drone_sans_propellers.obj";
+        //loadShape();
         h =  16;
         di = 105;
 //            System.out.printf("Initial depth: %.3f\n", body.getDepth());
@@ -32,11 +32,11 @@ public class DroneObject extends GameObject {
         propellerBR = loadPropeller(scale);
     }
 
-    public DroneObject(GameSketch sketch, float diameter, float hei, float x, float y, float z,
+    public DroneObject(GameSketch sketch, PShape body, float diameter, float hei, float x, float y, float z,
                        final float s) {
-        super(sketch, x, y, z);
+        super(sketch, body, x, y, z);
         objectFileName = "textured_circular_drone_sans_propellers.obj";
-        loadShape();
+        //loadShape();
         h = hei;
         di = diameter;
 //            System.out.printf("Initial depth: %.3f\n", body.getDepth());

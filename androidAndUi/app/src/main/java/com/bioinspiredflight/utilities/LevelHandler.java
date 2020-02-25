@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -25,9 +26,11 @@ import processing.core.PApplet;
 public class LevelHandler {
 
     private Activity activity;
+    //private ArrayList<> objectivesAccomplished; ObjectiveObjects list here
 
     public LevelHandler(Activity activity){
         this.activity = activity;
+        //this.objectivesAccomplished = new ArrayList<>();
     }
 
     public void changeLevel(GameSketch sketch, GameObjectList gameObjects, String fileName){
@@ -49,10 +52,10 @@ public class LevelHandler {
         String key = entry.getKey();
         if (key.startsWith("drone")){
             gameObject =
-                    new DroneObject(sketch, data.getX(), data.getY(), data.getZ(), data.getScale());
+                    new DroneObject(sketch, sketch.getDroneBodyShape(), data.getX(), data.getY(), data.getZ(), data.getScale());
         } else if (key.startsWith("building")){
             gameObject =
-                    new BuildingObject(sketch, data.getX(), data.getY(), data.getZ(), data.getScale());
+                    new BuildingObject(sketch, sketch.getBuildingShape(), data.getX(), data.getY(), data.getZ(), data.getScale());
         } else if (key.startsWith("objective")){
 
         }

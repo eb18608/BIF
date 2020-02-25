@@ -57,9 +57,17 @@ public class GameObjectList {
         }
     }
 
-    public void drawInteractables(){
+    public void drawAllGameObjects(){
         for (GameObject gameObject : list){
             gameObject.draw();
+        }
+    }
+
+    public void drawNonDroneGameObjects(){
+        for (GameObject gameObject : list){
+            if (!gameObject.isDrone()){
+                gameObject.draw();
+            }
         }
     }
 

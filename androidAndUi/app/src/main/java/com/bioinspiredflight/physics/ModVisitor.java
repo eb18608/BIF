@@ -58,6 +58,7 @@ public class ModVisitor implements Visitor{
 
     @Override
     public void visit(CollideMod collide, Movement movement, GameSketch sketch, GameObject gameObject) {
+
         gameObject.collide(collide, movement, sketch);
     }
 //    @Override

@@ -13,6 +13,7 @@ import com.bioinspiredflight.utilities.LevelHandler;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PShape;
 import processing.core.PVector;
 
 /**
@@ -31,6 +32,9 @@ public class GameSketch extends PApplet{
     private PVector lastNonCollision = new PVector();
     private LevelHandler levelHandler;
     private GameObjectList gameObjects = new GameObjectList();
+
+    private PShape droneBodyShape;
+    private PShape buildingShape;
 
     public PVector getLastPosition(){ return lastNonCollision; }
 
@@ -211,9 +215,14 @@ public class GameSketch extends PApplet{
 
     public void setup() {
         frameRate(30);
+        droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
+        buildingShape = loadShape("textured_drone_sans_propellers.obj");
+
+
         levelHandler.changeLevel(this, gameObjects, "levels/level0.csv");
         drone = gameObjects.getDrone();
         movingObject.setMovementSize(drone);
+
         /*
         drone = new DroneObject(this, 105, 16,  0, 0, 0, scale);
         movingObject.setMovementSize(drone);
@@ -234,7 +243,7 @@ public class GameSketch extends PApplet{
         // 3D Section
         background(100);
         lights();
-        drone.spinPropellers(0.3f);
+        //drone.spinPropellers(0.3f);
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
 
@@ -248,14 +257,14 @@ public class GameSketch extends PApplet{
             popMatrix();
         }*/
 
+        gameObjects.drawNonDroneGameObjects();
 
         pushMatrix();
         rotation += io.getRotation() * rotationSpeed;
         io.setTotalRotation(-rotation);
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
-        //rotateY(rotation);
-        gameObjects.drawInteractables();
-        //drone.draw();
+        rotateY(rotation);
+        drone.draw();
         rotateY(-rotation);
         popMatrix();
     }
@@ -339,5 +348,21 @@ public class GameSketch extends PApplet{
 
     public void setLevelHandler(LevelHandler levelHandler){
         this.levelHandler = levelHandler;
+    }
+
+    public PShape getDroneBodyShape() {
+        return droneBodyShape;
+    }
+
+    public void setDroneBodyShape(PShape droneBodyShape) {
+        this.droneBodyShape = droneBodyShape;
+    }
+
+    public PShape getBuildingShape() {
+        return buildingShape;
+    }
+
+    public void setBuildingShape(PShape buildingShape) {
+        this.buildingShape = buildingShape;
     }
 }

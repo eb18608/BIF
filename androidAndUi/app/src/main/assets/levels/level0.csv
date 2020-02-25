@@ -1,5 +1,5 @@
 drone,0,0,0,1
-building0,300,300,300,1
-building1,300,300,720,1
-building2,720,300,300,1
-building3,720,300,720,1
+building0,1000,300,1000,1
+building1,1000,300,1800,1
+building2,1800,300,1000,1
+building3,1800,300,300,1
