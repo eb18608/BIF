@@ -1,6 +1,8 @@
 package com.bioinspiredflight.gameobjects;
 
+import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.gameobjects.GameObject;
+import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
 
 import processing.core.PApplet;
@@ -9,17 +11,35 @@ import processing.core.PVector;
 import java.lang.Math;
 
 public class DroneObject extends GameObject {
-    float h;
+    //float h;
     public float di;    //keeping this public for optimization reasons
     final float scale;
     float lrTilt = 0;
     float fbTilt = 0;
     PShape propellerFL, propellerFR, propellerBL, propellerBR;
 
+    public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
+                       final float s) {
+        super(sketch, body, x, y, z);
+        //objectFileName = "textured_circular_drone_sans_propellers.obj";
+        //loadShape();
+        h =  16;
+        di = 105;
+//            System.out.printf("Initial depth: %.3f\n", body.getDepth());
+        scale = s;
+        body.scale(scale);
+//            System.out.printf("Scaled depth: %.3f\n", body.getDepth());
+        propellerFL = loadPropeller(scale);
+        propellerFR = loadPropeller(scale);
+        propellerBL = loadPropeller(scale);
+        propellerBR = loadPropeller(scale);
+    }
 
-    public DroneObject(PApplet sketch, float diameter, float hei, float x, float y, float z,
-                       final float s, String droneFilename) {
-        super(sketch, x, y, z, droneFilename);
+    public DroneObject(GameSketch sketch, PShape body, float diameter, float hei, float x, float y, float z,
+                       final float s) {
+        super(sketch, body, x, y, z);
+        objectFileName = "textured_circular_drone_sans_propellers.obj";
+        //loadShape();
         h = hei;
         di = diameter;
 //            System.out.printf("Initial depth: %.3f\n", body.getDepth());
@@ -52,7 +72,10 @@ public class DroneObject extends GameObject {
         return di;
     }
 
-    public void draw(Movement movingObject) {
+    @Override
+    public void draw3D() {
+        this.spinPropellers(0.3f);
+
         final float propellerXZ = 22f * this.scale;
         final float propellerY = 2f * this.scale;
         PVector vel = movingObject.getVel();
@@ -107,6 +130,11 @@ public class DroneObject extends GameObject {
         sketch.popMatrix();
     }
 
+    @Override
+    public void draw2D() {
+
+    }
+
     public void spinPropellers(float multiplier) {
         sketch.pushMatrix();
         this.propellerFL.rotateY(multiplier);
@@ -114,5 +142,15 @@ public class DroneObject extends GameObject {
         this.propellerBL.rotateY(multiplier);
         this.propellerBR.rotateY(-multiplier);
         sketch.popMatrix();
+    }
+
+    @Override
+    public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
+
+    }
+
+    @Override
+    public boolean isDrone() {
+        return true;
     }
 }

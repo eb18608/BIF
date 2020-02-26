@@ -17,6 +17,7 @@ import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.ui.InputToOutput;
 import com.bioinspiredflight.ui.Ui;
+import com.bioinspiredflight.utilities.LevelHandler;
 
 import javax.vecmath.Vector3d;
 
@@ -31,6 +32,7 @@ public class GameActivity extends AppCompatActivity {
     private ControlMod controlMod;
     private SharedPreferences preferences;
     private CollideMod collideMod;
+    private LevelHandler levelHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +60,12 @@ public class GameActivity extends AppCompatActivity {
         final Ui ui = new Ui(this, io, sliderToggle);
         this.controlMod = new ControlMod(io);
         this.collideMod = new CollideMod(new PVector(0.0f,0.0f,0.0f));
+        levelHandler = new LevelHandler(this);
         PFragment pFragment = new PFragment(sketch);
         pFragment.setView(frame, this);
         ui.drawUi(uiLayout);
         sketch.setMovingObject(movingObject, controlMod, io, collideMod);
+        sketch.setLevelHandler(levelHandler);
     }
 
     @Override

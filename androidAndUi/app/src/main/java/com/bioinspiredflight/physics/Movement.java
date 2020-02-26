@@ -3,6 +3,7 @@ package com.bioinspiredflight.physics;
 
 import com.bioinspiredflight.gameobjects.BuildingObject;
 import com.bioinspiredflight.gameobjects.DroneObject;
+import com.bioinspiredflight.gameobjects.GameObject;
 
 import processing.core.PVector;
 
@@ -301,7 +302,7 @@ public class Movement {
 
     //Circle to box collisions only happen at X and Z (Z is the our Y co-ordinate)
 
-    public boolean  collisionDetectorXY(Movement drone, BuildingObject object2){
+    public boolean  collisionDetectorXY(Movement drone, GameObject object2){
 //        System.out.println("Called XY Collision detector");
         //Create Vectors for: Centre for drone and building, differences, clamps
         PVector droneCentre = new PVector(0.0f, 0.0f);
@@ -386,7 +387,7 @@ public class Movement {
 //        return lengthOfDiff < drone.width;
     }
 
-    public boolean collisionDetectorZ(Movement drone, BuildingObject object2){
+    public boolean collisionDetectorZ(Movement drone, GameObject object2){
 //        System.out.println("Called Z Collision detector");
         double droneZmax = drone.getZ(pos) + drone.height/2;
         double objectZmax = object2.getCoords().y + object2.getH()/2;
@@ -414,7 +415,7 @@ public class Movement {
         return length;
     }
 
-    public void isCollision(Movement drone, BuildingObject object2){
+    public void isCollision(Movement drone, GameObject object2){
 //        System.out.println("isCollision used to check");
         if(collisionDetectorXY(drone,object2) && collisionDetectorZ(drone, object2)){
             drone.collided = true;

@@ -1,10 +1,8 @@
 package com.bioinspiredflight;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
@@ -12,19 +10,12 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bioinspiredflight.utilities.FileHandler;
-import com.google.android.material.tabs.TabLayout;
+import com.bioinspiredflight.utilities.AchievementsFileHandler;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -45,7 +36,7 @@ public class AchievementsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             //actionBar.setHomeButtonEnabled(true);
         }
-        //FileHandler.createTestFile(getApplicationContext());
+        //AchievementsFileHandler.createTestFile(getApplicationContext());
     }
 
     private void displayAchievements(TableLayout tableLayout,
@@ -73,9 +64,7 @@ public class AchievementsActivity extends AppCompatActivity {
             text2 = new TextView(this);
             text2.setText(string2);
             text2.setLayoutParams(statusRowParams);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                text2.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-            }
+            text2.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             currentRow = new TableRow(this);
             currentRow.addView(text1);
             currentRow.addView(text2);
@@ -94,10 +83,10 @@ public class AchievementsActivity extends AppCompatActivity {
 
     private TreeMap<String, String> getAchievementsTable(){
         boolean fileAlreadyExists =
-                FileHandler.checkIfFileExists(getApplicationContext(), achievementsFileName);
+                AchievementsFileHandler.checkIfFileExists(getApplicationContext(), achievementsFileName);
         TreeMap<String, String> achievementsTable;
         achievementsTable =
-                FileHandler.readFile(getApplicationContext(), achievementsFileName);
+                AchievementsFileHandler.readFile(getApplicationContext(), achievementsFileName);
         return achievementsTable;
     }
 
