@@ -89,7 +89,7 @@ public class GameSketch extends PApplet{
 //            return di;
 //        }
 //
-//        public void draw() {
+//        public void draw3D() {
 //            final float propellerXZ = 22f * this.scale;
 //            final float propellerY = 2f * this.scale;
 //
@@ -153,7 +153,7 @@ public class GameSketch extends PApplet{
 //            return d;
 //        }
 //
-//        public void draw() {
+//        public void draw3D() {
 //            shape(body);
 //        }
 //    }
@@ -253,18 +253,18 @@ public class GameSketch extends PApplet{
             translate(bd.getCoords().x - bd.getW()/2,
                     bd.getCoords().y - bd.getH()/2, bd.getCoords().z - bd.getD()/2);
             renderBuilding(bd.getW(), bd.getH(), bd.getD());
-            //buildings[i].draw();
+            //buildings[i].draw3D();
             popMatrix();
         }*/
 
-        gameObjects.drawNonDroneGameObjects();
+        gameObjects.drawNonDroneGameObjects3D();
 
         pushMatrix();
         rotation += io.getRotation() * rotationSpeed;
         io.setTotalRotation(-rotation);
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
         rotateY(rotation);
-        drone.draw();
+        drone.draw3D();
         rotateY(-rotation);
         popMatrix();
     }
@@ -283,15 +283,8 @@ public class GameSketch extends PApplet{
         rotate(-rotation);
         pushMatrix();
         translate(-drone.coords.x/10, drone.coords.z/10);
-        for (BuildingObject b : buildings) {
-            if (distanceToDrone(b) + avg(b.getW()/2, b.getD()/2) < 1500) {
-                pushMatrix();
-                translate(b.getCoords().x/10 - b.getW()/20, -b.getCoords().z/10 - b.getD()/20);
-                fill(200);
-                rect(0, 0, b.getW()/10, b.getD()/10);
-                popMatrix();
-            }
-        }
+        //draw object icons here
+        gameObjects.drawAllGameObjects2D();
         popMatrix();
         popMatrix();
         fill(0);
@@ -338,7 +331,7 @@ public class GameSketch extends PApplet{
                 gameObjects.get(1).coords.y,
                 gameObjects.get(1).coords.z);
         System.out.printf("Collided2: %b\n", movingObject.collided);
-        //draw2d();
+        draw2d();
 
     }
     public void settings() {

@@ -10,6 +10,7 @@ public interface Interactable {
 
     public boolean isDrone();
 
-    public void draw();
+    public void draw3D();
 
+    public void draw2D();
 }

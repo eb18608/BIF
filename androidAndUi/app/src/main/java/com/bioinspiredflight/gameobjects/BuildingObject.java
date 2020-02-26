@@ -47,7 +47,7 @@ public class BuildingObject extends GameObject {
     }
 
     @Override
-    public void draw() {
+    public void draw3D() {
         //WE NEED THIS CODE FOR FUTURE REFERENCE
         //PLEASE DON'T DELETE
 
@@ -65,6 +65,17 @@ public class BuildingObject extends GameObject {
                 getCoords().y - getH()/2, getCoords().z - getD()/2);
         sketch.renderBuilding(this.getW(), this.getH(), this.getD());
         sketch.popMatrix();
+    }
+
+    @Override
+    public void draw2D() {
+        if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) {
+            sketch.pushMatrix();
+            sketch.translate(this.getCoords().x/10 - this.getW()/20, -this.getCoords().z/10 - this.getD()/20);
+            sketch.fill(200);
+            sketch.rect(0, 0, this.getW()/10, this.getD()/10);
+            sketch.popMatrix();
+        }
     }
 
     @Override

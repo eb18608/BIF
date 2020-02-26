@@ -70,7 +70,7 @@ public class DroneObject extends GameObject {
     }
 
     @Override
-    public void draw() {
+    public void draw3D() {
         this.spinPropellers(0.3f);
 
         final float propellerXZ = 22f * this.scale;
@@ -97,6 +97,11 @@ public class DroneObject extends GameObject {
         sketch.translate(propellerXZ, propellerY, -propellerXZ);
         sketch.shape(propellerBR);
         sketch.popMatrix();
+    }
+
+    @Override
+    public void draw2D() {
+
     }
 
     public void spinPropellers(float multiplier) {

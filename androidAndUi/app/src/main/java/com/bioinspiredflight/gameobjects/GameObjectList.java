@@ -1,8 +1,5 @@
 package com.bioinspiredflight.gameobjects;
 
-import com.bioinspiredflight.gameobjects.DroneObject;
-import com.bioinspiredflight.gameobjects.GameObject;
-import com.bioinspiredflight.gameobjects.Interactable;
 import com.bioinspiredflight.physics.Movement;
 
 import java.util.ArrayList;
@@ -57,16 +54,22 @@ public class GameObjectList {
         }
     }
 
-    public void drawAllGameObjects(){
+    public void drawAllGameObjects3D(){
         for (GameObject gameObject : list){
-            gameObject.draw();
+            gameObject.draw3D();
         }
     }
 
-    public void drawNonDroneGameObjects(){
+    public void drawAllGameObjects2D(){
+        for (GameObject gameObject : list){
+            gameObject.draw2D();
+        }
+    }
+
+    public void drawNonDroneGameObjects3D(){
         for (GameObject gameObject : list){
             if (!gameObject.isDrone()){
-                gameObject.draw();
+                gameObject.draw3D();
             }
         }
     }
