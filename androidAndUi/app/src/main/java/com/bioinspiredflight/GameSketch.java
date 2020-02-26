@@ -38,117 +38,6 @@ public class GameSketch extends PApplet{
         this.collideMod = collideMod;
     }
 
-//    public class droneObject {
-//        float h, di;
-//        final float scale;
-//        PVector coords;
-//        PShape body, propellerFL, propellerFR, propellerBL, propellerBR;
-//
-//        public droneObject(float diameter, float hei, float x, float y, float z,
-//                           final float s) {
-//            h = hei;
-//            di = diameter;
-//            coords = new PVector(x, y, z);
-//            body = loadShape("textured_circular_drone_sans_propellers.obj");
-////            System.out.printf("Initial depth: %.3f\n", body.getDepth());
-//            scale = s;
-//            body.scale(scale);
-////            System.out.printf("Scaled depth: %.3f\n", body.getDepth());
-//            propellerFL = loadPropeller(scale);
-//            propellerFR = loadPropeller(scale);
-//            propellerBL = loadPropeller(scale);
-//            propellerBR = loadPropeller(scale);
-//        }
-//
-//        private PShape loadPropeller(float scale){
-//            PShape shape = loadShape("textured_propeller.obj");
-//            shape.scale(scale);
-//            return shape;
-//        }
-//
-//        public void move(float x, float y, float z) {
-//            coords.x = x;
-//            coords.y = y;
-//            coords.z = z;
-//        }
-//
-//        public float getH() {
-//            return h;
-//        }
-//
-//        public float getDi() {
-//            return di;
-//        }
-//
-//        public void draw() {
-//            final float propellerXZ = 22f * this.scale;
-//            final float propellerY = 2f * this.scale;
-//
-//            shape(body);
-//
-//            pushMatrix();
-//            translate(-propellerXZ, propellerY, propellerXZ);
-//            shape(propellerFL);
-//            popMatrix();
-//
-//            pushMatrix();
-//            translate(propellerXZ, propellerY, propellerXZ);
-//            shape(propellerFR);
-//            popMatrix();
-//
-//            pushMatrix();
-//            translate(-propellerXZ, propellerY, -propellerXZ);
-//            shape(propellerBL);
-//            popMatrix();
-//
-//            pushMatrix();
-//            translate(propellerXZ, propellerY, -propellerXZ);
-//            shape(propellerBR);
-//            popMatrix();
-//        }
-//
-//        public void spinPropellers(float multiplier) {
-//            pushMatrix();
-//            drone.propellerFL.rotateY(multiplier);
-//            drone.propellerFR.rotateY(-multiplier);
-//            drone.propellerBL.rotateY(multiplier);
-//            drone.propellerBR.rotateY(-multiplier);
-//            popMatrix();
-//        }
-//    }
-
-//    public class buildingObject {
-//        private float h, w, d;
-//        private PVector coords;
-//        PShape body;
-//
-//        public buildingObject(float wid, float hei, float dep, float x, float y, float z) {
-//            h = hei;
-//            w = wid;
-//            d = dep;
-//            coords = new PVector(x, y, z);
-//            body = loadShape("textured_drone_sans_propellers.obj");
-//        }
-//        public PVector getCoords(){
-//            return this.coords;
-//        }
-//        public float getH(){
-//            return h;
-//        }
-//
-//        public float getW() {
-//            return w;
-//        }
-//
-//        public float getD() {
-//            return d;
-//        }
-//
-//        public void draw() {
-//            shape(body);
-//        }
-//    }
-
     PImage texture;
     PImage droneIcon;
     DroneObject drone;
@@ -241,7 +130,7 @@ public class GameSketch extends PApplet{
         io.setTotalRotation(-rotation);
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
         rotateY(rotation);
-        drone.draw();
+        drone.draw(movingObject);
         rotateY(-rotation);
         popMatrix();
     }
