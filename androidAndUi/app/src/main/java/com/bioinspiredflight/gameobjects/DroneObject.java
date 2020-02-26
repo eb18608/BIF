@@ -18,6 +18,8 @@ public class DroneObject extends GameObject {
     final float scale;
     float lrTilt = 0;
     float fbTilt = 0;
+    float tiltMult = 0.0001f;
+    float tiltMax = 0.2f;
     PShape propellerFL, propellerFR, propellerBL, propellerBR;
     InputToOutput io;
 
@@ -26,8 +28,8 @@ public class DroneObject extends GameObject {
         super(sketch, body, x, y, z);
         //objectFileName = "textured_circular_drone_sans_propellers.obj";
         //loadShape();
-        h =  16;
-        di = 105;
+        h =  23;
+        di = 107;
 //            System.out.printf("Initial depth: %.3f\n", body.getDepth());
         scale = s;
         body.scale(scale);
@@ -79,32 +81,53 @@ public class DroneObject extends GameObject {
         this.io = io;
     }
 
-    @Override
-    public void draw3D() {
-        this.spinPropellers(0.3f);
-
-        final float propellerXZ = 22f * this.scale;
-        final float propellerY = 2f * this.scale;
-        PVector acc = sketch.getMovingObject().getAcc();
-        float tiltMult = sketch.PI / 24000;
-        float tiltMax = sketch.PI / 32;
-
-        sketch.pushMatrix();
+    public void tiltDrone(PVector acc) {
+        acc.set(sketch.round(acc.x), sketch.round(acc.y), sketch.round(acc.z));
         if (io.isUsingJoystick()) {
             if ((acc.x > 0) && (tiltMax > lrTilt)) {
                 lrTilt += tiltMult * acc.x;
             } else if ((acc.x < 0) && (-tiltMax < lrTilt)) {
                 lrTilt += tiltMult * acc.x;
             }
-            sketch.rotateZ(-lrTilt);
 
             if ((acc.y > 0) && (tiltMax > fbTilt)) {
                 fbTilt += tiltMult * acc.y;
             } else if ((acc.y < 0) && (-tiltMax < fbTilt)) {
                 fbTilt += tiltMult * acc.y;
             }
-            sketch.rotateX(fbTilt);
+
+        } else {
+            if (lrTilt > 0) {
+                lrTilt -= tiltMult * 250;
+                if (lrTilt < 0) { lrTilt = 0; }
+            } else if (lrTilt < 0) {
+                lrTilt += tiltMult * 250;
+                if (lrTilt > 0) { lrTilt = 0; }
+            }
+
+            if (fbTilt > 0) {
+                fbTilt -= tiltMult * 250;
+                if (fbTilt < 0) { fbTilt = 0; }
+            } else if (fbTilt < 0) {
+                fbTilt += tiltMult * 250;
+                if (fbTilt > 0) { fbTilt = 0; }
+            }
         }
+        System.out.println(acc);
+        System.out.println(tiltMult * acc.x);
+        sketch.rotateZ(-lrTilt);
+        sketch.rotateX(fbTilt);
+    }
+
+    @Override
+    public void draw3D() {
+        this.spinPropellers(0.3f);
+
+        final float propellerXZ = 22f * this.scale;
+        final float propellerY = 2f * this.scale;
+
+        sketch.pushMatrix();
+
         sketch.shape(body);
 
         sketch.pushMatrix();

@@ -266,6 +266,7 @@ public class GameSketch extends PApplet{
         rotation += io.getRotation() * rotationSpeed;
         io.setTotalRotation(-rotation);
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
+        drone.tiltDrone(movingObject.getAcc());
         rotateY(rotation);
         drone.draw3D();
         rotateY(-rotation);
