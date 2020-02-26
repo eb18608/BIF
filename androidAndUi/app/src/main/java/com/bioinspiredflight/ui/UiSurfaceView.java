@@ -45,6 +45,14 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         this.sliderToggle = sliderToggle;
     }
 
+    public boolean isUsingSlider(){
+        return slider.isUsingSlider();
+    }
+
+    public boolean isUsingJoystick(){
+        return joystick.isUsingJoystick();
+    }
+
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
@@ -113,6 +121,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         if (x > getWidth() / 2 || ignoreConstraints){
             joystick.drawJoystick(joystick.getCenterX(), joystick.getCenterY());
             joystick.setUsingJoystick(false);
+            io.setUsingJoystick(false);
             if (io != null){
                 io.onJoystickMoved(0, 0, getId());
             }
@@ -124,6 +133,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         if (x <= getWidth() / 2 || ignoreConstraints){
             slider.drawSlider(slider.getCenterX(), slider.getCenterY());
             slider.setUsingSlider(false);
+            io.setUsingSlider(false);
             if (io != null){
                 io.onSliderMoved(0, 0, getId());
             }
@@ -145,6 +155,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         float centerY = joystick.getCenterY();
         float baseRadius = joystick.getBaseRadius();
         if (joystick.withinBounds(x, y)){
+            io.setUsingJoystick(true);
             joystick.setUsingJoystick(true);
         }
         //Log.i("Screen", "Responding...");
@@ -184,6 +195,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         } else {
             Log.i("Joystick", "Released!");
             joystick.setUsingJoystick(false);
+            io.setUsingJoystick(false);
             joystick.setJoystickOutOfPlace(true);
         }
 
@@ -192,6 +204,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     private void moveSlider(float x, float y){
         if (slider.withinBounds(x, y)) {
             slider.setUsingSlider(true);
+            io.setUsingSlider(true);
         }
         float centerX = slider.getCenterX();
         float centerY = slider.getCenterY();
@@ -248,6 +261,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
             }
         } else {
             slider.setUsingSlider(false);
+            io.setUsingSlider(false);
             slider.drawSlider(centerX, centerY);
             //System.out.println("Released slider");
         }

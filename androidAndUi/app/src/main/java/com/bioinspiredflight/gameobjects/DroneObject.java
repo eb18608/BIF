@@ -4,6 +4,8 @@ import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
+import com.bioinspiredflight.ui.InputToOutput;
+import com.bioinspiredflight.ui.Joystick;
 
 import processing.core.PApplet;
 import processing.core.PShape;
@@ -17,6 +19,7 @@ public class DroneObject extends GameObject {
     float lrTilt = 0;
     float fbTilt = 0;
     PShape propellerFL, propellerFR, propellerBL, propellerBR;
+    InputToOutput io;
 
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
                        final float s) {
@@ -72,40 +75,36 @@ public class DroneObject extends GameObject {
         return di;
     }
 
+    public void setInputToOutput(InputToOutput io){
+        this.io = io;
+    }
+
     @Override
     public void draw3D() {
         this.spinPropellers(0.3f);
 
         final float propellerXZ = 22f * this.scale;
         final float propellerY = 2f * this.scale;
-        PVector vel = movingObject.getVel();
-        PVector acc = movingObject.getAcc();
-        sketch.pushMatrix();
-        if (vel.y != 0) {
-            if ((Math.abs(sketch.PI / 3200 * acc.y) < Math.abs((vel.y * 0.01f))) && ((vel.y > 0 && acc.y > 0) || (vel.y < 0 && acc.y < 0))) {
-                fbTilt = sketch.PI / 3200 * acc.y;
-                System.out.print("maxtilt fb: ");
-                System.out.println(fbTilt);
-            } else {
-                fbTilt = vel.y * 0.01f;
-                System.out.print("veltilt fb: ");
-                System.out.println(fbTilt);
-            }
-        }
-        sketch.rotateX(fbTilt);
-        if (vel.x != 0) {
-            if (Math.abs(sketch.PI / 3200 * acc.x) < Math.abs((vel.x * 0.01f)) && ((vel.x > 0 && acc.x > 0) || (vel.x < 0 && acc.x < 0))) {
-                lrTilt = -sketch.PI / 3200 * acc.x;
-                System.out.print("maxtilt lr: ");
-                System.out.println(lrTilt);
-            } else {
-                lrTilt = -vel.x * 0.01f;
-                System.out.print("lrltilt lr: ");
-                System.out.println(fbTilt);
-            }
-        }
-        sketch.rotateZ(lrTilt);
+        PVector acc = sketch.getMovingObject().getAcc();
+        float tiltMult = sketch.PI / 24000;
+        float tiltMax = sketch.PI / 32;
 
+        sketch.pushMatrix();
+        if (io.isUsingJoystick()) {
+            if ((acc.x > 0) && (tiltMax > lrTilt)) {
+                lrTilt += tiltMult * acc.x;
+            } else if ((acc.x < 0) && (-tiltMax < lrTilt)) {
+                lrTilt += tiltMult * acc.x;
+            }
+            sketch.rotateZ(-lrTilt);
+
+            if ((acc.y > 0) && (tiltMax > fbTilt)) {
+                fbTilt += tiltMult * acc.y;
+            } else if ((acc.y < 0) && (-tiltMax < fbTilt)) {
+                fbTilt += tiltMult * acc.y;
+            }
+            sketch.rotateX(fbTilt);
+        }
         sketch.shape(body);
 
         sketch.pushMatrix();
@@ -127,6 +126,7 @@ public class DroneObject extends GameObject {
         sketch.translate(propellerXZ, propellerY, -propellerXZ);
         sketch.shape(propellerBR);
         sketch.popMatrix();
+
         sketch.popMatrix();
     }
 

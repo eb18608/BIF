@@ -36,6 +36,7 @@ public class GameSketch extends PApplet{
     private PShape droneBodyShape;
     private PShape buildingShape;
 
+    public Movement getMovingObject() { return movingObject; }
     public PVector getLastPosition(){ return lastNonCollision; }
 
     public void setLastPosition(PVector pos) {this.lastNonCollision = pos;}
@@ -168,7 +169,7 @@ public class GameSketch extends PApplet{
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
         float eyey = drone.coords.y + (scale * 100);
         float eyez = drone.coords.z - (scale * 200 * cos(rotation));
-        System.out.printf("Camera: %.3f, %,3f, %.3f\n", eyex, eyey, eyez);
+        //System.out.printf("Camera: %.3f, %,3f, %.3f\n", eyex, eyey, eyez);
         camera(eyex, eyey, eyez, drone.coords.x, drone.coords.y, drone.coords.z, 0, -1, 0);
     }
 
@@ -222,6 +223,8 @@ public class GameSketch extends PApplet{
         levelHandler.changeLevel(this, gameObjects, "levels/level0.csv");
         drone = gameObjects.getDrone();
         movingObject.setMovementSize(drone);
+
+        drone.setInputToOutput(io);
 
         /*
         drone = new DroneObject(this, 105, 16,  0, 0, 0, scale);
@@ -309,7 +312,7 @@ public class GameSketch extends PApplet{
         if(movingObject.collided == true){
 //            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
             collideMod.accept(visitor, movingObject, this, gameObjects.get(1));
-            System.out.printf("Collided: %b\n", movingObject.collided);
+            //System.out.printf("Collided: %b\n", movingObject.collided);
             movingObject.collided = false;
         } else {
             setLastPosition(movingObject.getPos());
@@ -325,12 +328,12 @@ public class GameSketch extends PApplet{
         float droneUpDown = movingObject.getZ(movingObject.getPos());
 
         draw3d(droneLeftRight, droneUpDown, droneForwardBack);
-        System.out.printf("Drone: %.3f, %.3f, %.3f\n", drone.getCoords().x, drone.getCoords().y, drone.getCoords().z);
-        System.out.printf("Building 0: %.3f, %.3f, %.3f\n",
-                gameObjects.get(1).coords.x,
-                gameObjects.get(1).coords.y,
-                gameObjects.get(1).coords.z);
-        System.out.printf("Collided2: %b\n", movingObject.collided);
+        //System.out.printf("Drone: %.3f, %.3f, %.3f\n", drone.getCoords().x, drone.getCoords().y, drone.getCoords().z);
+        //System.out.printf("Building 0: %.3f, %.3f, %.3f\n",
+        //        gameObjects.get(1).coords.x,
+        //        gameObjects.get(1).coords.y,
+        //        gameObjects.get(1).coords.z);
+        //System.out.printf("Collided2: %b\n", movingObject.collided);
         draw2d();
 
     }

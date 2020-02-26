@@ -50,6 +50,7 @@ public class Ui {
         this.io = io;
         uiSurfaceView = new UiSurfaceView(context, testJoystick, testSlider, io);
         widgets.add(uiSurfaceView);
+        this.io.setView(uiSurfaceView);
 
     }
 

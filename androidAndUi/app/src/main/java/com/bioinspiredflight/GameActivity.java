@@ -53,8 +53,8 @@ public class GameActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
         ));
-        sketch = new GameSketch();
         this.io = new InputToOutput();
+        sketch = new GameSketch();
         PVector startPos = new PVector(0, 0, 0);
         this.movingObject = new Movement(1.0f, true, startPos);
         final Ui ui = new Ui(this, io, sliderToggle);
