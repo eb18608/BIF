@@ -55,7 +55,6 @@ public class BuildingObject extends GameObject {
         sketch.translate(getCoords().x,
                 getCoords().y, getCoords().z);
         sketch.shape(body);
-        //sketch.renderBuilding(this.getW(), this.getH(), this.getD());
         sketch.popMatrix();
 
 
