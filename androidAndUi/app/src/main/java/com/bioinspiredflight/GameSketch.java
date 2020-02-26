@@ -3,6 +3,7 @@ package com.bioinspiredflight;
 import com.bioinspiredflight.gameobjects.BuildingObject;
 import com.bioinspiredflight.gameobjects.DroneObject;
 import com.bioinspiredflight.gameobjects.GameObject;
+import com.bioinspiredflight.gameobjects.ObjectiveObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.ModVisitor;
@@ -10,6 +11,8 @@ import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.ui.InputToOutput;
 import com.bioinspiredflight.gameobjects.GameObjectList;
 import com.bioinspiredflight.utilities.LevelHandler;
+
+import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -35,7 +38,7 @@ public class GameSketch extends PApplet{
 
     private PShape droneBodyShape;
     private PShape buildingShape;
-
+    private PShape objectiveShape;
     public PVector getLastPosition(){ return lastNonCollision; }
 
     public void setLastPosition(PVector pos) {this.lastNonCollision = pos;}
@@ -47,116 +50,6 @@ public class GameSketch extends PApplet{
         this.collideMod = collideMod;
     }
 
-//    public class droneObject {
-//        float h, di;
-//        final float scale;
-//        PVector coords;
-//        PShape body, propellerFL, propellerFR, propellerBL, propellerBR;
-//
-//        public droneObject(float diameter, float hei, float x, float y, float z,
-//                           final float s) {
-//            h = hei;
-//            di = diameter;
-//            coords = new PVector(x, y, z);
-//            body = loadShape("textured_circular_drone_sans_propellers.obj");
-////            System.out.printf("Initial depth: %.3f\n", body.getDepth());
-//            scale = s;
-//            body.scale(scale);
-////            System.out.printf("Scaled depth: %.3f\n", body.getDepth());
-//            propellerFL = loadPropeller(scale);
-//            propellerFR = loadPropeller(scale);
-//            propellerBL = loadPropeller(scale);
-//            propellerBR = loadPropeller(scale);
-//        }
-//
-//        private PShape loadPropeller(float scale){
-//            PShape shape = loadShape("textured_propeller.obj");
-//            shape.scale(scale);
-//            return shape;
-//        }
-//
-//        public void move(float x, float y, float z) {
-//            coords.x = x;
-//            coords.y = y;
-//            coords.z = z;
-//        }
-//
-//        public float getH() {
-//            return h;
-//        }
-//
-//        public float getDi() {
-//            return di;
-//        }
-//
-//        public void draw3D() {
-//            final float propellerXZ = 22f * this.scale;
-//            final float propellerY = 2f * this.scale;
-//
-//            shape(body);
-//
-//            pushMatrix();
-//            translate(-propellerXZ, propellerY, propellerXZ);
-//            shape(propellerFL);
-//            popMatrix();
-//
-//            pushMatrix();
-//            translate(propellerXZ, propellerY, propellerXZ);
-//            shape(propellerFR);
-//            popMatrix();
-//
-//            pushMatrix();
-//            translate(-propellerXZ, propellerY, -propellerXZ);
-//            shape(propellerBL);
-//            popMatrix();
-//
-//            pushMatrix();
-//            translate(propellerXZ, propellerY, -propellerXZ);
-//            shape(propellerBR);
-//            popMatrix();
-//        }
-//
-//        public void spinPropellers(float multiplier) {
-//            pushMatrix();
-//            drone.propellerFL.rotateY(multiplier);
-//            drone.propellerFR.rotateY(-multiplier);
-//            drone.propellerBL.rotateY(multiplier);
-//            drone.propellerBR.rotateY(-multiplier);
-//            popMatrix();
-//        }
-//    }
-
-//    public class buildingObject {
-//        private float h, w, d;
-//        private PVector coords;
-//        PShape body;
-//
-//        public buildingObject(float wid, float hei, float dep, float x, float y, float z) {
-//            h = hei;
-//            w = wid;
-//            d = dep;
-//            coords = new PVector(x, y, z);
-//            body = loadShape("textured_drone_sans_propellers.obj");
-//        }
-//        public PVector getCoords(){
-//            return this.coords;
-//        }
-//        public float getH(){
-//            return h;
-//        }
-//
-//        public float getW() {
-//            return w;
-//        }
-//
-//        public float getD() {
-//            return d;
-//        }
-//
-//        public void draw3D() {
-//            shape(body);
-//        }
-//    }
 
     PImage texture;
     PImage droneIcon;
@@ -168,7 +61,6 @@ public class GameSketch extends PApplet{
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
         float eyey = drone.coords.y + (scale * 100);
         float eyez = drone.coords.z - (scale * 200 * cos(rotation));
-        System.out.printf("Camera: %.3f, %,3f, %.3f\n", eyex, eyey, eyez);
         camera(eyex, eyey, eyez, drone.coords.x, drone.coords.y, drone.coords.z, 0, -1, 0);
     }
 
@@ -304,12 +196,12 @@ public class GameSketch extends PApplet{
 //                System.out.println("building position: " + buildings[b].coords);
 //                System.out.println("drone position: " + movingObject.getPos());
         }*/
-        gameObjects.checkForCollisions(movingObject);
+        int i = gameObjects.checkForCollisions(movingObject);
+        System.out.println(i);
 
         if(movingObject.collided == true){
 //            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
-            collideMod.accept(visitor, movingObject, this, gameObjects.get(1));
-            System.out.printf("Collided: %b\n", movingObject.collided);
+            collideMod.accept(visitor, movingObject, this, gameObjects.get(i));
             movingObject.collided = false;
         } else {
             setLastPosition(movingObject.getPos());
@@ -325,12 +217,7 @@ public class GameSketch extends PApplet{
         float droneUpDown = movingObject.getZ(movingObject.getPos());
 
         draw3d(droneLeftRight, droneUpDown, droneForwardBack);
-        System.out.printf("Drone: %.3f, %.3f, %.3f\n", drone.getCoords().x, drone.getCoords().y, drone.getCoords().z);
-        System.out.printf("Building 0: %.3f, %.3f, %.3f\n",
-                gameObjects.get(1).coords.x,
-                gameObjects.get(1).coords.y,
-                gameObjects.get(1).coords.z);
-        System.out.printf("Collided2: %b\n", movingObject.collided);
+
         draw2d();
 
     }
@@ -357,5 +244,23 @@ public class GameSketch extends PApplet{
 
     public void setBuildingShape(PShape buildingShape) {
         this.buildingShape = buildingShape;
+    }
+
+    public PShape getObjectiveShape() {
+        return objectiveShape;
+    }
+
+    public void setObjectiveShape(PShape objectiveShape) {
+        this.objectiveShape = objectiveShape;
+    }
+
+    public Boolean checkCompleted(){
+        ArrayList<ObjectiveObject> gameObjectives = gameObjects.getObjectiveList();
+        Boolean complete = false;
+        for (ObjectiveObject g :gameObjectives){
+            complete = true;
+            complete = g.getStatus() & complete;
+        }
+        return complete;
     }
 }

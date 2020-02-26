@@ -1,5 +1,7 @@
-drone,0,0,0,1
+drone0,0,1000,0,1
 building0,1000,300,1000,1
 building1,1000,300,1800,1
 building2,1800,300,1000,1
 building3,1800,300,300,1
+objective0,0,0,0,1
+

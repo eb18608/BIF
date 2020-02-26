@@ -16,8 +16,8 @@ public class DroneObject extends GameObject {
     PShape propellerFL, propellerFR, propellerBL, propellerBR;
 
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
-                       final float s) {
-        super(sketch, body, x, y, z);
+                       final float s, int id) {
+        super(sketch, body, x, y, z, id);
         //objectFileName = "textured_circular_drone_sans_propellers.obj";
         //loadShape();
         h =  16;
@@ -33,8 +33,8 @@ public class DroneObject extends GameObject {
     }
 
     public DroneObject(GameSketch sketch, PShape body, float diameter, float hei, float x, float y, float z,
-                       final float s) {
-        super(sketch, body, x, y, z);
+                       final float s, int id) {
+        super(sketch, body, x, y, z, id);
         objectFileName = "textured_circular_drone_sans_propellers.obj";
         //loadShape();
         h = hei;

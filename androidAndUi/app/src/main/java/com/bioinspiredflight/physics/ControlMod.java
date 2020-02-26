@@ -38,10 +38,6 @@ public class ControlMod implements ModVisitable{
     }
 
 
-//    @Override
-//    public void accept(Visitor visit, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone) {
-//
-//    }
 
 }
 
