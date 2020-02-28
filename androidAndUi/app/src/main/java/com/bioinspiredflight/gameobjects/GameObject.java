@@ -19,16 +19,12 @@ public abstract class GameObject implements Interactable{
         this.coords = new PVector(x, y, z);
         System.out.println("Creating new object");
         System.out.printf("%f, %f, %f\n", coords.x, coords.y, coords.z);
-        //this.body = this.sketch.loadShape(objectFileName);
     }
-
-    /*public void loadShape(){
-        this.body = this.sketch.loadShape(objectFileName);
-    }*/
 
     public PVector getCoords(){
         return this.coords;
     }
+
     public float getH(){
         return h;
     }

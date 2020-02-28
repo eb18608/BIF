@@ -1,19 +1,14 @@
 package com.bioinspiredflight.gameobjects;
 
 import com.bioinspiredflight.GameSketch;
-import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.ui.InputToOutput;
-import com.bioinspiredflight.ui.Joystick;
 
-import processing.core.PApplet;
 import processing.core.PShape;
 import processing.core.PVector;
-import java.lang.Math;
 
 public class DroneObject extends GameObject {
-    //float h;
     public float di;    //keeping this public for optimization reasons
     final float scale;
     float lrTilt = 0;
@@ -26,14 +21,10 @@ public class DroneObject extends GameObject {
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
                        final float s) {
         super(sketch, body, x, y, z);
-        //objectFileName = "textured_circular_drone_sans_propellers.obj";
-        //loadShape();
         h =  23;
         di = 107;
-//            System.out.printf("Initial depth: %.3f\n", body.getDepth());
         scale = s;
         body.scale(scale);
-//            System.out.printf("Scaled depth: %.3f\n", body.getDepth());
         propellerFL = loadPropeller(scale);
         propellerFR = loadPropeller(scale);
         propellerBL = loadPropeller(scale);
@@ -44,13 +35,10 @@ public class DroneObject extends GameObject {
                        final float s) {
         super(sketch, body, x, y, z);
         objectFileName = "textured_circular_drone_sans_propellers.obj";
-        //loadShape();
         h = hei;
         di = diameter;
-//            System.out.printf("Initial depth: %.3f\n", body.getDepth());
         scale = s;
         body.scale(scale);
-//            System.out.printf("Scaled depth: %.3f\n", body.getDepth());
         propellerFL = loadPropeller(scale);
         propellerFR = loadPropeller(scale);
         propellerBL = loadPropeller(scale);
