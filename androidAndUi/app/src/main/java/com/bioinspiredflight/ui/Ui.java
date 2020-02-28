@@ -23,6 +23,7 @@ public class Ui {
     private UiSurfaceView uiSurfaceView;
     private ArrayList<View> widgets;
     private InputToOutput io;
+    private GameActivity.GameSketchObserver obs;
     //private final FrameLayout frame;
     //private final AppCompatActivity gameActivity;
 
@@ -51,15 +52,17 @@ public class Ui {
         returnButton = new Button(gameActivity);
         returnButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
-        returnButton.setText("Return To Main Menu");
+        returnButton.setText("Restart");
         returnButton.setId(CompatUtils.getUniqueViewId());
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(gameActivity.getApplicationContext(), "Returning to main menu",
+                Toast.makeText(gameActivity.getApplicationContext(), "Restarting level",
                         Toast.LENGTH_SHORT)
                         .show();
-                gameActivity.finish();
+                //gameActivity.finish();
+                obs.updateGameSketch();
+
             }
         });
         widgets.add(returnButton);
@@ -78,6 +81,10 @@ public class Ui {
             frame.addView(widget);
             System.out.printf("Added %s\n", widget.toString());
         }
+    }
+
+    public void setObs(GameActivity.GameSketchObserver obs) {
+        this.obs = obs;
     }
 
     /*

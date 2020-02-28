@@ -24,6 +24,8 @@ import processing.core.PVector;
  */
 public class GameSketch extends PApplet{
 
+    private GameActivity.GameSketchObserver obs;
+
     private Movement movingObject;
     private ControlMod controlMod;
     private InputToOutput io;
@@ -237,5 +239,9 @@ public class GameSketch extends PApplet{
             complete = g.getStatus() & complete;
         }
         return complete;
+    }
+
+    public void setObs(GameActivity.GameSketchObserver obs) {
+        this.obs = obs;
     }
 }

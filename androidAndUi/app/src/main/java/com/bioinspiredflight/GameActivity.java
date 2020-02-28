@@ -84,4 +84,28 @@ public class GameActivity extends AppCompatActivity {
             sketch.onNewIntent(intent);
         }
     }
+
+    public class GameSketchObserver {
+
+        private Ui ui;
+        private GameSketch sketch;
+
+        public void updateUi(){
+
+        }
+
+        public void updateGameSketch(){
+            sketch.setup();
+        }
+
+        public void setUi(Ui ui) {
+            this.ui = ui;
+            ui.setObs(this);
+        }
+
+        public void setSketch(GameSketch sketch) {
+            this.sketch = sketch;
+            sketch.setObs(this);
+        }
+    }
 }
