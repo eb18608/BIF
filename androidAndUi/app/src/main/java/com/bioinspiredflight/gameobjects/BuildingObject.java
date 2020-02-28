@@ -10,13 +10,10 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 public class BuildingObject extends GameObject {
-    //private float h, w, d;
 
     public BuildingObject(GameSketch sketch, PShape body, float x, float y, float z,
                           float scale) {
         super(sketch, body, x, y, z);
-        //objectFileName = "textured_drone_sans_propellers.obj";
-        //loadShape();
         h = 600 * scale;
         w = 400 * scale;
         d = 400 * scale;
@@ -25,8 +22,6 @@ public class BuildingObject extends GameObject {
     public BuildingObject(GameSketch sketch, PShape body, float wid, float hei, float dep,
                           float x, float y, float z) {
         super(sketch, body, x, y, z);
-        //objectFileName = "textured_drone_sans_propellers.obj";
-        //loadShape();
         h = hei;
         w = wid;
         d = dep;
@@ -57,8 +52,6 @@ public class BuildingObject extends GameObject {
         sketch.shape(body);
         sketch.popMatrix();
 
-
-
         sketch.pushMatrix();
         sketch.translate(getCoords().x - getW()/2,
                 getCoords().y - getH()/2, getCoords().z - getD()/2);
@@ -88,7 +81,6 @@ public class BuildingObject extends GameObject {
 
     @Override
     public boolean isDrone() {
-        //return false
         return false;
     }
 }

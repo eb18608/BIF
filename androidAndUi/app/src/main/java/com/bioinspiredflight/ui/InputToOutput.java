@@ -18,6 +18,8 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
     final private PVector vector3d;
     private float rotation;
     private float totalRotation;
+    private UiSurfaceView view;
+    private boolean usingJoystick, usingSlider;
 
     //Get individual component from PVector
     public float getX(PVector p){
@@ -53,9 +55,15 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         setZ(vector3d, 0);
         rotation = 0f;
         totalRotation = 0f;
+        usingJoystick = false;
+        usingSlider = false;
         //this.joystick = joystick;
         //this.x = 0;
         //this.y = 0;
+    }
+
+    public void setView(UiSurfaceView view) {
+        this.view = view;
     }
 
     @Override
@@ -76,6 +84,22 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         //this.totalRotation -= rotation * rotationSpeed;
         //System.out.println(this.zValue);
         //System.out.println(vector3d.toString());
+    }
+
+    public boolean isUsingJoystick(){
+        return usingJoystick;
+    }
+
+    public boolean isUsingSlider(){
+        return usingSlider;
+    }
+
+    public void setUsingJoystick(boolean using){
+        this.usingJoystick = using;
+    }
+
+    public void setUsingSlider(boolean using){
+        this.usingSlider = using;
     }
 
     public PVector getVector(){
