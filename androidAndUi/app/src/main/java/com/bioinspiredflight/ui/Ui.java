@@ -52,12 +52,12 @@ public class Ui {
         returnButton = new Button(gameActivity);
         returnButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
-        returnButton.setText("Restart");
+        returnButton.setText("Change Level");
         returnButton.setId(CompatUtils.getUniqueViewId());
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(gameActivity.getApplicationContext(), "Restarting level",
+                Toast.makeText(gameActivity.getApplicationContext(), "Changing level",
                         Toast.LENGTH_SHORT)
                         .show();
                 //gameActivity.finish();

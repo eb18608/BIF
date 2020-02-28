@@ -24,6 +24,7 @@ public class GameObjectList {
 
     public void clear(){
         list.clear();
+        objectiveList.clear();
     }
 
     public void add(GameObject gameObject){

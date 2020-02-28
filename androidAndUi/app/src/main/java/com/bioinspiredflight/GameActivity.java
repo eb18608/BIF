@@ -38,6 +38,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        GameSketchObserver obs = new GameSketchObserver();
         final FrameLayout frame = new FrameLayout(this);
         final RelativeLayout uiLayout = new RelativeLayout(this);
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -58,6 +59,8 @@ public class GameActivity extends AppCompatActivity {
         PVector startPos = new PVector(0, 0, 0);
         this.movingObject = new Movement(1.0f, true, startPos);
         final Ui ui = new Ui(this, io, sliderToggle);
+        obs.setUi(ui);
+        obs.setSketch(sketch);
         this.controlMod = new ControlMod(io);
         this.collideMod = new CollideMod(new PVector(0.0f,0.0f,0.0f));
         levelHandler = new LevelHandler(this);
@@ -95,7 +98,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         public void updateGameSketch(){
-            sketch.setup();
+            sketch.startLevel("levels/level1.csv");
         }
 
         public void setUi(Ui ui) {

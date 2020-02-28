@@ -107,20 +107,22 @@ public class GameSketch extends PApplet{
         return ((i+j)/2);
     }
 
-    public void setup() {
-        frameRate(30);
-        droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
-        buildingShape = loadShape("textured_drone_sans_propellers.obj");
-
-        levelHandler.changeLevel(this, gameObjects, "levels/level0.csv");
+    public void startLevel(String level){
+        levelHandler.changeLevel(this, gameObjects, level);
         drone = gameObjects.getDrone();
         movingObject.setMovementSize(drone);
 
         drone.setInputToOutput(io);
+    }
 
+    public void setup() {
+        frameRate(30);
+        droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
+        buildingShape = loadShape("textured_drone_sans_propellers.obj");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
+        startLevel("levels/level0.csv");
     }
 
     public void draw3d(float droneLeftRight, float droneUpDown, float droneForwardBack){
