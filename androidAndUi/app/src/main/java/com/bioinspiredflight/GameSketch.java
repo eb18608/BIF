@@ -111,7 +111,13 @@ public class GameSketch extends PApplet{
         levelHandler.changeLevel(this, gameObjects, level);
         drone = gameObjects.getDrone();
         movingObject.setMovementSize(drone);
-
+        PVector startPos = gameObjects.getDrone().coords;
+        float temp = startPos.y;
+        startPos.y = startPos.z;
+        startPos.z = temp;
+        movingObject.setPos(startPos);
+        movingObject.setVel(new PVector(0,0,0));
+        rotation = 0;
         drone.setInputToOutput(io);
     }
 
