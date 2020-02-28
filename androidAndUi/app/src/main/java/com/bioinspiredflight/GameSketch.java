@@ -119,7 +119,6 @@ public class GameSketch extends PApplet{
     public void draw3d(float droneLeftRight, float droneUpDown, float droneForwardBack){
         // 3D Section
         background(100);
-        lights();
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
 

@@ -13,7 +13,7 @@ public class DroneObject extends GameObject {
     final float scale;
     float lrTilt = 0;
     float fbTilt = 0;
-    float tiltMult = 0.0001f;
+    float tiltMult = 0.0002f;
     float tiltMax = 0.2f;
     PShape propellerFL, propellerFR, propellerBL, propellerBR;
     InputToOutput io;
