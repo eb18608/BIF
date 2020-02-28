@@ -1,11 +1,15 @@
 package com.bioinspiredflight.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.bioinspiredflight.GameActivity;
+import com.bioinspiredflight.MainActivity;
 
 import java.util.ArrayList;
 
@@ -13,7 +17,7 @@ import processing.android.CompatUtils;
 
 public class Ui {
 
-    private Button testButton;
+    private Button returnButton;
     private Joystick testJoystick;
     private Slider testSlider;
     private UiSurfaceView uiSurfaceView;
@@ -22,67 +26,51 @@ public class Ui {
     //private final FrameLayout frame;
     //private final AppCompatActivity gameActivity;
 
-    public Ui(final Context context, InputToOutput io) {
-        widgets = new ArrayList<>();
-        testButton = new Button(context);
-        testButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-        testButton.setText("Test Button");
-        testButton.setId(CompatUtils.getUniqueViewId());
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context.getApplicationContext(), "It works!",
-                        Toast.LENGTH_SHORT)
-                        .show();
-            }
-        });
-        //widgets.add(testButton);
-
-        testJoystick = new Joystick(context);
-        testJoystick.setId(CompatUtils.getUniqueViewId());
-        testJoystick.addJoystickListener(new InputToOutput());
-        widgets.add(testJoystick);
-        testSlider = new Slider(context);
-        testSlider.setId(CompatUtils.getUniqueViewId());
-        widgets.add(testSlider);
+    public Ui(final GameActivity gameActivity, InputToOutput io) {
+        setupWidgets(gameActivity);
         //this.io = new InputToOutput();
         this.io = io;
-        uiSurfaceView = new UiSurfaceView(context, testJoystick, testSlider, io);
+        uiSurfaceView = new UiSurfaceView(gameActivity, testJoystick, testSlider, io);
         widgets.add(uiSurfaceView);
         this.io.setView(uiSurfaceView);
 
     }
 
-    public Ui(final Context context, InputToOutput io, boolean sliderToggle) {
+    public Ui(final GameActivity gameActivity, InputToOutput io, boolean sliderToggle) {
+        setupWidgets(gameActivity);
+        //this.io = new InputToOutput();
+        this.io = io;
+        uiSurfaceView = new UiSurfaceView(gameActivity, testJoystick, testSlider, io, sliderToggle);
+        widgets.add(uiSurfaceView);
+        this.io.setView(uiSurfaceView);
+
+    }
+
+    private void setupWidgets(final GameActivity gameActivity){
         widgets = new ArrayList<>();
-        testButton = new Button(context);
-        testButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        returnButton = new Button(gameActivity);
+        returnButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
-        testButton.setText("Test Button");
-        testButton.setId(CompatUtils.getUniqueViewId());
-        testButton.setOnClickListener(new View.OnClickListener() {
+        returnButton.setText("Return To Main Menu");
+        returnButton.setId(CompatUtils.getUniqueViewId());
+        returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context.getApplicationContext(), "It works!",
+                Toast.makeText(gameActivity.getApplicationContext(), "Returning to main menu",
                         Toast.LENGTH_SHORT)
                         .show();
+                gameActivity.finish();
             }
         });
-        //widgets.add(testButton);
+        widgets.add(returnButton);
 
-        testJoystick = new Joystick(context);
+        testJoystick = new Joystick(gameActivity);
         testJoystick.setId(CompatUtils.getUniqueViewId());
         testJoystick.addJoystickListener(new InputToOutput());
         widgets.add(testJoystick);
-        testSlider = new Slider(context);
+        testSlider = new Slider(gameActivity);
         testSlider.setId(CompatUtils.getUniqueViewId());
         widgets.add(testSlider);
-        //this.io = new InputToOutput();
-        this.io = io;
-        uiSurfaceView = new UiSurfaceView(context, testJoystick, testSlider, io, sliderToggle);
-        widgets.add(uiSurfaceView);
-
     }
 
     public void drawUi(RelativeLayout frame){
