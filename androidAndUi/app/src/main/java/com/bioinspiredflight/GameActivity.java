@@ -12,6 +12,7 @@ import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.Movement;
@@ -93,8 +94,26 @@ public class GameActivity extends AppCompatActivity {
         private Ui ui;
         private GameSketch sketch;
 
-        public void updateUi(){
+        public void updateUINewLevel(){
+            runOnUiThread(new Runnable() {
 
+                @Override
+                public void run() {
+                    ui.hideUI();
+                }
+            });
+
+
+        }
+
+        public void updateUiComplete(){
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    ui.revealUI();
+                }
+            });
         }
 
         public void updateGameSketch(){

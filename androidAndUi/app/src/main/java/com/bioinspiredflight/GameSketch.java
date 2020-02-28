@@ -119,6 +119,8 @@ public class GameSketch extends PApplet{
         movingObject.setVel(new PVector(0,0,0));
         rotation = 0;
         drone.setInputToOutput(io);
+        obs.updateUINewLevel();
+
     }
 
     public void setup() {
@@ -246,10 +248,15 @@ public class GameSketch extends PApplet{
             complete = true;
             complete = g.getStatus() & complete;
         }
+        if(complete == true) {
+            obs.updateUiComplete();
+        }
         return complete;
     }
 
     public void setObs(GameActivity.GameSketchObserver obs) {
         this.obs = obs;
     }
+
+
 }

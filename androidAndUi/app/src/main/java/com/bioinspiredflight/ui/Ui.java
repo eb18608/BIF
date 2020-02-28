@@ -114,6 +114,8 @@ public class Ui {
         widgets.add(testSlider);
         widgets.add(newLevelButton);
         widgets.add(returnButton);
+        returnButton.setVisibility(View.GONE);
+        newLevelButton.setVisibility(View.GONE);
         newLevelButton.setEnabled(true);
         returnButton.setEnabled(true);
 
@@ -126,6 +128,17 @@ public class Ui {
         }
     }
 
+    public void revealUI(){
+        newLevelButton.setVisibility(View.VISIBLE);
+        returnButton.setVisibility(View.VISIBLE);
+
+    }
+
+    public void hideUI(){
+        newLevelButton.setVisibility(View.INVISIBLE);
+        returnButton.setVisibility(View.INVISIBLE);
+
+    }
     public void setObs(GameActivity.GameSketchObserver obs) {
         this.obs = obs;
     }
