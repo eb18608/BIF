@@ -23,7 +23,7 @@ public class Movement {
     private PVector acc;
     private final float framerate = 30;
     public final float frametime = 1 / framerate;
-    public boolean collided;
+    public boolean collided = false;
     public float radius;
     private float height;
 
@@ -162,7 +162,6 @@ public class Movement {
     public PVector forceApplied(PVector currentAcc, PVector inputForce, float mass, float frametime) {
         float gravity = 0;
         float scale = 7500;
-        //System.out.println(inputForce.toString());
         PVector newAcc = new PVector(0.0f, 0.0f, 0.0f);
         if (gravityOn) {
             newAcc.x = ((frametime * scale * inputForce.x)) / mass;
@@ -214,10 +213,7 @@ public class Movement {
 
 
         floorLock(resultVel, resultPos);
-        //System.out.printf("Movement stuff\n");
-        //System.out.printf("Acc: %s\n", this.acc.toString());
-        //System.out.printf("Vel: %s\n", this.vel.toString());
-        //System.out.printf("Pos: %s\n", this.pos.toString());
+
     }
 
     public void limitVelocity(PVector acc, PVector vel) {
@@ -303,7 +299,6 @@ public class Movement {
     //Circle to box collisions only happen at X and Z (Z is the our Y co-ordinate)
 
     public boolean  collisionDetectorXY(Movement drone, GameObject object2){
-//        System.out.println("Called XY Collision detector");
         //Create Vectors for: Centre for drone and building, differences, clamps
         PVector droneCentre = new PVector(0.0f, 0.0f);
         PVector objectCentre = new PVector(0.0f, 0.0f);
@@ -388,7 +383,6 @@ public class Movement {
     }
 
     public boolean collisionDetectorZ(Movement drone, GameObject object2){
-//        System.out.println("Called Z Collision detector");
         double droneZmax = drone.getZ(pos) + drone.height/2;
         double objectZmax = object2.getCoords().y + object2.getH()/2;
 
@@ -416,7 +410,6 @@ public class Movement {
     }
 
     public void isCollision(Movement drone, GameObject object2){
-//        System.out.println("isCollision used to check");
         if(collisionDetectorXY(drone,object2) && collisionDetectorZ(drone, object2)){
             drone.collided = true;
 
