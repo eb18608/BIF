@@ -29,6 +29,7 @@ public class BuildingObject extends GameObject {
     public PVector getCoords(){
         return this.coords;
     }
+
     public float getH(){
         return h;
     }

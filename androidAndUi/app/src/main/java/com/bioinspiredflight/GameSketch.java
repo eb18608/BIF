@@ -34,6 +34,8 @@ public class GameSketch extends PApplet{
 
     private PShape droneBodyShape;
     private PShape buildingShape;
+    private PShape staticLoopShape;
+    private PShape movingLoopShape;
 
     public Movement getMovingObject() { return movingObject; }
     public PVector getLastPosition(){ return lastNonCollision; }
@@ -103,7 +105,11 @@ public class GameSketch extends PApplet{
     public void setup() {
         frameRate(30);
         droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
-        buildingShape = loadShape("textured_drone_sans_propellers.obj");
+        buildingShape = loadShape("simple_helipad.obj");
+        /*staticLoopShape = loadShape("loop.obj");
+        staticLoopShape.setFill(color(252, 186, 3, 255));
+        movingLoopShape = loadShape("textured_circular_drone.obj");
+        movingLoopShape.setFill(color(150, 255, 255, 75));*/
 
         levelHandler.changeLevel(this, gameObjects, "levels/level0.csv");
         drone = gameObjects.getDrone();
@@ -133,6 +139,7 @@ public class GameSketch extends PApplet{
         drone.draw3D();
         rotateY(-rotation);
         popMatrix();
+
     }
 
     public void draw2d(){

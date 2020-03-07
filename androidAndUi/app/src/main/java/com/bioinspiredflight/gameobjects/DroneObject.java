@@ -21,8 +21,8 @@ public class DroneObject extends GameObject {
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
                        final float s) {
         super(sketch, body, x, y, z);
-        h =  23;
-        di = 107;
+        h =  23 * s;
+        di = 107 * s;
         scale = s;
         body.scale(scale);
         propellerFL = loadPropeller(scale);
