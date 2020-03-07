@@ -2,11 +2,21 @@ package com.bioinspiredflight.gameobjects;
 
 import com.bioinspiredflight.physics.Movement;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GameObjectList {
 
     ArrayList<GameObject> list = new ArrayList<>();
+    ArrayList<ObjectiveObject> objectiveList = new ArrayList<ObjectiveObject>();
+
+    public ArrayList<ObjectiveObject> getObjectiveList(){
+        return this.objectiveList;
+    }
+    public void addToObjectiveList(ObjectiveObject objective){
+        this.objectiveList.add(objective);
+    }
+
 
     public GameObjectList(){
 
@@ -14,6 +24,7 @@ public class GameObjectList {
 
     public void clear(){
         list.clear();
+        objectiveList.clear();
     }
 
     public void add(GameObject gameObject){
@@ -45,13 +56,19 @@ public class GameObjectList {
 
     }
 
-    public void checkForCollisions(Movement movingObject){
-        for (int i = 0; i < list.size() && movingObject.collided == false ; i++) {
+
+    public int checkForCollisions(Movement movingObject){
+        int i;
+        for (i = 0; i < list.size() && movingObject.collided == false ; i++) {
             GameObject gameObject = list.get(i);
             if (!gameObject.isDrone()){
                 movingObject.isCollision(movingObject, gameObject);
+                if (movingObject.collided){
+                    i--;
+                }
             }
         }
+        return i;
     }
 
     public void drawAllGameObjects3D(){

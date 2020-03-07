@@ -2,6 +2,7 @@ package com.bioinspiredflight;
 
 import com.bioinspiredflight.gameobjects.DroneObject;
 import com.bioinspiredflight.gameobjects.GameObject;
+import com.bioinspiredflight.gameobjects.ObjectiveObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.ModVisitor;
@@ -9,6 +10,8 @@ import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.ui.InputToOutput;
 import com.bioinspiredflight.gameobjects.GameObjectList;
 import com.bioinspiredflight.utilities.LevelHandler;
+
+import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -20,6 +23,8 @@ import processing.core.PVector;
  * The game is going to run from here.
  */
 public class GameSketch extends PApplet{
+
+    private GameActivity.GameSketchObserver obs;
 
     private Movement movingObject;
     private ControlMod controlMod;
@@ -34,6 +39,7 @@ public class GameSketch extends PApplet{
 
     private PShape droneBodyShape;
     private PShape buildingShape;
+    private PShape objectiveShape;
     private PShape staticLoopShape;
     private PShape movingLoopShape;
 
@@ -48,6 +54,7 @@ public class GameSketch extends PApplet{
         this.visitor = new ModVisitor();
         this.collideMod = collideMod;
     }
+
 
     PImage texture;
     PImage droneIcon;
@@ -102,24 +109,30 @@ public class GameSketch extends PApplet{
         return ((i+j)/2);
     }
 
+    public void startLevel(String level){
+        levelHandler.changeLevel(this, gameObjects, level);
+        drone = gameObjects.getDrone();
+        movingObject.setMovementSize(drone);
+        PVector startPos = gameObjects.getDrone().coords;
+        float temp = startPos.y;
+        startPos.y = startPos.z;
+        startPos.z = temp;
+        movingObject.setPos(startPos);
+        movingObject.setVel(new PVector(0,0,0));
+        rotation = 0;
+        drone.setInputToOutput(io);
+        obs.updateUINewLevel();
+
+    }
+
     public void setup() {
         frameRate(30);
         droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
-        buildingShape = loadShape("simple_helipad.obj");
-        /*staticLoopShape = loadShape("loop.obj");
-        staticLoopShape.setFill(color(252, 186, 3, 255));
-        movingLoopShape = loadShape("textured_circular_drone.obj");
-        movingLoopShape.setFill(color(150, 255, 255, 75));*/
-
-        levelHandler.changeLevel(this, gameObjects, "levels/level0.csv");
-        drone = gameObjects.getDrone();
-        movingObject.setMovementSize(drone);
-
-        drone.setInputToOutput(io);
-
+        buildingShape = loadShape("textured_drone_sans_propellers.obj");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
+        startLevel("levels/level0.csv");
     }
 
     public void draw3d(float droneLeftRight, float droneUpDown, float droneForwardBack){
@@ -168,10 +181,21 @@ public class GameSketch extends PApplet{
 
     public void draw() {
 
-        gameObjects.checkForCollisions(movingObject);
+        /*
+        for (int b = 0; b < buildings.length && movingObject.collided == false ; b++) {
+                movingObject.collisionDetectorZ(movingObject, buildings[b]);
+                movingObject.collisionDetectorXY(movingObject, buildings[b]);
+                movingObject.isCollision(movingObject, buildings[b]);
+//                System.out.println("collided? " + movingObject.collided);
+//                System.out.println("building position: " + buildings[b].coords);
+//                System.out.println("drone position: " + movingObject.getPos());
+        }*/
+        int i = gameObjects.checkForCollisions(movingObject);
+        System.out.println(i);
 
         if(movingObject.collided == true){
-            collideMod.accept(visitor, movingObject, this, gameObjects.get(1));
+//            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
+            collideMod.accept(visitor, movingObject, this, gameObjects.get(i));
             movingObject.collided = false;
         } else {
             setLastPosition(movingObject.getPos());
@@ -184,6 +208,7 @@ public class GameSketch extends PApplet{
         float droneUpDown = movingObject.getZ(movingObject.getPos());
 
         draw3d(droneLeftRight, droneUpDown, droneForwardBack);
+
         draw2d();
     }
     public void settings() {
@@ -209,4 +234,31 @@ public class GameSketch extends PApplet{
     public void setBuildingShape(PShape buildingShape) {
         this.buildingShape = buildingShape;
     }
+
+    public PShape getObjectiveShape() {
+        return objectiveShape;
+    }
+
+    public void setObjectiveShape(PShape objectiveShape) {
+        this.objectiveShape = objectiveShape;
+    }
+
+    public Boolean checkCompleted(){
+        ArrayList<ObjectiveObject> gameObjectives = gameObjects.getObjectiveList();
+        Boolean complete = false;
+        for (ObjectiveObject g :gameObjectives){
+            complete = true;
+            complete = g.getStatus() & complete;
+        }
+        if(complete == true) {
+            obs.updateUiComplete();
+        }
+        return complete;
+    }
+
+    public void setObs(GameActivity.GameSketchObserver obs) {
+        this.obs = obs;
+    }
+
+
 }
