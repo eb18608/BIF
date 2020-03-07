@@ -10,17 +10,16 @@ import processing.core.PShape;
 import processing.core.PVector;
 import processing.core.PImage;
 
-public class LoopObject extends GameObject {
-    PShape movingBody;
-    float movingBodyRotation;
+public class HelipadObject extends GameObject {
+    PImage icon;
 
-    public LoopObject(GameSketch sketch, PShape staticBody, PShape movingBody, float x, float y, float z,
+    public HelipadObject(GameSketch sketch, PShape body, float x, float y, float z,
                           float scale) {
-        super(sketch, staticBody, x, y, z);
-        h = 140 * scale;
-        w = 140 * scale;
-        d = 10 * scale;
-        movingBody = movingBody;
+        super(sketch, body, x, y, z);
+        h = 20 * scale;
+        w = 375 * scale;
+        d = 375 * scale;
+        icon = sketch.loadImage("HelipadIcon.jpg");
     }
 
     public PVector getCoords(){
@@ -45,11 +44,9 @@ public class LoopObject extends GameObject {
         //PLEASE DON'T DELETE
 
         sketch.pushMatrix();
-        sketch.translate(getCoords().x, getCoords().y, getCoords().z);
+        sketch.translate(getCoords().x,
+                getCoords().y, getCoords().z);
         sketch.shape(body);
-        sketch.rotateY(movingBodyRotation);
-        movingBodyRotation += 0.025f;
-        sketch.shape(movingBody);
         sketch.popMatrix();
 
     }
@@ -59,8 +56,7 @@ public class LoopObject extends GameObject {
         if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) {
             sketch.pushMatrix();
             sketch.translate(this.getCoords().x/10 - this.getW()/20, -this.getCoords().z/10 - this.getD()/20);
-            sketch.fill(252, 186, 3);
-            sketch.circle(0, 0, 10);
+            sketch.image(icon, 0, 0, w/10, d/10);
             sketch.popMatrix();
         }
     }
