@@ -14,8 +14,8 @@ public class HelipadObject extends GameObject {
     PImage icon;
 
     public HelipadObject(GameSketch sketch, PShape body, float x, float y, float z,
-                          float scale) {
-        super(sketch, body, x, y, z);
+                          float scale, int id) {
+        super(sketch, body, x, y, z, id);
         h = 20 * scale;
         w = 375 * scale;
         d = 375 * scale;

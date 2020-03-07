@@ -15,8 +15,8 @@ public class LoopObject extends GameObject {
     float movingBodyRotation;
 
     public LoopObject(GameSketch sketch, PShape staticBody, PShape movingBody, float x, float y, float z,
-                          float scale) {
-        super(sketch, staticBody, x, y, z);
+                          float scale, int id) {
+        super(sketch, staticBody, x, y, z, id);
         h = 140 * scale;
         w = 140 * scale;
         d = 10 * scale;
