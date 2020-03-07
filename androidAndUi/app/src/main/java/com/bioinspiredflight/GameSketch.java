@@ -129,6 +129,8 @@ public class GameSketch extends PApplet{
         frameRate(30);
         droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
         buildingShape = loadShape("textured_drone_sans_propellers.obj");
+        staticLoopShape = loadShape("loop.obj");
+        movingLoopShape = loadShape("loop.obj");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
@@ -261,4 +263,19 @@ public class GameSketch extends PApplet{
     }
 
 
+    public PShape getMovingLoopShape() {
+        return movingLoopShape;
+    }
+
+    public void setMovingLoopShape(PShape movingLoopShape) {
+        this.movingLoopShape = movingLoopShape;
+    }
+
+    public PShape getStaticLoopShape() {
+        return staticLoopShape;
+    }
+
+    public void setStaticLoopShape(PShape staticLoopShape) {
+        this.staticLoopShape = staticLoopShape;
+    }
 }

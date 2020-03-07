@@ -8,6 +8,7 @@ import com.bioinspiredflight.gameobjects.DroneObject;
 import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.gameobjects.Interactable;
 import com.bioinspiredflight.gameobjects.GameObjectList;
+import com.bioinspiredflight.gameobjects.LoopObject;
 import com.bioinspiredflight.gameobjects.ObjectiveObject;
 
 import org.apache.commons.csv.CSVFormat;
@@ -67,6 +68,10 @@ public class LevelHandler {
             id = Integer.parseInt(key.replace("objective", ""));
             gameObject =
                     new ObjectiveObject(sketch, sketch.getObjectiveShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("loop")){
+            id = Integer.parseInt(key.replace("loop", ""));
+            gameObject =
+                    new LoopObject(sketch, sketch.getStaticLoopShape(), sketch.getMovingLoopShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
         }
         return gameObject;
     }

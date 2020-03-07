@@ -20,7 +20,7 @@ public class LoopObject extends GameObject {
         h = 140 * scale;
         w = 140 * scale;
         d = 10 * scale;
-        movingBody = movingBody;
+        this.movingBody = movingBody;
     }
 
     public PVector getCoords(){
