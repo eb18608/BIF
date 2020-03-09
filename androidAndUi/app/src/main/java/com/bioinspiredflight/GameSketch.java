@@ -130,7 +130,9 @@ public class GameSketch extends PApplet{
         droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
         buildingShape = loadShape("textured_drone_sans_propellers.obj");
         staticLoopShape = loadShape("loop.obj");
-        movingLoopShape = loadShape("loop.obj");
+        staticLoopShape.setFill(color( 255, 195, 0));
+        movingLoopShape = loadShape("textured_circular_drone.obj");
+        movingLoopShape.setFill(color(  152, 226, 255, 90));
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
