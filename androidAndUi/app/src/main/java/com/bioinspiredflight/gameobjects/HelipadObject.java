@@ -10,12 +10,12 @@ import processing.core.PShape;
 import processing.core.PVector;
 import processing.core.PImage;
 
-public class HelipadObject extends GameObject {
+public class HelipadObject extends ObjectiveObject {
     PImage icon;
 
     public HelipadObject(GameSketch sketch, PShape body, float x, float y, float z,
                           float scale, int id) {
-        super(sketch, body, x, y, z, id);
+        super(sketch, body, x, y, z, scale, id);
         h = 20 * scale;
         w = 375 * scale;
         d = 375 * scale;

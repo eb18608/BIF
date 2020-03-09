@@ -10,13 +10,13 @@ import processing.core.PShape;
 import processing.core.PVector;
 import processing.core.PImage;
 
-public class LoopObject extends GameObject {
+public class LoopObject extends ObjectiveObject {
     PShape movingBody;
     float movingBodyRotation;
 
     public LoopObject(GameSketch sketch, PShape staticBody, PShape movingBody, float x, float y, float z,
                           float scale, int id) {
-        super(sketch, staticBody, x, y, z, id);
+        super(sketch, staticBody, x, y, z, scale, id);
         h = 140 * scale;
         w = 140 * scale;
         d = 10 * scale;
