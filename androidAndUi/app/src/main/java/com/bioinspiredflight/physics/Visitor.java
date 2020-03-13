@@ -16,7 +16,6 @@ public interface Visitor {
 
 
     public void visit(ControlMod control, Movement movement, GameSketch sketch);
-//    public void visit(EnviroMod enviro, Movement movement, GameSketch.buildingObject buildingObject, GameSketch.droneObject drone);
     public void visit(CollideMod collide, Movement movement, GameSketch sketch);
     public void visit(CollideMod collide, Movement movement, GameSketch sketch, GameObject gameObject);
 

@@ -12,16 +12,20 @@ import processing.core.PVector;
 public class BuildingObject extends GameObject {
 
     public BuildingObject(GameSketch sketch, PShape body, float x, float y, float z,
-                          float scale) {
-        super(sketch, body, x, y, z);
+                          float scale, int id) {
+        super(sketch, body, x, y, z, id);
+        //objectFileName = "textured_drone_sans_propellers.obj";
+        //loadShape();
         h = 600 * scale;
         w = 400 * scale;
         d = 400 * scale;
     }
 
     public BuildingObject(GameSketch sketch, PShape body, float wid, float hei, float dep,
-                          float x, float y, float z) {
-        super(sketch, body, x, y, z);
+                          float x, float y, float z, int id) {
+        super(sketch, body, x, y, z, id);
+        //objectFileName = "textured_drone_sans_propellers.obj";
+        //loadShape();
         h = hei;
         w = wid;
         d = dep;
@@ -29,6 +33,7 @@ public class BuildingObject extends GameObject {
     public PVector getCoords(){
         return this.coords;
     }
+
     public float getH(){
         return h;
     }
@@ -74,9 +79,7 @@ public class BuildingObject extends GameObject {
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         movement.setVel(collideMod.collideMod);
         movement.setPos(sketch.getLastPosition());
-        System.out.println("YOU'VE HIT THIS CLASS");
-        System.out.println(this.getClass());
-        System.out.println("PLEASE DON'T HIT THE CLASS");
+
     }
 
     @Override

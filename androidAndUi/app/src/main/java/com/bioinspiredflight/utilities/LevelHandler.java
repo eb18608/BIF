@@ -6,8 +6,10 @@ import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.gameobjects.BuildingObject;
 import com.bioinspiredflight.gameobjects.DroneObject;
 import com.bioinspiredflight.gameobjects.GameObject;
-import com.bioinspiredflight.gameobjects.Interactable;
 import com.bioinspiredflight.gameobjects.GameObjectList;
+import com.bioinspiredflight.gameobjects.LoopObject;
+import com.bioinspiredflight.gameobjects.ObjectiveObject;
+import com.bioinspiredflight.gameobjects.HelipadObject;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -17,11 +19,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
-
-import processing.core.PApplet;
 
 public class LevelHandler {
 
@@ -36,13 +35,16 @@ public class LevelHandler {
     public void changeLevel(GameSketch sketch, GameObjectList gameObjects, String fileName){
         gameObjects.clear();
         TreeMap<String, Data> table = readLevelFile(fileName);
+        GameObject gameObject;
         // populate gameObjects from the file of that file name
-        for (Map.Entry<String, Data> entry : table.entrySet()){
+        for (Map.Entry<String, Data> entry : table.entrySet()) {
             //entity stuff here
-            System.out.println(entry.toString());
-            gameObjects.add(createGameObject(sketch, entry));
+            gameObject = createGameObject(sketch, entry);
+            gameObjects.add(gameObject);
+            if (gameObject instanceof ObjectiveObject) {
+                gameObjects.addToObjectiveList((ObjectiveObject)gameObject);
+            }
         }
-
     }
 
     private GameObject createGameObject(GameSketch sketch, Map.Entry<String, Data> entry){
@@ -50,14 +52,27 @@ public class LevelHandler {
         GameObject gameObject = null;
         Data data = entry.getValue();
         String key = entry.getKey();
+        int id;
         if (key.startsWith("drone")){
+            id = Integer.parseInt(key.replace("drone", ""));
             gameObject =
-                    new DroneObject(sketch, sketch.getDroneBodyShape(), data.getX(), data.getY(), data.getZ(), data.getScale());
+                    new DroneObject(sketch, sketch.getDroneBodyShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
         } else if (key.startsWith("building")){
+            id = Integer.parseInt(key.replace("building", ""));
             gameObject =
-                    new BuildingObject(sketch, sketch.getBuildingShape(), data.getX(), data.getY(), data.getZ(), data.getScale());
+                    new BuildingObject(sketch, sketch.getBuildingShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
         } else if (key.startsWith("objective")){
-
+            id = Integer.parseInt(key.replace("objective", ""));
+            gameObject =
+                    new ObjectiveObject(sketch, sketch.getObjectiveShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("loop")){
+            id = Integer.parseInt(key.replace("loop", ""));
+            gameObject =
+                    new LoopObject(sketch, sketch.getOuterLoopShape(), sketch.getInnerLoopShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("helipad")){
+            id = Integer.parseInt(key.replace("helipad", ""));
+            gameObject =
+                    new HelipadObject(sketch, sketch.getHelipadShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
         }
         return gameObject;
     }
@@ -72,14 +87,17 @@ public class LevelHandler {
 
             for (CSVRecord record : parser){
                 //extract initial starting pos and scale from file
-                float x = Float.parseFloat(record.get(1));
-                float y = Integer.parseInt(record.get(2));
-                float z = Integer.parseInt(record.get(3));
-                float scale = Integer.parseInt(record.get(4));
-                Data data = new Data(x, y, z, scale);
-                System.out.printf("%f, %f, %f, %f\n", x, y, z, scale);
-                //put string and PVector pair into table
-                table.put(record.get(0), data);
+                System.out.println(record.toString());
+                if (record.size() >= 5){
+                    float x = Float.parseFloat(record.get(1));
+                    float y = Integer.parseInt(record.get(2));
+                    float z = Integer.parseInt(record.get(3));
+                    float scale = Integer.parseInt(record.get(4));
+                    Data data = new Data(x, y, z, scale);
+               // System.out.printf("%f, %f, %f, %f, %f\n", x, y, z, scale);
+                    //put string and PVector pair into table
+                    table.put(record.get(0), data);
+                }
             }
             parser.close();
             reader.close();

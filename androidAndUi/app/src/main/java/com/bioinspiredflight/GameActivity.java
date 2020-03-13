@@ -12,6 +12,7 @@ import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.Movement;
@@ -38,6 +39,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        GameSketchObserver obs = new GameSketchObserver();
         final FrameLayout frame = new FrameLayout(this);
         final RelativeLayout uiLayout = new RelativeLayout(this);
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -58,6 +60,8 @@ public class GameActivity extends AppCompatActivity {
         PVector startPos = new PVector(0, 0, 0);
         this.movingObject = new Movement(1.0f, true, startPos);
         final Ui ui = new Ui(this, io, sliderToggle);
+        obs.setUi(ui);
+        obs.setSketch(sketch);
         this.controlMod = new ControlMod(io);
         this.collideMod = new CollideMod(new PVector(0.0f,0.0f,0.0f));
         levelHandler = new LevelHandler(this);
@@ -82,6 +86,48 @@ public class GameActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         if (sketch != null) {
             sketch.onNewIntent(intent);
+        }
+    }
+
+    public class GameSketchObserver {
+
+        private Ui ui;
+        private GameSketch sketch;
+
+        public void updateUINewLevel(){
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    ui.hideUI();
+                }
+            });
+
+
+        }
+
+        public void updateUiComplete(){
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    ui.revealUI();
+                }
+            });
+        }
+
+        public void updateGameSketch(){
+            sketch.startLevel("levels/level1.csv");
+        }
+
+        public void setUi(Ui ui) {
+            this.ui = ui;
+            ui.setObs(this);
+        }
+
+        public void setSketch(GameSketch sketch) {
+            this.sketch = sketch;
+            sketch.setObs(this);
         }
     }
 }

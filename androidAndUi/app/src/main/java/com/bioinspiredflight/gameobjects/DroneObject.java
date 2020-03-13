@@ -19,10 +19,13 @@ public class DroneObject extends GameObject {
     InputToOutput io;
 
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
-                       final float s) {
-        super(sketch, body, x, y, z);
-        h =  23;
-        di = 107;
+                       final float s, int id) {
+        super(sketch, body, x, y, z, id);
+        //objectFileName = "textured_circular_drone_sans_propellers.obj";
+        //loadShape();
+        h =  17 * s;
+        di = 105 * s;
+//            System.out.printf("Initial depth: %.3f\n", body.getDepth());
         scale = s;
         body.scale(scale);
         propellerFL = loadPropeller(scale);
@@ -32,8 +35,8 @@ public class DroneObject extends GameObject {
     }
 
     public DroneObject(GameSketch sketch, PShape body, float diameter, float hei, float x, float y, float z,
-                       final float s) {
-        super(sketch, body, x, y, z);
+                       final float s, int id) {
+        super(sketch, body, x, y, z, id);
         objectFileName = "textured_circular_drone_sans_propellers.obj";
         h = hei;
         di = diameter;
@@ -101,8 +104,8 @@ public class DroneObject extends GameObject {
                 if (fbTilt > 0) { fbTilt = 0; }
             }
         }
-        System.out.println(acc);
-        System.out.println(tiltMult * acc.x);
+        //System.out.println(acc);
+        //System.out.println(tiltMult * acc.x);
         sketch.rotateZ(-lrTilt);
         sketch.rotateX(fbTilt);
     }
