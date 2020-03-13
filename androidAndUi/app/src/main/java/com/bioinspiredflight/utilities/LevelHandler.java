@@ -6,10 +6,10 @@ import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.gameobjects.BuildingObject;
 import com.bioinspiredflight.gameobjects.DroneObject;
 import com.bioinspiredflight.gameobjects.GameObject;
-import com.bioinspiredflight.gameobjects.Interactable;
 import com.bioinspiredflight.gameobjects.GameObjectList;
 import com.bioinspiredflight.gameobjects.LoopObject;
 import com.bioinspiredflight.gameobjects.ObjectiveObject;
+import com.bioinspiredflight.gameobjects.HelipadObject;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -19,11 +19,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
-
-import processing.core.PApplet;
 
 public class LevelHandler {
 
@@ -71,7 +68,11 @@ public class LevelHandler {
         } else if (key.startsWith("loop")){
             id = Integer.parseInt(key.replace("loop", ""));
             gameObject =
-                    new LoopObject(sketch, sketch.getStaticLoopShape(), sketch.getMovingLoopShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+                    new LoopObject(sketch, sketch.getOuterLoopShape(), sketch.getInnerLoopShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("helipad")){
+            id = Integer.parseInt(key.replace("helipad", ""));
+            gameObject =
+                    new HelipadObject(sketch, sketch.getHelipadShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
         }
         return gameObject;
     }
@@ -93,7 +94,7 @@ public class LevelHandler {
                     float z = Integer.parseInt(record.get(3));
                     float scale = Integer.parseInt(record.get(4));
                     Data data = new Data(x, y, z, scale);
-//                System.out.printf("%f, %f, %f, %f\n", x, y, z, scale);
+               // System.out.printf("%f, %f, %f, %f, %f\n", x, y, z, scale);
                     //put string and PVector pair into table
                     table.put(record.get(0), data);
                 }

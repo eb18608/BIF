@@ -31,12 +31,12 @@ public class ObjectiveObject extends GameObject {
     }
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
-        System.out.println("Collided with object");
+        //System.out.println("Collided with object");
         setStatus(true);
-        System.out.println("Status of Objective: "+ id + " is: " + status);
+        //System.out.println("Status of Objective: "+ id + " is: " + status);
         Boolean done = sketch.checkCompleted();
         if(done){
-            System.out.println("WINNER WINNER CHICKEN DINNER");
+            //System.out.println("WINNER WINNER CHICKEN DINNER");
         }
     }
 

@@ -16,10 +16,10 @@ public class HelipadObject extends ObjectiveObject {
     public HelipadObject(GameSketch sketch, PShape body, float x, float y, float z,
                           float scale, int id) {
         super(sketch, body, x, y, z, scale, id);
-        h = 20 * scale;
-        w = 375 * scale;
-        d = 375 * scale;
-        icon = sketch.loadImage("HelipadIcon.jpg");
+        h = 6 * scale;
+        w = 265 * scale;
+        d = 265 * scale;
+        icon = sketch.loadImage("HelipadIcon.png");
     }
 
     public PVector getCoords(){
@@ -56,7 +56,7 @@ public class HelipadObject extends ObjectiveObject {
         if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) {
             sketch.pushMatrix();
             sketch.translate(this.getCoords().x/10 - this.getW()/20, -this.getCoords().z/10 - this.getD()/20);
-            sketch.image(icon, 0, 0, w/10, d/10);
+            sketch.image(icon, 0, 0, this.getW()/10, this.getD()/10);
             sketch.popMatrix();
         }
     }

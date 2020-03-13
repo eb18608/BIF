@@ -40,8 +40,9 @@ public class GameSketch extends PApplet{
     private PShape droneBodyShape;
     private PShape buildingShape;
     private PShape objectiveShape;
-    private PShape staticLoopShape;
-    private PShape movingLoopShape;
+    private PShape innerLoopShape;
+    private PShape outerLoopShape;
+    private PShape helipadShape;
 
     public Movement getMovingObject() { return movingObject; }
     public PVector getLastPosition(){ return lastNonCollision; }
@@ -129,10 +130,11 @@ public class GameSketch extends PApplet{
         frameRate(30);
         droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
         buildingShape = loadShape("textured_drone_sans_propellers.obj");
-        staticLoopShape = loadShape("loop.obj");
-        staticLoopShape.setFill(color( 255, 195, 0));
-        movingLoopShape = loadShape("textured_circular_drone.obj");
-        movingLoopShape.setFill(color(  152, 226, 255, 90));
+        outerLoopShape = loadShape("loop.obj");
+        outerLoopShape.setFill(color( 255, 195, 0, 245));
+        innerLoopShape = loadShape("textured_circular_drone.obj");
+        innerLoopShape.setFill(color(  152, 226, 255, 90));
+        helipadShape = loadShape("simple_helipad.obj");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
@@ -195,7 +197,7 @@ public class GameSketch extends PApplet{
 //                System.out.println("drone position: " + movingObject.getPos());
         }*/
         int i = gameObjects.checkForCollisions(movingObject);
-        System.out.println(i);
+        //System.out.println(i);
 
         if(movingObject.collided == true){
 //            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
@@ -265,19 +267,27 @@ public class GameSketch extends PApplet{
     }
 
 
-    public PShape getMovingLoopShape() {
-        return movingLoopShape;
+    public PShape getOuterLoopShape() {
+        return outerLoopShape;
     }
 
-    public void setMovingLoopShape(PShape movingLoopShape) {
-        this.movingLoopShape = movingLoopShape;
+    public void setOuterLoopShape(PShape outerLoopShape) {
+        this.outerLoopShape = outerLoopShape;
     }
 
-    public PShape getStaticLoopShape() {
-        return staticLoopShape;
+    public PShape getInnerLoopShape() {
+        return innerLoopShape;
     }
 
-    public void setStaticLoopShape(PShape staticLoopShape) {
-        this.staticLoopShape = staticLoopShape;
+    public void setInnerLoopShape(PShape innerLoopShape) {
+        this.innerLoopShape = innerLoopShape;
+    }
+
+    public PShape getHelipadShape() {
+        return helipadShape;
+    }
+
+    public void setHelipadShape(PShape helipadShape) {
+        this.helipadShape = helipadShape;
     }
 }

@@ -23,7 +23,7 @@ public class DroneObject extends GameObject {
         super(sketch, body, x, y, z, id);
         //objectFileName = "textured_circular_drone_sans_propellers.obj";
         //loadShape();
-        h =  16 * s;
+        h =  17 * s;
         di = 105 * s;
 //            System.out.printf("Initial depth: %.3f\n", body.getDepth());
         scale = s;
@@ -104,8 +104,8 @@ public class DroneObject extends GameObject {
                 if (fbTilt > 0) { fbTilt = 0; }
             }
         }
-        System.out.println(acc);
-        System.out.println(tiltMult * acc.x);
+        //System.out.println(acc);
+        //System.out.println(tiltMult * acc.x);
         sketch.rotateZ(-lrTilt);
         sketch.rotateX(fbTilt);
     }

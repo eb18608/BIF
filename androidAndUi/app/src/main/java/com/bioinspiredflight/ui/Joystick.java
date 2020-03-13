@@ -154,7 +154,7 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         //return false;
-        System.out.println("joy");
+        //System.out.println("joy");
         //if (v.equals(this)){
 
             float displacement = (float)
