@@ -50,6 +50,8 @@ public class LoopObject extends ObjectiveObject {
         //WE NEED THIS CODE FOR FUTURE REFERENCE
         //PLEASE DON'T DELETE
 
+        this.body.setFill(sketch.color(colour[0], colour[1], colour[2], colour[3]));
+
         sketch.pushMatrix();
         sketch.translate(getCoords().x, getCoords().y, getCoords().z);
         sketch.pushMatrix();
@@ -64,7 +66,7 @@ public class LoopObject extends ObjectiveObject {
         sketch.popMatrix();
         sketch.popMatrix();
 
-        this.body.setFill(sketch.color(colour[0], colour[1], colour[2], colour[3]));
+
 
     }
 
@@ -74,7 +76,6 @@ public class LoopObject extends ObjectiveObject {
             sketch.pushMatrix();
             sketch.translate(this.getCoords().x/10 - this.getW()/20, -this.getCoords().z/10 - this.getD()/20);
             sketch.fill(sketch.color(colour[0], colour[1], colour[2], 100));
-            setColour(255, 195, 0, 245);
             sketch.circle(0, 0, this.getW()/5);
             sketch.popMatrix();
         }
@@ -84,8 +85,9 @@ public class LoopObject extends ObjectiveObject {
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         System.out.println("YOU'VE HIT THIS CLASS");
         System.out.println(this.getClass());
+        setStatus(true);
         System.out.println("PLEASE DON'T HIT THE CLASS");
-        setColour(255, 40, 0, 245);
+        setColour(40, 255, 40, 245);
 
     }
 

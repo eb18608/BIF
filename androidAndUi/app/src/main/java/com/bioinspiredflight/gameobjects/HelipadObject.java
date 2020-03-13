@@ -65,9 +65,13 @@ public class HelipadObject extends ObjectiveObject {
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         movement.setVel(collideMod.collideMod);
         movement.setPos(sketch.getLastPosition());
-        System.out.println("YOU'VE HIT THIS CLASS");
-        System.out.println(this.getClass());
-        System.out.println("PLEASE DON'T HIT THE CLASS");
+        //System.out.println("Collided with object");
+        setStatus(true);
+        //System.out.println("Status of Objective: "+ id + " is: " + status);
+        Boolean done = sketch.checkCompleted();
+        if(done){
+            System.out.println("WINNER WINNER CHICKEN DINNER");
+        }
     }
 
     @Override
