@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
 
+import com.bioinspiredflight.sensor.SensorListActivity;
 import com.bioinspiredflight.utilities.AchievementsFileHandler;
 
 import java.io.File;
@@ -38,6 +39,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("achievementsButton", "Pressed!");
                 Intent achievements = new Intent(MainActivity.this, AchievementsActivity.class);
                 startActivity(achievements);
+            }
+        });
+        Button customizationButton = findViewById(R.id.customizationButton);
+        customizationButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Log.i("settingsButton", "Pressed!");
+                Intent customization = new Intent(MainActivity.this, SensorListActivity.class);
+                startActivity(customization);
             }
         });
         Button settingsButton = findViewById(R.id.settingsButton);

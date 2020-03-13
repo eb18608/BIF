@@ -9,7 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AchievementsActivity"></activity>
+        <activity
+            android:name=".sensor.SensorListActivity"
+            android:label="@string/title_sensor_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".sensor.SensorDetailActivity"
+            android:label="@string/title_sensor_detail"
+            android:parentActivityName=".sensor.SensorListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.bioinspiredflight.sensor.SensorListActivity" />
+        </activity>
+        <activity android:name=".AchievementsActivity" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
