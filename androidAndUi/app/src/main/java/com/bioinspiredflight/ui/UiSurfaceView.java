@@ -131,11 +131,11 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     // Only call this on ACTION_POINTER_UP or ACTION_UP
     private void resetSlider(float x, float y, boolean ignoreConstraints){
         if (x <= getWidth() / 2 || ignoreConstraints){
-            slider.drawSlider(slider.getCenterX(), slider.getCenterY());
+            slider.drawSlider(slider.getCenterX(), slider.getCenterY() + slider.getVerticalSliderHeightFromCenter());
             slider.setUsingSlider(false);
             io.setUsingSlider(false);
             if (io != null){
-                io.onSliderMoved(0, 0, getId());
+                io.onSliderMoved(-1, 0, getId());
             }
         }
     }
@@ -262,7 +262,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         } else {
             slider.setUsingSlider(false);
             io.setUsingSlider(false);
-            slider.drawSlider(centerX, centerY);
+            slider.drawSlider(centerX, centerY + slider.getVerticalSliderHeightFromCenter());
             //System.out.println("Released slider");
         }
     }
