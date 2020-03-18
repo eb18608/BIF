@@ -184,7 +184,7 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
                 }
             } else {
                 usingSlider = false;
-                drawSlider(centerX, centerY);
+                drawSlider(centerX, centerY + verticalSliderHeightFromCenter);
 //                System.out.println("Released slider");
             }
         //}
@@ -194,7 +194,7 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         setup();
-        drawSlider(centerX, centerY);
+        drawSlider(centerX, centerY + verticalSliderHeightFromCenter);
     }
 
     @Override

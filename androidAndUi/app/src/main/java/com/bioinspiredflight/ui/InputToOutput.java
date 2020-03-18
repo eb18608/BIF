@@ -52,7 +52,7 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         vector3d = new PVector(0.0f, 0.0f, 0.0f);
         setX(vector3d, 0);
         setY(vector3d, 0);
-        setZ(vector3d, 0);
+        setZ(vector3d, -1);
         rotation = 0f;
         totalRotation = 0f;
         usingJoystick = false;

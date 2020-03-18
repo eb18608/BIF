@@ -233,7 +233,7 @@ public class Movement {
         }
         if (getZ(vel) > maxVelZ) {
             setZ(vel, maxVelZ);
-        } else if (getZ(vel) < -maxVelZ && getZ(acc) <= 0) {
+        } else if (getZ(vel) < -maxVelZ && getZ(acc) < 0) {
             if (gravityOn){
                 setZ(vel, -terminalVel);
             } else {
