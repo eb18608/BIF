@@ -19,8 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bioinspiredflight.dummy.DummyContent;
-
 import java.util.List;
 
 /**
@@ -42,7 +40,6 @@ public class SensorListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_sensor_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

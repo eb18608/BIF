@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.bioinspiredflight">
 
     <application
@@ -12,30 +13,38 @@
         <activity
             android:name=".sensor.SensorListActivity"
             android:label="@string/title_sensor_list"
+            android:screenOrientation="userLandscape"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".sensor.SensorDetailActivity"
             android:label="@string/title_sensor_detail"
+            android:screenOrientation="userLandscape"
             android:parentActivityName=".sensor.SensorListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.bioinspiredflight.sensor.SensorListActivity" />
         </activity>
-        <activity android:name=".AchievementsActivity" />
+        <activity android:name=".AchievementsActivity"
+            android:screenOrientation="userLandscape" />
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="userLandscape" />
         <activity
             android:name=".GameActivity"
             android:label="@string/title_activity_game"
+            android:screenOrientation="userLandscape"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.bioinspiredflight.MainActivity" />
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="userLandscape"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

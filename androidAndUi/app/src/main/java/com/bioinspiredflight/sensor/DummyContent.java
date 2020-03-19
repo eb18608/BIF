@@ -1,4 +1,4 @@
-package com.bioinspiredflight.dummy;
+package com.bioinspiredflight.sensor;
 
 import java.util.ArrayList;
 import java.util.HashMap;

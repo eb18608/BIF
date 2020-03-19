@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bioinspiredflight.dummy.DummyContent;
-
 /**
  * A fragment representing a single Sensor detail screen.
  * This fragment is either contained in a {@link SensorListActivity}

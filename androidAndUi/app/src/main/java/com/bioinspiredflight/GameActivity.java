@@ -37,7 +37,6 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         final FrameLayout frame = new FrameLayout(this);
         final RelativeLayout uiLayout = new RelativeLayout(this);
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
