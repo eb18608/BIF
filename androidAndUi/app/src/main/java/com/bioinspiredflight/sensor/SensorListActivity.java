@@ -2,7 +2,6 @@ package com.bioinspiredflight.sensor;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -69,19 +68,19 @@ public class SensorListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, SensorContent.ITEMS, mTwoPane));
     }
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final SensorListActivity mParentActivity;
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<SensorContent.SensorItem> mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
+                SensorContent.SensorItem item = (SensorContent.SensorItem) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     arguments.putString(SensorDetailFragment.ARG_ITEM_ID, item.id);
@@ -101,7 +100,7 @@ public class SensorListActivity extends AppCompatActivity {
         };
 
         SimpleItemRecyclerViewAdapter(SensorListActivity parent,
-                                      List<DummyContent.DummyItem> items,
+                                      List<SensorContent.SensorItem> items,
                                       boolean twoPane) {
             mValues = items;
             mParentActivity = parent;
@@ -118,7 +117,7 @@ public class SensorListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.mContentView.setText(mValues.get(position).purpose);
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);

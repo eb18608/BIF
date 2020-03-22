@@ -29,7 +29,7 @@ public class SensorDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private SensorContent.SensorItem mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -47,14 +47,14 @@ public class SensorDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             System.out.println(getArguments().getString(ARG_ITEM_ID));
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = SensorContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
             System.out.println(mItem);
-            System.out.println(DummyContent.ITEM_MAP);
+            System.out.println(SensorContent.ITEM_MAP);
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null && mItem != null) {
-                appBarLayout.setTitle(mItem.content);
+                appBarLayout.setTitle(mItem.purpose);
             }
         }
     }

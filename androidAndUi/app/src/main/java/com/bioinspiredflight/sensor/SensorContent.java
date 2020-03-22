@@ -56,18 +56,20 @@ public class SensorContent {
      */
     public static class SensorItem {
         public final String id;
-        public final String content;
+        public final String purpose;
+        //public final String inspiration;
+        //public final int power, weight, price;
         public final String details;
 
-        public SensorItem(String id, String content, String details) {
+        public SensorItem(String id, String purpose, String details) {
             this.id = id;
-            this.content = content;
+            this.purpose = purpose;
             this.details = details;
         }
 
         @Override
         public String toString() {
-            return content;
+            return purpose;
         }
     }
 }
