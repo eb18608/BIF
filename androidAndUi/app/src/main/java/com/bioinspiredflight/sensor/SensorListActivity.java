@@ -41,6 +41,7 @@ public class SensorListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_list);
 
+        SensorContent.populateList("Sensors.csv", this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
@@ -83,7 +84,7 @@ public class SensorListActivity extends AppCompatActivity {
                 SensorContent.SensorItem item = (SensorContent.SensorItem) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(SensorDetailFragment.ARG_ITEM_ID, item.id);
+                    arguments.putString(SensorDetailFragment.ARG_ITEM_ID, item.getId());
                     SensorDetailFragment fragment = new SensorDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -92,7 +93,7 @@ public class SensorListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, SensorDetailActivity.class);
-                    intent.putExtra(SensorDetailFragment.ARG_ITEM_ID, item.id);
+                    intent.putExtra(SensorDetailFragment.ARG_ITEM_ID, item.getId());
 
                     context.startActivity(intent);
                 }
@@ -116,8 +117,8 @@ public class SensorListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).purpose);
+            holder.mIdView.setText(mValues.get(position).getId());
+            holder.mContentView.setText(mValues.get(position).getPurpose());
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);

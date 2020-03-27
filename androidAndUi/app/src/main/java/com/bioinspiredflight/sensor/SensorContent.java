@@ -1,5 +1,7 @@
 package com.bioinspiredflight.sensor;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,20 +29,30 @@ public class SensorContent {
 
     static {
         // Add some sample items.
+        /*
         for (int i = 1; i <= COUNT; i++) {
             addItem(createDummyItem(i));
+        }*/
+
+        //System.out.println(ITEM_MAP.toString());
+    }
+
+    public static void populateList(String fileName, Activity activity){
+        ArrayList<SensorItem> list = SensorFileHandler.readFile(fileName, activity);
+        for (SensorItem item : list){
+            addItem(item);
         }
-        System.out.println(ITEM_MAP.toString());
     }
 
     private static void addItem(SensorItem item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+        ITEM_MAP.put(item.getId(), item);
     }
 
+    /*
     private static SensorItem createDummyItem(int position) {
         return new SensorItem(String.valueOf(position), "Item " + position, makeDetails(position));
-    }
+    }*/
 
     private static String makeDetails(int position) {
         StringBuilder builder = new StringBuilder();
@@ -55,21 +67,39 @@ public class SensorContent {
      * A dummy item representing a piece of content.
      */
     public static class SensorItem {
-        public final String id;
-        public final String purpose;
-        //public final String inspiration;
-        //public final int power, weight, price;
-        public final String details;
+        private final String id;
+        private final String purpose;
+        private final String inspiration;
+        private final int power, weight, price;
+        private final String details;
 
-        public SensorItem(String id, String purpose, String details) {
+        public SensorItem(String id, String purpose, String inspiration,
+                          int power, int weight, int price,
+                          String imageFileName, String details) {
             this.id = id;
             this.purpose = purpose;
+            this.inspiration = inspiration;
+            this.power = power;
+            this.weight = weight;
+            this.price = price;
             this.details = details;
         }
 
         @Override
         public String toString() {
             return purpose;
+        }
+
+        public String getId(){
+            return id;
+        }
+
+        public String getPurpose(){
+            return purpose;
+        }
+
+        public String getDetails(){
+            return details;
         }
     }
 }
