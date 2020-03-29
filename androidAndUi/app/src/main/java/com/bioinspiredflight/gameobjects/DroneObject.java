@@ -112,7 +112,7 @@ public class DroneObject extends GameObject {
 
     @Override
     public void draw3D() {
-        this.spinPropellers(0.3f);
+        //this.spinPropellers(0.3f);
 
         final float propellerXZ = 22f * this.scale;
         final float propellerY = 2f * this.scale;

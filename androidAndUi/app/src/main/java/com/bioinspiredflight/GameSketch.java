@@ -155,6 +155,8 @@ public class GameSketch extends PApplet{
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
         drone.tiltDrone(movingObject.getAcc());
         rotateY(rotation);
+        System.out.println(getMovingObject().getAcc().z / 750);
+        if (getMovingObject().getAcc().z != -250) { drone.spinPropellers((getMovingObject().getAcc().z + 250) / 1000); }
         drone.draw3D();
         rotateY(-rotation);
         popMatrix();
