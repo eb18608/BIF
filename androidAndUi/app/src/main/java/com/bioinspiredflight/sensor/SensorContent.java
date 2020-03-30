@@ -71,6 +71,7 @@ public class SensorContent {
         private final String purpose;
         private final String inspiration;
         private final int power, weight, price;
+        private final String imageFileName;
         private final String details;
 
         public SensorItem(String id, String purpose, String inspiration,
@@ -82,6 +83,7 @@ public class SensorContent {
             this.power = power;
             this.weight = weight;
             this.price = price;
+            this.imageFileName = imageFileName;
             this.details = details;
         }
 
@@ -100,6 +102,26 @@ public class SensorContent {
 
         public String getDetails(){
             return details;
+        }
+
+        public String getInspiration() {
+            return inspiration;
+        }
+
+        public int getPower() {
+            return power;
+        }
+
+        public int getWeight() {
+            return weight;
+        }
+
+        public int getPrice() {
+            return price;
+        }
+
+        public String getImageFileName() {
+            return imageFileName;
         }
     }
 }

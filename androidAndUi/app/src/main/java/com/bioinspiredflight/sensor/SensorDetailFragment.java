@@ -54,7 +54,7 @@ public class SensorDetailFragment extends Fragment {
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null && mItem != null) {
-                appBarLayout.setTitle(mItem.getPurpose());
+                appBarLayout.setTitle(mItem.getId());
             }
         }
     }
@@ -66,7 +66,15 @@ public class SensorDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.sensor_detail)).setText(mItem.getDetails());
+            String content = "";
+            content += "Purpose: " + mItem.getPurpose() + "\n";
+            content += "Inspired by: " + mItem.getInspiration() + "\n";
+            content += "Costs:\n"
+                    + Integer.toString(mItem.getPower()) + " power, "
+                    + Integer.toString(mItem.getWeight()) + " kg, $"
+                    + Integer.toString(mItem.getPrice()) + "\n\n";
+            content += mItem.getDetails();
+            ((TextView) rootView.findViewById(R.id.sensor_detail)).setText(content);
         }
 
         return rootView;
