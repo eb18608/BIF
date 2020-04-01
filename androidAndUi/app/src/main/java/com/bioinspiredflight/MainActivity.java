@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
 
+import com.bioinspiredflight.sensor.Sensor;
 import com.bioinspiredflight.sensor.SensorListActivity;
 import com.bioinspiredflight.utilities.AchievementsFileHandler;
 

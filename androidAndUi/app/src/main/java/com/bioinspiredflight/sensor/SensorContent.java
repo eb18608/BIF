@@ -38,7 +38,7 @@ public class SensorContent {
     }
 
     public static void populateList(String fileName, Activity activity){
-        ArrayList<SensorItem> list = SensorFileHandler.readFile(fileName, activity);
+        ArrayList<SensorItem> list = SensorFileHandler.readSensorFile(fileName, activity);
         for (SensorItem item : list){
             addItem(item);
         }
