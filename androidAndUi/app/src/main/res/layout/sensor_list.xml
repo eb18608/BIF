@@ -6,8 +6,12 @@
     android:name="com.bioinspiredflight.SensorListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="end"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
+    android:hapticFeedbackEnabled="true"
+    android:orientation="vertical"
+    android:outlineProvider="paddedBounds"
+    app:layoutManager="GridLayoutManager"
     tools:context=".sensor.SensorListActivity"
     tools:listitem="@layout/sensor_list_content" />

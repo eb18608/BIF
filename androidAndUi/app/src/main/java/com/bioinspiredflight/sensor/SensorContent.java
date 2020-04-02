@@ -73,6 +73,7 @@ public class SensorContent {
         private final int power, weight, price;
         private final String imageFileName;
         private final String details;
+        private boolean equipped, unlocked;
 
         public SensorItem(String id, String purpose, String inspiration,
                           int power, int weight, int price,
@@ -85,6 +86,8 @@ public class SensorContent {
             this.price = price;
             this.imageFileName = imageFileName;
             this.details = details;
+            this.equipped = false;
+            this.unlocked = false;
         }
 
         @Override
@@ -122,6 +125,22 @@ public class SensorContent {
 
         public String getImageFileName() {
             return imageFileName;
+        }
+
+        public boolean isEquipped() {
+            return equipped;
+        }
+
+        public void setEquipped(boolean equipped) {
+            this.equipped = equipped;
+        }
+
+        public boolean isUnlocked() {
+            return unlocked;
+        }
+
+        public void setUnlocked(boolean unlocked) {
+            this.unlocked = unlocked;
         }
     }
 }

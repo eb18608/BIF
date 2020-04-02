@@ -118,8 +118,12 @@ public class SensorListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mIdView.setText(mValues.get(position).getId());
-            holder.mContentView.setText(mValues.get(position).getPurpose());
-
+            //holder.mContentView.setText(Boolean.toString(mValues.get(position).getStatus()));
+            if (!mValues.get(position).isUnlocked()){
+                holder.mContentView.setText("Locked");
+            } else if (mValues.get(position).isEquipped()){
+                holder.mContentView.setText("Active");
+            }
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
         }
