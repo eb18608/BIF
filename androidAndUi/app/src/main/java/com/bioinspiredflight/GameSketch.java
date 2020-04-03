@@ -44,6 +44,8 @@ public class GameSketch extends PApplet{
     private PShape outerLoopShape;
     private PShape helipadShape;
 
+    private PImage sky;
+
     public Movement getMovingObject() { return movingObject; }
     public PVector getLastPosition(){ return lastNonCollision; }
 
@@ -138,12 +140,14 @@ public class GameSketch extends PApplet{
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
+        sky = loadImage("smiley.png");
+        sky.resize(width, height);
         startLevel("levels/level0.csv");
     }
 
     public void draw3d(float droneLeftRight, float droneUpDown, float droneForwardBack){
         // 3D Section
-        background(100);
+        background(sky);
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
 
