@@ -12,10 +12,13 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -24,6 +27,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class SensorFileHandler {
+
+    private static String sensorsEquippedFileName = "sensorsEquipped.bin";
+    private static String sensorsUnlockedFileName = "sensorsUnlocked.bin";
 
     public static ArrayList<SensorContent.SensorItem> readSensorFile(String fileName, Activity activity){
         ArrayList<SensorContent.SensorItem> list = new ArrayList<>();
@@ -40,9 +46,9 @@ public class SensorFileHandler {
                                     record.get(0),
                                     record.get(1),
                                     record.get(2),
-                                    Integer.parseInt(record.get(3)),
-                                    Integer.parseInt(record.get(4)),
-                                    Integer.parseInt(record.get(5)),
+                                    Double.parseDouble(record.get(3)),
+                                    Double.parseDouble(record.get(4)),
+                                    Double.parseDouble(record.get(5)),
                                     record.get(6),
                                     record.get(7));
                     list.add(data);
@@ -71,7 +77,7 @@ public class SensorFileHandler {
                 if (entry.getValue()){
                     data = (data << 1) + 1;
                 } else {
-                    data = data << 1;
+                    data = data * 2;    //equivalent to << 1 but we wanna make sure it works the way we intend it to and sets the LSB to 0
                 }
             }
             stream.writeInt(data);
@@ -98,9 +104,41 @@ public class SensorFileHandler {
                 }
                 data = data >> 1;
             }
-        } catch (Exception e){
+        } catch (FileNotFoundException e){
+            //Create new file if file not found
+            System.out.println("Creating new " + fileName + " file");
+            populateTable(table);
+            writeSensorStatusFile(context, fileName, table);
+        } catch (EOFException e){
+            new File(context.getFilesDir(), fileName).delete();
+            populateTable(table);
+            writeSensorStatusFile(context, fileName, table);
+        } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    private static void populateTable(TreeMap<Sensor, Boolean> table){
+        Sensor[] sensors = Sensor.values();
+        for (Sensor sensor : sensors){
+            table.put(sensor, false);
+        }
+    }
+
+    public static void getSensorsEquipped(Context context, TreeMap<Sensor, Boolean> table){
+        readSensorStatusFile(context, sensorsEquippedFileName, table);
+    }
+
+    public static void getSensorsUnlocked(Context context, TreeMap<Sensor, Boolean> table){
+        readSensorStatusFile(context, sensorsUnlockedFileName, table);
+    }
+
+    public static void setSensorsEquipped(Context context, TreeMap<Sensor, Boolean> table){
+        writeSensorStatusFile(context, sensorsEquippedFileName, table);
+    }
+
+    public static void setSensorsUnlocked(Context context, TreeMap<Sensor, Boolean> table){
+        writeSensorStatusFile(context, sensorsUnlockedFileName, table);
     }
 
 }

@@ -70,9 +70,9 @@ public class SensorDetailFragment extends Fragment {
             content += "Purpose: " + mItem.getPurpose() + "\n";
             content += "Inspired by: " + mItem.getInspiration() + "\n";
             content += "Costs:\n"
-                    + Integer.toString(mItem.getPower()) + " power, "
-                    + Integer.toString(mItem.getWeight()) + " kg, $"
-                    + Integer.toString(mItem.getPrice()) + "\n\n";
+                    + Double.toString(mItem.getPower()) + " power, "
+                    + Double.toString(mItem.getWeight()) + " kg, $"
+                    + Double.toString(mItem.getPrice()) + "\n\n";
             content += mItem.getDetails();
             ((TextView) rootView.findViewById(R.id.sensor_detail)).setText(content);
         }

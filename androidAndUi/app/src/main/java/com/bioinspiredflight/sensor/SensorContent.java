@@ -24,6 +24,7 @@ public class SensorContent {
      * A map of sample (dummy) items, by ID.
      */
     public static final Map<String, SensorItem> ITEM_MAP = new HashMap<String, SensorItem>();
+    private static final Map<String, Sensor> idToSensorMap = new HashMap<>();
 
     private static final int COUNT = 25;
 
@@ -70,13 +71,14 @@ public class SensorContent {
         private final String id;
         private final String purpose;
         private final String inspiration;
-        private final int power, weight, price;
+        private final double power, weight, price;
         private final String imageFileName;
         private final String details;
         private boolean equipped, unlocked;
+        private Sensor sensor;
 
         public SensorItem(String id, String purpose, String inspiration,
-                          int power, int weight, int price,
+                          double power, double weight, double price,
                           String imageFileName, String details) {
             this.id = id;
             this.purpose = purpose;
@@ -88,6 +90,36 @@ public class SensorContent {
             this.details = details;
             this.equipped = false;
             this.unlocked = false;
+            idToSensor();
+        }
+
+        private void idToSensor(){
+            boolean found = false;
+            Sensor[] sensors = Sensor.values();
+            String[] ids =
+                    {"Air flow sensor",
+                    "Camera",
+                    "Camouflage skin",
+                    "Chemical sensor",
+                    "Electrical sensor",
+                    "GPS",
+                    "Soft Robotics Gripper",
+                    "HD camera",
+                    "IMU (gyroscopes and accelerometers)",
+                    "Infrared camera",
+                    "Magnetometer",
+                    "Sonar sensor (echolocation)",
+                    "Sticky skin",
+                    "Touch sensor"};
+            for (int i = 0; i < sensors.length && !found; i++){
+                if (id.equals(ids[i])){
+                    sensor = sensors[i];
+                    found = true;
+                }
+            }
+            if(!found){
+                throw new RuntimeException("IDs in file don't match ids array\n");
+            }
         }
 
         @Override
@@ -111,15 +143,15 @@ public class SensorContent {
             return inspiration;
         }
 
-        public int getPower() {
+        public double getPower() {
             return power;
         }
 
-        public int getWeight() {
+        public double getWeight() {
             return weight;
         }
 
-        public int getPrice() {
+        public double getPrice() {
             return price;
         }
 
@@ -141,6 +173,10 @@ public class SensorContent {
 
         public void setUnlocked(boolean unlocked) {
             this.unlocked = unlocked;
+        }
+
+        public Sensor getSensor() {
+            return sensor;
         }
     }
 }

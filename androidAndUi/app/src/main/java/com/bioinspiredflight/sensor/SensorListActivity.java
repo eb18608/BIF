@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * An activity representing a list of Sensors. This activity
@@ -35,11 +37,36 @@ public class SensorListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    public static TreeMap<Sensor, Boolean> sensorsEquipped = new TreeMap<>();
+    public static TreeMap<Sensor, Boolean> sensorsUnlocked = new TreeMap<>();
+
+    public void updateSensors(){
+        for (SensorContent.SensorItem item : SensorContent.ITEM_MAP.values()){
+            sensorsUnlocked.put(item.getSensor(), item.isUnlocked());
+            sensorsEquipped.put(item.getSensor(), item.isEquipped());
+        }
+        SensorFileHandler.setSensorsEquipped(getApplicationContext(), sensorsEquipped);
+        SensorFileHandler.setSensorsUnlocked(getApplicationContext(), sensorsUnlocked);
+    }
+
+    public static void getSensorData(){
+        // Inefficient as heck but it's probably fine, will fix later if not
+        for (SensorContent.SensorItem item : SensorContent.ITEM_MAP.values()){
+            for (Map.Entry<Sensor, Boolean> entry : sensorsEquipped.entrySet()){
+                item.setEquipped(entry.getValue());
+                item.setUnlocked(sensorsUnlocked.get(item.getSensor()));
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_list);
+
+        SensorFileHandler.getSensorsEquipped(getApplicationContext(), sensorsEquipped);
+        SensorFileHandler.getSensorsUnlocked(getApplicationContext(), sensorsUnlocked);
+        getSensorData();
 
         SensorContent.populateList("Sensors.csv", this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -81,6 +108,7 @@ public class SensorListActivity extends AppCompatActivity {
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getSensorData();
                 SensorContent.SensorItem item = (SensorContent.SensorItem) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
