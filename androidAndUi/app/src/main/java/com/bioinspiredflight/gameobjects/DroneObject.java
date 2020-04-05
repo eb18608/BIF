@@ -153,8 +153,8 @@ public class DroneObject extends GameObject {
         sketch.pushMatrix();
         this.propellerFL.rotateY(multiplier);
         this.propellerFR.rotateY(-multiplier);
-        this.propellerBL.rotateY(multiplier);
-        this.propellerBR.rotateY(-multiplier);
+        this.propellerBL.rotateY(-multiplier);
+        this.propellerBR.rotateY(multiplier);
         sketch.popMatrix();
     }
 
