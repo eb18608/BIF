@@ -43,7 +43,6 @@ public class GameSketch extends PApplet{
     private PShape innerLoopShape;
     private PShape outerLoopShape;
     private PShape helipadShape;
-    private PShape postboxShape;
 
     private PImage sky;
 
@@ -138,7 +137,6 @@ public class GameSketch extends PApplet{
         innerLoopShape = loadShape("textured_circular_drone.obj");
         innerLoopShape.setFill(color(  152, 226, 255, 90));
         helipadShape = loadShape("simple_helipad.obj");
-        postboxShape = loadShape("postbox.obj");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
@@ -149,14 +147,9 @@ public class GameSketch extends PApplet{
 
     public void draw3d(float droneLeftRight, float droneUpDown, float droneForwardBack){
         // 3D Section
-        background(100);
+        background(sky);
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
-
-        pushMatrix();
-        translate(150, 0, 150);
-        shape(postboxShape);
-        popMatrix();
 
         gameObjects.drawNonDroneGameObjects3D();
 
@@ -199,7 +192,7 @@ public class GameSketch extends PApplet{
     }
 
     public void draw() {
-        lights();
+
         /*
         for (int b = 0; b < buildings.length && movingObject.collided == false ; b++) {
                 movingObject.collisionDetectorZ(movingObject, buildings[b]);
