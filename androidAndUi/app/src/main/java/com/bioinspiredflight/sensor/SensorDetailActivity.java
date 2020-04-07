@@ -48,26 +48,25 @@ public class SensorDetailActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with unlock/equip action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                  */
-                Sensor sensor = SensorContent.idToSensor(id);
-                if (SensorListActivity.sensorsUnlocked.containsKey(sensor)
-                && SensorListActivity.sensorsUnlocked.get(sensor) == false){
-                    SensorListActivity.sensorsUnlocked.put(sensor, true);
+                //Sensor sensor = SensorContent.idToSensor(id);
+                SensorContent.SensorItem item = SensorContent.ITEM_MAP.get(id);
+                if (item.isUnlocked() == false){
+                    item.setUnlocked(true);
                     Snackbar.make(view, "Sensor unlocked!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
-                } else if (SensorListActivity.sensorsEquipped.containsKey(sensor)
-                && SensorListActivity.sensorsEquipped.get(sensor) == false){
-                    SensorListActivity.sensorsEquipped.put(sensor, true);
+                } else if (item.isEquipped() == false){
+                    item.setEquipped(true);
                     Snackbar.make(view, "Sensor equipped!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+                    System.out.println("b");
                 } else {
-                    SensorListActivity.sensorsEquipped.put(sensor, false);
+                    item.setEquipped(false);
                     Snackbar.make(view, "Sensor unequipped!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+                    System.out.println("c");
                 }
-                SensorListActivity.updateSensorContent();
-                SensorListActivity.updateSensorFile(getApplicationContext());
-                System.out.println(SensorListActivity.sensorsUnlocked.get(sensor));
-                System.out.println(SensorListActivity.sensorsEquipped.get(sensor));
+                SensorFileHandler.writeSensorStatusFile(getApplicationContext(), SensorFileHandler.sensorsUnlockedFileName);
+                SensorFileHandler.writeSensorStatusFile(getApplicationContext(), SensorFileHandler.sensorsEquippedFileName);
             }
         });
 

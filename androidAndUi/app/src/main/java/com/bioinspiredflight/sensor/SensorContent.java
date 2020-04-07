@@ -18,25 +18,12 @@ public class SensorContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<SensorItem> ITEMS = new ArrayList<SensorItem>();
+    public static final List<SensorItem> ITEMS = new ArrayList<>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, SensorItem> ITEM_MAP = new HashMap<String, SensorItem>();
-    private static final Map<String, Sensor> idToSensorMap = new HashMap<>();
-
-    private static final int COUNT = 25;
-
-    static {
-        // Add some sample items.
-        /*
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
-        }*/
-
-        //System.out.println(ITEM_MAP.toString());
-    }
+    public static final Map<String, SensorItem> ITEM_MAP = new HashMap<>();
 
     public static void populateList(String fileName, Activity activity){
         ITEMS.clear();
@@ -56,46 +43,6 @@ public class SensorContent {
         return new SensorItem(String.valueOf(position), "Item " + position, makeDetails(position));
     }*/
 
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
-    }
-    public static Sensor idToSensor(String id){
-        boolean found = false;
-        Sensor sensor = null;
-        Sensor[] sensors = Sensor.values();
-        String[] ids =
-                {"Air flow sensor",
-                        "Camera",
-                        "Camouflage skin",
-                        "Chemical sensor",
-                        "Electrical sensor",
-                        "GPS",
-                        "Soft Robotics Gripper",
-                        "HD camera",
-                        "IMU (gyroscopes and accelerometers)",
-                        "Infrared camera",
-                        "Magnetometer",
-                        "Sonar sensor (echolocation)",
-                        "Sticky skin",
-                        "Touch sensor"};
-        for (int i = 0; i < sensors.length && !found; i++){
-            if (id.equals(ids[i])){
-                sensor = sensors[i];
-                found = true;
-            }
-        }
-        if(!found){
-            System.out.println(id);
-            throw new RuntimeException("IDs in file don't match ids array\n");
-        }
-        return sensor;
-    }
-
     /**
      * A dummy item representing a piece of content.
      */
@@ -107,7 +54,7 @@ public class SensorContent {
         private final String imageFileName;
         private final String details;
         private boolean equipped, unlocked;
-        private Sensor sensor;
+        //private Sensor sensor;
 
         public SensorItem(String id, String purpose, String inspiration,
                           double power, double weight, double price,
@@ -122,7 +69,7 @@ public class SensorContent {
             this.details = details;
             this.equipped = false;
             this.unlocked = false;
-            this.sensor = idToSensor(this.id);
+            //this.sensor = idToSensor(this.id);
         }
 
         @Override
@@ -178,8 +125,9 @@ public class SensorContent {
             this.unlocked = unlocked;
         }
 
-        public Sensor getSensor() {
+        /*public Sensor getSensor() {
             return sensor;
         }
+         */
     }
 }

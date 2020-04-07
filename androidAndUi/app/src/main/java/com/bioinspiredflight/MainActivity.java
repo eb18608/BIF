@@ -2,7 +2,6 @@ package com.bioinspiredflight;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
 
-import com.bioinspiredflight.sensor.Sensor;
 import com.bioinspiredflight.sensor.SensorListActivity;
 import com.bioinspiredflight.utilities.AchievementsFileHandler;
 

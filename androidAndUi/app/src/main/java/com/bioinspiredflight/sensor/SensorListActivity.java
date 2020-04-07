@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -14,10 +15,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,26 +40,12 @@ public class SensorListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
-    public static TreeMap<Sensor, Boolean> sensorsEquipped = new TreeMap<>();
-    public static TreeMap<Sensor, Boolean> sensorsUnlocked = new TreeMap<>();
+    //public static TreeMap<String, Boolean> sensorsEquipped = new TreeMap<>();
+    //public static TreeMap<String, Boolean> sensorsUnlocked = new TreeMap<>();
 
-    public static void updateSensorFile(Context context){
-        for (SensorContent.SensorItem item : SensorContent.ITEM_MAP.values()){
-            sensorsUnlocked.put(item.getSensor(), item.isUnlocked());
-            sensorsEquipped.put(item.getSensor(), item.isEquipped());
-        }
-        SensorFileHandler.setSensorsEquipped(context, sensorsEquipped);
-        SensorFileHandler.setSensorsUnlocked(context, sensorsUnlocked);
-    }
-
-    public static void updateSensorContent(){
-        // Inefficient as heck but it's probably fine, will fix later if not
-        for (SensorContent.SensorItem item : SensorContent.ITEM_MAP.values()){
-            for (Map.Entry<Sensor, Boolean> entry : sensorsEquipped.entrySet()){
-                item.setEquipped(entry.getValue());
-                item.setUnlocked(sensorsUnlocked.get(item.getSensor()));
-            }
-        }
+    public static void updateSensorContent(Context context){
+        SensorFileHandler.readSensorStatusFile(context, SensorFileHandler.sensorsUnlockedFileName);
+        SensorFileHandler.readSensorStatusFile(context, SensorFileHandler.sensorsEquippedFileName);
     }
 
     @Override
@@ -64,11 +53,10 @@ public class SensorListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_list);
 
-        SensorFileHandler.getSensorsEquipped(getApplicationContext(), sensorsEquipped);
-        SensorFileHandler.getSensorsUnlocked(getApplicationContext(), sensorsUnlocked);
-        updateSensorContent();
 
         SensorContent.populateList("Sensors.csv", this);
+        updateSensorContent(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
@@ -93,6 +81,12 @@ public class SensorListActivity extends AppCompatActivity {
         View recyclerView = findViewById(R.id.sensor_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            //actionBar.setHomeButtonEnabled(true);
+        }
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -108,7 +102,7 @@ public class SensorListActivity extends AppCompatActivity {
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateSensorContent();
+                //updateSensorContent();
                 SensorContent.SensorItem item = (SensorContent.SensorItem) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
@@ -171,5 +165,20 @@ public class SensorListActivity extends AppCompatActivity {
                 mContentView = (TextView) view.findViewById(R.id.content);
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        String[] fileList = getApplicationContext().fileList();
+        System.out.println(fileList.toString());
+        for (String fileName : fileList){
+            System.out.println(fileName);
+        }
+        switch (item.getItemId()){
+            case android.R.id.home:
+                super.onBackPressed();
+                break;
+        }
+        return true;
     }
 }

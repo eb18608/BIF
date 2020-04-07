@@ -28,8 +28,8 @@ import java.util.TreeMap;
 
 public class SensorFileHandler {
 
-    private static String sensorsEquippedFileName = "sensorsEquipped.bin";
-    private static String sensorsUnlockedFileName = "sensorsUnlocked.bin";
+    public final static String sensorsEquippedFileName = "sensorsEquipped.csv";
+    public final static String sensorsUnlockedFileName = "sensorsUnlocked.csv";
 
     public static ArrayList<SensorContent.SensorItem> readSensorFile(String fileName, Activity activity){
         ArrayList<SensorContent.SensorItem> list = new ArrayList<>();
@@ -65,80 +65,63 @@ public class SensorFileHandler {
         return list;
     }
 
-    public static void writeSensorStatusFile(Context context, String fileName,
-                                 TreeMap<Sensor, Boolean> table){
+    public static ArrayList<SensorContent.SensorItem> readSensorStatusFile(Context context, String fileName){
+        ArrayList<SensorContent.SensorItem> list = new ArrayList<>();
+        try {
+            File f = new File(context.getFilesDir(), fileName);
+            f.createNewFile();
+            FileInputStream inputStream = new FileInputStream(f);
+            InputStreamReader reader = null;
+            reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL);
+
+            for (CSVRecord record : parser){
+                boolean status = false;
+                if (record.get(1).equals("true")){
+                    status = true;
+                }
+                if (fileName.equals(sensorsEquippedFileName)){
+                    SensorContent.ITEM_MAP.get(record.get(0)).setEquipped(status);
+                } else if (fileName.equals(sensorsUnlockedFileName)){
+                    SensorContent.ITEM_MAP.get(record.get(0)).setUnlocked(status);
+                }
+
+            }
+            parser.close();
+            reader.close();
+        } catch (FileNotFoundException e){
+            //Create new file if file not found
+            System.out.println("Creating new " + fileName + " file");
+            writeSensorStatusFile(context, fileName);
+        } catch (Exception e){
+            System.out.printf("Failed to read file: %s\n", fileName);
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static void writeSensorStatusFile(Context context, String fileName){
         try {
             //Create a new file if it doesn't exist, otherwise do nothing
             File f = new File(context.getFilesDir(), fileName);
-            DataOutputStream stream = new DataOutputStream(new FileOutputStream(f));
-            int data = 1;
-            for (Map.Entry<Sensor, Boolean> entry : table.entrySet()){
+            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+            String str = "";
+            for (Map.Entry<String, SensorContent.SensorItem> entry : SensorContent.ITEM_MAP.entrySet()){
                 //do stuff
-                if (entry.getValue()){
-                    data = (data << 1) + 1;
-                } else {
-                    data = data * 2;    //equivalent to << 1 but we wanna make sure it works the way we intend it to and sets the LSB to 0
+                str = entry.getValue().getId() + ",";
+                if (fileName.equals(sensorsEquippedFileName)){
+                    str += Boolean.toString(entry.getValue().isEquipped());
+                } else if (fileName.equals(sensorsUnlockedFileName)){
+                    str += Boolean.toString(entry.getValue().isUnlocked());
                 }
+                str += "\n";
+                writer.write(str);
             }
-            stream.writeInt(data);
-            stream.close();
+            writer.close();
         } catch (Exception e){
             System.out.printf("Failed to write to file: %s\n", fileName);
             e.printStackTrace();
         }
-    }
-
-    public static void readSensorStatusFile(Context context, String fileName,
-                                            TreeMap<Sensor, Boolean> table){
-        try {
-            File f = new File(context.getFilesDir(), fileName);
-            DataInputStream stream = new DataInputStream(new FileInputStream(f));
-            int data = stream.readInt();
-            stream.close();
-            Sensor[] sensors = Sensor.values();
-            for (int i = sensors.length - 1; i >= 0; i--){
-                if ((data & 1) == 1){
-                    table.put(sensors[i], true);
-                } else {
-                    table.put(sensors[i], false);
-                }
-                data = data >> 1;
-            }
-        } catch (FileNotFoundException e){
-            //Create new file if file not found
-            System.out.println("Creating new " + fileName + " file");
-            populateTable(table);
-            writeSensorStatusFile(context, fileName, table);
-        } catch (EOFException e){
-            new File(context.getFilesDir(), fileName).delete();
-            populateTable(table);
-            writeSensorStatusFile(context, fileName, table);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    private static void populateTable(TreeMap<Sensor, Boolean> table){
-        Sensor[] sensors = Sensor.values();
-        for (Sensor sensor : sensors){
-            table.put(sensor, false);
-        }
-    }
-
-    public static void getSensorsEquipped(Context context, TreeMap<Sensor, Boolean> table){
-        readSensorStatusFile(context, sensorsEquippedFileName, table);
-    }
-
-    public static void getSensorsUnlocked(Context context, TreeMap<Sensor, Boolean> table){
-        readSensorStatusFile(context, sensorsUnlockedFileName, table);
-    }
-
-    public static void setSensorsEquipped(Context context, TreeMap<Sensor, Boolean> table){
-        writeSensorStatusFile(context, sensorsEquippedFileName, table);
-    }
-
-    public static void setSensorsUnlocked(Context context, TreeMap<Sensor, Boolean> table){
-        writeSensorStatusFile(context, sensorsUnlockedFileName, table);
     }
 
 }
