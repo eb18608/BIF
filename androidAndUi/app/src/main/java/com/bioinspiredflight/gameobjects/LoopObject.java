@@ -35,13 +35,9 @@ public class LoopObject extends ObjectiveObject {
         return h;
     }
 
-    public float getW() {
-        return w;
-    }
+    public float getW() { return w; }
 
-    public float getD() {
-        return d;
-    }
+    public float getD()  { return d; }
 
     public boolean isVisible() { return visible; }
 
@@ -90,13 +86,9 @@ public class LoopObject extends ObjectiveObject {
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         sketch.setLastPosition(movement.getPos());
         if (this.isVisible()) {
-            //System.out.println("YOU got here");
-            //System.out.println(this.getClass());
             if (!this.getStatus()) { sketch.setCurrentLoopID(this.getID() + 1); }
             setStatus(true);
-            //System.out.println("PLEASE DON'T HIT THE CLASS");
             setColour(40, 255, 40, 245);
-
         }
     }
 

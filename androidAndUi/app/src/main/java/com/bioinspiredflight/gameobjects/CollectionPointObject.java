@@ -38,15 +38,11 @@ public class CollectionPointObject extends ObjectiveObject {
 
     @Override
     public void draw3D() {
-        //WE NEED THIS CODE FOR FUTURE REFERENCE
-        //PLEASE DON'T DELETE
-
         sketch.pushMatrix();
         sketch.translate(getCoords().x, getCoords().y, getCoords().z);
         this.body.setFill(sketch.color(0, 0, 100));
         sketch.shape(body);
         sketch.popMatrix();
-
     }
 
     @Override
@@ -63,16 +59,10 @@ public class CollectionPointObject extends ObjectiveObject {
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         movement.setVel(collideMod.collideMod);
         movement.setPos(sketch.getLastPosition());
-        //System.out.println("Collided with object");
         setStatus(true);
-        //System.out.println("Status of Objective: "+ id + " is: " + status);
-        if (!sketch.checkCompleted()) {
-            setStatus(false);
-        }
+        if (!sketch.checkCompleted()) { setStatus(false); }
     }
 
     @Override
-    public boolean isDrone() {
-        return false;
-    }
+    public boolean isDrone() { return false; }
 }

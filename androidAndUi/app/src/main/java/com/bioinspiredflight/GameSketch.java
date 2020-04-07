@@ -191,21 +191,10 @@ public class GameSketch extends PApplet{
     }
 
     public void draw() {
-
-        /*
-        for (int b = 0; b < buildings.length && movingObject.collided == false ; b++) {
-                movingObject.collisionDetectorZ(movingObject, buildings[b]);
-                movingObject.collisionDetectorXY(movingObject, buildings[b]);
-                movingObject.isCollision(movingObject, buildings[b]);
-//                System.out.println("collided? " + movingObject.collided);
-//                System.out.println("building position: " + buildings[b].coords);
-//                System.out.println("drone position: " + movingObject.getPos());
-        }*/
+        lights();
         int i = gameObjects.checkForCollisions(movingObject);
-        //System.out.println(i);
 
         if(movingObject.collided == true){
-//            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
             collideMod.accept(visitor, movingObject, this, gameObjects.get(i));
             movingObject.collided = false;
         } else {
@@ -254,32 +243,20 @@ public class GameSketch extends PApplet{
         return complete;
     }
 
-    public void setObs(GameActivity.GameSketchObserver obs) {
-        this.obs = obs;
-    }
+    public void setObs(GameActivity.GameSketchObserver obs) { this.obs = obs; }
 
-    public PShape getOuterLoopShape() {
-        return outerLoopShape;
-    }
+    public PShape getOuterLoopShape() { return outerLoopShape; }
 
-    public PShape getInnerLoopShape() {
-        return innerLoopShape;
-    }
+    public PShape getInnerLoopShape() { return innerLoopShape; }
 
-    public PShape getHelipadShape() {
-        return helipadShape;
-    }
+    public PShape getHelipadShape() { return helipadShape; }
 
     public void setCurrentLoopID(int id) { currentLoopID = id; }
 
     public int getCurrentLoopID() { return currentLoopID; }
 
-    public PShape getCollectionPointShape() {
-        return collectionPointShape;
-    }
+    public PShape getCollectionPointShape() { return collectionPointShape; }
 
-    public PShape getCollectibleShape() {
-        return collectibleShape;
-    }
+    public PShape getCollectibleShape() { return collectibleShape; }
 
 }

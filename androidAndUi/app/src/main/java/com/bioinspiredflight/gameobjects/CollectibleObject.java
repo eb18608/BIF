@@ -62,13 +62,7 @@ public class CollectibleObject extends ObjectiveObject {
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         sketch.setLastPosition(movement.getPos());
-        //System.out.println("we're touching, ew...");
-        if (this.isVisible()) {
-            //System.out.println("YOU got here");
-            //System.out.println(this.getClass());
-            setStatus(true);
-            //System.out.println("PLEASE DON'T HIT THE CLASS");
-        }
+        if (this.isVisible()) { setStatus(true); }
     }
 
     @Override
