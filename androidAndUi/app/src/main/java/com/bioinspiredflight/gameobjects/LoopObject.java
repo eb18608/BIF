@@ -14,12 +14,13 @@ public class LoopObject extends ObjectiveObject {
     float[] colour = {255, 195, 0, 245};
 
     public LoopObject(GameSketch sketch, PShape outerBody, PShape innerBody, float x, float y, float z,
-                          float scale, int id) {
+                          float scale, float rot, int id) {
         super(sketch, outerBody, x, y, z, scale, id);
-        h = 140 * scale;
-        w = 140 * scale;
-        d = 140 * scale;
+        h = 17 * scale;
+        w = 105 * scale;
+        d = 105 * scale;
         this.innerBody = innerBody;
+        outerBodyRotation = rot;
     }
 
     public PVector getCoords(){
@@ -57,7 +58,6 @@ public class LoopObject extends ObjectiveObject {
         sketch.pushMatrix();
         sketch.rotateY(outerBodyRotation);
         sketch.shape(body);
-        outerBodyRotation -= 0.05f;
         sketch.popMatrix();
         sketch.pushMatrix();
         sketch.rotateY(innerBodyRotation);

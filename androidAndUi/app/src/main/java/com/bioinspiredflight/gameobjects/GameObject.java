@@ -13,6 +13,7 @@ public abstract class GameObject implements Interactable{
     String objectFileName;
     float h, w, d;
     int id;
+    float rotation;
     public GameObject(GameSketch sketch, PShape body, float x, float y, float z, int id){
         this.sketch = sketch;
         this.body = body;
