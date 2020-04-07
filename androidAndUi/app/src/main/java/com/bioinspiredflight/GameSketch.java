@@ -56,7 +56,7 @@ public class GameSketch extends PApplet{
         this.collideMod = collideMod;
     }
 
-
+    int currentLoopID;
     PImage texture;
     PImage droneIcon;
     DroneObject drone;
@@ -123,7 +123,7 @@ public class GameSketch extends PApplet{
         rotation = 0;
         drone.setInputToOutput(io);
         obs.updateUINewLevel();
-
+        currentLoopID = 0;
     }
 
     public void setup() {
@@ -291,4 +291,8 @@ public class GameSketch extends PApplet{
     public void setHelipadShape(PShape helipadShape) {
         this.helipadShape = helipadShape;
     }
+
+    public void setCurrentLoopID(int id) { currentLoopID = id; }
+
+    public int getCurrentLoopID() { return currentLoopID; }
 }

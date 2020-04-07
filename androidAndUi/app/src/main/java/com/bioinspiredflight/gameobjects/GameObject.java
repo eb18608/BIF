@@ -38,4 +38,6 @@ public abstract class GameObject implements Interactable{
         return d;
     }
 
+    public int getID() { return id; }
+
 }
