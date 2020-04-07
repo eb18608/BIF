@@ -13,9 +13,9 @@ public class CollectibleObject extends ObjectiveObject {
     public CollectibleObject(GameSketch sketch, PShape body, float x, float y, float z,
                       float scale, int id) {
         super(sketch, body, x, y, z, scale, id);
-        h = 20 * scale;
-        w = 20 * scale;
-        d = 20 * scale;
+        h = 6 * scale;
+        w = 50 * scale;
+        d = 25 * scale;
         visible = true;
     }
 
@@ -42,7 +42,6 @@ public class CollectibleObject extends ObjectiveObject {
         if ( this.isVisible() ) {
             sketch.pushMatrix();
             sketch.translate(getCoords().x, getCoords().y, getCoords().z);
-            this.body.setFill(sketch.color(0, 200, 200, 100));
             sketch.shape(body);
             sketch.popMatrix();
         }
@@ -62,7 +61,11 @@ public class CollectibleObject extends ObjectiveObject {
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         sketch.setLastPosition(movement.getPos());
-        if (this.isVisible()) { setStatus(true); }
+        if (!sketch.getHoldingCollectible()) {
+            if (this.isVisible()) { setStatus(true); }
+            visible = false;
+            sketch.setHoldingCollectible(true);
+        }
     }
 
     @Override

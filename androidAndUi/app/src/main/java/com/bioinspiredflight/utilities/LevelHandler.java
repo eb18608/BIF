@@ -104,7 +104,7 @@ public class LevelHandler {
                     float z = Integer.parseInt(record.get(3));
                     float rot = Float.parseFloat(record.get(4));
                     float scale = Integer.parseInt(record.get(5));
-                    Data data = new Data(x, y, z, scale, rot);
+                    Data data = new Data(x, y, z, rot, scale);
                // System.out.printf("%f, %f, %f, %f, %f\n", x, y, z, scale);
                     //put string and PVector pair into table
                     table.put(record.get(0), data);
@@ -125,12 +125,12 @@ public class LevelHandler {
 
         private float x, y, z, scale, rot;
 
-        public Data (float x, float y, float z, float scale, float rot){
+        public Data (float x, float y, float z, float rot, float scale){
             this.x = x;
             this.y = y;
             this.z = z;
-            this.scale = scale;
             this.rot = rot;
+            this.scale = scale;
         }
 
         public float getX(){
@@ -145,11 +145,9 @@ public class LevelHandler {
             return z;
         }
 
-        public float getScale() {
-            return scale;
-        }
-
         public float getRotation() { return rot; }
+
+        public float getScale() { return scale; }
 
     }
 

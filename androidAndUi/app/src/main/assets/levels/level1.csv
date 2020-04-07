@@ -3,7 +3,7 @@ building0,300,300,300,0,1
 building1,300,300,720,0,1
 building2,720,300,300,0,1
 building3,720,300,720,0,1
-collection0,300,603,300,0,1
-collectible0,300,610,720,0,1
-collectible1,720,610,300,0,1
-collectible2,720,610,720,0,1
+collection0,300,733,300,0,1
+collectible0,300,603,720,0,1
+collectible1,720,603,300,0,1
+collectible2,720,603,720,0,1

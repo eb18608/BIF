@@ -14,9 +14,9 @@ public class CollectionPointObject extends ObjectiveObject {
     public CollectionPointObject(GameSketch sketch, PShape body, float x, float y, float z,
                          float scale, int id) {
         super(sketch, body, x, y, z, scale, id);
-        h = 6 * scale;
-        w = 265 * scale;
-        d = 265 * scale;
+        h = 266 * scale;
+        w = 100* scale;
+        d = 100 * scale;
         icon = sketch.loadImage("CollectionPointIcon.png");
     }
 
@@ -40,7 +40,6 @@ public class CollectionPointObject extends ObjectiveObject {
     public void draw3D() {
         sketch.pushMatrix();
         sketch.translate(getCoords().x, getCoords().y, getCoords().z);
-        this.body.setFill(sketch.color(0, 0, 100));
         sketch.shape(body);
         sketch.popMatrix();
     }
@@ -61,6 +60,7 @@ public class CollectionPointObject extends ObjectiveObject {
         movement.setPos(sketch.getLastPosition());
         setStatus(true);
         if (!sketch.checkCompleted()) { setStatus(false); }
+        sketch.setHoldingCollectible(false);
     }
 
     @Override

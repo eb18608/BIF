@@ -17,6 +17,7 @@ public class DroneObject extends GameObject {
     float tiltMax = 0.2f;
     PShape propellerFL, propellerFR, propellerBL, propellerBR;
     InputToOutput io;
+    float collectibleRotation = sketch.PI;
 
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
                        final float s, int id) {
@@ -99,6 +100,16 @@ public class DroneObject extends GameObject {
         sketch.pushMatrix();
 
         sketch.shape(body);
+
+        if (sketch.getHoldingCollectible()) {
+            sketch.pushMatrix();
+            sketch.translate(0, 30, 0);
+            sketch.rotateX(sketch.PI/2);
+            sketch.rotateZ(collectibleRotation);
+            collectibleRotation += 0.025f;
+            sketch.shape(sketch.getCollectibleShape());
+            sketch.popMatrix();
+        }
 
         sketch.pushMatrix();
         sketch.translate(-propellerXZ, propellerY, propellerXZ);

@@ -59,6 +59,7 @@ public class GameSketch extends PApplet{
     }
 
     int currentLoopID;
+    boolean holdingCollectible;
     PImage texture;
     PImage droneIcon;
     DroneObject drone;
@@ -126,6 +127,7 @@ public class GameSketch extends PApplet{
         drone.setInputToOutput(io);
         obs.updateUINewLevel();
         currentLoopID = 0;
+        holdingCollectible = false;
     }
 
     public void setup() {
@@ -137,8 +139,8 @@ public class GameSketch extends PApplet{
         innerLoopShape = loadShape("textured_circular_drone.obj");
         innerLoopShape.setFill(color(  152, 226, 255, 90));
         helipadShape = loadShape("simple_helipad.obj");
-        collectibleShape = loadShape("textured_drone_sans_propellers.obj");
-        collectionPointShape = loadShape("simple_helipad.obj");
+        collectibleShape = loadShape("letter.obj");
+        collectionPointShape = loadShape("postbox.obj");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
@@ -258,5 +260,9 @@ public class GameSketch extends PApplet{
     public PShape getCollectionPointShape() { return collectionPointShape; }
 
     public PShape getCollectibleShape() { return collectibleShape; }
+
+    public Boolean getHoldingCollectible() { return holdingCollectible; }
+
+    public void setHoldingCollectible(Boolean bool) { holdingCollectible = bool; }
 
 }
