@@ -69,8 +69,8 @@ public class SensorFileHandler {
                                  TreeMap<Sensor, Boolean> table){
         try {
             //Create a new file if it doesn't exist, otherwise do nothing
-            new File(context.getFilesDir(), fileName).createNewFile();
-            DataOutputStream stream = new DataOutputStream(new FileOutputStream(fileName));
+            File f = new File(context.getFilesDir(), fileName);
+            DataOutputStream stream = new DataOutputStream(new FileOutputStream(f));
             int data = 1;
             for (Map.Entry<Sensor, Boolean> entry : table.entrySet()){
                 //do stuff

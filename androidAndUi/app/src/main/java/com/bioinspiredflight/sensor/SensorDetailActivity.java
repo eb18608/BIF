@@ -1,7 +1,6 @@
 package com.bioinspiredflight.sensor;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.bioinspiredflight.R;
@@ -17,6 +16,8 @@ import androidx.appcompat.app.ActionBar;
 
 import android.view.MenuItem;
 
+import static com.bioinspiredflight.sensor.SensorDetailFragment.ARG_ITEM_ID;
+
 /**
  * An activity representing a single Sensor detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
@@ -25,19 +26,48 @@ import android.view.MenuItem;
  */
 public class SensorDetailActivity extends AppCompatActivity {
 
+    String id = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle.getString(ARG_ITEM_ID) != null){
+            id = bundle.getString(ARG_ITEM_ID);
+        }
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 Snackbar.make(view, "Replace with unlock/equip action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                 */
+                Sensor sensor = SensorContent.idToSensor(id);
+                if (SensorListActivity.sensorsUnlocked.containsKey(sensor)
+                && SensorListActivity.sensorsUnlocked.get(sensor) == false){
+                    SensorListActivity.sensorsUnlocked.put(sensor, true);
+                    Snackbar.make(view, "Sensor unlocked!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } else if (SensorListActivity.sensorsEquipped.containsKey(sensor)
+                && SensorListActivity.sensorsEquipped.get(sensor) == false){
+                    SensorListActivity.sensorsEquipped.put(sensor, true);
+                    Snackbar.make(view, "Sensor equipped!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } else {
+                    SensorListActivity.sensorsEquipped.put(sensor, false);
+                    Snackbar.make(view, "Sensor unequipped!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+                SensorListActivity.updateSensorContent();
+                SensorListActivity.updateSensorFile(getApplicationContext());
+                System.out.println(SensorListActivity.sensorsUnlocked.get(sensor));
+                System.out.println(SensorListActivity.sensorsEquipped.get(sensor));
             }
         });
 
@@ -61,8 +91,8 @@ public class SensorDetailActivity extends AppCompatActivity {
             // using a fragment transaction.
             System.out.println("reee");
             Bundle arguments = new Bundle();
-            arguments.putString(SensorDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(SensorDetailFragment.ARG_ITEM_ID));
+            arguments.putString(ARG_ITEM_ID,
+                    getIntent().getStringExtra(ARG_ITEM_ID));
             System.out.println(arguments.toString());
             SensorDetailFragment fragment = new SensorDetailFragment();
             fragment.setArguments(arguments);

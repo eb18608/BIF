@@ -40,16 +40,16 @@ public class SensorListActivity extends AppCompatActivity {
     public static TreeMap<Sensor, Boolean> sensorsEquipped = new TreeMap<>();
     public static TreeMap<Sensor, Boolean> sensorsUnlocked = new TreeMap<>();
 
-    public void updateSensors(){
+    public static void updateSensorFile(Context context){
         for (SensorContent.SensorItem item : SensorContent.ITEM_MAP.values()){
             sensorsUnlocked.put(item.getSensor(), item.isUnlocked());
             sensorsEquipped.put(item.getSensor(), item.isEquipped());
         }
-        SensorFileHandler.setSensorsEquipped(getApplicationContext(), sensorsEquipped);
-        SensorFileHandler.setSensorsUnlocked(getApplicationContext(), sensorsUnlocked);
+        SensorFileHandler.setSensorsEquipped(context, sensorsEquipped);
+        SensorFileHandler.setSensorsUnlocked(context, sensorsUnlocked);
     }
 
-    public static void getSensorData(){
+    public static void updateSensorContent(){
         // Inefficient as heck but it's probably fine, will fix later if not
         for (SensorContent.SensorItem item : SensorContent.ITEM_MAP.values()){
             for (Map.Entry<Sensor, Boolean> entry : sensorsEquipped.entrySet()){
@@ -66,7 +66,7 @@ public class SensorListActivity extends AppCompatActivity {
 
         SensorFileHandler.getSensorsEquipped(getApplicationContext(), sensorsEquipped);
         SensorFileHandler.getSensorsUnlocked(getApplicationContext(), sensorsUnlocked);
-        getSensorData();
+        updateSensorContent();
 
         SensorContent.populateList("Sensors.csv", this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -108,7 +108,7 @@ public class SensorListActivity extends AppCompatActivity {
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getSensorData();
+                updateSensorContent();
                 SensorContent.SensorItem item = (SensorContent.SensorItem) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();

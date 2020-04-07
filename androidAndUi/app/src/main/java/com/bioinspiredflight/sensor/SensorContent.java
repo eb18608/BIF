@@ -39,6 +39,7 @@ public class SensorContent {
     }
 
     public static void populateList(String fileName, Activity activity){
+        ITEMS.clear();
         ArrayList<SensorItem> list = SensorFileHandler.readSensorFile(fileName, activity);
         for (SensorItem item : list){
             addItem(item);
@@ -62,6 +63,37 @@ public class SensorContent {
             builder.append("\nMore details information here.");
         }
         return builder.toString();
+    }
+    public static Sensor idToSensor(String id){
+        boolean found = false;
+        Sensor sensor = null;
+        Sensor[] sensors = Sensor.values();
+        String[] ids =
+                {"Air flow sensor",
+                        "Camera",
+                        "Camouflage skin",
+                        "Chemical sensor",
+                        "Electrical sensor",
+                        "GPS",
+                        "Soft Robotics Gripper",
+                        "HD camera",
+                        "IMU (gyroscopes and accelerometers)",
+                        "Infrared camera",
+                        "Magnetometer",
+                        "Sonar sensor (echolocation)",
+                        "Sticky skin",
+                        "Touch sensor"};
+        for (int i = 0; i < sensors.length && !found; i++){
+            if (id.equals(ids[i])){
+                sensor = sensors[i];
+                found = true;
+            }
+        }
+        if(!found){
+            System.out.println(id);
+            throw new RuntimeException("IDs in file don't match ids array\n");
+        }
+        return sensor;
     }
 
     /**
@@ -90,36 +122,7 @@ public class SensorContent {
             this.details = details;
             this.equipped = false;
             this.unlocked = false;
-            idToSensor();
-        }
-
-        private void idToSensor(){
-            boolean found = false;
-            Sensor[] sensors = Sensor.values();
-            String[] ids =
-                    {"Air flow sensor",
-                    "Camera",
-                    "Camouflage skin",
-                    "Chemical sensor",
-                    "Electrical sensor",
-                    "GPS",
-                    "Soft Robotics Gripper",
-                    "HD camera",
-                    "IMU (gyroscopes and accelerometers)",
-                    "Infrared camera",
-                    "Magnetometer",
-                    "Sonar sensor (echolocation)",
-                    "Sticky skin",
-                    "Touch sensor"};
-            for (int i = 0; i < sensors.length && !found; i++){
-                if (id.equals(ids[i])){
-                    sensor = sensors[i];
-                    found = true;
-                }
-            }
-            if(!found){
-                throw new RuntimeException("IDs in file don't match ids array\n");
-            }
+            this.sensor = idToSensor(this.id);
         }
 
         @Override
