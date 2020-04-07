@@ -64,6 +64,7 @@ public class GameSketch extends PApplet{
     PImage droneIcon;
     DroneObject drone;
     float rotation;
+    PImage sky;
 
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
@@ -141,6 +142,8 @@ public class GameSketch extends PApplet{
         helipadShape = loadShape("simple_helipad.obj");
         collectibleShape = loadShape("letter.obj");
         collectionPointShape = loadShape("postbox.obj");
+        sky = loadImage("smiley.png");
+        sky.resize(width, height);
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
