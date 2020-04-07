@@ -43,6 +43,8 @@ public class GameSketch extends PApplet{
     private PShape innerLoopShape;
     private PShape outerLoopShape;
     private PShape helipadShape;
+    private PShape collectionPointShape;
+    private PShape collectibleShape;
 
     public Movement getMovingObject() { return movingObject; }
     public PVector getLastPosition(){ return lastNonCollision; }
@@ -135,6 +137,8 @@ public class GameSketch extends PApplet{
         innerLoopShape = loadShape("textured_circular_drone.obj");
         innerLoopShape.setFill(color(  152, 226, 255, 90));
         helipadShape = loadShape("simple_helipad.obj");
+        collectibleShape = loadShape("textured_drone_sans_propellers.obj");
+        collectionPointShape = loadShape("simple_helipad.obj");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
@@ -230,32 +234,19 @@ public class GameSketch extends PApplet{
         return droneBodyShape;
     }
 
-    public void setDroneBodyShape(PShape droneBodyShape) {
-        this.droneBodyShape = droneBodyShape;
-    }
-
     public PShape getBuildingShape() {
         return buildingShape;
-    }
-
-    public void setBuildingShape(PShape buildingShape) {
-        this.buildingShape = buildingShape;
     }
 
     public PShape getObjectiveShape() {
         return objectiveShape;
     }
 
-    public void setObjectiveShape(PShape objectiveShape) {
-        this.objectiveShape = objectiveShape;
-    }
-
     public Boolean checkCompleted(){
         ArrayList<ObjectiveObject> gameObjectives = gameObjects.getObjectiveList();
-        Boolean complete = false;
+        Boolean complete = true;
         for (ObjectiveObject g :gameObjectives){
-            complete = true;
-            complete = g.getStatus() & complete;
+            if (g.getStatus() == false) { complete = false; }
         }
         if(complete == true) {
             obs.updateUiComplete();
@@ -267,32 +258,28 @@ public class GameSketch extends PApplet{
         this.obs = obs;
     }
 
-
     public PShape getOuterLoopShape() {
         return outerLoopShape;
-    }
-
-    public void setOuterLoopShape(PShape outerLoopShape) {
-        this.outerLoopShape = outerLoopShape;
     }
 
     public PShape getInnerLoopShape() {
         return innerLoopShape;
     }
 
-    public void setInnerLoopShape(PShape innerLoopShape) {
-        this.innerLoopShape = innerLoopShape;
-    }
-
     public PShape getHelipadShape() {
         return helipadShape;
-    }
-
-    public void setHelipadShape(PShape helipadShape) {
-        this.helipadShape = helipadShape;
     }
 
     public void setCurrentLoopID(int id) { currentLoopID = id; }
 
     public int getCurrentLoopID() { return currentLoopID; }
+
+    public PShape getCollectionPointShape() {
+        return collectionPointShape;
+    }
+
+    public PShape getCollectibleShape() {
+        return collectibleShape;
+    }
+
 }

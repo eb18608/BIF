@@ -43,6 +43,7 @@ public class CollectionPointObject extends ObjectiveObject {
 
         sketch.pushMatrix();
         sketch.translate(getCoords().x, getCoords().y, getCoords().z);
+        this.body.setFill(sketch.color(0, 0, 100));
         sketch.shape(body);
         sketch.popMatrix();
 
@@ -65,9 +66,8 @@ public class CollectionPointObject extends ObjectiveObject {
         //System.out.println("Collided with object");
         setStatus(true);
         //System.out.println("Status of Objective: "+ id + " is: " + status);
-        Boolean done = sketch.checkCompleted();
-        if(done){
-            System.out.println("WINNER WINNER CHICKEN DINNER");
+        if (!sketch.checkCompleted()) {
+            setStatus(false);
         }
     }
 

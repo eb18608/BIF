@@ -79,7 +79,7 @@ public class LoopObject extends ObjectiveObject {
     public void draw2D() {
         if ((sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) && this.isVisible()) {
             sketch.pushMatrix();
-            sketch.translate(this.getCoords().x/10 - this.getW()/20, -this.getCoords().z/10 - this.getD()/20);
+            sketch.translate(this.getCoords().x/10, -this.getCoords().z/10);
             sketch.fill(sketch.color(colour[0], colour[1], colour[2], 100));
             sketch.circle(0, 0, this.getW()/5);
             sketch.popMatrix();
@@ -88,12 +88,13 @@ public class LoopObject extends ObjectiveObject {
 
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
+        sketch.setLastPosition(movement.getPos());
         if (this.isVisible()) {
-            System.out.println("YOU got here");
-            System.out.println(this.getClass());
+            //System.out.println("YOU got here");
+            //System.out.println(this.getClass());
             if (!this.getStatus()) { sketch.setCurrentLoopID(this.getID() + 1); }
             setStatus(true);
-            System.out.println("PLEASE DON'T HIT THE CLASS");
+            //System.out.println("PLEASE DON'T HIT THE CLASS");
             setColour(40, 255, 40, 245);
 
         }

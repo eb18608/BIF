@@ -67,9 +67,8 @@ public class HelipadObject extends ObjectiveObject {
         //System.out.println("Collided with object");
         setStatus(true);
         //System.out.println("Status of Objective: "+ id + " is: " + status);
-        Boolean done = sketch.checkCompleted();
-        if(done){
-            System.out.println("WINNER WINNER CHICKEN DINNER");
+        if (!sketch.checkCompleted()) {
+            setStatus(false);
         }
     }
 

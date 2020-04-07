@@ -4,6 +4,8 @@ import android.app.Activity;
 
 import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.gameobjects.BuildingObject;
+import com.bioinspiredflight.gameobjects.CollectibleObject;
+import com.bioinspiredflight.gameobjects.CollectionPointObject;
 import com.bioinspiredflight.gameobjects.DroneObject;
 import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.gameobjects.GameObjectList;
@@ -73,6 +75,14 @@ public class LevelHandler {
             id = Integer.parseInt(key.replace("helipad", ""));
             gameObject =
                     new HelipadObject(sketch, sketch.getHelipadShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("collection")){
+            id = Integer.parseInt(key.replace("collection", ""));
+            gameObject =
+                    new CollectionPointObject(sketch, sketch.getCollectionPointShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("collectible")){
+            id = Integer.parseInt(key.replace("collectible", ""));
+            gameObject =
+                    new CollectibleObject(sketch, sketch.getCollectibleShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
         }
         return gameObject;
     }
