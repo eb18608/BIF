@@ -1,25 +1,23 @@
 package com.bioinspiredflight.gameobjects;
 
 import com.bioinspiredflight.GameSketch;
-import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
 
-import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
-import processing.core.PImage;
 
-public class HelipadObject extends ObjectiveObject {
+public class CollectionPointObject extends ObjectiveObject {
     PImage icon;
 
-    public HelipadObject(GameSketch sketch, PShape body, float x, float y, float z,
-                          float scale, int id) {
+    public CollectionPointObject(GameSketch sketch, PShape body, float x, float y, float z,
+                         float scale, int id) {
         super(sketch, body, x, y, z, scale, id);
         h = 6 * scale;
         w = 265 * scale;
         d = 265 * scale;
-        icon = sketch.loadImage("HelipadIcon.png");
+        icon = sketch.loadImage("CollectionPointIcon.png");
     }
 
     public PVector getCoords(){
