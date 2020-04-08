@@ -161,7 +161,7 @@ public class Movement {
 
     public PVector forceApplied(PVector currentAcc, PVector inputForce, float mass, float frametime) {
         float gravity = 0;
-        float scale = 7500;
+        float scale = 9000;
         PVector newAcc = new PVector(0.0f, 0.0f, 0.0f);
         if (gravityOn) {
             newAcc.x = ((frametime * scale * inputForce.x)) / mass;
@@ -180,7 +180,7 @@ public class Movement {
 
     public PVector calcVel(PVector currentVel, PVector accVector, float frametime) {
         PVector newVel = new PVector();
-        float gravity = 3f;
+        float gravity = 6f;
         newVel.x = (currentVel.x + (frametime * accVector.x));
         newVel.y = (currentVel.y + (frametime * accVector.y));
         newVel.z = (currentVel.z + (frametime * accVector.z));
@@ -217,10 +217,10 @@ public class Movement {
     }
 
     public void limitVelocity(PVector acc, PVector vel) {
-        final float maxVelX = 100;
-        final float maxVelY = 100;
-        final float maxVelZ = 100;
-        final float terminalVel = 150;
+        final float maxVelX = 200;
+        final float maxVelY = 200;
+        final float maxVelZ = 200;
+        final float terminalVel = 250;
         if (getX(vel) > maxVelX) {
             setX(vel ,maxVelX);
         } else if (getX(vel) < -maxVelX) {
@@ -246,7 +246,7 @@ public class Movement {
         float velX = getX(vel);
         float velY = getY(vel);
         float velZ = getZ(vel);
-        final float decel = 1.5f;
+        final float decel = 2f;
         float newVel;
         if (velX > 0) {
             newVel = velX - decel;
