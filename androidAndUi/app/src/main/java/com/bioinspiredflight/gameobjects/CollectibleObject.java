@@ -62,9 +62,12 @@ public class CollectibleObject extends ObjectiveObject {
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         sketch.setLastPosition(movement.getPos());
         if (!sketch.getHoldingCollectible()) {
-            if (this.isVisible()) { setStatus(true); }
+            if (this.isVisible()) {
+                setStatus(true);
+                sketch.setHoldingCollectible(true);
+            }
             visible = false;
-            sketch.setHoldingCollectible(true);
+
         }
     }
 
