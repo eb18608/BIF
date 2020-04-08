@@ -10,7 +10,6 @@ public abstract class GameObject implements Interactable{
     PShape body;
     public PVector coords;  //keeping this public for optimization reasons
     GameSketch sketch;
-    String objectFileName;
     float h, w, d;
     int id;
     public GameObject(GameSketch sketch, PShape body, float x, float y, float z, int id){
@@ -18,7 +17,6 @@ public abstract class GameObject implements Interactable{
         this.body = body;
         this.coords = new PVector(x, y, z);
         this.id = id;
-        //this.body = this.sketch.loadShape(objectFileName);
     }
 
     public PVector getCoords(){
@@ -36,5 +34,7 @@ public abstract class GameObject implements Interactable{
     public float getD() {
         return d;
     }
+
+    public int getID() { return id; }
 
 }

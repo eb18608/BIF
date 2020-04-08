@@ -12,6 +12,7 @@ import com.bioinspiredflight.gameobjects.GameObjectList;
 import com.bioinspiredflight.utilities.LevelHandler;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -43,6 +44,10 @@ public class GameSketch extends PApplet{
     private PShape innerLoopShape;
     private PShape outerLoopShape;
     private PShape helipadShape;
+    private PShape collectionPointShape;
+    private PShape collectibleShape;
+
+    private ReentrantLock lock = new ReentrantLock();
 
     private PImage sky;
 
@@ -58,11 +63,13 @@ public class GameSketch extends PApplet{
         this.collideMod = collideMod;
     }
 
-
+    int currentLoopID;
+    boolean holdingCollectible;
     PImage texture;
     PImage droneIcon;
     DroneObject drone;
     float rotation;
+    PImage sky;
 
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
@@ -125,7 +132,8 @@ public class GameSketch extends PApplet{
         rotation = 0;
         drone.setInputToOutput(io);
         obs.updateUINewLevel();
-
+        currentLoopID = 0;
+        holdingCollectible = false;
     }
 
     public void setup() {
@@ -137,6 +145,10 @@ public class GameSketch extends PApplet{
         innerLoopShape = loadShape("textured_circular_drone.obj");
         innerLoopShape.setFill(color(  152, 226, 255, 90));
         helipadShape = loadShape("simple_helipad.obj");
+        collectibleShape = loadShape("letter.obj");
+        collectionPointShape = loadShape("postbox.obj");
+        sky = loadImage("smiley.png");
+        sky.resize(width, height);
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
@@ -159,7 +171,6 @@ public class GameSketch extends PApplet{
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
         drone.tiltDrone(movingObject.getAcc());
         rotateY(rotation);
-        System.out.println(getMovingObject().getAcc().z / 750);
         if (getMovingObject().getAcc().z != -250) { drone.spinPropellers((getMovingObject().getAcc().z + 250) / 1000); }
         drone.draw3D();
         rotateY(-rotation);
@@ -168,45 +179,42 @@ public class GameSketch extends PApplet{
     }
 
     public void draw2d(){
-        // 2D Section
-        camera();
-        hint(DISABLE_DEPTH_TEST);
+        try {
+            lock.lock();
+            // 2D Section
+            camera();
+            hint(DISABLE_DEPTH_TEST);
 
-        translate(width - 160, 160);
+            //translate(drone.coords.x - (scale * 200 * sin(rotation)), drone.coords.y + (scale * 100), drone.coords.z - (scale * 200 * cos(rotation)));
 
-        fill(153);
-        circle(0, 0, 300);
+            translate(width - 160, 160);
 
-        pushMatrix();
-        rotate(-rotation);
-        pushMatrix();
-        translate(-drone.coords.x/10, drone.coords.z/10);
-        //draw object icons here
-        gameObjects.drawAllGameObjects2D();
-        popMatrix();
-        popMatrix();
-        fill(0);
-        image(droneIcon, -drone.di/15, -drone.di/15, drone.di/7.5f, drone.di/7.5f);
+            fill(153);
+            circle(0, 0, 300);
 
-        hint(ENABLE_DEPTH_TEST);
+            pushMatrix();
+            rotate(-rotation);
+            pushMatrix();
+            translate(-drone.coords.x/10, drone.coords.z/10);
+            //draw object icons here
+            gameObjects.drawAllGameObjects2D();
+            popMatrix();
+            popMatrix();
+            fill(0);
+            image(droneIcon, -drone.di/15, -drone.di/15, drone.di/7.5f, drone.di/7.5f);
+
+            hint(ENABLE_DEPTH_TEST);
+        } finally {
+            lock.unlock();
+        }
+
     }
 
     public void draw() {
-
-        /*
-        for (int b = 0; b < buildings.length && movingObject.collided == false ; b++) {
-                movingObject.collisionDetectorZ(movingObject, buildings[b]);
-                movingObject.collisionDetectorXY(movingObject, buildings[b]);
-                movingObject.isCollision(movingObject, buildings[b]);
-//                System.out.println("collided? " + movingObject.collided);
-//                System.out.println("building position: " + buildings[b].coords);
-//                System.out.println("drone position: " + movingObject.getPos());
-        }*/
+        lights();
         int i = gameObjects.checkForCollisions(movingObject);
-        //System.out.println(i);
 
         if(movingObject.collided == true){
-//            System.out.println("CollideMod's Saved Position!!!: " + lastNonCollision);
             collideMod.accept(visitor, movingObject, this, gameObjects.get(i));
             movingObject.collided = false;
         } else {
@@ -235,32 +243,19 @@ public class GameSketch extends PApplet{
         return droneBodyShape;
     }
 
-    public void setDroneBodyShape(PShape droneBodyShape) {
-        this.droneBodyShape = droneBodyShape;
-    }
-
     public PShape getBuildingShape() {
         return buildingShape;
-    }
-
-    public void setBuildingShape(PShape buildingShape) {
-        this.buildingShape = buildingShape;
     }
 
     public PShape getObjectiveShape() {
         return objectiveShape;
     }
 
-    public void setObjectiveShape(PShape objectiveShape) {
-        this.objectiveShape = objectiveShape;
-    }
-
     public Boolean checkCompleted(){
         ArrayList<ObjectiveObject> gameObjectives = gameObjects.getObjectiveList();
-        Boolean complete = false;
+        Boolean complete = true;
         for (ObjectiveObject g :gameObjectives){
-            complete = true;
-            complete = g.getStatus() & complete;
+            if (g.getStatus() == false) { complete = false; }
         }
         if(complete == true) {
             obs.updateUiComplete();
@@ -268,32 +263,24 @@ public class GameSketch extends PApplet{
         return complete;
     }
 
-    public void setObs(GameActivity.GameSketchObserver obs) {
-        this.obs = obs;
-    }
+    public void setObs(GameActivity.GameSketchObserver obs) { this.obs = obs; }
 
+    public PShape getOuterLoopShape() { return outerLoopShape; }
 
-    public PShape getOuterLoopShape() {
-        return outerLoopShape;
-    }
+    public PShape getInnerLoopShape() { return innerLoopShape; }
 
-    public void setOuterLoopShape(PShape outerLoopShape) {
-        this.outerLoopShape = outerLoopShape;
-    }
+    public PShape getHelipadShape() { return helipadShape; }
 
-    public PShape getInnerLoopShape() {
-        return innerLoopShape;
-    }
+    public void setCurrentLoopID(int id) { currentLoopID = id; }
 
-    public void setInnerLoopShape(PShape innerLoopShape) {
-        this.innerLoopShape = innerLoopShape;
-    }
+    public int getCurrentLoopID() { return currentLoopID; }
 
-    public PShape getHelipadShape() {
-        return helipadShape;
-    }
+    public PShape getCollectionPointShape() { return collectionPointShape; }
 
-    public void setHelipadShape(PShape helipadShape) {
-        this.helipadShape = helipadShape;
-    }
+    public PShape getCollectibleShape() { return collectibleShape; }
+
+    public Boolean getHoldingCollectible() { return holdingCollectible; }
+
+    public void setHoldingCollectible(Boolean bool) { holdingCollectible = bool; }
+
 }

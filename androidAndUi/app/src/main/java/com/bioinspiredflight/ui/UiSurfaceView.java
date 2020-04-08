@@ -117,7 +117,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
     // Only call this on ACTION_POINTER_UP or ACTION_UP
     private void resetJoystick(float x, float y, boolean ignoreConstraints){
-        System.out.println("reset");
+        //System.out.println("reset");
         if (x > getWidth() / 2 || ignoreConstraints){
             joystick.drawJoystick(joystick.getCenterX(), joystick.getCenterY());
             joystick.setUsingJoystick(false);
@@ -213,7 +213,7 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         //float displacementX = x - centerX;
         float displacementY = centerY - y;
         float displacementX = centerX - x;
-        System.out.println(slider.isUsingSlider());
+        //System.out.println(slider.isUsingSlider());
         if (slider.isUsingSlider()) {
             //System.out.println("Touching slider");
             if (displacementY >= -verticalHeightFromCenter

@@ -4,8 +4,11 @@ import com.bioinspiredflight.physics.Movement;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class GameObjectList {
+
+    private ReentrantLock lock = new ReentrantLock();
 
     ArrayList<GameObject> list = new ArrayList<>();
     ArrayList<ObjectiveObject> objectiveList = new ArrayList<ObjectiveObject>();
@@ -17,78 +20,128 @@ public class GameObjectList {
         this.objectiveList.add(objective);
     }
 
-
     public GameObjectList(){
 
     }
 
     public void clear(){
-        list.clear();
-        objectiveList.clear();
+        try {
+            lock.lock();
+            list.clear();
+            objectiveList.clear();
+        } finally {
+            lock.unlock();
+        }
     }
 
     public void add(GameObject gameObject){
-        list.add(gameObject);
+        try {
+            lock.lock();
+            list.add(gameObject);
+        } finally {
+            lock.unlock();
+        }
+
     }
 
     public int size(){
-        return list.size();
+        try {
+            lock.lock();
+            return list.size();
+        } finally {
+            lock.unlock();
+        }
+
     }
 
     public GameObject get(int index){
-        return list.get(index);
+        try {
+            lock.lock();
+            return list.get(index);
+        } finally {
+            lock.unlock();
+        }
     }
 
     public DroneObject getDrone(){
-        boolean droneFound = false;
-        int i = 0;
-        while (i < list.size() && !droneFound){
-            droneFound = list.get(i).isDrone();
-            if (!droneFound){
-                i++;
+        try {
+            lock.lock();
+            boolean droneFound = false;
+            int i = 0;
+            while (i < list.size() && !droneFound){
+                droneFound = list.get(i).isDrone();
+                if (!droneFound){
+                    i++;
+                }
             }
+            if (droneFound){
+                return (DroneObject)list.get(i);
+            } else {
+                return null;
+            }
+        } finally {
+            lock.unlock();
         }
-        if (droneFound){
-            return (DroneObject)list.get(i);
-        } else {
-            return null;
-        }
+
 
     }
 
 
     public int checkForCollisions(Movement movingObject){
-        int i;
-        for (i = 0; i < list.size() && movingObject.collided == false ; i++) {
-            GameObject gameObject = list.get(i);
-            if (!gameObject.isDrone()){
-                movingObject.isCollision(movingObject, gameObject);
-                if (movingObject.collided){
-                    i--;
+        try {
+            lock.lock();
+            int i;
+            for (i = 0; i < list.size() && movingObject.collided == false; i++) {
+                GameObject gameObject = list.get(i);
+                if (!gameObject.isDrone()) {
+                    movingObject.isCollision(movingObject, gameObject);
+                    if (movingObject.collided) {
+                        i--;
+                    }
                 }
             }
+            return i;
+        } finally {
+            lock.unlock();
         }
-        return i;
     }
 
     public void drawAllGameObjects3D(){
-        for (GameObject gameObject : list){
-            gameObject.draw3D();
+        try {
+            lock.lock();
+            for (GameObject gameObject : list){
+                gameObject.draw3D();
+            }
+        } finally {
+            lock.unlock();
         }
+
     }
 
     public void drawAllGameObjects2D(){
-        for (GameObject gameObject : list){
-            gameObject.draw2D();
+        try {
+            lock.lock();
+            for (GameObject gameObject : list){
+                gameObject.draw2D();
+            }
+        } finally {
+            lock.unlock();
         }
+
     }
 
     public void drawNonDroneGameObjects3D(){
-        for (GameObject gameObject : list){
-            if (!gameObject.isDrone()){
-                gameObject.draw3D();
+        try {
+            lock.lock();
+            for (GameObject gameObject : list){
+                if (!gameObject.isDrone()){
+                    gameObject.draw3D();
+                }
             }
+        } finally {
+            lock.unlock();
         }
+
     }
 
 }

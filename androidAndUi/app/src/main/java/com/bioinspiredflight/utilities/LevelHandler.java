@@ -4,6 +4,8 @@ import android.app.Activity;
 
 import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.gameobjects.BuildingObject;
+import com.bioinspiredflight.gameobjects.CollectibleObject;
+import com.bioinspiredflight.gameobjects.CollectionPointObject;
 import com.bioinspiredflight.gameobjects.DroneObject;
 import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.gameobjects.GameObjectList;
@@ -68,11 +70,19 @@ public class LevelHandler {
         } else if (key.startsWith("loop")){
             id = Integer.parseInt(key.replace("loop", ""));
             gameObject =
-                    new LoopObject(sketch, sketch.getOuterLoopShape(), sketch.getInnerLoopShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+                    new LoopObject(sketch, sketch.getOuterLoopShape(), sketch.getInnerLoopShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id);
         } else if (key.startsWith("helipad")){
             id = Integer.parseInt(key.replace("helipad", ""));
             gameObject =
                     new HelipadObject(sketch, sketch.getHelipadShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("collection")){
+            id = Integer.parseInt(key.replace("collection", ""));
+            gameObject =
+                    new CollectionPointObject(sketch, sketch.getCollectionPointShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("collectible")){
+            id = Integer.parseInt(key.replace("collectible", ""));
+            gameObject =
+                    new CollectibleObject(sketch, sketch.getCollectibleShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
         }
         return gameObject;
     }
@@ -92,8 +102,9 @@ public class LevelHandler {
                     float x = Float.parseFloat(record.get(1));
                     float y = Integer.parseInt(record.get(2));
                     float z = Integer.parseInt(record.get(3));
-                    float scale = Integer.parseInt(record.get(4));
-                    Data data = new Data(x, y, z, scale);
+                    float rot = Float.parseFloat(record.get(4));
+                    float scale = Integer.parseInt(record.get(5));
+                    Data data = new Data(x, y, z, rot, scale);
                // System.out.printf("%f, %f, %f, %f, %f\n", x, y, z, scale);
                     //put string and PVector pair into table
                     table.put(record.get(0), data);
@@ -112,12 +123,13 @@ public class LevelHandler {
 
     private class Data {
 
-        private float x, y, z, scale;
+        private float x, y, z, scale, rot;
 
-        public Data (float x, float y, float z, float scale){
+        public Data (float x, float y, float z, float rot, float scale){
             this.x = x;
             this.y = y;
             this.z = z;
+            this.rot = rot;
             this.scale = scale;
         }
 
@@ -133,9 +145,9 @@ public class LevelHandler {
             return z;
         }
 
-        public float getScale() {
-            return scale;
-        }
+        public float getRotation() { return rot; }
+
+        public float getScale() { return scale; }
 
     }
 

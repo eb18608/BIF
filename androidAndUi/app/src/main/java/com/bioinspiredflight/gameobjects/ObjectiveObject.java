@@ -10,14 +10,10 @@ import processing.core.PShape;
 
 public class ObjectiveObject extends GameObject {
     boolean status = false;
-    int id;
-//    int objArrayIndex;
 
     public ObjectiveObject(GameSketch sketch, PShape body, float x, float y, float z,
                           float scale, int id) {
         super(sketch, body, x, y, z, id);
-        //objectFileName = "textured_drone_sans_propellers.obj";
-        //loadShape();
         h = 600 * scale;
         w = 400 * scale;
         d = 400 * scale;
@@ -31,9 +27,7 @@ public class ObjectiveObject extends GameObject {
     }
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
-        //System.out.println("Collided with object");
         setStatus(true);
-        //System.out.println("Status of Objective: "+ id + " is: " + status);
         Boolean done = sketch.checkCompleted();
         if(done){
             //System.out.println("WINNER WINNER CHICKEN DINNER");
@@ -46,12 +40,8 @@ public class ObjectiveObject extends GameObject {
     }
 
     @Override
-    public void draw3D() {
-
-    }
+    public void draw3D() { }
 
     @Override
-    public void draw2D() {
-
-    }
+    public void draw2D() { }
 }
