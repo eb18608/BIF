@@ -69,7 +69,6 @@ public class GameSketch extends PApplet{
     PImage droneIcon;
     DroneObject drone;
     float rotation;
-    PImage sky;
 
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
