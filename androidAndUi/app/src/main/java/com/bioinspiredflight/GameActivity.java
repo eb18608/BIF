@@ -89,6 +89,13 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void finish(){
+        System.out.println("bye");
+        sketch.exit();
+        super.finish();
+    }
+
     public class GameSketchObserver {
 
         private Ui ui;
