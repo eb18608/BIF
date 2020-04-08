@@ -12,6 +12,7 @@ import com.bioinspiredflight.gameobjects.GameObjectList;
 import com.bioinspiredflight.utilities.LevelHandler;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -45,6 +46,8 @@ public class GameSketch extends PApplet{
     private PShape helipadShape;
     private PShape collectionPointShape;
     private PShape collectibleShape;
+
+    private ReentrantLock lock = new ReentrantLock();
 
     public Movement getMovingObject() { return movingObject; }
     public PVector getLastPosition(){ return lastNonCollision; }
@@ -152,7 +155,7 @@ public class GameSketch extends PApplet{
 
     public void draw3d(float droneLeftRight, float droneUpDown, float droneForwardBack){
         // 3D Section
-        background(100);
+        background(sky);
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
 
@@ -172,27 +175,35 @@ public class GameSketch extends PApplet{
     }
 
     public void draw2d(){
-        // 2D Section
-        camera();
-        hint(DISABLE_DEPTH_TEST);
+        try {
+            lock.lock();
+            // 2D Section
+            camera();
+            hint(DISABLE_DEPTH_TEST);
 
-        translate(width - 160, 160);
+            //translate(drone.coords.x - (scale * 200 * sin(rotation)), drone.coords.y + (scale * 100), drone.coords.z - (scale * 200 * cos(rotation)));
 
-        fill(153);
-        circle(0, 0, 300);
+            translate(width - 160, 160);
 
-        pushMatrix();
-        rotate(-rotation);
-        pushMatrix();
-        translate(-drone.coords.x/10, drone.coords.z/10);
-        //draw object icons here
-        gameObjects.drawAllGameObjects2D();
-        popMatrix();
-        popMatrix();
-        fill(0);
-        image(droneIcon, -drone.di/15, -drone.di/15, drone.di/7.5f, drone.di/7.5f);
+            fill(153);
+            circle(0, 0, 300);
 
-        hint(ENABLE_DEPTH_TEST);
+            pushMatrix();
+            rotate(-rotation);
+            pushMatrix();
+            translate(-drone.coords.x/10, drone.coords.z/10);
+            //draw object icons here
+            gameObjects.drawAllGameObjects2D();
+            popMatrix();
+            popMatrix();
+            fill(0);
+            image(droneIcon, -drone.di/15, -drone.di/15, drone.di/7.5f, drone.di/7.5f);
+
+            hint(ENABLE_DEPTH_TEST);
+        } finally {
+            lock.unlock();
+        }
+
     }
 
     public void draw() {
