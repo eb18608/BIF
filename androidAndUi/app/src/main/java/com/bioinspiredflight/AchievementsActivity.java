@@ -26,7 +26,6 @@ public class AchievementsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_achievements);
         TableLayout tableLayout = findViewById(R.id.achievementsTable);
         TreeMap<String, String> achievementsTable = getAchievementsTable();

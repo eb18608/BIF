@@ -1,0 +1,34 @@
+Sensor,For what,Inspired by,Power,Weight,Price,Image,Text
+Air flow sensor,Sensing wind,Feathers,5,1,200,Feathers,"A bird's feathers not only help the bird fly by increasing the surface area for very little extra weight, they also are used to sense gusts in the air. A birds feather is attached at the skin and surrounded by nerve cells which can sense pressure. This means that birds can sense even the slightest change in wind speed and adjust their feathers to stay stable in flight."
+Camera,Vision,Eyes,15,1,100,Drone Camera,This is a normal camera it provides a 2D image of the world. Useful for collecting visual data but has limited use when navigating. Using two cameras would provide enough data to see the world in 3D and help the drone avoid collisions. 
+Camouflage skin,Stealth,Cameleon,10,0.5,200,Chameleon,This is an extra layer that provides a camouflage skin. It is a layer of crystal cells that change size; the size of the cell corresponds to the frequency of light that the cell reflects. This is inspired by the colour changing chameleon.
+Chemical sensor,Finding a chemical source,Ant,10,1,100,Ant,"This is a chemical sensor which can detect specific odours. Many animals can easily locate the source of their favourite smells and some even use smell to send messages. For example, ants use chemical messages to mark the way to food and communicate danger. "
+Electrical sensor,Sensing electromagnetic fields,Shark,10,1,200,Hammerhead Shark,"This is an electrical sensor to be able to locate objects around the drone by the change in electromagnetic field. A hammerhead shark has lots of electrical sensors in its head called ampullae of Lorenzini, these help it find prey hidden under the sand. Unfortunately, sharks can become quite confused by power lines running under the water as they are mistaken for prey. A drone might find it useful to sense power lines when navigating the city. "
+GPS,Mapping (Localisation),Brain,5,0.5,50,Tom tom,This is a Global Positions System (GPS) which is a satellite-based radionavigation system. It will provide geolocation and time information to the drone to aid navigation. The drone would not be able to carry out navigation instructions without it.
+Soft Robotics Gripper,Hold package/manipulate objects,Octopus,15,1,50,Robotic Gripper,This is a soft robotics gripper and has been inpsired by an octopus. 
+HD camera,Picture/Video,Hawk,30,2,200,Hawk eye,"Vision is extremely important to birds, they need to be able to spot prey and navigational landmarks from long distances. As such, birds have the largest eyes compared to their body size in the vertebrate kingdom. Birds of prey, like the hawk, have a very high density of visual reciptors in order to maximimise the visual acuity. A high definition camera works in a similar way using more pixles to record a more detailed image."
+IMU (gyroscopes and accelerometers),Stability and Attitude,Ear canal,5,0.5,50,IMU,"This is a Inertial Measurement Unit (IMU) which is an electronic device that measures and reports a specific force and angular rate using a combination of accelerometers and gyroscopes. This is used to stabalise the drone, without an IMU the drone would crash."
+Infrared camera,Seeing in the dark/infrared spectrum,Mantis shrimps,20,2,200,Infrared picture,"This is an infrared camera, it senses energy on the infra-red (heat) end of the electromagnetic spectrum. It can be used for sensing in the low light conditions much like the mantis shrimp when hunting for prey."
+Magnetometer,Compass / Orientation wrt North,"Sea turtles, birds",5,0.5,50,Compass,"This is a Magnetometer which is an instrument that measures electromagnetic fields. This can be used as a compass to orientate the drone with the Earth's magnetic field. Many animals, such as birds and turtles, use a similar method for navigating during migration. "
+Sonar sensor (echolocation),3D mapping without vision or GPS,Bats,20,1,100,Bat,A bat uses echolocation to sense prey and obstacles whilst flying. The bat releases a series of clicks which reflect off an object and return to the bat's ears. The distance and speed of an object can be determined by the change in sound frequency known as the Doppler effect. 
+Sticky skin,Perching/holding packages,Gecko,10,0.5,200,Gecko skin,"This sticky skin allows the drone to land and stick to anything whether horizontal, vertical or upside down. This technology works in the same way as a gecko's skin. A gecko has 14,000 tiny hairs per square millimetre, the high surface area this creates means that even the smallest molecular attraction forces (van der Waals) prevent the gecko from falling. "
+Touch sensor,Sense obstacles,Whiskers,5,1,100,Robotic Whiskers,These touch sensors act like a rat's whiskers. A rat can navigate in the pitch black and sense the shape and size of obstacles using just it's whiskers.
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,

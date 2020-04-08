@@ -2,7 +2,6 @@ package com.bioinspiredflight;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
 
+import com.bioinspiredflight.sensor.SensorListActivity;
 import com.bioinspiredflight.utilities.AchievementsFileHandler;
 
 import java.io.File;
@@ -38,6 +38,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("achievementsButton", "Pressed!");
                 Intent achievements = new Intent(MainActivity.this, AchievementsActivity.class);
                 startActivity(achievements);
+            }
+        });
+        Button customizationButton = findViewById(R.id.customizationButton);
+        customizationButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Log.i("settingsButton", "Pressed!");
+                Intent customization = new Intent(MainActivity.this, SensorListActivity.class);
+                startActivity(customization);
             }
         });
         Button settingsButton = findViewById(R.id.settingsButton);
@@ -78,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_main);
 
         init();
