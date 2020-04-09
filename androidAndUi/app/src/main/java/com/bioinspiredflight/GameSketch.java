@@ -69,6 +69,9 @@ public class GameSketch extends PApplet{
     PImage droneIcon;
     DroneObject drone;
     float rotation;
+    int flipFrameCounter;
+    PVector flipAcc = new PVector(0,0,0);
+    PVector prevAcc = new PVector(0,0,0);
 
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
@@ -135,6 +138,13 @@ public class GameSketch extends PApplet{
         holdingCollectible = false;
     }
 
+    public boolean droneShouldflip(PVector prevAcc, PVector currAcc) {
+        if ((prevAcc.x > 0 && currAcc.x < 0) || (prevAcc.x < 0 && currAcc.x > 0)) {
+            return true;
+        }
+        return false;
+    }
+
     public void setup() {
         frameRate(30);
         droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
@@ -168,13 +178,22 @@ public class GameSketch extends PApplet{
         rotation += io.getRotation() * rotationSpeed;
         io.setTotalRotation(-rotation);
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
-        drone.tiltDrone(movingObject.getAcc());
+        if (droneShouldflip(prevAcc, movingObject.getAcc())) {
+            flipFrameCounter = 30;
+            flipAcc.set(movingObject.getAcc());
+        }
+        if (flipFrameCounter != 0) {
+            drone.flipDrone(flipAcc);
+        } else {
+            drone.tiltDrone(movingObject.getAcc());
+        }
         rotateY(rotation);
         if (getMovingObject().getAcc().z != -300) { drone.spinPropellers((getMovingObject().getAcc().z + 300) / 1200); }
         drone.draw3D();
         rotateY(-rotation);
         popMatrix();
 
+        prevAcc.set(movingObject.getAcc());
     }
 
     public void draw2d(){
