@@ -92,9 +92,10 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void finish(){
-        System.out.println("bye");
-        sketch.exit();
-        super.finish();
+        if (sketch.isLoaded()){
+            System.out.println("bye");
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
     }
 
     public class GameSketchObserver {
