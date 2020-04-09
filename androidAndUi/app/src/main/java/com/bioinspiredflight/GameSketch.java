@@ -252,6 +252,10 @@ public class GameSketch extends PApplet{
             hint(ENABLE_DEPTH_TEST);
     }
 
+    public void resizeSky() {
+        sky.resize(width, height);
+    }
+
     public void draw() {
         if (gamePaused || !setupCompleted) { return; }
         lights();

@@ -128,6 +128,13 @@ public class Ui {
         }
     }
 
+    public void removeUi(RelativeLayout frame){
+        for (View widget : widgets){
+            frame.removeView(widget);
+            System.out.printf("Removed %s\n", widget.toString());
+        }
+    }
+
     public void revealUI(){
         newLevelButton.setVisibility(View.VISIBLE);
         returnButton.setVisibility(View.VISIBLE);
