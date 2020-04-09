@@ -60,7 +60,7 @@ public class DroneObject extends GameObject {
     public void flipDrone(PVector acc) {
         System.out.println(acc);
         sketch.rotateY(calculateFlipAngle(acc));
-        flipRotation += sketch.PI/15;
+        flipRotation += sketch.PI/10;
         sketch.rotateX(flipRotation);
         sketch.rotateY(-calculateFlipAngle(acc));
     }

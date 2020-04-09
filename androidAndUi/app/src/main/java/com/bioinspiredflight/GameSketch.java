@@ -71,7 +71,9 @@ public class GameSketch extends PApplet{
     float rotation;
     int flipFrameCounter;
     PVector flipAcc = new PVector(0,0,0);
-    PVector prevAcc = new PVector(0,0,0);
+    PVector emptyAcc = new PVector(0,0,0);
+    ArrayList<PVector> prevAccs = new ArrayList<>();
+
 
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
@@ -138,9 +140,23 @@ public class GameSketch extends PApplet{
         holdingCollectible = false;
     }
 
-    public boolean droneShouldflip(PVector prevAcc, PVector currAcc) {
-        if ((prevAcc.x > 0 && currAcc.x < 0) || (prevAcc.x < 0 && currAcc.x > 0)) {
-            return true;
+    // Loop through the acc values for the last 10 frames.
+    // Check if the slider has been moved from one side to the other.
+    // Check that the slider was at it's edge.
+    // Check that the slider is within a 10% boundary.
+    public boolean droneShouldflip(ArrayList<PVector> prevAccs, PVector currAcc) {
+        for (PVector prevAcc : prevAccs) {
+            if (((int)prevAcc.x ^ (int)currAcc.x) >= 0) { // The x's have opposite signs
+                if (((int)prevAcc.y ^ (int)currAcc.y) >= 0) { // The y's have opposite signs
+                    if (Math.abs(currAcc.x) + Math.abs(currAcc.y) > 300) { // currAcc at edge of joystick.
+                        if (Math.abs(prevAcc.x) + Math.abs(prevAcc.y) > 300) { // prevAcc at edge of joystick.
+                            if (false) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
         }
         return false;
     }
@@ -163,6 +179,9 @@ public class GameSketch extends PApplet{
         droneIcon = loadImage("DroneIcon.png");
         sky = loadImage("smiley.png");
         sky.resize(width, height);
+        for (int i = 0; i < 10; i++) {
+            prevAccs.add(emptyAcc);
+        }
         startLevel("levels/level0.csv");
     }
 
@@ -178,12 +197,13 @@ public class GameSketch extends PApplet{
         rotation += io.getRotation() * rotationSpeed;
         io.setTotalRotation(-rotation);
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
-        if (droneShouldflip(prevAcc, movingObject.getAcc())) {
-            flipFrameCounter = 30;
+        if (droneShouldflip(prevAccs, movingObject.getAcc())) {
+            flipFrameCounter = 20;
             flipAcc.set(movingObject.getAcc());
         }
         if (flipFrameCounter != 0) {
             drone.flipDrone(flipAcc);
+            flipFrameCounter -= 1;
         } else {
             drone.tiltDrone(movingObject.getAcc());
         }
@@ -193,7 +213,8 @@ public class GameSketch extends PApplet{
         rotateY(-rotation);
         popMatrix();
 
-        prevAcc.set(movingObject.getAcc());
+        prevAccs.remove(0);
+        prevAccs.add(movingObject.getAcc());
     }
 
     public void draw2d(){
