@@ -36,6 +36,8 @@
             android:label="@string/title_activity_game"
             android:screenOrientation="userLandscape"
             android:parentActivityName=".MainActivity"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

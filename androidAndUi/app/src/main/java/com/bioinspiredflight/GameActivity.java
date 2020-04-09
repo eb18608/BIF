@@ -34,17 +34,23 @@ public class GameActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private CollideMod collideMod;
     private LevelHandler levelHandler;
+    boolean sliderToggle;
+    FrameLayout frame;
+    RelativeLayout uiLayout;
+    Ui ui;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         GameSketchObserver obs = new GameSketchObserver();
-
-        final FrameLayout frame = new FrameLayout(this);
-        final RelativeLayout uiLayout = new RelativeLayout(this);
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean sliderToggle = preferences.getBoolean("switch_snap_slider", true);
+        sliderToggle = preferences.getBoolean("switch_snap_slider", true);
+        frame = new FrameLayout(this);
+        uiLayout = new RelativeLayout(this);
+
+
 
         frame.setId(CompatUtils.getUniqueViewId());
         uiLayout.setId(CompatUtils.getUniqueViewId());
@@ -60,7 +66,7 @@ public class GameActivity extends AppCompatActivity {
         sketch = new GameSketch();
         PVector startPos = new PVector(0, 0, 0);
         this.movingObject = new Movement(1.0f, false, startPos);
-        final Ui ui = new Ui(this, io, sliderToggle);
+        ui = new Ui(this, io, sliderToggle);
         obs.setUi(ui);
         obs.setSketch(sketch);
         this.controlMod = new ControlMod(io);
@@ -72,6 +78,26 @@ public class GameActivity extends AppCompatActivity {
         sketch.setMovingObject(movingObject, controlMod, io, collideMod);
         sketch.setLevelHandler(levelHandler);
     }
+
+    @Override
+    public void onPause() {
+        System.out.println("pausing");
+        finish();
+        super.onPause();
+    }
+
+    /*public void onResume() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        if (sketch.setupCompleted) { sketch.resizeSky(); }
+        super.onResume();
+        ui.removeUi(uiLayout);
+        ui.drawUi(uiLayout);
+    }*/
+
+    /*public void onDestroy() {
+        super.onDestroy();
+        System.out.println("DESTROYING");
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -92,9 +118,10 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void finish(){
-        System.out.println("bye");
-        sketch.exit();
-        super.finish();
+        if (sketch.isLoaded()){
+            System.out.println("bye");
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
     }
 
     public class GameSketchObserver {

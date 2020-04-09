@@ -18,6 +18,7 @@ public class DroneObject extends GameObject {
     PShape propellerFL, propellerFR, propellerBL, propellerBR;
     InputToOutput io;
     float collectibleRotation = sketch.PI;
+    float flipRotation;
 
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
                        final float s, int id) {
@@ -54,6 +55,33 @@ public class DroneObject extends GameObject {
 
     public void setInputToOutput(InputToOutput io){
         this.io = io;
+    }
+
+    public void flipDrone(PVector acc) {
+        System.out.println(acc);
+        sketch.rotateY(calculateFlipAngle(acc));
+        flipRotation += sketch.PI/10;
+        sketch.rotateX(flipRotation);
+        sketch.rotateY(-calculateFlipAngle(acc));
+    }
+
+    private float calculateFlipAngle(PVector acc) {
+        acc.set(sketch.round(acc.x), sketch.round(acc.y), sketch.round(acc.z));
+        float theta = (float) Math.atan(Math.abs(acc.x/acc.y));
+        System.out.println(theta);
+        if (acc.x >= 0) {
+            if (acc.y >= 0) { // x+ve, y+ve
+                return theta;
+            } else { // x+ve, y-ve
+                return sketch.PI - theta;
+            }
+        } else {
+            if (acc.y >= 0) { // x-ve, y+ve
+                return -theta;
+            } else { // x-ve, y-ve
+                return sketch.PI + theta;
+            }
+        }
     }
 
     public void tiltDrone(PVector acc) {
