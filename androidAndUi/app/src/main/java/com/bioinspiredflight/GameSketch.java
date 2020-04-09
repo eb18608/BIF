@@ -75,6 +75,8 @@ public class GameSketch extends PApplet{
     PVector flipAcc = new PVector(0,0,0);
     PVector emptyAcc = new PVector(0,0,0);
     ArrayList<PVector> prevAccs = new ArrayList<>();
+    boolean gamePaused;
+    boolean setupCompleted;
 
 
     public void setCamera(float scale) {
@@ -164,6 +166,7 @@ public class GameSketch extends PApplet{
     }
 
     public void setup() {
+        if (gamePaused) { return; }
         frameRate(30);
         droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
         buildingShape = loadShape("textured_drone_sans_propellers.obj");
@@ -185,6 +188,7 @@ public class GameSketch extends PApplet{
             prevAccs.add(emptyAcc);
         }
         startLevel("levels/level0.csv");
+        setupCompleted = true;
     }
 
     public void draw3d(float droneLeftRight, float droneUpDown, float droneForwardBack){
@@ -249,6 +253,7 @@ public class GameSketch extends PApplet{
     }
 
     public void draw() {
+        if (gamePaused || !setupCompleted) { return; }
         lights();
         int i = gameObjects.checkForCollisions(movingObject);
 
@@ -271,6 +276,16 @@ public class GameSketch extends PApplet{
     }
     public void settings() {
         fullScreen(P3D);
+    }
+
+    public void resume() {
+        gamePaused = false;
+        System.out.println("resuming here!");
+    }
+
+    public void pause() {
+        gamePaused = true;
+        System.out.println("pausing here!");
     }
 
     public void setLevelHandler(LevelHandler levelHandler){

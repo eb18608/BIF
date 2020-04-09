@@ -73,6 +73,11 @@ public class GameActivity extends AppCompatActivity {
         sketch.setLevelHandler(levelHandler);
     }
 
+    public void onDestroy() {
+        super.onDestroy();
+        System.out.println("DESTROYING");
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (sketch != null) {
