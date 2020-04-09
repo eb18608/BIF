@@ -51,6 +51,8 @@ public class GameSketch extends PApplet{
 
     private PImage sky;
 
+    private boolean loaded = false;
+
     public Movement getMovingObject() { return movingObject; }
     public PVector getLastPosition(){ return lastNonCollision; }
 
@@ -175,6 +177,9 @@ public class GameSketch extends PApplet{
         rotateY(-rotation);
         popMatrix();
 
+        if (!loaded){
+            loaded = true;
+        }
     }
 
     public void draw2d(){
@@ -282,4 +287,7 @@ public class GameSketch extends PApplet{
 
     public void setHoldingCollectible(Boolean bool) { holdingCollectible = bool; }
 
+    public boolean isLoaded() {
+        return loaded;
+    }
 }
