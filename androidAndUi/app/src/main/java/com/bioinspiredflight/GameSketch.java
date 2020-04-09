@@ -170,7 +170,7 @@ public class GameSketch extends PApplet{
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
         drone.tiltDrone(movingObject.getAcc());
         rotateY(rotation);
-        if (getMovingObject().getAcc().z != -250) { drone.spinPropellers((getMovingObject().getAcc().z + 250) / 1000); }
+        if (getMovingObject().getAcc().z != -300) { drone.spinPropellers((getMovingObject().getAcc().z + 300) / 1200); }
         drone.draw3D();
         rotateY(-rotation);
         popMatrix();
@@ -178,8 +178,6 @@ public class GameSketch extends PApplet{
     }
 
     public void draw2d(){
-        try {
-            lock.lock();
             // 2D Section
             camera();
             hint(DISABLE_DEPTH_TEST);
@@ -194,19 +192,15 @@ public class GameSketch extends PApplet{
             pushMatrix();
             rotate(-rotation);
             pushMatrix();
-            translate(-drone.coords.x/10, drone.coords.z/10);
+            translate(-drone.coords.x / 10, drone.coords.z / 10);
             //draw object icons here
             gameObjects.drawAllGameObjects2D();
             popMatrix();
             popMatrix();
             fill(0);
-            image(droneIcon, -drone.di/15, -drone.di/15, drone.di/7.5f, drone.di/7.5f);
+            image(droneIcon, -drone.di / 15, -drone.di / 15, drone.di / 7.5f, drone.di / 7.5f);
 
             hint(ENABLE_DEPTH_TEST);
-        } finally {
-            lock.unlock();
-        }
-
     }
 
     public void draw() {
