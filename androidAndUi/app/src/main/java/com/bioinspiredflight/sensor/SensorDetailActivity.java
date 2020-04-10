@@ -1,6 +1,7 @@
 package com.bioinspiredflight.sensor;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.bioinspiredflight.R;
@@ -38,6 +39,8 @@ public class SensorDetailActivity extends AppCompatActivity {
         if (bundle.getString(ARG_ITEM_ID) != null){
             id = bundle.getString(ARG_ITEM_ID);
         }
+        Drawable toolbarBackground = getDrawable(R.drawable.ic_launcher_foreground);
+        findViewById(R.id.header).setBackground(toolbarBackground);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
