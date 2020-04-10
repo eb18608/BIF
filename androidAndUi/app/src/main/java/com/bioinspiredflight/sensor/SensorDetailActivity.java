@@ -1,7 +1,9 @@
 package com.bioinspiredflight.sensor;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 
 import com.bioinspiredflight.R;
@@ -10,12 +12,16 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
 
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import java.lang.reflect.Field;
 
 import static com.bioinspiredflight.sensor.SensorDetailFragment.ARG_ITEM_ID;
 
@@ -39,8 +45,11 @@ public class SensorDetailActivity extends AppCompatActivity {
         if (bundle.getString(ARG_ITEM_ID) != null){
             id = bundle.getString(ARG_ITEM_ID);
         }
-        Drawable toolbarBackground = getDrawable(R.drawable.ic_launcher_foreground);
-        findViewById(R.id.header).setBackground(toolbarBackground);
+
+        Resources r = getResources();
+        int res = r.getIdentifier(SensorContent.ITEM_MAP.get(id).getImageFileName(), "drawable", getPackageName());
+        ImageView image = findViewById(R.id.header);
+        image.setImageResource(res);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
