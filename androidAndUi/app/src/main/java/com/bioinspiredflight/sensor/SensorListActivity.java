@@ -102,7 +102,11 @@ public class SensorListActivity extends AppCompatActivity {
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //updateSensorContent();
+                view.setBackgroundColor(
+                        mParentActivity
+                                .getResources()
+                                .getColor(R.color.colorPrimaryDark, mParentActivity.getTheme()));
+                view.invalidate();
                 SensorContent.SensorItem item = (SensorContent.SensorItem) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();

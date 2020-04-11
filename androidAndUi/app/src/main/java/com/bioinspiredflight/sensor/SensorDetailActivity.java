@@ -123,9 +123,15 @@ public class SensorDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, SensorListActivity.class));
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        navigateUpTo(new Intent(this, SensorListActivity.class));
+        super.onBackPressed();
     }
 }
