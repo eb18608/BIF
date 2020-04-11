@@ -4,6 +4,9 @@ import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.ui.InputToOutput;
+import com.bioinspiredflight.sensor.SensorContent;
+
+import java.util.ArrayList;
 
 import processing.core.PShape;
 import processing.core.PVector;
@@ -19,6 +22,8 @@ public class DroneObject extends GameObject {
     InputToOutput io;
     float collectibleRotation = sketch.PI;
     float flipRotation;
+    ArrayList<SensorContent.SensorItem> sensorList;
+    ArrayList<PShape> sensorBodies;
 
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
                        final float s, int id) {
@@ -31,6 +36,13 @@ public class DroneObject extends GameObject {
         propellerFR = loadPropeller(scale);
         propellerBL = loadPropeller(scale);
         propellerBR = loadPropeller(scale);
+
+        //TODO: GET SENSOR LIST SOMEHOW
+
+
+        for(SensorContent.SensorItem sensor : sensorList) {
+            sensorBodies.add(sketch.loadShape(sensor.getBodyfilePath()));
+        }
     }
 
     private PShape loadPropeller(float scale) {
@@ -128,6 +140,13 @@ public class DroneObject extends GameObject {
         sketch.pushMatrix();
 
         sketch.shape(body);
+
+        int i = 0;
+        for (SensorContent.SensorItem sensor : sensorList) {
+            if (sensor.isEquipped()) {
+                sketch.shape(sensorBodies.get(i));
+            }
+        }
 
         if (sketch.getHoldingCollectible()) {
             sketch.pushMatrix();

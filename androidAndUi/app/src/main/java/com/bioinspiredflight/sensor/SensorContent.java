@@ -2,6 +2,7 @@ package com.bioinspiredflight.sensor;
 
 import android.app.Activity;
 
+import processing.core.PShape;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,11 +55,12 @@ public class SensorContent {
         private final String imageFileName;
         private final String details;
         private boolean equipped, unlocked;
+        private String bodyFilePath;
         //private Sensor sensor;
 
         public SensorItem(String id, String purpose, String inspiration,
                           double power, double weight, double price,
-                          String imageFileName, String details) {
+                          String imageFileName, String details, String bodyfilepath) {
             this.id = id;
             this.purpose = purpose;
             this.inspiration = inspiration;
@@ -69,6 +71,7 @@ public class SensorContent {
             this.details = details;
             this.equipped = false;
             this.unlocked = false;
+            this.bodyFilePath = bodyfilepath;
             //this.sensor = idToSensor(this.id);
         }
 
@@ -124,6 +127,8 @@ public class SensorContent {
         public void setUnlocked(boolean unlocked) {
             this.unlocked = unlocked;
         }
+
+        public String getBodyfilePath() { return bodyFilePath; }
 
         /*public Sensor getSensor() {
             return sensor;
