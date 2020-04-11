@@ -38,7 +38,7 @@ public class DroneObject extends GameObject {
         propellerBR = loadPropeller(scale);
 
         //TODO: GET SENSOR LIST SOMEHOW
-
+        // sensorList = ???
 
         for(SensorContent.SensorItem sensor : sensorList) {
             sensorBodies.add(sketch.loadShape(sensor.getBodyfilePath()));
@@ -146,6 +146,7 @@ public class DroneObject extends GameObject {
             if (sensor.isEquipped()) {
                 sketch.shape(sensorBodies.get(i));
             }
+            i++;
         }
 
         if (sketch.getHoldingCollectible()) {
