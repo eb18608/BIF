@@ -54,7 +54,7 @@ public class SensorListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sensor_list);
 
 
-        SensorContent.populateList("Sensors.csv", this);
+
         updateSensorContent(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
