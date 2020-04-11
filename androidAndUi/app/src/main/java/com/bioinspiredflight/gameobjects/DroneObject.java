@@ -22,7 +22,6 @@ public class DroneObject extends GameObject {
     InputToOutput io;
     float collectibleRotation = sketch.PI;
     float flipRotation;
-    ArrayList<SensorContent.SensorItem> sensorList;
     ArrayList<PShape> sensorBodies;
 
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
@@ -36,11 +35,7 @@ public class DroneObject extends GameObject {
         propellerFR = loadPropeller(scale);
         propellerBL = loadPropeller(scale);
         propellerBR = loadPropeller(scale);
-
-        //TODO: GET SENSOR LIST SOMEHOW
-        // sensorList = ???
-
-        for(SensorContent.SensorItem sensor : sensorList) {
+        for(SensorContent.SensorItem sensor : SensorContent.ITEMS) {
             sensorBodies.add(sketch.loadShape(sensor.getBodyfilePath()));
         }
     }
@@ -141,8 +136,9 @@ public class DroneObject extends GameObject {
 
         sketch.shape(body);
 
+
         int i = 0;
-        for (SensorContent.SensorItem sensor : sensorList) {
+        for (SensorContent.SensorItem sensor : SensorContent.ITEMS) {
             if (sensor.isEquipped()) {
                 sketch.shape(sensorBodies.get(i));
             }
