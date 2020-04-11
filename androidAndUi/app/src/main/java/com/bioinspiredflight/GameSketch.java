@@ -12,6 +12,7 @@ import com.bioinspiredflight.gameobjects.GameObjectList;
 import com.bioinspiredflight.utilities.LevelHandler;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
 import processing.core.PApplet;
@@ -149,14 +150,16 @@ public class GameSketch extends PApplet{
     // Check that the slider was at it's edge.
     // Check that the slider is within a +/-10 boundary.
     public boolean droneShouldflip(ArrayList<PVector> prevAccs, PVector currAcc) {
-        for (PVector prevAcc : prevAccs) {
-            if ((prevAcc.x > 0 && currAcc.x < 0) || (prevAcc.x < 0 && currAcc.x > 0)) { // The x's have opposite signs
-                if ((prevAcc.y > 0 && currAcc.y < 0) || (prevAcc.y < 0 && currAcc.y > 0)) { // The y's have opposite signs
-                    if (Math.abs(currAcc.x) + Math.abs(currAcc.y) > 300) { // currAcc at edge of joystick.
-                        if (Math.abs(prevAcc.x) + Math.abs(prevAcc.y) > 300) { // prevAcc at edge of joystick.
-                            if ((Math.abs(currAcc.x) < Math.abs(prevAcc.x) + 10) && (Math.abs(currAcc.x) > Math.abs(prevAcc.x) - 10)) { // x within +/- 10 boundary.
-                                if ((Math.abs(currAcc.y) < Math.abs(prevAcc.y) + 10) && (Math.abs(currAcc.y) > Math.abs(prevAcc.y) - 10)) { // y within +/- 10 boundary.
-                                    return true;
+        if (Math.random() <= 0.02) { // ~20% chance to occur.
+            for (PVector prevAcc : prevAccs) {
+                if ((prevAcc.x > 0 && currAcc.x < 0) || (prevAcc.x < 0 && currAcc.x > 0)) { // The x's have opposite signs
+                    if ((prevAcc.y > 0 && currAcc.y < 0) || (prevAcc.y < 0 && currAcc.y > 0)) { // The y's have opposite signs
+                        if (Math.abs(currAcc.x) + Math.abs(currAcc.y) > 300) { // currAcc at edge of joystick.
+                            if (Math.abs(prevAcc.x) + Math.abs(prevAcc.y) > 300) { // prevAcc at edge of joystick.
+                                if ((Math.abs(currAcc.x) < Math.abs(prevAcc.x) + 10) && (Math.abs(currAcc.x) > Math.abs(prevAcc.x) - 10)) { // x within +/- 10 boundary.
+                                    if ((Math.abs(currAcc.y) < Math.abs(prevAcc.y) + 10) && (Math.abs(currAcc.y) > Math.abs(prevAcc.y) - 10)) { // y within +/- 10 boundary.
+                                        return true;
+                                    }
                                 }
                             }
                         }
