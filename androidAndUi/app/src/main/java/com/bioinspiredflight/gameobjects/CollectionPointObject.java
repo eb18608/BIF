@@ -3,6 +3,7 @@ package com.bioinspiredflight.gameobjects;
 import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
+import com.bioinspiredflight.sensor.SensorContent;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -46,7 +47,7 @@ public class CollectionPointObject extends ObjectiveObject {
 
     @Override
     public void draw2D() {
-        if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) {
+        if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500 && SensorContent.ITEMS.get(11).isEquipped()) {
             sketch.pushMatrix();
             sketch.translate(this.getCoords().x/10 - this.getW()/20, -this.getCoords().z/10 - this.getD()/20);
             sketch.image(icon, 0, 0, this.getW()/10, this.getD()/10);

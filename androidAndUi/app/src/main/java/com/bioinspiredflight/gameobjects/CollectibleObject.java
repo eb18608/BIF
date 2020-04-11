@@ -3,6 +3,7 @@ package com.bioinspiredflight.gameobjects;
 import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
+import com.bioinspiredflight.sensor.SensorContent;
 
 import processing.core.PShape;
 import processing.core.PVector;
@@ -49,7 +50,7 @@ public class CollectibleObject extends ObjectiveObject {
 
     @Override
     public void draw2D() {
-        if ((sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) && this.isVisible()) {
+        if ((sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) && this.isVisible() && SensorContent.ITEMS.get(4).isEquipped()) {
             sketch.pushMatrix();
             sketch.translate(this.getCoords().x/10, -this.getCoords().z/10);
             sketch.fill(sketch.color(0, 200, 200, 100));
