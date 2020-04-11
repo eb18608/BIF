@@ -147,15 +147,17 @@ public class GameSketch extends PApplet{
     // Loop through the acc values for the last 10 frames.
     // Check if the slider has been moved from one side to the other.
     // Check that the slider was at it's edge.
-    // Check that the slider is within a 10% boundary.
+    // Check that the slider is within a +/-10 boundary.
     public boolean droneShouldflip(ArrayList<PVector> prevAccs, PVector currAcc) {
         for (PVector prevAcc : prevAccs) {
-            if (((int)prevAcc.x ^ (int)currAcc.x) >= 0) { // The x's have opposite signs
-                if (((int)prevAcc.y ^ (int)currAcc.y) >= 0) { // The y's have opposite signs
+            if ((prevAcc.x > 0 && currAcc.x < 0) || (prevAcc.x < 0 && currAcc.x > 0)) { // The x's have opposite signs
+                if ((prevAcc.y > 0 && currAcc.y < 0) || (prevAcc.y < 0 && currAcc.y > 0)) { // The y's have opposite signs
                     if (Math.abs(currAcc.x) + Math.abs(currAcc.y) > 300) { // currAcc at edge of joystick.
                         if (Math.abs(prevAcc.x) + Math.abs(prevAcc.y) > 300) { // prevAcc at edge of joystick.
-                            if (false) {
-                                return true;
+                            if ((Math.abs(currAcc.x) < Math.abs(prevAcc.x) + 10) && (Math.abs(currAcc.x) > Math.abs(prevAcc.x) - 10)) { // x within +/- 10 boundary.
+                                if ((Math.abs(currAcc.y) < Math.abs(prevAcc.y) + 10) && (Math.abs(currAcc.y) > Math.abs(prevAcc.y) - 10)) { // y within +/- 10 boundary.
+                                    return true;
+                                }
                             }
                         }
                     }
