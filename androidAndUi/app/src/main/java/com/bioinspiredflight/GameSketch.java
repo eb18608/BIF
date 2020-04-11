@@ -7,6 +7,7 @@ import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.ModVisitor;
 import com.bioinspiredflight.physics.Movement;
+import com.bioinspiredflight.sensor.SensorContent;
 import com.bioinspiredflight.ui.InputToOutput;
 import com.bioinspiredflight.gameobjects.GameObjectList;
 import com.bioinspiredflight.utilities.LevelHandler;
@@ -233,7 +234,6 @@ public class GameSketch extends PApplet{
 
     public void draw2d(){
             // 2D Section
-            camera();
             hint(DISABLE_DEPTH_TEST);
 
             //translate(drone.coords.x - (scale * 200 * sin(rotation)), drone.coords.y + (scale * 100), drone.coords.z - (scale * 200 * cos(rotation)));
@@ -281,7 +281,10 @@ public class GameSketch extends PApplet{
 
         draw3d(droneLeftRight, droneUpDown, droneForwardBack);
 
-        draw2d();
+        camera();
+        if (SensorContent.ITEMS.get(5).isEquipped()) {
+            draw2d();
+        }
     }
     public void settings() {
         fullScreen(P3D);
