@@ -222,7 +222,9 @@ public class GameSketch extends PApplet{
         if (getMovingObject().getAcc().z != -300) { drone.spinPropellers((getMovingObject().getAcc().z + 300) / 1200); }
         drone.draw3D();
         rotateY(-rotation);
-        drone.drawArrow();
+        if (SensorContent.ITEMS.get(10).isEquipped()) {
+            drone.drawArrow();
+        }
         popMatrix();
 
         if (!loaded){
