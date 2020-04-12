@@ -2,6 +2,7 @@ package com.bioinspiredflight;
 
 import com.bioinspiredflight.gameobjects.DroneObject;
 import com.bioinspiredflight.gameobjects.GameObject;
+import com.bioinspiredflight.gameobjects.GameObjectList;
 import com.bioinspiredflight.gameobjects.ObjectiveObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
@@ -9,11 +10,9 @@ import com.bioinspiredflight.physics.ModVisitor;
 import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.sensor.SensorContent;
 import com.bioinspiredflight.ui.InputToOutput;
-import com.bioinspiredflight.gameobjects.GameObjectList;
 import com.bioinspiredflight.utilities.LevelHandler;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
 import processing.core.PApplet;
@@ -38,7 +37,7 @@ public class GameSketch extends PApplet{
     private final float scale = 1.0f;
     private PVector lastNonCollision = new PVector();
     private LevelHandler levelHandler;
-    private GameObjectList gameObjects = new GameObjectList();
+    public GameObjectList gameObjects = new GameObjectList();
 
     private PShape droneBodyShape;
     private PShape buildingShape;
@@ -223,6 +222,7 @@ public class GameSketch extends PApplet{
         if (getMovingObject().getAcc().z != -300) { drone.spinPropellers((getMovingObject().getAcc().z + 300) / 1200); }
         drone.draw3D();
         rotateY(-rotation);
+        drone.drawArrow();
         popMatrix();
 
         if (!loaded){
@@ -329,13 +329,12 @@ public class GameSketch extends PApplet{
         for (ObjectiveObject g :gameObjectives){
             if (g.getStatus() == false) { complete = false; }
         }
-        if(complete == true) {
-            obs.updateUiComplete();
-        }
         return complete;
     }
 
     public void setObs(GameActivity.GameSketchObserver obs) { this.obs = obs; }
+
+    public GameActivity.GameSketchObserver getObs() { return this.obs; }
 
     public PShape getOuterLoopShape() { return outerLoopShape; }
 

@@ -64,9 +64,19 @@ public class HelipadObject extends ObjectiveObject {
         setStatus(true);
         if (!sketch.checkCompleted()) {
             setStatus(false);
+        } else {
+            sketch.getObs().updateUiComplete();
         }
     }
 
     @Override
     public boolean isDrone() { return false; }
+
+    @Override
+    public boolean shouldBeTracked() {
+        setStatus(true);
+        boolean allCompleted = sketch.checkCompleted();
+        setStatus(false);
+        return allCompleted;
+    }
 }

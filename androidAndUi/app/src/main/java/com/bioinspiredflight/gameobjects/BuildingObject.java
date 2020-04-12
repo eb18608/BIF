@@ -69,4 +69,5 @@ public class BuildingObject extends GameObject {
     public boolean isDrone() {
         return false;
     }
+
 }

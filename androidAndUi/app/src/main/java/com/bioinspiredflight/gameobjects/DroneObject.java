@@ -5,7 +5,9 @@ import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.ui.InputToOutput;
 import com.bioinspiredflight.sensor.SensorContent;
+import com.bioinspiredflight.gameobjects.GameObjectList;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import processing.core.PShape;
@@ -13,7 +15,7 @@ import processing.core.PVector;
 
 public class DroneObject extends GameObject {
     public float di;    //keeping this public for optimization reasons
-    final float scale;
+    float scale;
     float lrTilt = 0;
     float fbTilt = 0;
     float tiltMult = 0.0002f;
@@ -23,7 +25,6 @@ public class DroneObject extends GameObject {
     float collectibleRotation = sketch.PI;
     float flipRotation;
     ArrayList<PShape> sensorBodies = new ArrayList<>();
-    private com.bioinspiredflight.gameobjects.GameObjectList list;
 
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
                        final float s, int id) {
@@ -37,8 +38,8 @@ public class DroneObject extends GameObject {
         propellerBL = loadPropeller(scale);
         propellerBR = loadPropeller(scale);
         arrow = sketch.loadShape("arrow.obj");
-        this.arrow.setFill(sketch.color(150,0,0,100));
-        for(SensorContent.SensorItem sensor : SensorContent.ITEMS) {
+        this.arrow.setFill(sketch.color(150,0,0,150));
+        for (SensorContent.SensorItem sensor : SensorContent.ITEMS) {
             PShape tempBody = sketch.loadShape(sensor.getBodyfilePath());
             sensorBodies.add(tempBody);
         }
@@ -93,6 +94,18 @@ public class DroneObject extends GameObject {
         }
     }
 
+    private GameObject trackingObject() {
+        GameObject closest = this;
+        float distance = 100000000;
+        for (GameObject object : sketch.gameObjects.getObjectiveList()) {
+            if (object.shouldBeTracked() && sketch.distanceToDrone(object) < distance) {
+                distance = sketch.distanceToDrone(object);
+                closest = object;
+            }
+        }
+        return closest;
+    }
+
     public void tiltDrone(PVector acc) {
         acc.set(sketch.round(acc.x), sketch.round(acc.y), sketch.round(acc.z));
         if (io.isUsingJoystick()) {
@@ -129,6 +142,14 @@ public class DroneObject extends GameObject {
         sketch.rotateX(fbTilt);
     }
 
+    public void drawArrow() {
+        sketch.pushMatrix();
+        sketch.translate(0,-30,0);
+        sketch.rotateY(-calculateAngle(trackingObject().coords.z - this.coords.z, trackingObject().coords.x - this.coords.x) + sketch.PI/2);
+        sketch.shape(arrow);
+        sketch.popMatrix();
+    }
+
     @Override
     public void draw3D() {
         final float propellerXZ = 22f * this.scale;
@@ -137,12 +158,6 @@ public class DroneObject extends GameObject {
         sketch.pushMatrix();
 
         sketch.shape(body);
-
-        sketch.pushMatrix();
-        sketch.rotateX(0);
-        sketch.rotateY(0);
-        sketch.rotateZ(0);
-        sketch.popMatrix();
 
         int i = 0;
         for (SensorContent.SensorItem sensor : SensorContent.ITEMS) {

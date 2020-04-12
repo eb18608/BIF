@@ -13,4 +13,8 @@ public interface Interactable {
     public void draw3D();
 
     public void draw2D();
+
+    public boolean shouldBeTracked();
+
+    public boolean isVisible();
 }

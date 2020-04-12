@@ -36,6 +36,7 @@ public class CollectibleObject extends ObjectiveObject {
         return d;
     }
 
+    @Override
     public boolean isVisible() { return visible; }
 
     @Override
@@ -73,7 +74,14 @@ public class CollectibleObject extends ObjectiveObject {
     }
 
     @Override
-    public boolean isDrone() {
-        return false;
+    public boolean isDrone() { return false; }
+
+    @Override
+    public boolean shouldBeTracked() {
+        if (!SensorContent.ITEMS.get(6).isEquipped() && sketch.getCollectiblesHeld() == 1) {
+            return false;
+        } else {
+            return isVisible();
+        }
     }
 }

@@ -37,4 +37,13 @@ public abstract class GameObject implements Interactable{
 
     public int getID() { return id; }
 
+    @Override
+    public boolean shouldBeTracked() {
+        return false;
+    }
+
+    @Override
+    public boolean isVisible() {
+        return true;
+    }
 }

@@ -40,6 +40,7 @@ public class LoopObject extends ObjectiveObject {
 
     public float getD()  { return d; }
 
+    @Override
     public boolean isVisible() { return visible; }
 
     void setColour(float r, float g, float b, float a) {
@@ -96,5 +97,14 @@ public class LoopObject extends ObjectiveObject {
     @Override
     public boolean isDrone() {
         return false;
+    }
+
+    @Override
+    public boolean shouldBeTracked() {
+        if (!this.getStatus() && this.isVisible()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -60,10 +60,28 @@ public class CollectionPointObject extends ObjectiveObject {
         movement.setVel(collideMod.collideMod);
         movement.setPos(sketch.getLastPosition());
         setStatus(true);
-        if (!sketch.checkCompleted()) { setStatus(false); }
+        if (!sketch.checkCompleted()) { setStatus(false);
+        } else {
+            sketch.getObs().updateUiComplete();
+        }
         sketch.setCollectiblesHeld(0);
+
     }
 
     @Override
     public boolean isDrone() { return false; }
+
+    @Override
+    public boolean shouldBeTracked() {
+        if (SensorContent.ITEMS.get(6).isEquipped()) {
+            setStatus(true);
+            boolean allCompleted = sketch.checkCompleted();
+            setStatus(false);
+            return allCompleted;
+        } else if (sketch.getCollectiblesHeld() == 1) {
+                return true;
+        } else {
+            return false;
+        }
+    }
 }
