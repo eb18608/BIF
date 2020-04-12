@@ -18,11 +18,12 @@ public class DroneObject extends GameObject {
     float fbTilt = 0;
     float tiltMult = 0.0002f;
     float tiltMax = 0.2f;
-    PShape propellerFL, propellerFR, propellerBL, propellerBR;
+    PShape propellerFL, propellerFR, propellerBL, propellerBR, arrow;
     InputToOutput io;
     float collectibleRotation = sketch.PI;
     float flipRotation;
     ArrayList<PShape> sensorBodies = new ArrayList<>();
+    private com.bioinspiredflight.gameobjects.GameObjectList list;
 
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
                        final float s, int id) {
@@ -35,6 +36,8 @@ public class DroneObject extends GameObject {
         propellerFR = loadPropeller(scale);
         propellerBL = loadPropeller(scale);
         propellerBR = loadPropeller(scale);
+        arrow = sketch.loadShape("arrow.obj");
+        this.arrow.setFill(sketch.color(150,0,0,100));
         for(SensorContent.SensorItem sensor : SensorContent.ITEMS) {
             PShape tempBody = sketch.loadShape(sensor.getBodyfilePath());
             sensorBodies.add(tempBody);
@@ -67,24 +70,22 @@ public class DroneObject extends GameObject {
 
     public void flipDrone(PVector acc) {
         System.out.println(acc);
-        sketch.rotateY(calculateFlipAngle(acc));
+        sketch.rotateY(calculateAngle(acc.x, acc.y));
         flipRotation += sketch.PI/10;
         sketch.rotateX(flipRotation);
-        sketch.rotateY(-calculateFlipAngle(acc));
+        sketch.rotateY(-calculateAngle(acc.x, acc.y));
     }
 
-    private float calculateFlipAngle(PVector acc) {
-        acc.set(sketch.round(acc.x), sketch.round(acc.y), sketch.round(acc.z));
-        float theta = (float) Math.atan(Math.abs(acc.x/acc.y));
-        System.out.println(theta);
-        if (acc.x >= 0) {
-            if (acc.y >= 0) { // x+ve, y+ve
+    private float calculateAngle(float x, float y) {
+        float theta = (float) Math.atan(Math.abs(x/y));
+        if (x >= 0) {
+            if (y >= 0) { // x+ve, y+ve
                 return theta;
             } else { // x+ve, y-ve
                 return sketch.PI - theta;
             }
         } else {
-            if (acc.y >= 0) { // x-ve, y+ve
+            if (y >= 0) { // x-ve, y+ve
                 return -theta;
             } else { // x-ve, y-ve
                 return sketch.PI + theta;
@@ -137,6 +138,11 @@ public class DroneObject extends GameObject {
 
         sketch.shape(body);
 
+        sketch.pushMatrix();
+        sketch.rotateX(0);
+        sketch.rotateY(0);
+        sketch.rotateZ(0);
+        sketch.popMatrix();
 
         int i = 0;
         for (SensorContent.SensorItem sensor : SensorContent.ITEMS) {
@@ -146,11 +152,11 @@ public class DroneObject extends GameObject {
             i++;
         }
 
-        if (sketch.getHoldingCollectible()) {
+        for (int j = 1; j <= sketch.getCollectiblesHeld(); j++) {
             sketch.pushMatrix();
-            sketch.translate(0, 30, 0);
+            sketch.translate(0, 30 * j, 0);
             sketch.rotateX(sketch.PI/2);
-            sketch.rotateZ(collectibleRotation);
+            sketch.rotateZ(collectibleRotation + (sketch.PI * (j-1) / 8));
             collectibleRotation += 0.025f;
             sketch.shape(sketch.getCollectibleShape());
             sketch.popMatrix();

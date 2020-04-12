@@ -61,7 +61,7 @@ public class CollectionPointObject extends ObjectiveObject {
         movement.setPos(sketch.getLastPosition());
         setStatus(true);
         if (!sketch.checkCompleted()) { setStatus(false); }
-        sketch.setHoldingCollectible(false);
+        sketch.setCollectiblesHeld(0);
     }
 
     @Override

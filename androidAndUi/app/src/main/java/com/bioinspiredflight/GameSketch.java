@@ -68,7 +68,7 @@ public class GameSketch extends PApplet{
     }
 
     int currentLoopID;
-    boolean holdingCollectible;
+    int collectiblesHeld;
     PImage texture;
     PImage droneIcon;
     DroneObject drone;
@@ -143,7 +143,7 @@ public class GameSketch extends PApplet{
         drone.setInputToOutput(io);
         obs.updateUINewLevel();
         currentLoopID = 0;
-        holdingCollectible = false;
+        collectiblesHeld = 0;
     }
 
     // Loop through the acc values for the last 10 frames.
@@ -233,28 +233,26 @@ public class GameSketch extends PApplet{
     }
 
     public void draw2d(){
-            // 2D Section
-            hint(DISABLE_DEPTH_TEST);
+        // 2D Section
+        hint(DISABLE_DEPTH_TEST);
 
-            //translate(drone.coords.x - (scale * 200 * sin(rotation)), drone.coords.y + (scale * 100), drone.coords.z - (scale * 200 * cos(rotation)));
+        translate(width - 160, 160);
 
-            translate(width - 160, 160);
+        fill(153);
+        circle(0, 0, 300);
 
-            fill(153);
-            circle(0, 0, 300);
+        pushMatrix();
+        rotate(-rotation);
+        pushMatrix();
+        translate(-drone.coords.x / 10, drone.coords.z / 10);
 
-            pushMatrix();
-            rotate(-rotation);
-            pushMatrix();
-            translate(-drone.coords.x / 10, drone.coords.z / 10);
-            //draw object icons here
-            gameObjects.drawAllGameObjects2D();
-            popMatrix();
-            popMatrix();
-            fill(0);
-            image(droneIcon, -drone.di / 15, -drone.di / 15, drone.di / 7.5f, drone.di / 7.5f);
+        gameObjects.drawAllGameObjects2D();
+        popMatrix();
+        popMatrix();
+        fill(0);
+        image(droneIcon, -drone.di / 15, -drone.di / 15, drone.di / 7.5f, drone.di / 7.5f);
 
-            hint(ENABLE_DEPTH_TEST);
+        hint(ENABLE_DEPTH_TEST);
     }
 
     public void resizeSky() {
@@ -284,7 +282,16 @@ public class GameSketch extends PApplet{
         camera();
         if (SensorContent.ITEMS.get(5).isEquipped()) {
             draw2d();
+        } else {
+            // lights go weird if nothing 2D is drawn
+            hint(DISABLE_DEPTH_TEST);
+            pushMatrix();
+            fill(0,0,0,0);
+            square(0, 0, 10);
+            popMatrix();
+            hint(ENABLE_DEPTH_TEST);
         }
+
     }
     public void settings() {
         fullScreen(P3D);
@@ -344,9 +351,9 @@ public class GameSketch extends PApplet{
 
     public PShape getCollectibleShape() { return collectibleShape; }
 
-    public Boolean getHoldingCollectible() { return holdingCollectible; }
+    public int getCollectiblesHeld() { return collectiblesHeld; }
 
-    public void setHoldingCollectible(Boolean bool) { holdingCollectible = bool; }
+    public void setCollectiblesHeld(int amount) { collectiblesHeld = amount; }
 
     public boolean isLoaded() {
         return loaded;
