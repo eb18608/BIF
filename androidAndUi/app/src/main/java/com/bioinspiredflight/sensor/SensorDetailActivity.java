@@ -17,6 +17,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
+import androidx.preference.AndroidResources;
 
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -46,13 +47,15 @@ public class SensorDetailActivity extends AppCompatActivity {
             id = bundle.getString(ARG_ITEM_ID);
         }
 
+        SensorContent.SensorItem item = SensorContent.ITEM_MAP.get(id);
         Resources r = getResources();
-        int res = r.getIdentifier(SensorContent.ITEM_MAP.get(id).getImageFileName(), "drawable", getPackageName());
+        int res = r.getIdentifier(item.getImageFileName(), "drawable", getPackageName());
         ImageView image = findViewById(R.id.header);
         image.setImageResource(res);
 
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        updateFabIcon(fab, item.isUnlocked(), item.isEquipped());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +82,7 @@ public class SensorDetailActivity extends AppCompatActivity {
                 }
                 SensorFileHandler.writeSensorStatusFile(getApplicationContext(), SensorFileHandler.sensorsUnlockedFileName);
                 SensorFileHandler.writeSensorStatusFile(getApplicationContext(), SensorFileHandler.sensorsEquippedFileName);
+                updateFabIcon(fab, item.isUnlocked(), item.isEquipped());
             }
         });
 
@@ -111,6 +115,19 @@ public class SensorDetailActivity extends AppCompatActivity {
                     .add(R.id.sensor_detail_container, fragment)
                     .commit();
         }
+    }
+
+    private void updateFabIcon(FloatingActionButton fab, boolean unlocked, boolean equipped){
+        if (unlocked){
+            if (equipped){
+                fab.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
+            } else {
+                fab.setImageResource(android.R.drawable.ic_menu_add);
+            }
+        } else {
+            fab.setImageResource(android.R.drawable.ic_lock_idle_lock);
+        }
+        fab.invalidate();
     }
 
     @Override
