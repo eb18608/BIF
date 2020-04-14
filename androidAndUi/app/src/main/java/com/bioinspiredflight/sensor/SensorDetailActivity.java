@@ -1,6 +1,9 @@
 package com.bioinspiredflight.sensor;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 
 import com.bioinspiredflight.R;
@@ -9,12 +12,17 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
+import androidx.preference.AndroidResources;
 
 import android.view.MenuItem;
+import android.widget.ImageView;
+
+import java.lang.reflect.Field;
 
 import static com.bioinspiredflight.sensor.SensorDetailFragment.ARG_ITEM_ID;
 
@@ -39,8 +47,15 @@ public class SensorDetailActivity extends AppCompatActivity {
             id = bundle.getString(ARG_ITEM_ID);
         }
 
+        SensorContent.SensorItem item = SensorContent.ITEM_MAP.get(id);
+        Resources r = getResources();
+        int res = r.getIdentifier(item.getImageFileName(), "drawable", getPackageName());
+        ImageView image = findViewById(R.id.header);
+        image.setImageResource(res);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        updateFabIcon(fab, item.isUnlocked(), item.isEquipped());
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +82,7 @@ public class SensorDetailActivity extends AppCompatActivity {
                 }
                 SensorFileHandler.writeSensorStatusFile(getApplicationContext(), SensorFileHandler.sensorsUnlockedFileName);
                 SensorFileHandler.writeSensorStatusFile(getApplicationContext(), SensorFileHandler.sensorsEquippedFileName);
+                updateFabIcon(fab, item.isUnlocked(), item.isEquipped());
             }
         });
 
@@ -101,6 +117,19 @@ public class SensorDetailActivity extends AppCompatActivity {
         }
     }
 
+    private void updateFabIcon(FloatingActionButton fab, boolean unlocked, boolean equipped){
+        if (unlocked){
+            if (equipped){
+                fab.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
+            } else {
+                fab.setImageResource(android.R.drawable.ic_menu_add);
+            }
+        } else {
+            fab.setImageResource(android.R.drawable.ic_lock_idle_lock);
+        }
+        fab.invalidate();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -111,9 +140,15 @@ public class SensorDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, SensorListActivity.class));
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        navigateUpTo(new Intent(this, SensorListActivity.class));
+        super.onBackPressed();
     }
 }
