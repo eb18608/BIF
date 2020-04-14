@@ -182,13 +182,11 @@ public class GameSketch extends PApplet{
         helipadShape = loadShape("simple_helipad.obj");
         collectibleShape = loadShape("letter.obj");
         collectionPointShape = loadShape("postbox.obj");
-        sky = loadImage("smiley.png");
+        sky = loadImage("sky.png");
         sky.resize(width, height);
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
-        sky = loadImage("smiley.png");
-        sky.resize(width, height);
         for (int i = 0; i < 10; i++) {
             prevAccs.add(emptyAcc);
         }
