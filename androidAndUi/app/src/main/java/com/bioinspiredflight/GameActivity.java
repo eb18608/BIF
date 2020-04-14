@@ -165,12 +165,16 @@ public class GameActivity extends AppCompatActivity {
             sketch.setObs(this);
         }
 
-        public void togglePauseSketch(){
+        public boolean togglePauseSketch(){
+            boolean paused;
             if (sketch.isGamePaused()){
                 sketch.resume();
+                paused = false;
             } else {
                 sketch.pause();
+                paused = true;
             }
+            return paused;
         }
     }
 }

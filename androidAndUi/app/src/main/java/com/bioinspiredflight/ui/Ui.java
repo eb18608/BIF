@@ -55,6 +55,21 @@ public class Ui {
         DisplayMetrics metrics = new DisplayMetrics();
         gameActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         widgets = new ArrayList<>();
+
+
+        testJoystick = new Joystick(gameActivity);
+        testJoystick.setId(CompatUtils.getUniqueViewId());
+        testJoystick.addJoystickListener(new InputToOutput());
+        widgets.add(testJoystick);
+        testSlider = new Slider(gameActivity);
+        testSlider.setId(CompatUtils.getUniqueViewId());
+        widgets.add(testSlider);
+
+        setupNextLevelMenu(gameActivity, metrics);
+        setupPauseMenu(gameActivity, metrics);
+    }
+
+    private void setupNextLevelMenu(final GameActivity gameActivity, DisplayMetrics metrics){
         newLevelButton = new Button(gameActivity);
         RelativeLayout.LayoutParams newLevelLayoutParams =
                 new RelativeLayout.LayoutParams(
@@ -107,38 +122,37 @@ public class Ui {
 
             }
         });
-
-
-        //widgets.add(newLevelButton);
-        //widgets.add(returnButton);
-
-
-        testJoystick = new Joystick(gameActivity);
-        testJoystick.setId(CompatUtils.getUniqueViewId());
-        testJoystick.addJoystickListener(new InputToOutput());
-        widgets.add(testJoystick);
-        testSlider = new Slider(gameActivity);
-        testSlider.setId(CompatUtils.getUniqueViewId());
-        widgets.add(testSlider);
         widgets.add(newLevelButton);
         widgets.add(returnButton);
         returnButton.setVisibility(View.GONE);
         newLevelButton.setVisibility(View.GONE);
         newLevelButton.setEnabled(true);
         returnButton.setEnabled(true);
-
-        setupPauseMenu(gameActivity);
     }
 
-    private void setupPauseMenu(final GameActivity gameActivity){
+    private void setupPauseMenu(final GameActivity gameActivity, DisplayMetrics metrics){
         final FloatingActionButton pauseButton = new FloatingActionButton(gameActivity);
         pauseButton.setImageResource(android.R.drawable.ic_media_pause);
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(gameActivity, "Pause button pressed!", pauseButton.getId()).show();
+                boolean paused = obs.togglePauseSketch();
+                if (paused){
+                    pauseButton.setImageResource(android.R.drawable.ic_media_play);
+                } else {
+                    pauseButton.setImageResource(android.R.drawable.ic_media_pause);
+                }
+                pauseButton.invalidate();
             }
         });
+        RelativeLayout.LayoutParams pauseButtonParams =
+                new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        pauseButtonParams.leftMargin = metrics.widthPixels / 20;
+        pauseButtonParams.topMargin = metrics.heightPixels / 20;
+        pauseButton.setLayoutParams(pauseButtonParams);
         widgets.add(pauseButton);
     }
 
