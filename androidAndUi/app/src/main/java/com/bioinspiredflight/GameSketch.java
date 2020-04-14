@@ -75,7 +75,7 @@ public class GameSketch extends PApplet{
     PVector flipAcc = new PVector(0,0,0);
     PVector emptyAcc = new PVector(0,0,0);
     ArrayList<PVector> prevAccs = new ArrayList<>();
-    boolean gamePaused;
+    private boolean gamePaused;
     boolean setupCompleted;
 
 
@@ -257,7 +257,8 @@ public class GameSketch extends PApplet{
     }
 
     public void draw() {
-        if (gamePaused || !setupCompleted) { return; }
+        //if (gamePaused || !setupCompleted) { return; }
+        if (!setupCompleted) { return; }
         lights();
         int i = gameObjects.checkForCollisions(movingObject);
 
@@ -284,11 +285,13 @@ public class GameSketch extends PApplet{
 
     public void resume() {
         gamePaused = false;
+        this.loop();
         System.out.println("resuming here!");
     }
 
     public void pause() {
         gamePaused = true;
+        this.noLoop();
         System.out.println("pausing here!");
     }
 
@@ -342,5 +345,9 @@ public class GameSketch extends PApplet{
 
     public boolean isLoaded() {
         return loaded;
+    }
+
+    public boolean isGamePaused(){
+        return gamePaused;
     }
 }

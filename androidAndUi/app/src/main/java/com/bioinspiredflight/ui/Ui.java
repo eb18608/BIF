@@ -10,6 +10,8 @@ import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.bioinspiredflight.GameActivity;
+import com.bioinspiredflight.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -57,9 +59,15 @@ public class Ui {
         RelativeLayout.LayoutParams newLevelLayoutParams =
                 new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-        newLevelLayoutParams.leftMargin = 0;
-        newLevelLayoutParams.rightMargin = metrics.widthPixels - 300;
+                        RelativeLayout.LayoutParams.MATCH_PARENT);
+        final int sideMargin = metrics.widthPixels / 4;
+        final int topMargin = 3 * (metrics.heightPixels / 10);
+        final int bottomMargin = 3 * (metrics.heightPixels / 10);
+        final int buttonThickness = metrics.heightPixels / 5;
+        newLevelLayoutParams.leftMargin = sideMargin;
+        newLevelLayoutParams.rightMargin = sideMargin;
+        newLevelLayoutParams.topMargin = topMargin;
+        newLevelLayoutParams.height = buttonThickness;
 
         newLevelButton.setLayoutParams(newLevelLayoutParams);
         newLevelButton.setText("Change Level");
@@ -80,11 +88,11 @@ public class Ui {
         RelativeLayout.LayoutParams returnLayoutParams =
                 new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-        returnLayoutParams.leftMargin = 0;
-        returnLayoutParams.rightMargin = metrics.widthPixels - 300;
-        returnLayoutParams.topMargin = 100;
-        returnLayoutParams.bottomMargin = metrics.heightPixels - 300;
+                        RelativeLayout.LayoutParams.MATCH_PARENT);
+        returnLayoutParams.leftMargin = sideMargin;
+        returnLayoutParams.rightMargin = sideMargin;
+        returnLayoutParams.topMargin = topMargin + buttonThickness;
+        returnLayoutParams.height = buttonThickness;
         returnButton.setLayoutParams(returnLayoutParams);
         returnButton.setText("Exit");
         returnButton.setId(CompatUtils.getUniqueViewId());
@@ -119,6 +127,19 @@ public class Ui {
         newLevelButton.setEnabled(true);
         returnButton.setEnabled(true);
 
+        setupPauseMenu(gameActivity);
+    }
+
+    private void setupPauseMenu(final GameActivity gameActivity){
+        final FloatingActionButton pauseButton = new FloatingActionButton(gameActivity);
+        pauseButton.setImageResource(android.R.drawable.ic_media_pause);
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(gameActivity, "Pause button pressed!", pauseButton.getId()).show();
+            }
+        });
+        widgets.add(pauseButton);
     }
 
     public void drawUi(RelativeLayout frame){
