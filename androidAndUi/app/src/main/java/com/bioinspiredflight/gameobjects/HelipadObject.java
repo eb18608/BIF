@@ -4,6 +4,7 @@ import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
+import com.bioinspiredflight.sensor.SensorContent;
 
 import processing.core.PApplet;
 import processing.core.PShape;
@@ -48,7 +49,7 @@ public class HelipadObject extends ObjectiveObject {
 
     @Override
     public void draw2D() {
-        if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) {
+        if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500 && SensorContent.ITEMS.get(11).isEquipped()) {
             sketch.pushMatrix();
             sketch.translate(this.getCoords().x/10 - this.getW()/20, -this.getCoords().z/10 - this.getD()/20);
             sketch.image(icon, 0, 0, this.getW()/10, this.getD()/10);
@@ -63,9 +64,19 @@ public class HelipadObject extends ObjectiveObject {
         setStatus(true);
         if (!sketch.checkCompleted()) {
             setStatus(false);
+        } else {
+            sketch.getObs().updateUiComplete();
         }
     }
 
     @Override
     public boolean isDrone() { return false; }
+
+    @Override
+    public boolean shouldBeTracked() {
+        setStatus(true);
+        boolean allCompleted = sketch.checkCompleted();
+        setStatus(false);
+        return allCompleted;
+    }
 }

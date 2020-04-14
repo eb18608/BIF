@@ -50,7 +50,8 @@ public class SensorFileHandler {
                                     Double.parseDouble(record.get(4)),
                                     Double.parseDouble(record.get(5)),
                                     record.get(6),
-                                    record.get(7));
+                                    record.get(7),
+                                    record.get(8));
                     list.add(data);
                 } catch (NumberFormatException e){
 

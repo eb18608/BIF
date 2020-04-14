@@ -44,4 +44,5 @@ public class ObjectiveObject extends GameObject {
 
     @Override
     public void draw2D() { }
+
 }

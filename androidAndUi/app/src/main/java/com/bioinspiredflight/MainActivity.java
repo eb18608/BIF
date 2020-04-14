@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
 
+import com.bioinspiredflight.sensor.SensorContent;
 import com.bioinspiredflight.sensor.SensorListActivity;
 import com.bioinspiredflight.utilities.AchievementsFileHandler;
 
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SensorContent.populateList("Sensors.csv", this);
         setContentView(R.layout.activity_main);
 
         init();

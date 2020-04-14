@@ -3,6 +3,7 @@ package com.bioinspiredflight.gameobjects;
 import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
+import com.bioinspiredflight.sensor.SensorContent;
 
 import processing.core.PShape;
 import processing.core.PVector;
@@ -35,6 +36,7 @@ public class CollectibleObject extends ObjectiveObject {
         return d;
     }
 
+    @Override
     public boolean isVisible() { return visible; }
 
     @Override
@@ -49,7 +51,7 @@ public class CollectibleObject extends ObjectiveObject {
 
     @Override
     public void draw2D() {
-        if ((sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) && this.isVisible()) {
+        if ((sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) && this.isVisible() && SensorContent.ITEMS.get(4).isEquipped()) {
             sketch.pushMatrix();
             sketch.translate(this.getCoords().x/10, -this.getCoords().z/10);
             sketch.fill(sketch.color(0, 200, 200, 100));
@@ -61,10 +63,10 @@ public class CollectibleObject extends ObjectiveObject {
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         sketch.setLastPosition(movement.getPos());
-        if (!sketch.getHoldingCollectible()) {
+        if (!(!SensorContent.ITEMS.get(6).isEquipped() && sketch.getCollectiblesHeld() == 1)) {
             if (this.isVisible()) {
                 setStatus(true);
-                sketch.setHoldingCollectible(true);
+                sketch.setCollectiblesHeld(sketch.getCollectiblesHeld() + 1);
             }
             visible = false;
 
@@ -72,7 +74,14 @@ public class CollectibleObject extends ObjectiveObject {
     }
 
     @Override
-    public boolean isDrone() {
-        return false;
+    public boolean isDrone() { return false; }
+
+    @Override
+    public boolean shouldBeTracked() {
+        if (!SensorContent.ITEMS.get(6).isEquipped() && sketch.getCollectiblesHeld() == 1) {
+            return false;
+        } else {
+            return isVisible();
+        }
     }
 }

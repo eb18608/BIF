@@ -3,6 +3,7 @@ package com.bioinspiredflight.gameobjects;
 import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
+import com.bioinspiredflight.sensor.SensorContent;
 
 import processing.core.PShape;
 import processing.core.PVector;
@@ -39,6 +40,7 @@ public class LoopObject extends ObjectiveObject {
 
     public float getD()  { return d; }
 
+    @Override
     public boolean isVisible() { return visible; }
 
     void setColour(float r, float g, float b, float a) {
@@ -73,7 +75,7 @@ public class LoopObject extends ObjectiveObject {
 
     @Override
     public void draw2D() {
-        if ((sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) && this.isVisible()) {
+        if ((sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) && this.isVisible() && SensorContent.ITEMS.get(4).isEquipped()) {
             sketch.pushMatrix();
             sketch.translate(this.getCoords().x/10, -this.getCoords().z/10);
             sketch.fill(sketch.color(colour[0], colour[1], colour[2], 100));
@@ -95,5 +97,14 @@ public class LoopObject extends ObjectiveObject {
     @Override
     public boolean isDrone() {
         return false;
+    }
+
+    @Override
+    public boolean shouldBeTracked() {
+        if (!this.getStatus() && this.isVisible()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
