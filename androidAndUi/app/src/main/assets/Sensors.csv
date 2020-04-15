@@ -10,22 +10,3 @@ HD camera,Picture/Video,Hawk,30,2,200,hdcamera_toolbar,"Vision is extremely impo
 IMU (gyroscopes and accelerometers),Stability and Attitude,Ear canal,5,0.5,50,imu_toolbar,"This is a Inertial Measurement Unit (IMU) which is an electronic device that measures and reports a specific force and angular rate using a combination of accelerometers and gyroscopes. This is used to stabalise the drone, without an IMU the drone would crash.","cube.obj"
 Magnetometer,Compass / Orientation wrt North,"Sea turtles, birds",5,0.5,50,magnetometer_toolbar,"This is a Magnetometer which is an instrument that measures electromagnetic fields. This can be used as a compass to orientate the drone with the Earth's magnetic field. Many animals, such as birds and turtles, use a similar method for navigating during migration. ","cube.obj"
 Sonar sensor (echolocation),3D mapping without vision or GPS,Bats,20,1,100,sonar_toolbar,A bat uses echolocation to sense prey and obstacles whilst flying. The bat releases a series of clicks which reflect off an object and return to the bat's ears. The distance and speed of an object can be determined by the change in sound frequency known as the Doppler effect. ,"cube.obj"
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
