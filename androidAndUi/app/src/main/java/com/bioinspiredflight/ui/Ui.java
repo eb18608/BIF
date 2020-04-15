@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,10 +14,12 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.bioinspiredflight.GameActivity;
 import com.bioinspiredflight.R;
+import com.bioinspiredflight.utilities.LevelHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import processing.android.CompatUtils;
 
@@ -103,10 +106,12 @@ public class Ui {
         private Button returnButton;
         private Button newLevelButton;
         private FloatingActionButton pauseButton;
+        private TableLayout levelSelectLayout;
 
         public PauseMenu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
             setupMenu(gameActivity, widgets, metrics);
             setupPauseButton(gameActivity, widgets, metrics);
+            setupLevelSelect(gameActivity, widgets);
         }
 
         private void setupMenu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
@@ -217,6 +222,32 @@ public class Ui {
             pauseButtonParams.topMargin = metrics.heightPixels / 20;
             pauseButton.setLayoutParams(pauseButtonParams);
             widgets.add(pauseButton);
+        }
+
+        public void setupLevelSelect(GameActivity gameActivity, ArrayList<View> widgets){
+            levelSelectLayout = new TableLayout(gameActivity);
+            TableLayout.LayoutParams tableParams =
+                    new TableLayout.LayoutParams(
+                            TableLayout.LayoutParams.WRAP_CONTENT,
+                            TableLayout.LayoutParams.WRAP_CONTENT);
+            TableRow.LayoutParams rowParams =
+                    new TableRow.LayoutParams(
+                            TableRow.LayoutParams.WRAP_CONTENT,
+                            TableRow.LayoutParams.WRAP_CONTENT);
+            Optional<String[]> levelList = LevelHandler.getLevelDirectory(gameActivity);
+            if (levelList.isPresent()){
+                String[] list = levelList.get();
+                for (String item : list){
+                    TableRow row = new TableRow(gameActivity);
+                    row.setLayoutParams(tableParams);
+                    Button levelButton = new Button(gameActivity);
+                    levelButton.setLayoutParams(rowParams);
+                    levelButton.setText(item.replace(".csv", ""));
+                    levelSelectLayout.addView(levelButton);
+                    //widgets.add(levelButton);
+                }
+                widgets.add(levelSelectLayout);
+            }
         }
 
         public void revealMenu(boolean levelCompleted){

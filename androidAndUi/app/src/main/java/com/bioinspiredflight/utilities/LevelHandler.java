@@ -18,10 +18,12 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 public class LevelHandler {
@@ -149,6 +151,15 @@ public class LevelHandler {
 
         public float getScale() { return scale; }
 
+    }
+
+    public static Optional<String[]> getLevelDirectory(Activity activity){
+        try {
+            String[] fileNameList = activity.getAssets().list("levels");
+            return Optional.of(fileNameList);
+        } catch (IOException e){
+            return Optional.empty();
+        }
     }
 
 }
