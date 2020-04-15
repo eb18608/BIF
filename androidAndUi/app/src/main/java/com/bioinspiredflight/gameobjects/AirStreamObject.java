@@ -36,10 +36,12 @@ public class AirStreamObject extends GameObject {
 
     @Override
     public void draw3D() {
+        if (SensorContent.ITEMS.get(0).isEquipped()) {
             sketch.pushMatrix();
             sketch.translate(getCoords().x, getCoords().y, getCoords().z);
             sketch.shape(body);
             sketch.popMatrix();
+        }
     }
 
     @Override
