@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.bioinspiredflight.GameActivity;
+import com.bioinspiredflight.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Array;
@@ -116,6 +117,12 @@ public class Ui {
 
             levelCompleteText = new TextView(gameActivity);
             levelCompleteText.setText("LEVEL COMPLETE");
+            levelCompleteText.setTextSize(metrics.heightPixels / 25);
+            levelCompleteText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            levelCompleteText.setTextColor(
+                    gameActivity
+                            .getResources()
+                            .getColor(R.color.colorAccent, gameActivity.getTheme()));
             RelativeLayout.LayoutParams textParams =
                     new RelativeLayout.LayoutParams(
                             RelativeLayout.LayoutParams.MATCH_PARENT,
