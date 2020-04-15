@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SensorContent.populateList("Sensors.csv", this);
+        SensorListActivity.updateSensorContent(this);
         setContentView(R.layout.activity_main);
 
         init();

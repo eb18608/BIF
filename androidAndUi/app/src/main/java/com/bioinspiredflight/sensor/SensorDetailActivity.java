@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 
@@ -51,6 +52,9 @@ public class SensorDetailActivity extends AppCompatActivity {
         Resources r = getResources();
         int res = r.getIdentifier(item.getImageFileName(), "drawable", getPackageName());
         ImageView image = findViewById(R.id.header);
+        //DisplayMetrics metrics = new DisplayMetrics();
+        //image.setScaleX(metrics.widthPixels);
+        //image.setScaleY(metrics.heightPixels);
         image.setImageResource(res);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
