@@ -72,7 +72,7 @@ public class Ui {
     }
 
     public void hideMenu(){
-        pauseMenu.hideMenu();
+        pauseMenu.hideMenu(true);
 
     }
     public void setObs(GameActivity.GameSketchObserver obs) {
@@ -106,36 +106,33 @@ public class Ui {
         private Button returnButton;
         private Button newLevelButton;
         private FloatingActionButton pauseButton;
-        private TableLayout levelSelectLayout;
+        private ArrayList<Button> levelSelectButtonList;
 
         public PauseMenu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
             setupMenu(gameActivity, widgets, metrics);
+            setupLevelSelect(gameActivity, widgets, metrics);
             setupPauseButton(gameActivity, widgets, metrics);
-            setupLevelSelect(gameActivity, widgets);
         }
 
         private void setupMenu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
             final int sideMargin = metrics.widthPixels / 4;
             final int topMargin = 3 * (metrics.heightPixels / 10);
             final int bottomMargin = 3 * (metrics.heightPixels / 10);
-            final int buttonThickness = metrics.heightPixels / 5;
+            final int buttonHeight = metrics.heightPixels / 5;
 
             levelCompleteText = new TextView(gameActivity);
             levelCompleteText.setText("LEVEL COMPLETE");
             levelCompleteText.setTextSize(metrics.heightPixels / 25);
             levelCompleteText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            levelCompleteText.setTextColor(
-                    gameActivity
-                            .getResources()
-                            .getColor(R.color.colorAccent, gameActivity.getTheme()));
+            levelCompleteText.setTextColor(0xff33ff33);
             RelativeLayout.LayoutParams textParams =
                     new RelativeLayout.LayoutParams(
                             RelativeLayout.LayoutParams.MATCH_PARENT,
                             RelativeLayout.LayoutParams.MATCH_PARENT);
             textParams.leftMargin = sideMargin;
             textParams.rightMargin = sideMargin;
-            textParams.topMargin = topMargin - buttonThickness;
-            textParams.height = buttonThickness;
+            textParams.topMargin = topMargin - buttonHeight;
+            textParams.height = buttonHeight;
             levelCompleteText.setLayoutParams(textParams);
 
             newLevelButton = new Button(gameActivity);
@@ -147,7 +144,7 @@ public class Ui {
             newLevelLayoutParams.leftMargin = sideMargin;
             newLevelLayoutParams.rightMargin = sideMargin;
             newLevelLayoutParams.topMargin = topMargin;
-            newLevelLayoutParams.height = buttonThickness;
+            newLevelLayoutParams.height = buttonHeight;
 
             newLevelButton.setLayoutParams(newLevelLayoutParams);
             newLevelButton.setText("Change Level");
@@ -155,12 +152,11 @@ public class Ui {
             newLevelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(gameActivity.getApplicationContext(), "Changing level",
+                    Toast.makeText(gameActivity.getApplicationContext(), "Switching to level select menu",
                             Toast.LENGTH_SHORT)
                             .show();
-                    //gameActivity.finish();
-                    obs.updateGameSketch();
-
+                    hideMenu(false);
+                    showLevelSelect();
                 }
             });
 
@@ -171,8 +167,8 @@ public class Ui {
                             RelativeLayout.LayoutParams.MATCH_PARENT);
             returnLayoutParams.leftMargin = sideMargin;
             returnLayoutParams.rightMargin = sideMargin;
-            returnLayoutParams.topMargin = topMargin + buttonThickness;
-            returnLayoutParams.height = buttonThickness;
+            returnLayoutParams.topMargin = topMargin + buttonHeight;
+            returnLayoutParams.height = buttonHeight;
             returnButton.setLayoutParams(returnLayoutParams);
             returnButton.setText("Exit");
             returnButton.setId(CompatUtils.getUniqueViewId());
@@ -209,7 +205,7 @@ public class Ui {
                         revealMenu(false);
                     } else {
 
-                        hideMenu();
+                        hideMenu(true);
                     }
                     pauseButton.invalidate();
                 }
@@ -224,30 +220,97 @@ public class Ui {
             widgets.add(pauseButton);
         }
 
-        public void setupLevelSelect(GameActivity gameActivity, ArrayList<View> widgets){
-            levelSelectLayout = new TableLayout(gameActivity);
-            TableLayout.LayoutParams tableParams =
-                    new TableLayout.LayoutParams(
-                            TableLayout.LayoutParams.WRAP_CONTENT,
-                            TableLayout.LayoutParams.WRAP_CONTENT);
-            TableRow.LayoutParams rowParams =
-                    new TableRow.LayoutParams(
-                            TableRow.LayoutParams.WRAP_CONTENT,
-                            TableRow.LayoutParams.WRAP_CONTENT);
+        public void setupLevelSelect(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
+            levelSelectButtonList = new ArrayList<>();
+            final int sideMargin = metrics.widthPixels / 4;
+            final int topMargin = 2 * (metrics.heightPixels / 10);
+            final int bottomMargin = 3 * (metrics.heightPixels / 10);
+            final int buttonWidth = metrics.widthPixels / 20;
+            final int buttonHeight = metrics.heightPixels / 8;
+            final int gap = metrics.widthPixels / 200;
             Optional<String[]> levelList = LevelHandler.getLevelDirectory(gameActivity);
+            int numOfCols = 0;
+            int numOfRows = 0;
             if (levelList.isPresent()){
                 String[] list = levelList.get();
-                for (String item : list){
-                    TableRow row = new TableRow(gameActivity);
-                    row.setLayoutParams(tableParams);
-                    Button levelButton = new Button(gameActivity);
-                    levelButton.setLayoutParams(rowParams);
+                for (final String item : list){
+
+                    final Button levelButton = new Button(gameActivity);
+                    RelativeLayout.LayoutParams params =
+                            new RelativeLayout.LayoutParams(
+                                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    params.leftMargin =  sideMargin + (numOfCols * (buttonWidth + gap) * 2) ;
+                    params.height = buttonHeight;
+                    params.topMargin = topMargin + (numOfRows * buttonHeight);
+                    levelButton.setLayoutParams(params);
+                    //levelButton.setHeight(metrics.widthPixels / 20);
                     levelButton.setText(item.replace(".csv", ""));
-                    levelSelectLayout.addView(levelButton);
-                    //widgets.add(levelButton);
+                    levelButton.setId(CompatUtils.getUniqueViewId());
+                    levelButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(gameActivity, "Switching to " + item.replace(".csv", ""), levelButton.getId()).show();
+                            hideLevelSelect();
+                            obs.updateGameSketch(item);
+                        }
+                    });
+                    levelButton.setEnabled(true);
+                    //levelSelectLayout.addView(levelButton);
+                    levelButton.setVisibility(View.GONE);
+                    levelSelectButtonList.add(levelButton);
+                    widgets.add(levelButton);
+                    numOfCols++;
+                    if (numOfCols > 5){
+                        numOfRows++;
+                        numOfCols = 0;
+                    }
                 }
-                widgets.add(levelSelectLayout);
+                final Button backButton = new Button(gameActivity);
+                RelativeLayout.LayoutParams params =
+                        new RelativeLayout.LayoutParams(
+                                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.leftMargin =  sideMargin + (numOfCols * (buttonWidth + gap) * 2);
+                params.height = buttonHeight;
+                params.topMargin = topMargin + (numOfRows * buttonHeight);
+                backButton.setLayoutParams(params);
+                //levelButton.setHeight(metrics.widthPixels / 20);
+                backButton.setText("Back");
+                backButton.setTextColor(0xffff0000);
+                backButton.setId(CompatUtils.getUniqueViewId());
+                backButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(gameActivity, "Switching to pause menu", backButton.getId()).show();
+                        hideLevelSelect();
+                        revealMenu(false);
+                        //pauseButton.setImageResource(android.R.drawable.ic_media_pause);
+                        //pauseButton.invalidate();
+                    }
+                });
+                backButton.setEnabled(true);
+                //levelSelectLayout.addView(levelButton);
+                backButton.setVisibility(View.GONE);
+                levelSelectButtonList.add(backButton);
+                widgets.add(backButton);
+                //levelSelectLayout.setEnabled(true);
+                //widgets.add(levelSelectLayout);
             }
+        }
+
+        private void showLevelSelect(){
+            for (Button button : levelSelectButtonList){
+                button.setVisibility(View.VISIBLE);
+            }
+            invalidateMenu();
+        }
+
+        private void hideLevelSelect(){
+            for (Button button : levelSelectButtonList){
+                button.setVisibility(View.GONE);
+            }
+            invalidateMenu();
         }
 
         public void revealMenu(boolean levelCompleted){
@@ -264,8 +327,11 @@ public class Ui {
             invalidateMenu();
         }
 
-        public void hideMenu(){
-            pauseButton.setImageResource(android.R.drawable.ic_media_pause);
+        public void hideMenu(boolean playing){
+            if (playing){
+                pauseButton.setImageResource(android.R.drawable.ic_media_pause);
+                hideLevelSelect();
+            }
             //pauseButton.show();
             pauseButton.setEnabled(true);
             levelCompleteText.setVisibility(View.GONE);
@@ -281,6 +347,9 @@ public class Ui {
             pauseButton.invalidate();
             newLevelButton.invalidate();
             returnButton.invalidate();
+            for (Button button : levelSelectButtonList){
+                button.invalidate();
+            }
         }
     }
 

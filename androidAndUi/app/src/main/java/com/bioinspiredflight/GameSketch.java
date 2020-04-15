@@ -187,7 +187,7 @@ public class GameSketch extends PApplet{
         for (int i = 0; i < 10; i++) {
             prevAccs.add(emptyAcc);
         }
-        startLevel("levels/level0.csv");
+        startLevel("level0.csv");
         setupCompleted = true;
     }
 

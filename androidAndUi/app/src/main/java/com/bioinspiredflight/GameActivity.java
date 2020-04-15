@@ -147,8 +147,8 @@ public class GameActivity extends AppCompatActivity {
             });
         }
 
-        public void updateGameSketch(){
-            sketch.startLevel("levels/level1.csv");
+        public void updateGameSketch(String levelFileName){
+            sketch.startLevel(levelFileName);
             sketch.resume();
         }
 

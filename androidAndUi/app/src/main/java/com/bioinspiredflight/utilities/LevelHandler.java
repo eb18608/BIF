@@ -92,7 +92,7 @@ public class LevelHandler {
     private TreeMap<String, Data> readLevelFile(String fileName){
         TreeMap<String, Data> table = new TreeMap<>();
         try {
-            InputStream inputStream = activity.getAssets().open(fileName);
+            InputStream inputStream = activity.getAssets().open("levels/" + fileName);
             InputStreamReader reader = null;
             reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL);
