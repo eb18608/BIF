@@ -78,7 +78,7 @@ public class GameSketch extends PApplet{
     PVector flipAcc = new PVector(0,0,0);
     PVector emptyAcc = new PVector(0,0,0);
     ArrayList<PVector> prevAccs = new ArrayList<>();
-    boolean gamePaused;
+    private boolean gamePaused;
     boolean setupCompleted;
 
 
@@ -193,7 +193,7 @@ public class GameSketch extends PApplet{
         for (int i = 0; i < 10; i++) {
             prevAccs.add(emptyAcc);
         }
-        startLevel("levels/level0.csv");
+        startLevel("level0.csv");
         setupCompleted = true;
     }
 
@@ -263,7 +263,8 @@ public class GameSketch extends PApplet{
     }
 
     public void draw() {
-        if (gamePaused || !setupCompleted) { return; }
+        //if (gamePaused || !setupCompleted) { return; }
+        if (!setupCompleted) { return; }
         lights();
         int i = gameObjects.checkForCollisions(movingObject);
 
@@ -302,11 +303,13 @@ public class GameSketch extends PApplet{
 
     public void resume() {
         gamePaused = false;
+        this.loop();
         System.out.println("resuming here!");
     }
 
     public void pause() {
         gamePaused = true;
+        this.noLoop();
         System.out.println("pausing here!");
     }
 
@@ -361,6 +364,9 @@ public class GameSketch extends PApplet{
         return loaded;
     }
 
+    public boolean isGamePaused(){
+        return gamePaused;
+    }
     public PShape getAirVentShape() { return airVentShape; }
 
     public PShape getAirStreamShape() { return airStreamShape; }

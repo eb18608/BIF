@@ -1,7 +1,6 @@
 package com.bioinspiredflight;
 
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.ViewGroup;
@@ -12,15 +11,12 @@ import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
 import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.ui.InputToOutput;
 import com.bioinspiredflight.ui.Ui;
 import com.bioinspiredflight.utilities.LevelHandler;
-
-import javax.vecmath.Vector3d;
 
 import processing.android.PFragment;
 import processing.android.CompatUtils;
@@ -134,7 +130,7 @@ public class GameActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    ui.hideUI();
+                    ui.hideMenu();
                 }
             });
 
@@ -146,13 +142,14 @@ public class GameActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    ui.revealUI();
+                    ui.revealMenu(true);
                 }
             });
         }
 
-        public void updateGameSketch(){
-            sketch.startLevel("levels/level1.csv");
+        public void updateGameSketch(String levelFileName){
+            sketch.startLevel(levelFileName);
+            sketch.resume();
         }
 
         public void setUi(Ui ui) {
@@ -163,6 +160,18 @@ public class GameActivity extends AppCompatActivity {
         public void setSketch(GameSketch sketch) {
             this.sketch = sketch;
             sketch.setObs(this);
+        }
+
+        public boolean togglePauseSketch(){
+            boolean paused;
+            if (sketch.isGamePaused()){
+                sketch.resume();
+                paused = false;
+            } else {
+                sketch.pause();
+                paused = true;
+            }
+            return paused;
         }
     }
 }
