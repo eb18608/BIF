@@ -47,6 +47,8 @@ public class GameSketch extends PApplet{
     private PShape helipadShape;
     private PShape collectionPointShape;
     private PShape collectibleShape;
+    private PShape airVentShape;
+    private PShape airStreamShape;
 
     private ReentrantLock lock = new ReentrantLock();
 
@@ -184,6 +186,7 @@ public class GameSketch extends PApplet{
         collectionPointShape = loadShape("postbox.obj");
         sky = loadImage("sky.png");
         sky.resize(width, height);
+        airVentShape = loadShape("textured_drone_sans_propellers.obj");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
@@ -357,4 +360,8 @@ public class GameSketch extends PApplet{
     public boolean isLoaded() {
         return loaded;
     }
+
+    public PShape getAirVentShape() { return airVentShape; }
+
+    public PShape getAirStreamShape() { return airStreamShape; }
 }

@@ -3,6 +3,8 @@ package com.bioinspiredflight.utilities;
 import android.app.Activity;
 
 import com.bioinspiredflight.GameSketch;
+import com.bioinspiredflight.gameobjects.AirStreamObject;
+import com.bioinspiredflight.gameobjects.AirVentObject;
 import com.bioinspiredflight.gameobjects.BuildingObject;
 import com.bioinspiredflight.gameobjects.CollectibleObject;
 import com.bioinspiredflight.gameobjects.CollectionPointObject;
@@ -83,6 +85,14 @@ public class LevelHandler {
             id = Integer.parseInt(key.replace("collectible", ""));
             gameObject =
                     new CollectibleObject(sketch, sketch.getCollectibleShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("airvent")){
+            id = Integer.parseInt(key.replace("airvent", ""));
+            gameObject =
+                    new AirVentObject(sketch, sketch.getAirVentShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("airstream")){
+            id = Integer.parseInt(key.replace("airstream", ""));
+            gameObject =
+                    new AirStreamObject(sketch, sketch.getAirStreamShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
         }
         return gameObject;
     }
