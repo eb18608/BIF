@@ -9,6 +9,8 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.bioinspiredflight.GameActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -191,10 +193,10 @@ public class Ui {
                     Toast.makeText(gameActivity, "Pause button pressed!", pauseButton.getId()).show();
                     boolean paused = obs.togglePauseSketch();
                     if (paused){
-                        pauseButton.setImageResource(android.R.drawable.ic_media_play);
+
                         revealMenu(false);
                     } else {
-                        pauseButton.setImageResource(android.R.drawable.ic_media_pause);
+
                         hideMenu();
                     }
                     pauseButton.invalidate();
@@ -212,8 +214,12 @@ public class Ui {
 
         public void revealMenu(boolean levelCompleted){
             if (levelCompleted){
-                pauseButton.hide();
+                //pauseButton.hide();
+                pauseButton.setEnabled(false);
+                pauseButton.setImageResource(android.R.drawable.btn_radio);
                 levelCompleteText.setVisibility(View.VISIBLE);
+            } else {
+                pauseButton.setImageResource(android.R.drawable.ic_media_play);
             }
             newLevelButton.setVisibility(View.VISIBLE);
             returnButton.setVisibility(View.VISIBLE);
@@ -221,7 +227,9 @@ public class Ui {
         }
 
         public void hideMenu(){
-            pauseButton.show();
+            pauseButton.setImageResource(android.R.drawable.ic_media_pause);
+            //pauseButton.show();
+            pauseButton.setEnabled(true);
             levelCompleteText.setVisibility(View.GONE);
             newLevelButton.setVisibility(View.GONE);
             returnButton.setVisibility(View.GONE);

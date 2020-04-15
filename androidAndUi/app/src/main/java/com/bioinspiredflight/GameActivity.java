@@ -149,6 +149,7 @@ public class GameActivity extends AppCompatActivity {
 
         public void updateGameSketch(){
             sketch.startLevel("levels/level1.csv");
+            sketch.resume();
         }
 
         public void setUi(Ui ui) {
