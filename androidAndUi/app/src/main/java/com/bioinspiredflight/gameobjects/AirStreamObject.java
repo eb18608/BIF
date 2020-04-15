@@ -50,6 +50,7 @@ public class AirStreamObject extends GameObject {
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         //TODO: Custom airstream collision.
+        // ints for each direction
     }
 
     @Override
