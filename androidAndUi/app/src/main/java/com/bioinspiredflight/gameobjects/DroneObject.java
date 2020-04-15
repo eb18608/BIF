@@ -39,6 +39,7 @@ public class DroneObject extends GameObject {
         propellerBR = loadPropeller(scale);
         arrow = sketch.loadShape("arrow.obj");
         this.arrow.setFill(sketch.color(150,0,0,150));
+
         for (SensorContent.SensorItem sensor : SensorContent.ITEMS) {
             PShape tempBody = sketch.loadShape(sensor.getBodyfilePath());
             sensorBodies.add(tempBody);
