@@ -1,22 +1,24 @@
 package com.bioinspiredflight.gameobjects;
 
 import com.bioinspiredflight.GameSketch;
-import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
+import com.bioinspiredflight.sensor.SensorContent;
 
-import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class BuildingObject extends GameObject {
+public class AirVentObject extends GameObject {
+    PImage icon;
 
-    public BuildingObject(GameSketch sketch, PShape body, float x, float y, float z,
-                          float scale, int id) {
+    public AirVentObject(GameSketch sketch, PShape body, float x, float y, float z,
+                         float scale, int id) {
         super(sketch, body, x, y, z, id);
-        h = 600 * scale;
-        w = 400 * scale;
-        d = 400 * scale;
+        h = 20 * scale;
+        w = 120 * scale;
+        d = 120 * scale;
+        icon = sketch.loadImage("FanIcon.png");
     }
 
     public PVector getCoords(){
@@ -41,19 +43,14 @@ public class BuildingObject extends GameObject {
         sketch.translate(getCoords().x, getCoords().y, getCoords().z);
         sketch.shape(body);
         sketch.popMatrix();
-        sketch.pushMatrix();
-        sketch.translate(getCoords().x - getW()/2, getCoords().y - getH()/2, getCoords().z - getD()/2);
-        sketch.renderBuilding(this.getW(), this.getH(), this.getD());
-        sketch.popMatrix();
     }
 
     @Override
     public void draw2D() {
-        if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) {
+        if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500 && SensorContent.ITEMS.get(7).isEquipped()) {
             sketch.pushMatrix();
-            sketch.translate(this.getCoords().x/10 - this.getW()/20, -this.getCoords().z/10 - this.getD()/20);
-            sketch.fill(200);
-            sketch.rect(0, 0, this.getW()/10, this.getD()/10);
+            sketch.translate(this.getCoords().x/10, -this.getCoords().z/10);
+            sketch.image(icon, 0, 0, this.getW()/10, this.getD()/10);
             sketch.popMatrix();
         }
     }
