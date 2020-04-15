@@ -142,7 +142,10 @@ public class GameActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    ui.revealMenu(true);
+                    if (!ui.isLevelComplete()){
+                        ui.revealMenu(true);
+                    }
+                    ui.setLevelComplete(true);
                 }
             });
         }

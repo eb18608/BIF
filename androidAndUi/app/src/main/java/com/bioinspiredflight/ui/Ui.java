@@ -29,6 +29,7 @@ public class Ui {
     private ArrayList<View> widgets;
     private GameActivity.GameSketchObserver obs;
     private PlayerControls controls;
+    private boolean levelCompleted;
     //private final FrameLayout frame;
     //private final AppCompatActivity gameActivity;
 
@@ -66,8 +67,8 @@ public class Ui {
         }
     }
 
-    public void revealMenu(boolean levelCompleted){
-        pauseMenu.revealMenu(levelCompleted);
+    public void revealMenu(boolean completed){
+        pauseMenu.revealMenu(completed);
 
     }
 
@@ -75,6 +76,15 @@ public class Ui {
         pauseMenu.hideMenu(true);
 
     }
+
+    public void setLevelComplete(boolean complete){
+        levelCompleted = complete;
+    }
+
+    public boolean isLevelComplete(){
+        return levelCompleted;
+    }
+
     public void setObs(GameActivity.GameSketchObserver obs) {
         this.obs = obs;
     }
@@ -107,6 +117,7 @@ public class Ui {
         private Button newLevelButton;
         private FloatingActionButton pauseButton;
         private ArrayList<Button> levelSelectButtonList;
+
 
         public PauseMenu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
             setupMenu(gameActivity, widgets, metrics);
@@ -313,8 +324,8 @@ public class Ui {
             invalidateMenu();
         }
 
-        public void revealMenu(boolean levelCompleted){
-            if (levelCompleted){
+        public void revealMenu(boolean completed){
+            if (levelCompleted || completed){
                 //pauseButton.hide();
                 pauseButton.setEnabled(false);
                 pauseButton.setImageResource(android.R.drawable.btn_radio);
