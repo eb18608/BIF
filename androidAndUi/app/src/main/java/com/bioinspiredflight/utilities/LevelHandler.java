@@ -9,6 +9,7 @@ import com.bioinspiredflight.gameobjects.BuildingObject;
 import com.bioinspiredflight.gameobjects.CollectibleObject;
 import com.bioinspiredflight.gameobjects.CollectionPointObject;
 import com.bioinspiredflight.gameobjects.DroneObject;
+import com.bioinspiredflight.gameobjects.FuelObject;
 import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.gameobjects.GameObjectList;
 import com.bioinspiredflight.gameobjects.LoopObject;
@@ -95,6 +96,10 @@ public class LevelHandler {
             id = Integer.parseInt(key.replace("airstream", ""));
             gameObject =
                     new AirStreamObject(sketch, sketch.getAirStreamShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("fuel")){
+            id = Integer.parseInt(key.replace("fuel", ""));
+            gameObject =
+                    new FuelObject(sketch, sketch.getFuelShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
         }
         return gameObject;
     }

@@ -16,9 +16,9 @@ public class FuelObject extends GameObject {
 
     public FuelObject(GameSketch sketch, PShape body, float x, float y, float z, float scale, int id) {
         super(sketch, body, x, y, z, id);
-        h = 50 * scale;
-        w = 100 * scale;
-        d = 100 * scale;
+        h = 150 * scale;
+        w = 150 * scale;
+        d = 150 * scale;
         visible = true;
         icon = sketch.loadImage("FuelIcon.png");
     }
@@ -40,9 +40,6 @@ public class FuelObject extends GameObject {
 
     @Override
     public void draw3D() {
-        if (sketch.getCurrentLoopID() == this.getID()) {
-            visible = true;
-        }
         if ( this.isVisible() ) {
 
             sketch.pushMatrix();
@@ -59,14 +56,20 @@ public class FuelObject extends GameObject {
         if ((sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) && this.isVisible() && SensorContent.ITEMS.get(3).isEquipped()) {
             sketch.pushMatrix();
             sketch.translate(this.getCoords().x/10, -this.getCoords().z/10);
-            sketch.image(icon, 0, 0, this.getW()/10, this.getH()/10);
+            sketch.fill(200);
+            sketch.circle(this.getW()/20,this.getD()/20,this.getW()/8);
+            sketch.image(icon, 0, 0, this.getW()/10, this.getD()/10);
             sketch.popMatrix();
         }
     }
 
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
-
+        sketch.setLastPosition(movement.getPos());
+        if (this.isVisible()) {
+            sketch.incrementFuelLevel(255);
+            visible = false;
+        }
     }
 
     @Override

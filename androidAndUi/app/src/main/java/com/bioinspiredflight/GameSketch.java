@@ -49,6 +49,7 @@ public class GameSketch extends PApplet{
     private PShape collectibleShape;
     private PShape airVentShape;
     private PShape airStreamShape;
+    private PShape fuelShape;
 
     private ReentrantLock lock = new ReentrantLock();
 
@@ -80,7 +81,9 @@ public class GameSketch extends PApplet{
     ArrayList<PVector> prevAccs = new ArrayList<>();
     private boolean gamePaused;
     boolean setupCompleted;
-
+    int maxFuel = 1275;
+    int fuelLevel = maxFuel;
+    PImage fuelIcon;
 
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
@@ -145,6 +148,7 @@ public class GameSketch extends PApplet{
         obs.updateUINewLevel();
         currentLoopID = 0;
         collectiblesHeld = 0;
+        fuelLevel = maxFuel;
     }
 
     // Loop through the acc values for the last 10 frames.
@@ -186,6 +190,8 @@ public class GameSketch extends PApplet{
         collectionPointShape = loadShape("postbox.obj");
         sky = loadImage("sky.png");
         sky.resize(width, height);
+        fuelIcon = loadImage("FuelIcon.png");
+        fuelShape = loadShape("fuel.obj");
         airVentShape = loadShape("textured_drone_sans_propellers.obj");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
@@ -199,6 +205,7 @@ public class GameSketch extends PApplet{
 
     public void draw3d(float droneLeftRight, float droneUpDown, float droneForwardBack){
         // 3D Section
+        lights();
         background(sky);
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
@@ -238,22 +245,50 @@ public class GameSketch extends PApplet{
     public void draw2d(){
         // 2D Section
         hint(DISABLE_DEPTH_TEST);
+        noLights();
 
-        translate(width - 160, 160);
-
-        fill(153);
-        circle(0, 0, 300);
-
+        // Fuel
         pushMatrix();
-        rotate(-rotation);
-        pushMatrix();
-        translate(-drone.coords.x / 10, drone.coords.z / 10);
+        translate(400, 60);
+        for (int i = 255; i <= maxFuel; i += 255) {
+            if (fuelLevel < i) {
+                noFill();
+                stroke(0, fuelLevel % 255);
+                rect(-5, -5, 100, 100);
+                tint(255, fuelLevel % 255);
+                image(fuelIcon, 0, 0, 90, 90);
+            } else {
+                noFill();
+                stroke(0);
+                rect(-5, -5, 100, 100);
+                noTint();
+                image(fuelIcon, 0, 0, 90, 90);
+                translate(100, 0);
+            }
+        }
+        noTint();
+        popMatrix();
 
-        gameObjects.drawAllGameObjects2D();
-        popMatrix();
-        popMatrix();
-        fill(0);
-        image(droneIcon, -drone.di / 15, -drone.di / 15, drone.di / 7.5f, drone.di / 7.5f);
+        // Minimap
+        if (SensorContent.ITEMS.get(5).isEquipped()) {
+            pushMatrix();
+            translate(width - 160, 160);
+
+            fill(153);
+            circle(0, 0, 300);
+
+            pushMatrix();
+            rotate(-rotation);
+            pushMatrix();
+            translate(-drone.coords.x / 10, drone.coords.z / 10);
+
+            gameObjects.drawAllGameObjects2D();
+            popMatrix();
+            popMatrix();
+            fill(0);
+            image(droneIcon, -drone.di / 15, -drone.di / 15, drone.di / 7.5f, drone.di / 7.5f);
+            popMatrix();
+        }
 
         hint(ENABLE_DEPTH_TEST);
     }
@@ -265,7 +300,6 @@ public class GameSketch extends PApplet{
     public void draw() {
         //if (gamePaused || !setupCompleted) { return; }
         if (!setupCompleted) { return; }
-        lights();
         int i = gameObjects.checkForCollisions(movingObject);
 
         if(movingObject.collided == true){
@@ -284,18 +318,13 @@ public class GameSketch extends PApplet{
         draw3d(droneLeftRight, droneUpDown, droneForwardBack);
 
         camera();
-        if (SensorContent.ITEMS.get(5).isEquipped()) {
-            draw2d();
-        } else {
-            // lights go weird if nothing 2D is drawn
-            hint(DISABLE_DEPTH_TEST);
-            pushMatrix();
-            fill(0,0,0,0);
-            square(0, 0, 10);
-            popMatrix();
-            hint(ENABLE_DEPTH_TEST);
-        }
+        draw2d();
 
+        if (fuelLevel == 0) {
+            //TODO: End level. "You ran out of fuel!"
+        } else {
+            decrementFuelLevel(2);
+        }
     }
     public void settings() {
         fullScreen(P3D);
@@ -370,4 +399,18 @@ public class GameSketch extends PApplet{
     public PShape getAirVentShape() { return airVentShape; }
 
     public PShape getAirStreamShape() { return airStreamShape; }
+
+    public int getFuelLevel() { return fuelLevel; }
+
+    public void incrementFuelLevel(int amount) {
+        fuelLevel += amount;
+        if (fuelLevel > maxFuel) { fuelLevel = maxFuel; }
+    }
+
+    public void decrementFuelLevel(int amount) {
+        fuelLevel -= amount;
+        if (fuelLevel < 0) { fuelLevel = 0; }
+    }
+
+    public PShape getFuelShape() { return fuelShape; }
 }
