@@ -15,6 +15,7 @@ import com.bioinspiredflight.gameobjects.GameObjectList;
 import com.bioinspiredflight.gameobjects.LoopObject;
 import com.bioinspiredflight.gameobjects.ObjectiveObject;
 import com.bioinspiredflight.gameobjects.HelipadObject;
+import com.bioinspiredflight.gameobjects.SearchlightObject;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -100,6 +101,10 @@ public class LevelHandler {
             id = Integer.parseInt(key.replace("fuel", ""));
             gameObject =
                     new FuelObject(sketch, sketch.getFuelShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("searchlight")){
+            id = Integer.parseInt(key.replace("searchlight", ""));
+            gameObject =
+                    new SearchlightObject(sketch, sketch.getSearchlightShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
         }
         return gameObject;
     }

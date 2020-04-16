@@ -50,6 +50,7 @@ public class GameSketch extends PApplet{
     private PShape airVentShape;
     private PShape airStreamShape;
     private PShape fuelShape;
+    private PShape searchlightShape;
 
     private ReentrantLock lock = new ReentrantLock();
 
@@ -413,4 +414,6 @@ public class GameSketch extends PApplet{
     }
 
     public PShape getFuelShape() { return fuelShape; }
+
+    public PShape getSearchlightShape() { return searchlightShape; }
 }
