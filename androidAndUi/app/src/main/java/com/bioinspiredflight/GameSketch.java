@@ -254,13 +254,13 @@ public class GameSketch extends PApplet{
         for (int i = 255; i <= maxFuel; i += 255) {
             if (fuelLevel < i) {
                 noFill();
-                stroke(0, fuelLevel % 255);
+                stroke(153, fuelLevel % 255);
                 rect(-5, -5, 100, 100);
                 tint(255, fuelLevel % 255);
                 image(fuelIcon, 0, 0, 90, 90);
             } else {
                 noFill();
-                stroke(0);
+                stroke(153);
                 rect(-5, -5, 100, 100);
                 noTint();
                 image(fuelIcon, 0, 0, 90, 90);
