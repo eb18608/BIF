@@ -143,8 +143,10 @@ public class GameActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    ui.setGameStatus(Ui.GameStatus.COMPLETED);
-                    ui.revealMenu();
+                  if(ui.getGameStatus() != Ui.GameStatus.COMPLETED){
+                      ui.setGameStatus(Ui.GameStatus.COMPLETED);
+                      ui.revealMenu();
+                    }
                 }
             });
         }

@@ -81,6 +81,10 @@ public class Ui {
         this.gameStatus = gameStatus;
     }
 
+    public GameStatus getGameStatus(){
+        return gameStatus;
+    }
+
     public void setObs(GameActivity.GameSketchObserver obs) {
         this.obs = obs;
     }
@@ -113,6 +117,7 @@ public class Ui {
         private Button newLevelButton;
         private FloatingActionButton pauseButton;
         private ArrayList<Button> levelSelectButtonList;
+
 
         public PauseMenu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
             setupMenu(gameActivity, widgets, metrics);
