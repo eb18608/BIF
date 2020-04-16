@@ -29,6 +29,7 @@ public class Ui {
     private ArrayList<View> widgets;
     private GameActivity.GameSketchObserver obs;
     private PlayerControls controls;
+    private GameStatus gameStatus = GameStatus.IN_PROGRESS;
     //private final FrameLayout frame;
     //private final AppCompatActivity gameActivity;
 
@@ -66,8 +67,8 @@ public class Ui {
         }
     }
 
-    public void revealMenu(boolean levelCompleted){
-        pauseMenu.revealMenu(levelCompleted);
+    public void revealMenu(){
+        pauseMenu.revealMenu();
 
     }
 
@@ -75,6 +76,11 @@ public class Ui {
         pauseMenu.hideMenu(true);
 
     }
+
+    public void setGameStatus(GameStatus gameStatus){
+        this.gameStatus = gameStatus;
+    }
+
     public void setObs(GameActivity.GameSketchObserver obs) {
         this.obs = obs;
     }
@@ -201,8 +207,7 @@ public class Ui {
                     Toast.makeText(gameActivity, "Pause button pressed!", pauseButton.getId()).show();
                     boolean paused = obs.togglePauseSketch();
                     if (paused){
-
-                        revealMenu(false);
+                        revealMenu();
                     } else {
 
                         hideMenu(true);
@@ -284,7 +289,7 @@ public class Ui {
                     public void onClick(View v) {
                         Toast.makeText(gameActivity, "Switching to pause menu", backButton.getId()).show();
                         hideLevelSelect();
-                        revealMenu(false);
+                        revealMenu();
                         //pauseButton.setImageResource(android.R.drawable.ic_media_pause);
                         //pauseButton.invalidate();
                     }
@@ -313,8 +318,8 @@ public class Ui {
             invalidateMenu();
         }
 
-        public void revealMenu(boolean levelCompleted){
-            if (levelCompleted){
+        public void revealMenu(){
+            if (gameStatus == GameStatus.COMPLETED){
                 //pauseButton.hide();
                 pauseButton.setEnabled(false);
                 pauseButton.setImageResource(android.R.drawable.btn_radio);
@@ -351,6 +356,12 @@ public class Ui {
                 button.invalidate();
             }
         }
+    }
+
+    public enum GameStatus{
+        IN_PROGRESS,
+        COMPLETED,
+        GAME_OVER
     }
 
 }

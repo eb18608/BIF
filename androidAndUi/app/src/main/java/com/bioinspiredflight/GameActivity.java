@@ -130,6 +130,7 @@ public class GameActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
+                    ui.setGameStatus(Ui.GameStatus.IN_PROGRESS);
                     ui.hideMenu();
                 }
             });
@@ -142,7 +143,8 @@ public class GameActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    ui.revealMenu(true);
+                    ui.setGameStatus(Ui.GameStatus.COMPLETED);
+                    ui.revealMenu();
                 }
             });
         }
