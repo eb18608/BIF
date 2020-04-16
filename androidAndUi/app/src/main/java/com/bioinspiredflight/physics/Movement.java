@@ -290,9 +290,9 @@ public class Movement {
     }
 
     public void floorLock(PVector vel, PVector pos) {
-        if (getZ(pos) < 0 && getZ(vel) < 0) {
+        if (getZ(pos) < 11.5f && getZ(vel) < 0) {
             setZ(vel,0);
-            setZ(pos,0);
+            setZ(pos,11.5f);
         }
     }
 

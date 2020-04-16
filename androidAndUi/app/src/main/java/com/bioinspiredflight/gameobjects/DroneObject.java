@@ -29,7 +29,7 @@ public class DroneObject extends GameObject {
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
                        final float s, int id) {
         super(sketch, body, x, y, z, id);
-        h =  17 * s;
+        h =  23 * s;
         di = 105 * s;
         scale = s;
         body.scale(scale);

@@ -3,6 +3,7 @@ package com.bioinspiredflight;
 import com.bioinspiredflight.gameobjects.DroneObject;
 import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.gameobjects.GameObjectList;
+import com.bioinspiredflight.gameobjects.HitboxObject;
 import com.bioinspiredflight.gameobjects.ObjectiveObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
@@ -210,6 +211,13 @@ public class GameSketch extends PApplet{
         background(sky);
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
+
+        pushMatrix();
+        rotateX(PI/2);
+        fill(200);
+        rect(-3000, -3000, 6000, 6000);
+        noFill();
+        popMatrix();
 
         gameObjects.drawNonDroneGameObjects3D();
 
