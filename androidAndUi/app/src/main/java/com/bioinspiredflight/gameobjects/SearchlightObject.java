@@ -13,6 +13,7 @@ public class SearchlightObject extends GameObject {
     int initx, finx, initz, finz;
     int fbx = 1;
     int fbz = 1;
+    HitboxObject lightHolderHitbox;
 
     public SearchlightObject(GameSketch sketch, PShape body, float x, float y, float z,
                              float scale, int id, int finx, int finz) {
@@ -37,6 +38,10 @@ public class SearchlightObject extends GameObject {
         propellerFR = loadPropeller(scale);
         propellerBL = loadPropeller(scale);
         propellerBR = loadPropeller(scale);
+
+        lightHolderHitbox = new HitboxObject(sketch, body, x, h + 8.5f, z, id);
+        lightHolderHitbox.setHWD(17, 100, 100);
+        sketch.gameObjects.add(lightHolderHitbox);
     }
 
     private PShape loadPropeller(float scale) {
@@ -65,6 +70,8 @@ public class SearchlightObject extends GameObject {
     private void move() {
         this.coords.x += fbx;
         this.coords.z += fbz;
+        lightHolderHitbox.coords.x += fbx;
+        lightHolderHitbox.coords.z += fbz;
         if (this.getCoords().x == finx || this.getCoords().x == initx) { fbx *= -1; }
         if (this.getCoords().z == finz || this.getCoords().z == initz) { fbz *= -1; }
     }
@@ -80,7 +87,9 @@ public class SearchlightObject extends GameObject {
         final float propellerXZ = 22;
         final float propellerY = 2;
 
-        moveAtSpeed(3);
+        if (initx != finx || initz != finz) {
+            moveAtSpeed(3);
+        }
 
         spinProps(0.3f);
 

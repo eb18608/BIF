@@ -8,13 +8,22 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 public class HitboxObject extends GameObject {
+    public PVector coords;  //keeping this public for optimization reasons
+    GameSketch sketch;
+    float h, w, d;
+    int id;
 
-    public HitboxObject(GameSketch sketch, PShape body, float x, float y, float z,
-                        float scale, int id, float h, float w, float d) {
+    public HitboxObject(GameSketch sketch, PShape body, float x, float y, float z, int id){
         super(sketch, body, x, y, z, id);
-        this.h = h;
-        this.w = w;
-        this.d = d;
+        this.sketch = sketch;
+        this.coords = new PVector(x, y, z);
+        this.id = id;
+    }
+
+    public void setHWD(float hei, float wid, float dep) {
+        this.h = hei;
+        this.w = wid;
+        this.d = dep;
     }
 
     public PVector getCoords(){
@@ -46,8 +55,12 @@ public class HitboxObject extends GameObject {
     }
 
     @Override
-    public boolean isDrone() {
-        return false;
-    }
+    public boolean isDrone() { return false; }
+
+    @Override
+    public boolean shouldBeTracked() { return false; }
+
+    @Override
+    public boolean isVisible() { return false; }
 
 }
