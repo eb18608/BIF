@@ -10,16 +10,27 @@ import processing.core.PVector;
 
 public class SearchlightObject extends GameObject {
     PShape lightHolderBody, propellerFL, propellerFR, propellerBL, propellerBR;
+    int initx, finx, initz, finz;
+    int fbx = 1;
+    int fbz = 1;
 
     public SearchlightObject(GameSketch sketch, PShape body, float x, float y, float z,
-                             float scale, int id) {
-        super(sketch, body, x, y, z, id);
+                             float scale, int id, int finx, int finz) {
+        super(sketch, body, (int)x, y, (int)z, id);
         if (SensorContent.ITEMS.get(2).isEquipped()) {
             scale *= 0.75f;
         }
         h = 400;
         w = 400 * scale;
         d = 400 * scale;
+
+        this.initx = (int) x;
+        this.finx = finx;
+        this.initz = (int) z;
+        this.finz = finz;
+
+        if (finx < x) { fbx = -1; }
+        if (finz < z) { fbz = -1; }
 
         lightHolderBody = sketch.loadShape("textured_drone_sans_propellers.obj");
         propellerFL = loadPropeller(scale);
@@ -51,10 +62,25 @@ public class SearchlightObject extends GameObject {
         sketch.popMatrix();
     }
 
+    private void move() {
+        this.coords.x += fbx;
+        this.coords.z += fbz;
+        if (this.getCoords().x == finx || this.getCoords().x == initx) { fbx *= -1; }
+        if (this.getCoords().z == finz || this.getCoords().z == initz) { fbz *= -1; }
+    }
+
+    private void moveAtSpeed(int speed) {
+        for (int i = 0; i < speed; i++) {
+            move();
+        }
+    }
+
     @Override
     public void draw3D() {
         final float propellerXZ = 22;
         final float propellerY = 2;
+
+        moveAtSpeed(3);
 
         spinProps(0.3f);
 

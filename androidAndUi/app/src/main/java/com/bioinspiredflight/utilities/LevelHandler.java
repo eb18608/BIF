@@ -104,7 +104,7 @@ public class LevelHandler {
         } else if (key.startsWith("searchlight")){
             id = Integer.parseInt(key.replace("searchlight", ""));
             gameObject =
-                    new SearchlightObject(sketch, sketch.getSearchlightShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+                    new SearchlightObject(sketch, sketch.getSearchlightShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id, data.getFinx(), data.getFinz());
         }
         return gameObject;
     }
@@ -120,13 +120,15 @@ public class LevelHandler {
             for (CSVRecord record : parser){
                 //extract initial starting pos and scale from file
                 System.out.println(record.toString());
-                if (record.size() >= 5){
+                if (record.size() >= 7){
                     float x = Float.parseFloat(record.get(1));
                     float y = Integer.parseInt(record.get(2));
                     float z = Integer.parseInt(record.get(3));
                     float rot = Float.parseFloat(record.get(4));
                     float scale = Integer.parseInt(record.get(5));
-                    Data data = new Data(x, y, z, rot, scale);
+                    int finx = Integer.parseInt(record.get(6));
+                    int finz = Integer.parseInt(record.get(7));
+                    Data data = new Data(x, y, z, rot, scale, finx, finz);
                // System.out.printf("%f, %f, %f, %f, %f\n", x, y, z, scale);
                     //put string and PVector pair into table
                     table.put(record.get(0), data);
@@ -146,13 +148,16 @@ public class LevelHandler {
     private class Data {
 
         private float x, y, z, scale, rot;
+        private int finx, finz;
 
-        public Data (float x, float y, float z, float rot, float scale){
+        public Data (float x, float y, float z, float rot, float scale, int finx, int finz){
             this.x = x;
             this.y = y;
             this.z = z;
             this.rot = rot;
             this.scale = scale;
+            this.finx = finx;
+            this.finz = finz;
         }
 
         public float getX(){
@@ -170,6 +175,10 @@ public class LevelHandler {
         public float getRotation() { return rot; }
 
         public float getScale() { return scale; }
+
+        public int getFinx() { return finx; }
+
+        public int getFinz() { return finz; }
 
     }
 
