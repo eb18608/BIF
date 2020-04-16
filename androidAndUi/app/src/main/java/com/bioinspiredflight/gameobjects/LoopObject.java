@@ -56,6 +56,10 @@ public class LoopObject extends ObjectiveObject {
             visible = true;
         }
         if ( this.isVisible() ) {
+            if (colour[1] == 0) {
+                //TODO: Game over. "You failed to collect a loop in time"
+            }
+
             this.body.setFill(sketch.color(colour[0], colour[1], colour[2], colour[3]));
 
             sketch.pushMatrix();
@@ -70,6 +74,10 @@ public class LoopObject extends ObjectiveObject {
             sketch.shape(innerBody);
             sketch.popMatrix();
             sketch.popMatrix();
+
+            if (!this.getStatus() && this.getID() != 0) {
+                colour[1] -= 0.5;
+            }
         }
     }
 
