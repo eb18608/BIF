@@ -47,7 +47,12 @@ public class DroneObject extends GameObject {
     }
 
     private PShape loadPropeller(float scale) {
-        PShape shape = sketch.loadShape("textured_propeller.obj");
+        PShape shape;
+        if (SensorContent.ITEMS.get(2).isEquipped()) {
+            shape = sketch.loadShape("camo_propeller.obj");
+        } else {
+            shape = sketch.loadShape("textured_propeller.obj");
+        }
         shape.scale(scale);
         return shape;
     }

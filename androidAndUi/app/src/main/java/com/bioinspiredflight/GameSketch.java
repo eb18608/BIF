@@ -183,7 +183,11 @@ public class GameSketch extends PApplet{
     public void setup() {
         if (gamePaused) { return; }
         frameRate(30);
-        droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
+        if (SensorContent.ITEMS.get(2).isEquipped()) {
+            droneBodyShape = loadShape("camo_drone.obj");
+        } else {
+            droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
+        }
         buildingShape = loadShape("textured_drone_sans_propellers.obj");
         outerLoopShape = loadShape("loop.obj");
         outerLoopShape.setFill(color( 255, 195, 0, 245));
