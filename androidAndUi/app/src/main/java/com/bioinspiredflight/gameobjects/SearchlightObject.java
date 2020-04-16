@@ -147,4 +147,7 @@ public class SearchlightObject extends GameObject {
         return false;
     }
 
+    @Override
+    public boolean isSearchlight() { return true; }
+
 }

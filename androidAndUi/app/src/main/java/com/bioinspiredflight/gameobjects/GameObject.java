@@ -48,4 +48,6 @@ public abstract class GameObject implements Interactable{
     }
 
     public boolean isFuel() { return false; }
+
+    public boolean isSearchlight() { return false; }
 }

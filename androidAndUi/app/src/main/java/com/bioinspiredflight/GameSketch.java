@@ -95,6 +95,13 @@ public class GameSketch extends PApplet{
         return false;
     }
 
+    public boolean levelContainsSearchlights() {
+        for (GameObject object : gameObjects.getList()) {
+            if (object.isSearchlight()) { return true; }
+        }
+        return false;
+    }
+
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
         float eyey = drone.coords.y + (scale * 100);
@@ -160,6 +167,12 @@ public class GameSketch extends PApplet{
         collectiblesHeld = 0;
         fuelLevel = maxFuel;
         gameObjects.add(floor);
+        if (levelContainsSearchlights()) {
+            sky = loadImage("nightsky.png");
+        } else {
+            sky = loadImage("sky.png");
+        }
+        sky.resize(width, height);
     }
 
     // Loop through the acc values for the last 10 frames.
