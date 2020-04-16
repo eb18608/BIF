@@ -46,4 +46,6 @@ public abstract class GameObject implements Interactable{
     public boolean isVisible() {
         return true;
     }
+
+    public boolean isFuel() { return false; }
 }

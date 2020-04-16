@@ -77,4 +77,9 @@ public class FuelObject extends GameObject {
         return false;
     }
 
+    @Override
+    public boolean isFuel() {
+        return true;
+    }
+
 }

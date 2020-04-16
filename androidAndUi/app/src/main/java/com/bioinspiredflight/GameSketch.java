@@ -88,6 +88,13 @@ public class GameSketch extends PApplet{
     PImage fuelIcon;
     HitboxObject floor;
 
+    public boolean levelContainsFuel() {
+        for (GameObject object : gameObjects.getList()) {
+            if (object.isFuel()) { return true; }
+        }
+        return false;
+    }
+
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
         float eyey = drone.coords.y + (scale * 100);
@@ -265,26 +272,28 @@ public class GameSketch extends PApplet{
         noLights();
 
         // Fuel
-        pushMatrix();
-        translate(400, 60);
-        for (int i = 255; i <= maxFuel; i += 255) {
-            if (fuelLevel < i) {
-                noFill();
-                stroke(153, fuelLevel % 255);
-                rect(-5, -5, 100, 100);
-                tint(255, fuelLevel % 255);
-                image(fuelIcon, 0, 0, 90, 90);
-            } else {
-                noFill();
-                stroke(153);
-                rect(-5, -5, 100, 100);
-                noTint();
-                image(fuelIcon, 0, 0, 90, 90);
-                translate(100, 0);
+        if (levelContainsFuel()) {
+            pushMatrix();
+            translate(400, 60);
+            for (int i = 255; i <= maxFuel; i += 255) {
+                if (fuelLevel < i) {
+                    noFill();
+                    stroke(153, fuelLevel % 255);
+                    rect(-5, -5, 100, 100);
+                    tint(255, fuelLevel % 255);
+                    image(fuelIcon, 0, 0, 90, 90);
+                } else {
+                    noFill();
+                    stroke(153);
+                    rect(-5, -5, 100, 100);
+                    noTint();
+                    image(fuelIcon, 0, 0, 90, 90);
+                    translate(100, 0);
+                }
             }
+            noTint();
+            popMatrix();
         }
-        noTint();
-        popMatrix();
 
         // Minimap
         if (SensorContent.ITEMS.get(5).isEquipped()) {
@@ -339,7 +348,7 @@ public class GameSketch extends PApplet{
 
         if (fuelLevel == 0) {
             //TODO: End level. "You ran out of fuel!"
-        } else {
+        } else if (levelContainsFuel()) {
             decrementFuelLevel(2);
         }
     }
