@@ -219,7 +219,7 @@ public class GameSketch extends PApplet{
         pushMatrix();
         rotateX(PI/2);
         fill(200);
-        rect(-3000, -3000, 6000, 6000);
+        rect(floor.coords.x - floor.getW()/2, floor.coords.z - floor.getD()/2, floor.getW(), floor.getD());
         noFill();
         popMatrix();
 
