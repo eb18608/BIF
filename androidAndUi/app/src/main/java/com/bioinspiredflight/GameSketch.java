@@ -86,6 +86,7 @@ public class GameSketch extends PApplet{
     int maxFuel = 1275;
     int fuelLevel = maxFuel;
     PImage fuelIcon;
+    HitboxObject floor;
 
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
@@ -151,6 +152,7 @@ public class GameSketch extends PApplet{
         currentLoopID = 0;
         collectiblesHeld = 0;
         fuelLevel = maxFuel;
+        gameObjects.add(floor);
     }
 
     // Loop through the acc values for the last 10 frames.
@@ -195,6 +197,8 @@ public class GameSketch extends PApplet{
         fuelIcon = loadImage("FuelIcon.png");
         fuelShape = loadShape("fuel.obj");
         airVentShape = loadShape("textured_drone_sans_propellers.obj");
+        floor = new HitboxObject(this, buildingShape, 0,-9.5f,0,0);
+        floor.setHWD(20,6000,6000);
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
