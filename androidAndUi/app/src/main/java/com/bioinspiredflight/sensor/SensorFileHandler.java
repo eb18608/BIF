@@ -52,6 +52,10 @@ public class SensorFileHandler {
                                     record.get(6),
                                     record.get(7),
                                     record.get(8));
+                    if (record.get(0).equals("Camera") || record.get(0).equals("IMU (gyroscopes and accelerometers)")){
+                        data.setEquipped(true);
+                        data.setUnlocked(true);
+                    }
                     list.add(data);
                 } catch (NumberFormatException e){
 
@@ -89,7 +93,6 @@ public class SensorFileHandler {
                 } else if (fileName.equals(sensorsUnlockedFileName)){
                     SensorContent.ITEM_MAP.get(record.get(0)).setUnlocked(status);
                 }
-
             }
             parser.close();
             reader.close();
