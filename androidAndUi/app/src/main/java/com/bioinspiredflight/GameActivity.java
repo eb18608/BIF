@@ -155,6 +155,20 @@ public class GameActivity extends AppCompatActivity {
             });
         }
 
+        public void updateGameOver(){
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    if(ui.getGameStatus() == Ui.GameStatus.IN_PROGRESS){
+                        ui.setGameStatus(Ui.GameStatus.GAME_OVER);
+                        ui.revealMenu();
+                        sketch.pause();
+                    }
+                }
+            });
+        }
+
         public void updateGameSketch(String levelFileName){
             sketch.startLevel(levelFileName);
             sketch.resume();

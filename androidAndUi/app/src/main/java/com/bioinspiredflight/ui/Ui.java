@@ -135,10 +135,8 @@ public class Ui {
             final int buttonHeight = metrics.heightPixels / 5;
 
             levelCompleteText = new TextView(gameActivity);
-            levelCompleteText.setText("LEVEL COMPLETE");
             levelCompleteText.setTextSize(metrics.heightPixels / 25);
             levelCompleteText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            levelCompleteText.setTextColor(0xff33ff33);
             RelativeLayout.LayoutParams textParams =
                     new RelativeLayout.LayoutParams(
                             RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -315,6 +313,16 @@ public class Ui {
             }
         }
 
+        private void updateLevelCompletedText(){
+            if (gameStatus == GameStatus.COMPLETED){
+                levelCompleteText.setText("LEVEL COMPLETE");
+                levelCompleteText.setTextColor(0xff33ff33);
+            } else if (gameStatus == GameStatus.GAME_OVER){
+                levelCompleteText.setText("GAME OVER");
+                levelCompleteText.setTextColor(0xffff3333);
+            }
+        }
+
         private void showLevelSelect(){
             for (Button button : levelSelectButtonList){
                 button.setVisibility(View.VISIBLE);
@@ -330,12 +338,12 @@ public class Ui {
         }
 
         public void show(){
-            if (gameStatus == GameStatus.COMPLETED){
+            if (gameStatus == GameStatus.COMPLETED || gameStatus == GameStatus.GAME_OVER){
                 //pauseButton.hide();
                 pauseButton.setEnabled(false);
                 pauseButton.setImageResource(android.R.drawable.btn_radio);
+                updateLevelCompletedText();
                 levelCompleteText.setVisibility(View.VISIBLE);
-            } else {
             }
             newLevelButton.setVisibility(View.VISIBLE);
             returnButton.setVisibility(View.VISIBLE);
