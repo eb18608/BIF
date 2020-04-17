@@ -16,6 +16,7 @@ public class GameObjectList {
     public ArrayList<ObjectiveObject> getObjectiveList(){
         return this.objectiveList;
     }
+    public ArrayList<GameObject> getList() { return this.list; }
     public void addToObjectiveList(ObjectiveObject objective){
         this.objectiveList.add(objective);
     }

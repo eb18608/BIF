@@ -3,6 +3,7 @@ package com.bioinspiredflight;
 import com.bioinspiredflight.gameobjects.DroneObject;
 import com.bioinspiredflight.gameobjects.GameObject;
 import com.bioinspiredflight.gameobjects.GameObjectList;
+import com.bioinspiredflight.gameobjects.HitboxObject;
 import com.bioinspiredflight.gameobjects.ObjectiveObject;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.ControlMod;
@@ -49,6 +50,8 @@ public class GameSketch extends PApplet{
     private PShape collectibleShape;
     private PShape airVentShape;
     private PShape airStreamShape;
+    private PShape fuelShape;
+    private PShape searchlightShape;
 
     private ReentrantLock lock = new ReentrantLock();
 
@@ -80,7 +83,24 @@ public class GameSketch extends PApplet{
     ArrayList<PVector> prevAccs = new ArrayList<>();
     private boolean gamePaused;
     boolean setupCompleted;
+    int maxFuel = 1275;
+    int fuelLevel = maxFuel;
+    PImage fuelIcon;
+    HitboxObject floor;
 
+    public boolean levelContainsFuel() {
+        for (GameObject object : gameObjects.getList()) {
+            if (object.isFuel()) { return true; }
+        }
+        return false;
+    }
+
+    public boolean levelContainsSearchlights() {
+        for (GameObject object : gameObjects.getList()) {
+            if (object.isSearchlight()) { return true; }
+        }
+        return false;
+    }
 
     public void setCamera(float scale) {
         float eyex = drone.coords.x - (scale * 200 * sin(rotation));
@@ -145,6 +165,14 @@ public class GameSketch extends PApplet{
         obs.updateUINewLevel();
         currentLoopID = 0;
         collectiblesHeld = 0;
+        fuelLevel = maxFuel;
+        gameObjects.add(floor);
+        if (levelContainsSearchlights()) {
+            sky = loadImage("nightsky.png");
+        } else {
+            sky = loadImage("sky.png");
+        }
+        sky.resize(width, height);
     }
 
     // Loop through the acc values for the last 10 frames.
@@ -175,7 +203,11 @@ public class GameSketch extends PApplet{
     public void setup() {
         if (gamePaused) { return; }
         frameRate(30);
-        droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
+        if (SensorContent.ITEMS.get(2).isEquipped()) {
+            droneBodyShape = loadShape("camo_drone.obj");
+        } else {
+            droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
+        }
         buildingShape = loadShape("textured_drone_sans_propellers.obj");
         outerLoopShape = loadShape("loop.obj");
         outerLoopShape.setFill(color( 255, 195, 0, 245));
@@ -186,7 +218,11 @@ public class GameSketch extends PApplet{
         collectionPointShape = loadShape("postbox.obj");
         sky = loadImage("sky.png");
         sky.resize(width, height);
+        fuelIcon = loadImage("FuelIcon.png");
+        fuelShape = loadShape("fuel.obj");
         airVentShape = loadShape("textured_drone_sans_propellers.obj");
+        floor = new HitboxObject(this, buildingShape, 0,-9.5f,0,0);
+        floor.setHWD(20,6000,6000);
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
@@ -199,9 +235,17 @@ public class GameSketch extends PApplet{
 
     public void draw3d(float droneLeftRight, float droneUpDown, float droneForwardBack){
         // 3D Section
+        lights();
         background(sky);
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
+
+        pushMatrix();
+        rotateX(PI/2);
+        fill(200);
+        rect(floor.coords.x - floor.getW()/2, floor.coords.z - floor.getD()/2, floor.getW(), floor.getD());
+        noFill();
+        popMatrix();
 
         gameObjects.drawNonDroneGameObjects3D();
 
@@ -238,22 +282,52 @@ public class GameSketch extends PApplet{
     public void draw2d(){
         // 2D Section
         hint(DISABLE_DEPTH_TEST);
+        noLights();
 
-        translate(width - 160, 160);
+        // Fuel
+        if (levelContainsFuel()) {
+            pushMatrix();
+            translate(400, 60);
+            for (int i = 255; i <= maxFuel; i += 255) {
+                if (fuelLevel < i) {
+                    noFill();
+                    stroke(153, fuelLevel % 255);
+                    rect(-5, -5, 100, 100);
+                    tint(255, fuelLevel % 255);
+                    image(fuelIcon, 0, 0, 90, 90);
+                } else {
+                    noFill();
+                    stroke(153);
+                    rect(-5, -5, 100, 100);
+                    noTint();
+                    image(fuelIcon, 0, 0, 90, 90);
+                    translate(100, 0);
+                }
+            }
+            noTint();
+            popMatrix();
+        }
 
-        fill(153);
-        circle(0, 0, 300);
+        // Minimap
+        if (SensorContent.ITEMS.get(5).isEquipped()) {
+            pushMatrix();
+            translate(width - 160, 160);
 
-        pushMatrix();
-        rotate(-rotation);
-        pushMatrix();
-        translate(-drone.coords.x / 10, drone.coords.z / 10);
+            fill(153);
+            circle(0, 0, 300);
 
-        gameObjects.drawAllGameObjects2D();
-        popMatrix();
-        popMatrix();
-        fill(0);
-        image(droneIcon, -drone.di / 15, -drone.di / 15, drone.di / 7.5f, drone.di / 7.5f);
+            pushMatrix();
+            rotate(-rotation);
+            pushMatrix();
+            translate(-drone.coords.x / 10, drone.coords.z / 10);
+
+            gameObjects.drawAllGameObjects2D();
+            popMatrix();
+            popMatrix();
+            fill(0);
+            image(droneIcon, -drone.di / 15, -drone.di / 15, drone.di / 7.5f, drone.di / 7.5f);
+            popMatrix();
+        }
 
         hint(ENABLE_DEPTH_TEST);
     }
@@ -265,7 +339,6 @@ public class GameSketch extends PApplet{
     public void draw() {
         //if (gamePaused || !setupCompleted) { return; }
         if (!setupCompleted) { return; }
-        lights();
         int i = gameObjects.checkForCollisions(movingObject);
 
         if(movingObject.collided == true){
@@ -284,18 +357,13 @@ public class GameSketch extends PApplet{
         draw3d(droneLeftRight, droneUpDown, droneForwardBack);
 
         camera();
-        if (SensorContent.ITEMS.get(5).isEquipped()) {
-            draw2d();
-        } else {
-            // lights go weird if nothing 2D is drawn
-            hint(DISABLE_DEPTH_TEST);
-            pushMatrix();
-            fill(0,0,0,0);
-            square(0, 0, 10);
-            popMatrix();
-            hint(ENABLE_DEPTH_TEST);
-        }
+        draw2d();
 
+        if (fuelLevel == 0) {
+            //TODO: End level. "You ran out of fuel!"
+        } else if (levelContainsFuel()) {
+            decrementFuelLevel(2);
+        }
     }
     public void settings() {
         fullScreen(P3D);
@@ -370,4 +438,20 @@ public class GameSketch extends PApplet{
     public PShape getAirVentShape() { return airVentShape; }
 
     public PShape getAirStreamShape() { return airStreamShape; }
+
+    public int getFuelLevel() { return fuelLevel; }
+
+    public void incrementFuelLevel(int amount) {
+        fuelLevel += amount;
+        if (fuelLevel > maxFuel) { fuelLevel = maxFuel; }
+    }
+
+    public void decrementFuelLevel(int amount) {
+        fuelLevel -= amount;
+        if (fuelLevel < 0) { fuelLevel = 0; }
+    }
+
+    public PShape getFuelShape() { return fuelShape; }
+
+    public PShape getSearchlightShape() { return searchlightShape; }
 }
