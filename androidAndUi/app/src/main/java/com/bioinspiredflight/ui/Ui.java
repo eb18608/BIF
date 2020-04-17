@@ -1,23 +1,16 @@
 package com.bioinspiredflight.ui;
 
-import android.renderscript.ScriptGroup;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-
 import com.bioinspiredflight.GameActivity;
-import com.bioinspiredflight.R;
 import com.bioinspiredflight.utilities.LevelHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -68,13 +61,13 @@ public class Ui {
     }
 
     public void revealMenu(){
-        pauseMenu.revealMenu();
-
+        pauseMenu.show();
+        controls.hidePlayerControls();
     }
 
     public void hideMenu(){
-        pauseMenu.hideMenu(true);
-
+        pauseMenu.hide();
+        controls.showPlayerControls();
     }
 
     public void setGameStatus(GameStatus gameStatus){
@@ -107,6 +100,16 @@ public class Ui {
             uiSurfaceView = new UiSurfaceView(gameActivity, testJoystick, testSlider, io);
             widgets.add(uiSurfaceView);
             this.io.setView(uiSurfaceView);
+        }
+
+        public void hidePlayerControls(){
+            //testJoystick.setVisibility(View.GONE);
+            //testSlider.setVisibility(View.GONE);
+            uiSurfaceView.setVisibility(View.GONE);
+        }
+
+        public void showPlayerControls(){
+            uiSurfaceView.setVisibility(View.VISIBLE);
         }
 
     }
@@ -166,7 +169,7 @@ public class Ui {
                     Toast.makeText(gameActivity.getApplicationContext(), "Switching to level select menu",
                             Toast.LENGTH_SHORT)
                             .show();
-                    hideMenu(false);
+                    hide();
                     showLevelSelect();
                 }
             });
@@ -211,11 +214,13 @@ public class Ui {
                 public void onClick(View v) {
                     Toast.makeText(gameActivity, "Pause button pressed!", pauseButton.getId()).show();
                     boolean paused = obs.togglePauseSketch();
-                    if (paused){
-                        revealMenu();
-                    } else {
-
-                        hideMenu(true);
+                    if (gameStatus == GameStatus.IN_PROGRESS){
+                        if (paused){
+                            pauseButton.setImageResource(android.R.drawable.ic_media_play);
+                            revealMenu();
+                        } else {
+                            hideMenu();
+                        }
                     }
                     pauseButton.invalidate();
                 }
@@ -262,6 +267,7 @@ public class Ui {
                         public void onClick(View v) {
                             Toast.makeText(gameActivity, "Switching to " + item.replace(".csv", ""), levelButton.getId()).show();
                             hideLevelSelect();
+                            gameStatus = GameStatus.LOADING;
                             obs.updateGameSketch(item);
                         }
                     });
@@ -294,7 +300,7 @@ public class Ui {
                     public void onClick(View v) {
                         Toast.makeText(gameActivity, "Switching to pause menu", backButton.getId()).show();
                         hideLevelSelect();
-                        revealMenu();
+                        show();
                         //pauseButton.setImageResource(android.R.drawable.ic_media_pause);
                         //pauseButton.invalidate();
                     }
@@ -323,27 +329,26 @@ public class Ui {
             invalidateMenu();
         }
 
-        public void revealMenu(){
+        public void show(){
             if (gameStatus == GameStatus.COMPLETED){
                 //pauseButton.hide();
                 pauseButton.setEnabled(false);
                 pauseButton.setImageResource(android.R.drawable.btn_radio);
                 levelCompleteText.setVisibility(View.VISIBLE);
             } else {
-                pauseButton.setImageResource(android.R.drawable.ic_media_play);
             }
             newLevelButton.setVisibility(View.VISIBLE);
             returnButton.setVisibility(View.VISIBLE);
             invalidateMenu();
         }
 
-        public void hideMenu(boolean playing){
-            if (playing){
-                pauseButton.setImageResource(android.R.drawable.ic_media_pause);
+        public void hide(){
+            if (gameStatus == GameStatus.IN_PROGRESS){
                 hideLevelSelect();
+                pauseButton.setEnabled(true);
+                pauseButton.setImageResource(android.R.drawable.ic_media_pause);
             }
             //pauseButton.show();
-            pauseButton.setEnabled(true);
             levelCompleteText.setVisibility(View.GONE);
             newLevelButton.setVisibility(View.GONE);
             returnButton.setVisibility(View.GONE);
@@ -364,6 +369,7 @@ public class Ui {
     }
 
     public enum GameStatus{
+        LOADING,
         IN_PROGRESS,
         COMPLETED,
         GAME_OVER

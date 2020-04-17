@@ -266,4 +266,11 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
             //System.out.println("Released slider");
         }
     }
+
+    @Override
+    public void setVisibility(int visibility){
+        super.setVisibility(visibility);
+        joystick.setVisibility(visibility);
+        slider.setVisibility(visibility);
+    }
 }

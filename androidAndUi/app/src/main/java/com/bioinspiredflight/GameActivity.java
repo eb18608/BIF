@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 //import android.support.v7.app.AppCompatActivity;
 import androidx.annotation.CallSuper;
+import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
@@ -132,6 +134,7 @@ public class GameActivity extends AppCompatActivity {
                 public void run() {
                     ui.setGameStatus(Ui.GameStatus.IN_PROGRESS);
                     ui.hideMenu();
+                    sketch.resume();
                 }
             });
 
@@ -143,9 +146,10 @@ public class GameActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                  if(ui.getGameStatus() != Ui.GameStatus.COMPLETED){
+                  if(ui.getGameStatus() != Ui.GameStatus.COMPLETED && ui.getGameStatus() != Ui.GameStatus.LOADING){
                       ui.setGameStatus(Ui.GameStatus.COMPLETED);
                       ui.revealMenu();
+                      sketch.pause();
                     }
                 }
             });

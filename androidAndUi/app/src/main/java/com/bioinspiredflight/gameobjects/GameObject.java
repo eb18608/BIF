@@ -12,11 +12,14 @@ public abstract class GameObject implements Interactable{
     GameSketch sketch;
     float h, w, d;
     int id;
+    private boolean collisionsEnabled;
+
     public GameObject(GameSketch sketch, PShape body, float x, float y, float z, int id){
         this.sketch = sketch;
         this.body = body;
         this.coords = new PVector(x, y, z);
         this.id = id;
+        this.collisionsEnabled = true;
     }
 
     public PVector getCoords(){
@@ -45,5 +48,13 @@ public abstract class GameObject implements Interactable{
     @Override
     public boolean isVisible() {
         return true;
+    }
+
+    public void setCollisionsEnabled(boolean collisionsEnabled) {
+        this.collisionsEnabled = collisionsEnabled;
+    }
+
+    public boolean isCollisionsEnabled(){
+        return collisionsEnabled;
     }
 }

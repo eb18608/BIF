@@ -39,6 +39,9 @@ public class LevelHandler {
     }
 
     public void changeLevel(GameSketch sketch, GameObjectList gameObjects, String fileName){
+        for (GameObject gameObject : gameObjects){
+            gameObject.setCollisionsEnabled(false);
+        }
         gameObjects.clear();
         TreeMap<String, Data> table = readLevelFile(fileName);
         GameObject gameObject;
