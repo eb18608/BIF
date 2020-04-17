@@ -16,6 +16,7 @@ import com.bioinspiredflight.gameobjects.LoopObject;
 import com.bioinspiredflight.gameobjects.ObjectiveObject;
 import com.bioinspiredflight.gameobjects.HelipadObject;
 import com.bioinspiredflight.gameobjects.SearchlightObject;
+import com.bioinspiredflight.gameobjects.SkyscraperObject;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -69,6 +70,10 @@ public class LevelHandler {
             id = Integer.parseInt(key.replace("building", ""));
             gameObject =
                     new BuildingObject(sketch, sketch.getBuildingShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("skyscraper")){
+            id = Integer.parseInt(key.replace("skyscraper", ""));
+            gameObject =
+                    new SkyscraperObject(sketch, sketch.getSkyscraperShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id);
         } else if (key.startsWith("objective")){
             id = Integer.parseInt(key.replace("objective", ""));
             gameObject =
