@@ -14,22 +14,22 @@ public class SkyscraperObject extends GameObject {
     public SkyscraperObject(GameSketch sketch, PShape body, float x, float y, float z,
                             float scale, float rot, int id) {
         super(sketch, body, x, y, z, id);
-        h = 2120 * scale;
-        w = 710 * scale;
-        d = 710 * scale;
+        h = 4240 * scale;
+        w = 1420 * scale;
+        d = 1420 * scale;
         rotation = rot;
 
         hb1 = new HitboxObject(sketch, body, x, h, z, id);
-        hb1.setHWD(122, 528, 538);
+        hb1.setHWD(244, 1056, 1076);
         sketch.gameObjects.add(hb1);
-        hb2 = new HitboxObject(sketch, body, x, h + 113, z, id);
-        hb2.setHWD(113, 356, 366);
+        hb2 = new HitboxObject(sketch, body, x, h + 226, z, id);
+        hb2.setHWD(226, 712, 732);
         sketch.gameObjects.add(hb2);
-        hb3 = new HitboxObject(sketch, body, x, h + 223, z, id);
-        hb3.setHWD(110, 55, 55);
+        hb3 = new HitboxObject(sketch, body, x, h + 446, z, id);
+        hb3.setHWD(220, 110, 110);
         sketch.gameObjects.add(hb3);
-        hb4 = new HitboxObject(sketch, body, x, h + 384, z, id);
-        hb4.setHWD(300, 17, 17);
+        hb4 = new HitboxObject(sketch, body, x, h + 768, z, id);
+        hb4.setHWD(600, 34, 34);
         sketch.gameObjects.add(hb4);
     }
 
@@ -55,9 +55,6 @@ public class SkyscraperObject extends GameObject {
         sketch.translate(getCoords().x, getCoords().y - getH()/2, getCoords().z);
         sketch.rotateY(rotation);
         sketch.shape(body);
-        sketch.popMatrix();
-        sketch.pushMatrix();
-        sketch.translate(getCoords().x - getW()/2, getCoords().y - getH()/2, getCoords().z - getD()/2);
         sketch.popMatrix();
     }
 

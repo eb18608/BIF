@@ -7,23 +7,16 @@ import com.bioinspiredflight.physics.Movement;
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class HitboxObject extends GameObject {
-    public PVector coords;  //keeping this public for optimization reasons
-    GameSketch sketch;
-    float h, w, d;
-    int id;
+public class ApartmentsObject extends GameObject {
+    float rotation;
 
-    public HitboxObject(GameSketch sketch, PShape body, float x, float y, float z, int id){
+    public ApartmentsObject(GameSketch sketch, PShape body, float x, float y, float z,
+                            float scale, float rot, int id) {
         super(sketch, body, x, y, z, id);
-        this.sketch = sketch;
-        this.coords = new PVector(x, y, z);
-        this.id = id;
-    }
-
-    public void setHWD(float hei, float wid, float dep) {
-        this.h = hei;
-        this.w = wid;
-        this.d = dep;
+        h = 800 * scale;
+        w = 400 * scale;
+        d = 400 * scale;
+        rotation = rot;
     }
 
     public PVector getCoords(){
@@ -45,7 +38,13 @@ public class HitboxObject extends GameObject {
     @Override
     public void draw3D() {
         sketch.pushMatrix();
+        sketch.translate(getCoords().x, getCoords().y - getH()/2, getCoords().z);
+        sketch.rotateY(rotation);
+        sketch.shape(body);
+        sketch.popMatrix();
+        sketch.pushMatrix();
         sketch.translate(this.coords.x - getW()/2,  this.coords.y - getH()/2,  this.coords.z - getD()/2);
+        sketch.rotateY(rotation);
         sketch.tint(255, 100);
         sketch.renderBuilding(this.getW(), this.getH(), this.getD());
         sketch.noTint();
@@ -53,7 +52,15 @@ public class HitboxObject extends GameObject {
     }
 
     @Override
-    public void draw2D() { }
+    public void draw2D() {
+        if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) {
+            sketch.pushMatrix();
+            sketch.translate(this.getCoords().x/10 - this.getW()/20, -this.getCoords().z/10 - this.getD()/20);
+            sketch.fill(200);
+            sketch.rect(0, 0, this.getW()/10, this.getD()/10);
+            sketch.popMatrix();
+        }
+    }
 
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
@@ -62,12 +69,8 @@ public class HitboxObject extends GameObject {
     }
 
     @Override
-    public boolean isDrone() { return false; }
-
-    @Override
-    public boolean shouldBeTracked() { return false; }
-
-    @Override
-    public boolean isVisible() { return false; }
+    public boolean isDrone() {
+        return false;
+    }
 
 }

@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.gameobjects.AirStreamObject;
 import com.bioinspiredflight.gameobjects.AirVentObject;
+import com.bioinspiredflight.gameobjects.ApartmentsObject;
 import com.bioinspiredflight.gameobjects.BuildingObject;
 import com.bioinspiredflight.gameobjects.CollectibleObject;
 import com.bioinspiredflight.gameobjects.CollectionPointObject;
@@ -74,6 +75,10 @@ public class LevelHandler {
             id = Integer.parseInt(key.replace("skyscraper", ""));
             gameObject =
                     new SkyscraperObject(sketch, sketch.getSkyscraperShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id);
+        } else if (key.startsWith("apartments")){
+            id = Integer.parseInt(key.replace("apartments", ""));
+            gameObject =
+                    new ApartmentsObject(sketch, sketch.getApartmentsShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id);
         } else if (key.startsWith("objective")){
             id = Integer.parseInt(key.replace("objective", ""));
             gameObject =

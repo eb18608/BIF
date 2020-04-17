@@ -53,6 +53,7 @@ public class GameSketch extends PApplet{
     private PShape fuelShape;
     private PShape searchlightShape;
     private PShape skyscraperShape;
+    private PShape apartmentsShape;
 
     private ReentrantLock lock = new ReentrantLock();
 
@@ -211,7 +212,7 @@ public class GameSketch extends PApplet{
         }
         buildingShape = loadShape("cube.obj");
         skyscraperShape = loadShape("skyscraper.obj");
-        skyscraperShape.scale(0.5f);
+        apartmentsShape = loadShape("appartment_buildings.obj");
         outerLoopShape = loadShape("loop.obj");
         outerLoopShape.setFill(color( 255, 195, 0, 245));
         innerLoopShape = loadShape("textured_circular_drone.obj");
@@ -459,4 +460,6 @@ public class GameSketch extends PApplet{
     public PShape getSearchlightShape() { return searchlightShape; }
 
     public PShape getSkyscraperShape() { return skyscraperShape; }
+
+    public PShape getApartmentsShape() { return apartmentsShape; }
 }
