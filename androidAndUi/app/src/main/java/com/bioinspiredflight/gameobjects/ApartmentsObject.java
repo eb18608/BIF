@@ -13,9 +13,9 @@ public class ApartmentsObject extends GameObject {
     public ApartmentsObject(GameSketch sketch, PShape body, float x, float y, float z,
                             float scale, float rot, int id) {
         super(sketch, body, x, y, z, id);
-        h = 800 * scale;
-        w = 400 * scale;
-        d = 400 * scale;
+        h = 1300 * scale;
+        w = 2810 * scale;
+        d = 1290 * scale;
         rotation = rot;
     }
 
@@ -38,7 +38,7 @@ public class ApartmentsObject extends GameObject {
     @Override
     public void draw3D() {
         sketch.pushMatrix();
-        sketch.translate(getCoords().x, getCoords().y - getH()/2, getCoords().z);
+        sketch.translate(getCoords().x, getCoords().y - getH()/2 - 600, getCoords().z);
         sketch.rotateY(rotation);
         sketch.shape(body);
         sketch.popMatrix();
