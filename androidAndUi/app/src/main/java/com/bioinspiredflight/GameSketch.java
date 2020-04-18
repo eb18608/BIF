@@ -80,6 +80,8 @@ public class GameSketch extends PApplet{
     ArrayList<PVector> prevAccs = new ArrayList<>();
     private boolean gamePaused;
     boolean setupCompleted;
+    private int framesPassed;
+    private boolean timerStarted = false;
 
 
     public void setCamera(float scale) {
@@ -145,6 +147,7 @@ public class GameSketch extends PApplet{
         obs.updateUINewLevel();
         currentLoopID = 0;
         collectiblesHeld = 0;
+        framesPassed = 0;
     }
 
     // Loop through the acc values for the last 10 frames.
@@ -296,7 +299,21 @@ public class GameSketch extends PApplet{
             hint(ENABLE_DEPTH_TEST);
         }
 
+        updateTimer();
     }
+
+    private void updateTimer(){
+        if (!timerStarted){
+            obs.startTimer(180000);
+            timerStarted = true;
+        }
+        framesPassed++;
+        if (framesPassed > frameRate / 2){
+            obs.updateUiTimer();
+            framesPassed = 0;
+        }
+    }
+
     public void settings() {
         fullScreen(P3D);
     }

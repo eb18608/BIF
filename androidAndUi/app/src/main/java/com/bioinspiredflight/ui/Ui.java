@@ -18,7 +18,7 @@ import processing.android.CompatUtils;
 
 public class Ui {
 
-    private PauseMenu pauseMenu;
+    private Menu menu;
     private ArrayList<View> widgets;
     private GameActivity.GameSketchObserver obs;
     private PlayerControls controls;
@@ -42,7 +42,7 @@ public class Ui {
         gameActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         widgets = new ArrayList<>();
 
-        pauseMenu = new PauseMenu(gameActivity, widgets, metrics);
+        menu = new Menu(gameActivity, widgets, metrics);
         controls = new PlayerControls(gameActivity, widgets, io);
     }
 
@@ -60,13 +60,21 @@ public class Ui {
         }
     }
 
+    public void startTimer(long millis){
+        menu.startTimer(millis);
+    }
+
+    public void updateTimer(){
+        menu.updateTimer();
+    }
+
     public void revealMenu(){
-        pauseMenu.show();
+        menu.show();
         controls.hidePlayerControls();
     }
 
     public void hideMenu(){
-        pauseMenu.hide();
+        menu.hide();
         controls.showPlayerControls();
     }
 
@@ -114,18 +122,63 @@ public class Ui {
 
     }
 
-    public class PauseMenu {
+    public class Menu {
         private TextView levelCompleteText;
         private Button returnButton;
         private Button newLevelButton;
         private FloatingActionButton pauseButton;
         private ArrayList<Button> levelSelectButtonList;
+        private TextView timerText;
+        private long startTime = 0;
+        private long endTime = 0;
 
 
-        public PauseMenu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
+        public Menu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
+            setupTimer(gameActivity, widgets, metrics);
             setupMenu(gameActivity, widgets, metrics);
             setupLevelSelect(gameActivity, widgets, metrics);
             setupPauseButton(gameActivity, widgets, metrics);
+        }
+
+        private void setupTimer(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
+            timerText = new TextView(gameActivity);
+            widgets.add(timerText);
+        }
+
+        /**
+         * Start a timer that ends after some number of milliseconds
+         * @param millis
+         */
+        private void startTimer(long millis){
+            startTime = System.currentTimeMillis();
+            endTime = startTime + millis;
+        }
+
+        private void updateTimer(){
+            long timeLeft = endTime - System.currentTimeMillis();
+            long seconds;
+            long minutes;
+            String secondString;
+            String minuteString;
+            if (timeLeft <= 0){
+                seconds = 0;
+                minutes = 0;
+                obs.updateGameOver();
+            } else {
+                seconds = timeLeft / 1000;
+                minutes = seconds / 60;
+                seconds %= 60;
+            }
+            secondString = Long.toString(seconds);
+            minuteString = Long.toString(minutes);
+            if (seconds < 10){
+                secondString = "0" + secondString;
+            }
+            if (minutes < 10){
+                minuteString = "0" + minuteString;
+            }
+            timerText.setText(minuteString + ":" + secondString);
+            timerText.invalidate();
         }
 
         private void setupMenu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){

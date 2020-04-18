@@ -134,11 +134,10 @@ public class GameActivity extends AppCompatActivity {
                 public void run() {
                     ui.setGameStatus(Ui.GameStatus.IN_PROGRESS);
                     ui.hideMenu();
-                    sketch.resume();
+
                 }
             });
-
-
+            sketch.resume();
         }
 
         public void updateUiComplete(){
@@ -149,10 +148,10 @@ public class GameActivity extends AppCompatActivity {
                   if(ui.getGameStatus() != Ui.GameStatus.COMPLETED && ui.getGameStatus() != Ui.GameStatus.LOADING){
                       ui.setGameStatus(Ui.GameStatus.COMPLETED);
                       ui.revealMenu();
-                      sketch.pause();
                     }
                 }
             });
+            sketch.pause();
         }
 
         public void updateGameOver(){
@@ -163,10 +162,11 @@ public class GameActivity extends AppCompatActivity {
                     if(ui.getGameStatus() == Ui.GameStatus.IN_PROGRESS){
                         ui.setGameStatus(Ui.GameStatus.GAME_OVER);
                         ui.revealMenu();
-                        sketch.pause();
+
                     }
                 }
             });
+            sketch.pause();
         }
 
         public void updateGameSketch(String levelFileName){
@@ -194,6 +194,24 @@ public class GameActivity extends AppCompatActivity {
                 paused = true;
             }
             return paused;
+        }
+
+        public void startTimer(final long millis){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ui.startTimer(millis);
+                }
+            });
+        }
+
+        public void updateUiTimer(){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ui.updateTimer();
+                }
+            });
         }
     }
 }
