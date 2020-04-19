@@ -196,11 +196,11 @@ public class GameActivity extends AppCompatActivity {
             return paused;
         }
 
-        public void startTimer(final long millis){
+        public void startTimer(final long seconds){
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ui.startTimer(millis);
+                    ui.startTimer(seconds);
                 }
             });
         }

@@ -131,6 +131,8 @@ public class Ui {
         private TextView timerText;
         private long startTime = 0;
         private long endTime = 0;
+        private long pauseTime;
+        private boolean timing;
 
 
         public Menu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
@@ -141,7 +143,17 @@ public class Ui {
         }
 
         private void setupTimer(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
+            final int sideMargin = metrics.widthPixels / 4;
+            final int topMargin = 3 * (metrics.heightPixels / 10);
+            final int bottomMargin = 3 * (metrics.heightPixels / 10);
+            final int buttonHeight = metrics.heightPixels / 5;
             timerText = new TextView(gameActivity);
+            timerText.setTextSize(metrics.heightPixels / 50);
+            RelativeLayout.LayoutParams timerParams =
+                    new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.MATCH_PARENT,
+                            RelativeLayout.LayoutParams.MATCH_PARENT);
+            timerText.setLayoutParams(timerParams);
             widgets.add(timerText);
         }
 
@@ -152,33 +164,53 @@ public class Ui {
         private void startTimer(long seconds){
             startTime = System.currentTimeMillis();
             endTime = startTime + (seconds * 1000);
+            timing = true;
+            timerText.setVisibility(View.VISIBLE);
+        }
+
+        private void pauseTimer(){
+            pauseTime = System.currentTimeMillis();
+        }
+
+        private void resumeTimer(){
+            endTime = endTime + (System.currentTimeMillis() - pauseTime);
+        }
+
+        private void resetTimer(){
+            startTime = 0;
+            endTime = 0;
+            timing = false;
+            timerText.setVisibility(View.GONE);
+            timerText.invalidate();
         }
 
         private void updateTimer(){
-            long timeLeft = endTime - System.currentTimeMillis();
-            long seconds;
-            long minutes;
-            String secondString;
-            String minuteString;
-            if (timeLeft <= 0){
-                seconds = 0;
-                minutes = 0;
-                obs.updateGameOver();
-            } else {
-                seconds = timeLeft / 1000;
-                minutes = seconds / 60;
-                seconds %= 60;
+            if (timing) {
+                long timeLeft = endTime - System.currentTimeMillis();
+                long seconds;
+                long minutes;
+                String secondString;
+                String minuteString;
+                if (timeLeft <= 0) {
+                    seconds = 0;
+                    minutes = 0;
+                    obs.updateGameOver();
+                } else {
+                    seconds = timeLeft / 1000;
+                    minutes = seconds / 60;
+                    seconds %= 60;
+                }
+                secondString = Long.toString(seconds);
+                minuteString = Long.toString(minutes);
+                if (seconds < 10) {
+                    secondString = "0" + secondString;
+                }
+                if (minutes < 10) {
+                    minuteString = "0" + minuteString;
+                }
+                timerText.setText(minuteString + ":" + secondString);
+                timerText.invalidate();
             }
-            secondString = Long.toString(seconds);
-            minuteString = Long.toString(minutes);
-            if (seconds < 10){
-                secondString = "0" + secondString;
-            }
-            if (minutes < 10){
-                minuteString = "0" + minuteString;
-            }
-            timerText.setText(minuteString + ":" + secondString);
-            timerText.invalidate();
         }
 
         private void setupMenu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
@@ -217,9 +249,10 @@ public class Ui {
             newLevelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /*
                     Toast.makeText(gameActivity.getApplicationContext(), "Switching to level select menu",
                             Toast.LENGTH_SHORT)
-                            .show();
+                            .show();*/
                     hide();
                     showLevelSelect();
                 }
@@ -240,9 +273,10 @@ public class Ui {
             returnButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /*
                     Toast.makeText(gameActivity.getApplicationContext(), "Exiting",
                             Toast.LENGTH_SHORT)
-                            .show();
+                            .show();*/
                     gameActivity.finish();
                     //obs.updateGameSketch();
 
@@ -263,13 +297,15 @@ public class Ui {
             pauseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(gameActivity, "Pause button pressed!", pauseButton.getId()).show();
+                    //Toast.makeText(gameActivity, "Pause button pressed!", pauseButton.getId()).show();
                     boolean paused = obs.togglePauseSketch();
                     if (gameStatus == GameStatus.IN_PROGRESS){
                         if (paused){
                             pauseButton.setImageResource(android.R.drawable.ic_media_play);
+                            pauseTimer();
                             revealMenu();
                         } else {
+                            resumeTimer();
                             hideMenu();
                         }
                     }
@@ -316,9 +352,10 @@ public class Ui {
                     levelButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(gameActivity, "Switching to " + item.replace(".csv", ""), levelButton.getId()).show();
+                            //Toast.makeText(gameActivity, "Switching to " + item.replace(".csv", ""), levelButton.getId()).show();
                             hideLevelSelect();
                             gameStatus = GameStatus.LOADING;
+                            resetTimer();
                             obs.updateGameSketch(item);
                         }
                     });
@@ -349,7 +386,7 @@ public class Ui {
                 backButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(gameActivity, "Switching to pause menu", backButton.getId()).show();
+                        //Toast.makeText(gameActivity, "Switching to pause menu", backButton.getId()).show();
                         hideLevelSelect();
                         show();
                         //pauseButton.setImageResource(android.R.drawable.ic_media_pause);
