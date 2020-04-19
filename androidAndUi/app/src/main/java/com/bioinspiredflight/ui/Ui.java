@@ -60,8 +60,8 @@ public class Ui {
         }
     }
 
-    public void startTimer(long millis){
-        menu.startTimer(millis);
+    public void startTimer(long seconds){
+        menu.startTimer(seconds);
     }
 
     public void updateTimer(){
@@ -146,12 +146,12 @@ public class Ui {
         }
 
         /**
-         * Start a timer that ends after some number of milliseconds
-         * @param millis
+         * Start a timer that ends after some number of seconds
+         * @param seconds
          */
-        private void startTimer(long millis){
+        private void startTimer(long seconds){
             startTime = System.currentTimeMillis();
-            endTime = startTime + millis;
+            endTime = startTime + (seconds * 1000);
         }
 
         private void updateTimer(){

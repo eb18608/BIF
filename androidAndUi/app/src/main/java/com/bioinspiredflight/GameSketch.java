@@ -304,13 +304,18 @@ public class GameSketch extends PApplet{
 
     private void updateTimer(){
         if (!timerStarted){
-            obs.startTimer(180000);
-            timerStarted = true;
+            long seconds = levelHandler.getTimeLimitSeconds();
+            if (seconds > 0){
+                obs.startTimer(seconds);
+                timerStarted = true;
+            }
         }
-        framesPassed++;
-        if (framesPassed > frameRate / 2){
-            obs.updateUiTimer();
-            framesPassed = 0;
+        if (timerStarted){
+            framesPassed++;
+            if (framesPassed > frameRate / 2){
+                obs.updateUiTimer();
+                framesPassed = 0;
+            }
         }
     }
 
