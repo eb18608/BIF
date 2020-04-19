@@ -9,13 +9,15 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 public class AirStreamObject extends GameObject {
+    float rot;
 
     public AirStreamObject(GameSketch sketch, PShape body, float x, float y, float z,
-                           float scale, int id) {
+                           float scale, float rot, int id) {
         super(sketch, body, x, y, z, id);
         h = 600 * scale;
         w = 120 * scale;
         d = 120 * scale;
+        this.rot = rot;
     }
 
     public PVector getCoords(){
