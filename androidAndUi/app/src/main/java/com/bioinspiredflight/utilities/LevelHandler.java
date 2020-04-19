@@ -106,7 +106,7 @@ public class LevelHandler {
         } else if (key.startsWith("airstream")){
             id = Integer.parseInt(key.replace("airstream", ""));
             gameObject =
-                    new AirStreamObject(sketch, sketch.getAirStreamShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id);
+                    new AirStreamObject(sketch, sketch.getAirStreamShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id, data.getFinx(), data.getFinz());
         } else if (key.startsWith("fuel")){
             id = Integer.parseInt(key.replace("fuel", ""));
             gameObject =
