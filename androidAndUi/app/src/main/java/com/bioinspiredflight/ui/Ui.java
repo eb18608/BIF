@@ -1,23 +1,17 @@
 package com.bioinspiredflight.ui;
 
-import android.renderscript.ScriptGroup;
+import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-
 import com.bioinspiredflight.GameActivity;
-import com.bioinspiredflight.R;
 import com.bioinspiredflight.utilities.LevelHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -25,10 +19,11 @@ import processing.android.CompatUtils;
 
 public class Ui {
 
-    private PauseMenu pauseMenu;
+    private Menu menu;
     private ArrayList<View> widgets;
     private GameActivity.GameSketchObserver obs;
     private PlayerControls controls;
+    private GameStatus gameStatus = GameStatus.IN_PROGRESS;
     //private final FrameLayout frame;
     //private final AppCompatActivity gameActivity;
 
@@ -48,7 +43,7 @@ public class Ui {
         gameActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         widgets = new ArrayList<>();
 
-        pauseMenu = new PauseMenu(gameActivity, widgets, metrics);
+        menu = new Menu(gameActivity, widgets, metrics);
         controls = new PlayerControls(gameActivity, widgets, io);
     }
 
@@ -66,15 +61,32 @@ public class Ui {
         }
     }
 
-    public void revealMenu(boolean levelCompleted){
-        pauseMenu.revealMenu(levelCompleted);
+    public void startTimer(long seconds){
+        menu.startTimer(seconds);
+    }
 
+    public void updateTimer(){
+        menu.updateTimer();
+    }
+
+    public void revealMenu(){
+        menu.show();
+        controls.hidePlayerControls();
     }
 
     public void hideMenu(){
-        pauseMenu.hideMenu(true);
-
+        menu.hide();
+        controls.showPlayerControls();
     }
+
+    public void setGameStatus(GameStatus gameStatus){
+        this.gameStatus = gameStatus;
+    }
+
+    public GameStatus getGameStatus(){
+        return gameStatus;
+    }
+
     public void setObs(GameActivity.GameSketchObserver obs) {
         this.obs = obs;
     }
@@ -99,19 +111,117 @@ public class Ui {
             this.io.setView(uiSurfaceView);
         }
 
+        public void hidePlayerControls(){
+            //testJoystick.setVisibility(View.GONE);
+            //testSlider.setVisibility(View.GONE);
+            uiSurfaceView.setVisibility(View.GONE);
+        }
+
+        public void showPlayerControls(){
+            uiSurfaceView.setVisibility(View.VISIBLE);
+        }
+
     }
 
-    public class PauseMenu {
+    public class Menu {
         private TextView levelCompleteText;
         private Button returnButton;
         private Button newLevelButton;
         private FloatingActionButton pauseButton;
         private ArrayList<Button> levelSelectButtonList;
+        private TextView timerText;
+        private long startTime = 0;
+        private long endTime = 0;
+        private long pauseTime;
+        private boolean timing;
 
-        public PauseMenu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
+
+        public Menu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
+            setupTimer(gameActivity, widgets, metrics);
             setupMenu(gameActivity, widgets, metrics);
             setupLevelSelect(gameActivity, widgets, metrics);
             setupPauseButton(gameActivity, widgets, metrics);
+        }
+
+        private void setupTimer(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
+            final int sideMargin = metrics.widthPixels / 4;
+            final int topMargin = metrics.heightPixels / 20;
+            final int bottomMargin = 3 * (metrics.heightPixels / 10);
+            final int buttonHeight = metrics.heightPixels / 5;
+            timerText = new TextView(gameActivity);
+            timerText.setTextSize(metrics.heightPixels / 50);
+            timerText.setTextColor(Color.BLACK);
+            timerText.setShadowLayer(2, 0, 0, Color.WHITE);
+            timerText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            RelativeLayout.LayoutParams timerParams =
+                    new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.MATCH_PARENT,
+                            RelativeLayout.LayoutParams.MATCH_PARENT);
+            timerParams.topMargin = topMargin;
+            timerText.setLayoutParams(timerParams);
+            widgets.add(timerText);
+        }
+
+        /**
+         * Start a timer that ends after some number of seconds
+         * @param seconds
+         */
+        private void startTimer(long seconds){
+            startTime = System.currentTimeMillis();
+            endTime = startTime + (seconds * 1000);
+            timing = true;
+            timerText.setVisibility(View.VISIBLE);
+        }
+
+        private void pauseTimer(){
+            pauseTime = System.currentTimeMillis();
+        }
+
+        private void resumeTimer(){
+            endTime = endTime + (System.currentTimeMillis() - pauseTime);
+        }
+
+        private void resetTimer(){
+            startTime = 0;
+            endTime = 0;
+            timing = false;
+            timerText.setVisibility(View.GONE);
+            timerText.invalidate();
+        }
+
+        private void updateTimer(){
+            if (timing) {
+                long timeLeft = endTime - System.currentTimeMillis();
+                long seconds;
+                long minutes;
+                String secondString;
+                String minuteString;
+                if (timeLeft <= 0) {
+                    seconds = 0;
+                    minutes = 0;
+                    obs.updateGameOver();
+                } else {
+                    seconds = timeLeft / 1000;
+                    minutes = seconds / 60;
+                    seconds %= 60;
+                }
+                secondString = Long.toString(seconds);
+                minuteString = Long.toString(minutes);
+                if (seconds < 10) {
+                    secondString = "0" + secondString;
+                }
+                if (minutes < 10) {
+                    minuteString = "0" + minuteString;
+                }
+                if (seconds < 30 && minutes == 0){
+                    timerText.setTextColor(Color.RED);
+                }
+                if (seconds < 10 && minutes == 0){
+                    timerText.setShadowLayer(20, 0, 0, 0xFFFF3333);
+                }
+                timerText.setText(minuteString + ":" + secondString);
+                timerText.invalidate();
+            }
         }
 
         private void setupMenu(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
@@ -121,10 +231,8 @@ public class Ui {
             final int buttonHeight = metrics.heightPixels / 5;
 
             levelCompleteText = new TextView(gameActivity);
-            levelCompleteText.setText("LEVEL COMPLETE");
             levelCompleteText.setTextSize(metrics.heightPixels / 25);
             levelCompleteText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            levelCompleteText.setTextColor(0xff33ff33);
             RelativeLayout.LayoutParams textParams =
                     new RelativeLayout.LayoutParams(
                             RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -152,10 +260,11 @@ public class Ui {
             newLevelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /*
                     Toast.makeText(gameActivity.getApplicationContext(), "Switching to level select menu",
                             Toast.LENGTH_SHORT)
-                            .show();
-                    hideMenu(false);
+                            .show();*/
+                    hide();
                     showLevelSelect();
                 }
             });
@@ -170,14 +279,16 @@ public class Ui {
             returnLayoutParams.topMargin = topMargin + buttonHeight;
             returnLayoutParams.height = buttonHeight;
             returnButton.setLayoutParams(returnLayoutParams);
+            returnButton.setTextColor(Color.RED);
             returnButton.setText("Exit");
             returnButton.setId(CompatUtils.getUniqueViewId());
             returnButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /*
                     Toast.makeText(gameActivity.getApplicationContext(), "Exiting",
                             Toast.LENGTH_SHORT)
-                            .show();
+                            .show();*/
                     gameActivity.finish();
                     //obs.updateGameSketch();
 
@@ -198,14 +309,17 @@ public class Ui {
             pauseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(gameActivity, "Pause button pressed!", pauseButton.getId()).show();
+                    //Toast.makeText(gameActivity, "Pause button pressed!", pauseButton.getId()).show();
                     boolean paused = obs.togglePauseSketch();
-                    if (paused){
-
-                        revealMenu(false);
-                    } else {
-
-                        hideMenu(true);
+                    if (gameStatus == GameStatus.IN_PROGRESS){
+                        if (paused){
+                            pauseButton.setImageResource(android.R.drawable.ic_media_play);
+                            pauseTimer();
+                            revealMenu();
+                        } else {
+                            resumeTimer();
+                            hideMenu();
+                        }
                     }
                     pauseButton.invalidate();
                 }
@@ -250,8 +364,10 @@ public class Ui {
                     levelButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(gameActivity, "Switching to " + item.replace(".csv", ""), levelButton.getId()).show();
+                            //Toast.makeText(gameActivity, "Switching to " + item.replace(".csv", ""), levelButton.getId()).show();
                             hideLevelSelect();
+                            gameStatus = GameStatus.LOADING;
+                            resetTimer();
                             obs.updateGameSketch(item);
                         }
                     });
@@ -282,9 +398,9 @@ public class Ui {
                 backButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(gameActivity, "Switching to pause menu", backButton.getId()).show();
+                        //Toast.makeText(gameActivity, "Switching to pause menu", backButton.getId()).show();
                         hideLevelSelect();
-                        revealMenu(false);
+                        show();
                         //pauseButton.setImageResource(android.R.drawable.ic_media_pause);
                         //pauseButton.invalidate();
                     }
@@ -296,6 +412,18 @@ public class Ui {
                 widgets.add(backButton);
                 //levelSelectLayout.setEnabled(true);
                 //widgets.add(levelSelectLayout);
+            }
+        }
+
+        private void updateLevelCompletedText(){
+            if (gameStatus == GameStatus.COMPLETED){
+                levelCompleteText.setText("LEVEL COMPLETE");
+                levelCompleteText.setTextColor(0xff33ee33);
+                levelCompleteText.setShadowLayer(20, 0, 0, 0xff33ee33);
+            } else if (gameStatus == GameStatus.GAME_OVER){
+                levelCompleteText.setText("GAME OVER");
+                levelCompleteText.setTextColor(0xffff3333);
+                levelCompleteText.setShadowLayer(20, 0, 0, 0xffff3333);
             }
         }
 
@@ -313,27 +441,26 @@ public class Ui {
             invalidateMenu();
         }
 
-        public void revealMenu(boolean levelCompleted){
-            if (levelCompleted){
+        public void show(){
+            if (gameStatus == GameStatus.COMPLETED || gameStatus == GameStatus.GAME_OVER){
                 //pauseButton.hide();
                 pauseButton.setEnabled(false);
                 pauseButton.setImageResource(android.R.drawable.btn_radio);
+                updateLevelCompletedText();
                 levelCompleteText.setVisibility(View.VISIBLE);
-            } else {
-                pauseButton.setImageResource(android.R.drawable.ic_media_play);
             }
             newLevelButton.setVisibility(View.VISIBLE);
             returnButton.setVisibility(View.VISIBLE);
             invalidateMenu();
         }
 
-        public void hideMenu(boolean playing){
-            if (playing){
-                pauseButton.setImageResource(android.R.drawable.ic_media_pause);
+        public void hide(){
+            if (gameStatus == GameStatus.IN_PROGRESS){
                 hideLevelSelect();
+                pauseButton.setEnabled(true);
+                pauseButton.setImageResource(android.R.drawable.ic_media_pause);
             }
             //pauseButton.show();
-            pauseButton.setEnabled(true);
             levelCompleteText.setVisibility(View.GONE);
             newLevelButton.setVisibility(View.GONE);
             returnButton.setVisibility(View.GONE);
@@ -351,6 +478,13 @@ public class Ui {
                 button.invalidate();
             }
         }
+    }
+
+    public enum GameStatus{
+        LOADING,
+        IN_PROGRESS,
+        COMPLETED,
+        GAME_OVER
     }
 
 }

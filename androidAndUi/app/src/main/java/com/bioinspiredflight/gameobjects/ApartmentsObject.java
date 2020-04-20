@@ -9,14 +9,21 @@ import processing.core.PVector;
 
 public class ApartmentsObject extends GameObject {
     float rotation;
+    HitboxObject hb1, hb2;
 
     public ApartmentsObject(GameSketch sketch, PShape body, float x, float y, float z,
                             float scale, float rot, int id) {
         super(sketch, body, x, y, z, id);
-        h = 1300 * scale;
+        h = 1320 * scale;
         w = 2810 * scale;
         d = 1290 * scale;
         rotation = rot;
+        hb1 = new HitboxObject(sketch, body, x, 295, z, id);
+        hb1.setHWD(590, 2475, 1125);
+        sketch.gameObjects.add(hb1);
+        hb2 = new HitboxObject(sketch, body, x, 295, z, id);
+        hb2.setHWD(590, 2475, 1125);
+        sketch.gameObjects.add(hb2);
     }
 
     public PVector getCoords(){
@@ -38,7 +45,7 @@ public class ApartmentsObject extends GameObject {
     @Override
     public void draw3D() {
         sketch.pushMatrix();
-        sketch.translate(getCoords().x, getCoords().y - getH()/2 - 600, getCoords().z);
+        sketch.translate(getCoords().x, getCoords().y - getH()/2 - 580, getCoords().z);
         sketch.rotateY(rotation);
         sketch.shape(body);
         sketch.popMatrix();

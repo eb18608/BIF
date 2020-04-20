@@ -60,11 +60,13 @@ public class CollectionPointObject extends ObjectiveObject {
         movement.setVel(collideMod.collideMod);
         movement.setPos(sketch.getLastPosition());
         setStatus(true);
+        /*
         if (!sketch.checkCompleted()) { setStatus(false);
         } else {
             sketch.getObs().updateUiComplete();
-        }
+        }*/
         sketch.setCollectiblesHeld(0);
+        sketch.checkCompleted();
 
     }
 

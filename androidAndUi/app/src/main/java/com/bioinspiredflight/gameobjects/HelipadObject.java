@@ -64,9 +64,9 @@ public class HelipadObject extends ObjectiveObject {
         setStatus(true);
         if (!sketch.checkCompleted()) {
             setStatus(false);
-        } else {
+        }/* else {
             sketch.getObs().updateUiComplete();
-        }
+        }*/
     }
 
     @Override
