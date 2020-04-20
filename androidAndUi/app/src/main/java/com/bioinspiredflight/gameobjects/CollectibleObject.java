@@ -18,6 +18,7 @@ public class CollectibleObject extends ObjectiveObject {
         w = 50 * scale;
         d = 25 * scale;
         visible = true;
+        this.setSolid(false);
     }
 
     public PVector getCoords(){

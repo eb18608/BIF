@@ -27,6 +27,7 @@ public class LoopObject extends ObjectiveObject {
         outerBodyRotation = rot;
         if (this.getID() == 0) { visible = true; }
         else { visible = false; }
+        this.setSolid(false);
     }
 
     public PVector getCoords(){

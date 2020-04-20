@@ -13,6 +13,7 @@ public abstract class GameObject implements Interactable{
     float h, w, d;
     int id;
     private boolean collisionsEnabled;
+    private boolean isSolid;
 
     public GameObject(GameSketch sketch, PShape body, float x, float y, float z, int id){
         this.sketch = sketch;
@@ -20,6 +21,7 @@ public abstract class GameObject implements Interactable{
         this.coords = new PVector(x, y, z);
         this.id = id;
         this.collisionsEnabled = true;
+        this.isSolid = true;
     }
 
     public PVector getCoords(){
@@ -60,4 +62,12 @@ public abstract class GameObject implements Interactable{
     public boolean isFuel() { return false; }
 
     public boolean isSearchlight() { return false; }
+
+    public boolean isSolid() {
+        return isSolid;
+    }
+
+    public void setSolid(boolean solid) {
+        isSolid = solid;
+    }
 }

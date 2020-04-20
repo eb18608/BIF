@@ -19,6 +19,7 @@ public class AirVentObject extends GameObject {
         w = 120 * scale;
         d = 120 * scale;
         icon = sketch.loadImage("FanIcon.png");
+        this.setSolid(false);
     }
 
     public PVector getCoords(){
