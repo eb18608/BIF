@@ -18,9 +18,9 @@ public class AirVentObject extends GameObject {
                          float scale, int id) {
         super(sketch, body, x, y, z, id);
         // Same hitbox as skyscraper (not accurate at all)
-        h = 4240 * scale;
-        w = 1420 * scale;
-        d = 1420 * scale;
+        h = 60 * scale;
+        w = 100 * scale;
+        d = 100 * scale;
         icon = sketch.loadImage("FanIcon.png");
     }
 
@@ -64,33 +64,8 @@ public class AirVentObject extends GameObject {
 
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
-        // These work just like controlMod,
-        // Values need to be tweaked
-        PVector streamVector = new PVector(0f, 0f, 1.5f);
-        movement.setInStream(true);
-
-        System.out.println("Acc before: ");
-        System.out.println(movement.getAcc());
-        System.out.println("Acc after: ");
-
-        PVector resultantAcc = movement.forceApplied(
-                movement.getAcc(),
-                streamVector,
-                movement.getMass(),
-                movement.frametime);
-        PVector resultantVel = movement.calcVel(
-                movement.getVel(),
-                resultantAcc,
-                movement.frametime);
-
-        PVector resultantPos = movement.calcPos(
-                movement.getPos(),
-                resultantVel,
-                movement.frametime);
-
-        System.out.println(resultantAcc);
-
-        movement.updateMover(resultantAcc, resultantVel, resultantPos, movement);
+        movement.setVel(collideMod.collideMod);
+        movement.setPos(sketch.getLastPosition());
 
     }
 
