@@ -312,10 +312,8 @@ public class GameSketch extends PApplet{
         }
         if (timerStarted){
             framesPassed++;
-            if (framesPassed > frameRate / 2){
-                obs.updateUiTimer();
-                framesPassed = 0;
-            }
+            obs.updateUiTimer();
+            framesPassed = 0;
         }
     }
 

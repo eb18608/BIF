@@ -1,5 +1,6 @@
 package com.bioinspiredflight.ui;
 
+import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
@@ -144,15 +145,19 @@ public class Ui {
 
         private void setupTimer(final GameActivity gameActivity, ArrayList<View> widgets, DisplayMetrics metrics){
             final int sideMargin = metrics.widthPixels / 4;
-            final int topMargin = 3 * (metrics.heightPixels / 10);
+            final int topMargin = metrics.heightPixels / 20;
             final int bottomMargin = 3 * (metrics.heightPixels / 10);
             final int buttonHeight = metrics.heightPixels / 5;
             timerText = new TextView(gameActivity);
             timerText.setTextSize(metrics.heightPixels / 50);
+            timerText.setTextColor(Color.BLACK);
+            timerText.setShadowLayer(2, 0, 0, Color.WHITE);
+            timerText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             RelativeLayout.LayoutParams timerParams =
                     new RelativeLayout.LayoutParams(
                             RelativeLayout.LayoutParams.MATCH_PARENT,
                             RelativeLayout.LayoutParams.MATCH_PARENT);
+            timerParams.topMargin = topMargin;
             timerText.setLayoutParams(timerParams);
             widgets.add(timerText);
         }
@@ -207,6 +212,12 @@ public class Ui {
                 }
                 if (minutes < 10) {
                     minuteString = "0" + minuteString;
+                }
+                if (seconds < 30 && minutes == 0){
+                    timerText.setTextColor(Color.RED);
+                }
+                if (seconds < 10 && minutes == 0){
+                    timerText.setShadowLayer(20, 0, 0, 0xFFFF3333);
                 }
                 timerText.setText(minuteString + ":" + secondString);
                 timerText.invalidate();
@@ -268,6 +279,7 @@ public class Ui {
             returnLayoutParams.topMargin = topMargin + buttonHeight;
             returnLayoutParams.height = buttonHeight;
             returnButton.setLayoutParams(returnLayoutParams);
+            returnButton.setTextColor(Color.RED);
             returnButton.setText("Exit");
             returnButton.setId(CompatUtils.getUniqueViewId());
             returnButton.setOnClickListener(new View.OnClickListener() {
@@ -406,10 +418,12 @@ public class Ui {
         private void updateLevelCompletedText(){
             if (gameStatus == GameStatus.COMPLETED){
                 levelCompleteText.setText("LEVEL COMPLETE");
-                levelCompleteText.setTextColor(0xff33ff33);
+                levelCompleteText.setTextColor(0xff33ee33);
+                levelCompleteText.setShadowLayer(20, 0, 0, 0xff33ee33);
             } else if (gameStatus == GameStatus.GAME_OVER){
                 levelCompleteText.setText("GAME OVER");
                 levelCompleteText.setTextColor(0xffff3333);
+                levelCompleteText.setShadowLayer(20, 0, 0, 0xffff3333);
             }
         }
 
