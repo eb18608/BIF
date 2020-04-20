@@ -16,6 +16,7 @@ public class AirStreamObject extends GameObject {
         h = 600 * scale;
         w = 120 * scale;
         d = 120 * scale;
+        this.setSolid(false);
     }
 
     public PVector getCoords(){

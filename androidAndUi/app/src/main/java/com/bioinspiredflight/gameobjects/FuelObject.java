@@ -21,6 +21,7 @@ public class FuelObject extends GameObject {
         d = 150 * scale;
         visible = true;
         icon = sketch.loadImage("FuelIcon.png");
+        this.setSolid(false);
     }
 
     public PVector getCoords(){

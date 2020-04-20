@@ -409,12 +409,15 @@ public class Movement {
         return length;
     }
 
-    public void isCollision(Movement drone, GameObject object2){
+    public boolean isCollision(Movement drone, GameObject object2){
         if(collisionDetectorXY(drone,object2) && collisionDetectorZ(drone, object2)){
-            drone.collided = true;
-
+            if (object2.isSolid()){
+                drone.collided = true;
+            }
+            return true;
         }else{
-            drone.collided = false;
+            //drone.collided = false;
+            return false;
         }
     }
 
