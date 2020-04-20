@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.gameobjects.AirStreamObject;
 import com.bioinspiredflight.gameobjects.AirVentObject;
+import com.bioinspiredflight.gameobjects.ApartmentsObject;
 import com.bioinspiredflight.gameobjects.BuildingObject;
 import com.bioinspiredflight.gameobjects.CollectibleObject;
 import com.bioinspiredflight.gameobjects.CollectionPointObject;
@@ -16,6 +17,7 @@ import com.bioinspiredflight.gameobjects.LoopObject;
 import com.bioinspiredflight.gameobjects.ObjectiveObject;
 import com.bioinspiredflight.gameobjects.HelipadObject;
 import com.bioinspiredflight.gameobjects.SearchlightObject;
+import com.bioinspiredflight.gameobjects.SkyscraperObject;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -69,6 +71,14 @@ public class LevelHandler {
             id = Integer.parseInt(key.replace("building", ""));
             gameObject =
                     new BuildingObject(sketch, sketch.getBuildingShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+        } else if (key.startsWith("skyscraper")){
+            id = Integer.parseInt(key.replace("skyscraper", ""));
+            gameObject =
+                    new SkyscraperObject(sketch, sketch.getSkyscraperShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id);
+        } else if (key.startsWith("apartments")){
+            id = Integer.parseInt(key.replace("apartments", ""));
+            gameObject =
+                    new ApartmentsObject(sketch, sketch.getApartmentsShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id);
         } else if (key.startsWith("objective")){
             id = Integer.parseInt(key.replace("objective", ""));
             gameObject =
@@ -96,7 +106,7 @@ public class LevelHandler {
         } else if (key.startsWith("airstream")){
             id = Integer.parseInt(key.replace("airstream", ""));
             gameObject =
-                    new AirStreamObject(sketch, sketch.getAirStreamShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+                    new AirStreamObject(sketch, sketch.getAirStreamShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id, data.getFinx(), data.getFinz());
         } else if (key.startsWith("fuel")){
             id = Integer.parseInt(key.replace("fuel", ""));
             gameObject =

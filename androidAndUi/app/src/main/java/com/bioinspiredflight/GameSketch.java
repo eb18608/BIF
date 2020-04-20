@@ -52,6 +52,9 @@ public class GameSketch extends PApplet{
     private PShape airStreamShape;
     private PShape fuelShape;
     private PShape searchlightShape;
+    private PShape skyscraperShape;
+    private PShape apartmentsShape;
+    private PShape arrow;
 
     private ReentrantLock lock = new ReentrantLock();
 
@@ -200,6 +203,26 @@ public class GameSketch extends PApplet{
         return false;
     }
 
+    private GameObject trackingObject() {
+        GameObject closest = drone;
+        float distance = 100000000;
+        for (GameObject object : gameObjects.getObjectiveList()) {
+            if (object.shouldBeTracked() && distanceToDrone(object) < distance) {
+                distance = distanceToDrone(object);
+                closest = object;
+            }
+        }
+        return closest;
+    }
+
+    public void drawArrow() {
+        pushMatrix();
+        translate(0,12,0);
+        rotateY(-drone.calculateAngle(trackingObject().coords.z - drone.coords.z, trackingObject().coords.x - drone.coords.x) + PI/2);
+        shape(arrow);
+        popMatrix();
+    }
+
     public void setup() {
         if (gamePaused) { return; }
         frameRate(30);
@@ -208,7 +231,9 @@ public class GameSketch extends PApplet{
         } else {
             droneBodyShape = loadShape("textured_circular_drone_sans_propellers.obj");
         }
-        buildingShape = loadShape("textured_drone_sans_propellers.obj");
+        buildingShape = loadShape("cube.obj");
+        skyscraperShape = loadShape("skyscraper.obj");
+        apartmentsShape = loadShape("appartment_buildings.obj");
         outerLoopShape = loadShape("loop.obj");
         outerLoopShape.setFill(color( 255, 195, 0, 245));
         innerLoopShape = loadShape("textured_circular_drone.obj");
@@ -218,6 +243,8 @@ public class GameSketch extends PApplet{
         collectionPointShape = loadShape("postbox.obj");
         sky = loadImage("sky.png");
         sky.resize(width, height);
+        arrow = loadShape("TurtleShell.obj");
+        arrow.scale(1.2f);
         fuelIcon = loadImage("FuelIcon.png");
         fuelShape = loadShape("fuel.obj");
         airVentShape = loadShape("textured_drone_sans_propellers.obj");
@@ -229,7 +256,7 @@ public class GameSketch extends PApplet{
         for (int i = 0; i < 10; i++) {
             prevAccs.add(emptyAcc);
         }
-        startLevel("level0.csv");
+        startLevel("level1.csv");
         setupCompleted = true;
     }
 
@@ -253,6 +280,7 @@ public class GameSketch extends PApplet{
         rotation += io.getRotation() * rotationSpeed;
         io.setTotalRotation(-rotation);
         translate(drone.coords.x, drone.coords.y, drone.coords.z);
+        if (SensorContent.ITEMS.get(9).isEquipped()) { drawArrow(); }
         if (droneShouldflip(prevAccs, movingObject.getAcc())) {
             flipFrameCounter = 20;
             flipAcc.set(movingObject.getAcc());
@@ -267,9 +295,6 @@ public class GameSketch extends PApplet{
         if (getMovingObject().getAcc().z != -300) { drone.spinPropellers((getMovingObject().getAcc().z + 300) / 1200); }
         drone.draw3D();
         rotateY(-rotation);
-        if (SensorContent.ITEMS.get(9).isEquipped()) {
-            drone.drawArrow();
-        }
         popMatrix();
 
         if (!loaded){
@@ -454,4 +479,8 @@ public class GameSketch extends PApplet{
     public PShape getFuelShape() { return fuelShape; }
 
     public PShape getSearchlightShape() { return searchlightShape; }
+
+    public PShape getSkyscraperShape() { return skyscraperShape; }
+
+    public PShape getApartmentsShape() { return apartmentsShape; }
 }

@@ -37,8 +37,6 @@ public class DroneObject extends GameObject {
         propellerFR = loadPropeller(scale);
         propellerBL = loadPropeller(scale);
         propellerBR = loadPropeller(scale);
-        arrow = sketch.loadShape("arrow.obj");
-        this.arrow.setFill(sketch.color(150,0,0,150));
 
         for (SensorContent.SensorItem sensor : SensorContent.ITEMS) {
             PShape tempBody = sketch.loadShape(sensor.getBodyfilePath());
@@ -83,7 +81,7 @@ public class DroneObject extends GameObject {
         sketch.rotateY(-calculateAngle(acc.x, acc.y));
     }
 
-    private float calculateAngle(float x, float y) {
+    public float calculateAngle(float x, float y) {
         float theta = (float) Math.atan(Math.abs(x/y));
         if (x >= 0) {
             if (y >= 0) { // x+ve, y+ve
@@ -98,18 +96,6 @@ public class DroneObject extends GameObject {
                 return sketch.PI + theta;
             }
         }
-    }
-
-    private GameObject trackingObject() {
-        GameObject closest = this;
-        float distance = 100000000;
-        for (GameObject object : sketch.gameObjects.getObjectiveList()) {
-            if (object.shouldBeTracked() && sketch.distanceToDrone(object) < distance) {
-                distance = sketch.distanceToDrone(object);
-                closest = object;
-            }
-        }
-        return closest;
     }
 
     public void tiltDrone(PVector acc) {
@@ -148,13 +134,7 @@ public class DroneObject extends GameObject {
         sketch.rotateX(fbTilt);
     }
 
-    public void drawArrow() {
-        sketch.pushMatrix();
-        sketch.translate(0,-30,0);
-        sketch.rotateY(-calculateAngle(trackingObject().coords.z - this.coords.z, trackingObject().coords.x - this.coords.x) + sketch.PI/2);
-        sketch.shape(arrow);
-        sketch.popMatrix();
-    }
+
 
     @Override
     public void draw3D() {
