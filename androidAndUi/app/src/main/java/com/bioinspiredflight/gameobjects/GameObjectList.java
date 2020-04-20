@@ -1,12 +1,15 @@
 package com.bioinspiredflight.gameobjects;
 
+import androidx.annotation.NonNull;
+
 import com.bioinspiredflight.physics.Movement;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class GameObjectList {
+public class GameObjectList implements Iterable<GameObject>{
 
     private ReentrantLock lock = new ReentrantLock();
 
@@ -145,4 +148,15 @@ public class GameObjectList {
 
     }
 
+    public void setCollisionsEnabled(boolean collisionsEnabled){
+        for (GameObject gameObject : list){
+            gameObject.setCollisionsEnabled(collisionsEnabled);
+        }
+    }
+
+    @NonNull
+    @Override
+    public Iterator<GameObject> iterator() {
+        return this.list.iterator();
+    }
 }

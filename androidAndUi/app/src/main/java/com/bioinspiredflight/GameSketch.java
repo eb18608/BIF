@@ -86,6 +86,8 @@ public class GameSketch extends PApplet{
     ArrayList<PVector> prevAccs = new ArrayList<>();
     private boolean gamePaused;
     boolean setupCompleted;
+    private int framesPassed;
+    private boolean timerStarted = false;
     int maxFuel = 1275;
     int fuelLevel = maxFuel;
     PImage fuelIcon;
@@ -168,6 +170,8 @@ public class GameSketch extends PApplet{
         obs.updateUINewLevel();
         currentLoopID = 0;
         collectiblesHeld = 0;
+        framesPassed = 0;
+        timerStarted = false;
         fuelLevel = maxFuel;
         gameObjects.add(floor);
         if (levelContainsSearchlights()) {
@@ -389,7 +393,24 @@ public class GameSketch extends PApplet{
         } else if (levelContainsFuel()) {
             decrementFuelLevel(2);
         }
+        updateTimer();
     }
+
+    private void updateTimer(){
+        if (!timerStarted){
+            long seconds = levelHandler.getTimeLimitSeconds();
+            if (seconds > 0){
+                obs.startTimer(seconds);
+                timerStarted = true;
+            }
+        }
+        if (timerStarted){
+            framesPassed++;
+            obs.updateUiTimer();
+            framesPassed = 0;
+        }
+    }
+
     public void settings() {
         fullScreen(P3D);
     }
@@ -427,6 +448,11 @@ public class GameSketch extends PApplet{
         Boolean complete = true;
         for (ObjectiveObject g :gameObjectives){
             if (g.getStatus() == false) { complete = false; }
+        }
+        //System.out.println("hiiii");
+        if (complete){
+            gameObjects.setCollisionsEnabled(false);
+            obs.updateUiComplete();
         }
         return complete;
     }

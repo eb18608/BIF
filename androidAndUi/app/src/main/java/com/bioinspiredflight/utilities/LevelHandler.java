@@ -35,6 +35,8 @@ import java.util.TreeMap;
 public class LevelHandler {
 
     private Activity activity;
+    private boolean isTimed;
+    private long timeLimitSeconds;
     //private ArrayList<> objectivesAccomplished; ObjectiveObjects list here
 
     public LevelHandler(Activity activity){
@@ -43,6 +45,10 @@ public class LevelHandler {
     }
 
     public void changeLevel(GameSketch sketch, GameObjectList gameObjects, String fileName){
+        isTimed = false;
+        for (GameObject gameObject : gameObjects){
+            gameObject.setCollisionsEnabled(false);
+        }
         gameObjects.clear();
         TreeMap<String, Data> table = readLevelFile(fileName);
         GameObject gameObject;
@@ -119,6 +125,14 @@ public class LevelHandler {
         return gameObject;
     }
 
+    public long getTimeLimitSeconds(){
+        if (isTimed){
+            return timeLimitSeconds;
+        } else {
+            return -1;
+        }
+    }
+
     private TreeMap<String, Data> readLevelFile(String fileName){
         TreeMap<String, Data> table = new TreeMap<>();
         try {
@@ -142,6 +156,9 @@ public class LevelHandler {
                // System.out.printf("%f, %f, %f, %f, %f\n", x, y, z, scale);
                     //put string and PVector pair into table
                     table.put(record.get(0), data);
+                } else if (record.get(0).equals("timer")){
+                    isTimed = true;
+                    timeLimitSeconds = Long.parseLong(record.get(1));
                 }
             }
             parser.close();

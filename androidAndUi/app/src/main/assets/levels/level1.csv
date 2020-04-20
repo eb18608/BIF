@@ -8,3 +8,4 @@ collectible0,300,603,720,0,1,0,0
 collectible1,720,603,300,0,1,0,0
 collectible2,720,603,720,0,1,0,0
 apartments0,-1400,1240,600,0,1,0,0
+timer,60

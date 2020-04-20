@@ -58,37 +58,42 @@ public class SensorDetailActivity extends AppCompatActivity {
         image.setImageResource(res);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        updateFabIcon(fab, item.isUnlocked(), item.isEquipped());
+        if (!item.getId().equals("Camera") && !item.getId().equals("IMU (gyroscopes and accelerometers)")){
+            updateFabIcon(fab, item.isUnlocked(), item.isEquipped());
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                 /*
                 Snackbar.make(view, "Replace with unlock/equip action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                  */
-                //Sensor sensor = SensorContent.idToSensor(id);
-                SensorContent.SensorItem item = SensorContent.ITEM_MAP.get(id);
-                if (item.isUnlocked() == false){
-                    item.setUnlocked(true);
-                    Snackbar.make(view, "Sensor unlocked!", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                } else if (item.isEquipped() == false){
-                    item.setEquipped(true);
-                    Snackbar.make(view, "Sensor equipped!", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    System.out.println("b");
-                } else {
-                    item.setEquipped(false);
-                    Snackbar.make(view, "Sensor unequipped!", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                    System.out.println("c");
+                    //Sensor sensor = SensorContent.idToSensor(id);
+                    SensorContent.SensorItem item = SensorContent.ITEM_MAP.get(id);
+                    if (item.isUnlocked() == false){
+                        item.setUnlocked(true);
+                        Snackbar.make(view, "Sensor unlocked!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    } else if (item.isEquipped() == false){
+                        item.setEquipped(true);
+                        Snackbar.make(view, "Sensor equipped!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        System.out.println("b");
+                    } else {
+                        item.setEquipped(false);
+                        Snackbar.make(view, "Sensor unequipped!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        System.out.println("c");
+                    }
+                    SensorFileHandler.writeSensorStatusFile(getApplicationContext(), SensorFileHandler.sensorsUnlockedFileName);
+                    SensorFileHandler.writeSensorStatusFile(getApplicationContext(), SensorFileHandler.sensorsEquippedFileName);
+                    updateFabIcon(fab, item.isUnlocked(), item.isEquipped());
                 }
-                SensorFileHandler.writeSensorStatusFile(getApplicationContext(), SensorFileHandler.sensorsUnlockedFileName);
-                SensorFileHandler.writeSensorStatusFile(getApplicationContext(), SensorFileHandler.sensorsEquippedFileName);
-                updateFabIcon(fab, item.isUnlocked(), item.isEquipped());
-            }
-        });
+            });
+        } else {
+            fab.hide();
+        }
+
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
