@@ -1,12 +1,12 @@
 package com.bioinspiredflight.ui;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bioinspiredflight.GameActivity;
 import com.bioinspiredflight.utilities.LevelHandler;
@@ -23,7 +23,7 @@ public class Ui {
     private ArrayList<View> widgets;
     private GameActivity.GameSketchObserver obs;
     private PlayerControls controls;
-    private GameStatus gameStatus = GameStatus.IN_PROGRESS;
+    private GameStatus gameStatus = GameStatus.STARTUP;
     //private final FrameLayout frame;
     //private final AppCompatActivity gameActivity;
 
@@ -79,6 +79,11 @@ public class Ui {
         controls.showPlayerControls();
     }
 
+    public void showLevelSelect(boolean initial, Activity gameActivity){
+        controls.hidePlayerControls();
+        menu.showLevelSelect(initial, gameActivity);
+    }
+
     public void setGameStatus(GameStatus gameStatus){
         this.gameStatus = gameStatus;
     }
@@ -129,6 +134,7 @@ public class Ui {
         private Button newLevelButton;
         private FloatingActionButton pauseButton;
         private ArrayList<Button> levelSelectButtonList;
+        private Button levelBackButton;
         private TextView timerText;
         private long startTime = 0;
         private long endTime = 0;
@@ -382,7 +388,7 @@ public class Ui {
                         numOfCols = 0;
                     }
                 }
-                final Button backButton = new Button(gameActivity);
+                levelBackButton = new Button(gameActivity);
                 RelativeLayout.LayoutParams params =
                         new RelativeLayout.LayoutParams(
                                 RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -390,12 +396,12 @@ public class Ui {
                 params.leftMargin =  sideMargin + (numOfCols * (buttonWidth + gap) * 2);
                 params.height = buttonHeight;
                 params.topMargin = topMargin + (numOfRows * buttonHeight);
-                backButton.setLayoutParams(params);
+                levelBackButton.setLayoutParams(params);
                 //levelButton.setHeight(metrics.widthPixels / 20);
-                backButton.setText("Back");
-                backButton.setTextColor(0xffff0000);
-                backButton.setId(CompatUtils.getUniqueViewId());
-                backButton.setOnClickListener(new View.OnClickListener() {
+                levelBackButton.setText("Back");
+                levelBackButton.setTextColor(0xffff0000);
+                levelBackButton.setId(CompatUtils.getUniqueViewId());
+                levelBackButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //Toast.makeText(gameActivity, "Switching to pause menu", backButton.getId()).show();
@@ -405,11 +411,11 @@ public class Ui {
                         //pauseButton.invalidate();
                     }
                 });
-                backButton.setEnabled(true);
+                levelBackButton.setEnabled(true);
                 //levelSelectLayout.addView(levelButton);
-                backButton.setVisibility(View.GONE);
-                levelSelectButtonList.add(backButton);
-                widgets.add(backButton);
+                levelBackButton.setVisibility(View.GONE);
+                levelSelectButtonList.add(levelBackButton);
+                widgets.add(levelBackButton);
                 //levelSelectLayout.setEnabled(true);
                 //widgets.add(levelSelectLayout);
             }
@@ -430,6 +436,29 @@ public class Ui {
         private void showLevelSelect(){
             for (Button button : levelSelectButtonList){
                 button.setVisibility(View.VISIBLE);
+            }
+            levelBackButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Toast.makeText(gameActivity, "Switching to pause menu", backButton.getId()).show();
+                    hideLevelSelect();
+                    show();
+                    //pauseButton.setImageResource(android.R.drawable.ic_media_pause);
+                    //pauseButton.invalidate();
+                }
+            });
+            invalidateMenu();
+        }
+
+        private void showLevelSelect(boolean initial, final Activity gameActivity){
+            for (Button button : levelSelectButtonList){
+                button.setVisibility(View.VISIBLE);
+            }
+            if (initial){
+                returnButton.setVisibility(View.VISIBLE);
+                levelBackButton.setVisibility(View.GONE);
+                pauseButton.setEnabled(false);
+                pauseButton.setImageResource(android.R.drawable.btn_radio);
             }
             invalidateMenu();
         }
@@ -481,6 +510,7 @@ public class Ui {
     }
 
     public enum GameStatus{
+        STARTUP,
         LOADING,
         IN_PROGRESS,
         COMPLETED,

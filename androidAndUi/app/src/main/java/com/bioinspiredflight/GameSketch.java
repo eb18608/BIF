@@ -263,7 +263,7 @@ public class GameSketch extends PApplet{
         for (int i = 0; i < 10; i++) {
             prevAccs.add(emptyAcc);
         }
-        startLevel("level1.csv");
+        obs.startLevelSelect();
         setupCompleted = true;
     }
 
