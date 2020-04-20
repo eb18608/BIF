@@ -9,6 +9,8 @@ import processing.core.PVector;
 public class ModVisitor implements Visitor{
     @Override
     public void visit(ControlMod control, Movement movement) {
+        System.out.println("Input force: ");
+        System.out.println(control.controlMod);
         PVector resultantAcc = movement.forceApplied(
                 movement.getAcc(),
                 control.controlMod,
