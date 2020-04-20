@@ -1,5 +1,6 @@
 package com.bioinspiredflight.gameobjects;
 
+import com.bioinspiredflight.GameActivity;
 import com.bioinspiredflight.GameSketch;
 import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
@@ -57,7 +58,7 @@ public class LoopObject extends ObjectiveObject {
         }
         if ( this.isVisible() ) {
             if (colour[1] == 0) {
-                //TODO: Game over. "You failed to collect a loop in time"
+                sketch.getObs().updateGameOver();
             }
 
             this.body.setFill(sketch.color(colour[0], colour[1], colour[2], colour[3]));
