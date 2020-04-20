@@ -389,7 +389,7 @@ public class GameSketch extends PApplet{
         draw2d();
 
         if (fuelLevel == 0) {
-            //TODO: End level. "You ran out of fuel!"
+            obs.updateGameOver();
         } else if (levelContainsFuel()) {
             decrementFuelLevel(2);
         }
