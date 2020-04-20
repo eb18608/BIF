@@ -391,7 +391,9 @@ public class GameSketch extends PApplet{
         if (fuelLevel == 0) {
             obs.updateGameOver();
         } else if (levelContainsFuel()) {
-            decrementFuelLevel(2);
+            if (io.isUsingJoystick() || io.isUsingSlider()) {
+                decrementFuelLevel(2);
+            }
         }
         updateTimer();
     }
