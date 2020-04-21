@@ -252,7 +252,8 @@ public class GameSketch extends PApplet{
         arrow.scale(1.2f);
         fuelIcon = loadImage("FuelIcon.png");
         fuelShape = loadShape("fuel.obj");
-        airVentShape = loadShape("textured_drone_sans_propellers.obj");
+        airStreamShape = loadShape("airflow.obj");
+        airVentShape = loadShape("textured_circular_drone.obj");
         floor = new HitboxObject(this, buildingShape, 0,-9.5f,0,0);
         floor.setHWD(20,6000,6000);
         floor.setSolid(false);
