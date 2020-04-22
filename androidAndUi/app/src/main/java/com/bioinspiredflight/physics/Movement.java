@@ -26,6 +26,7 @@ public class Movement {
     public boolean collided = false;
     public float radius;
     private float height;
+    private boolean inStream;
 
     public Movement(float mass, boolean gravityOn, PVector p, float height,float radius){
         this.mass = mass;
@@ -84,7 +85,13 @@ public class Movement {
         p.y = y;
         p.z = z;
     }
+    public boolean isInStream() {
+        return inStream;
+    }
 
+    public void setInStream(boolean inStream) {
+        this.inStream = inStream;
+    }
 
 //    //Get the individual components of the position vector to do math on them
 //    public double getPosX() {
@@ -204,13 +211,21 @@ public class Movement {
     }
 
     public void updateMover(PVector resultAcc, PVector resultVel, PVector resultPos, Movement thisMover) {
+        if(inStream) {
+            System.out.println("In stream");
 
-        thisMover.acc = resultAcc;
-        limitVelocity(resultAcc, resultVel);
-        airResistance(resultAcc, resultVel);
-        thisMover.vel = resultVel;
-        thisMover.pos = resultPos;
-
+            thisMover.acc = resultAcc;
+            airResistance(resultAcc, resultVel);
+            thisMover.vel = resultVel;
+            thisMover.pos = resultPos;
+            setInStream(false);
+        } else{
+            thisMover.acc = resultAcc;
+            limitVelocity(resultAcc, resultVel);
+            airResistance(resultAcc, resultVel);
+            thisMover.vel = resultVel;
+            thisMover.pos = resultPos;
+        }
 
         floorLock(resultVel, resultPos);
 
@@ -409,14 +424,19 @@ public class Movement {
         return length;
     }
 
-    public void isCollision(Movement drone, GameObject object2){
+    public boolean isCollision(Movement drone, GameObject object2){
         if(collisionDetectorXY(drone,object2) && collisionDetectorZ(drone, object2)){
-            drone.collided = true;
-
+            if (object2.isSolid()){
+                drone.collided = true;
+            }
+            return true;
         }else{
-            drone.collided = false;
+            //drone.collided = false;
+            return false;
         }
     }
+
+
 
 //    public void collide(Movement drone, GameSketch.buildingObject object2){
 //        if (drone.collided == true){

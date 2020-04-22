@@ -116,7 +116,7 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void finish(){
-        if (sketch.isLoaded()){
+        if (sketch.isLoaded() || sketch.isGamePaused()){
             System.out.println("bye");
             android.os.Process.killProcess(android.os.Process.myPid());
         }
@@ -138,6 +138,17 @@ public class GameActivity extends AppCompatActivity {
                 }
             });
             sketch.resume();
+        }
+
+        public void startLevelSelect(){
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    ui.showLevelSelect(true, sketch.getActivity());
+                }
+            });
+            sketch.pause();
         }
 
         public void updateUiComplete(){

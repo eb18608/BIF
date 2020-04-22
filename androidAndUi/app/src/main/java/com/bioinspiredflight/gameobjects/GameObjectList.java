@@ -91,20 +91,21 @@ public class GameObjectList implements Iterable<GameObject>{
     }
 
 
-    public int checkForCollisions(Movement movingObject){
+    public void checkForCollisions(Movement movingObject, ArrayList<GameObject> collidingObjects){
         try {
             lock.lock();
+            collidingObjects.clear();
             int i;
-            for (i = 0; i < list.size() && movingObject.collided == false; i++) {
+            for (i = 0; i < list.size(); i++) {
                 GameObject gameObject = list.get(i);
                 if (!gameObject.isDrone()) {
-                    movingObject.isCollision(movingObject, gameObject);
-                    if (movingObject.collided) {
-                        i--;
+
+                    if (movingObject.isCollision(movingObject, gameObject)) {
+                        collidingObjects.add(gameObject);
+                        //movingObject.collided = false;
                     }
                 }
             }
-            return i;
         } finally {
             lock.unlock();
         }

@@ -42,6 +42,7 @@ public class SearchlightObject extends GameObject {
         lightHolderHitbox = new HitboxObject(sketch, body, x, h + 8.5f, z, id);
         lightHolderHitbox.setHWD(17, 100, 100);
         sketch.gameObjects.add(lightHolderHitbox);
+        this.setSolid(false);
     }
 
     private PShape loadPropeller(float scale) {
@@ -138,7 +139,7 @@ public class SearchlightObject extends GameObject {
 
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
-        sketch.setLastPosition(movement.getPos());
+        //sketch.setLastPosition(movement.getPos());
         //TODO: Game over. "You were seen!"
     }
 

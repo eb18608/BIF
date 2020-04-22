@@ -5,20 +5,24 @@ import com.bioinspiredflight.physics.CollideMod;
 import com.bioinspiredflight.physics.Movement;
 import com.bioinspiredflight.sensor.SensorContent;
 
+import java.io.SyncFailedException;
+
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
 
 public class AirVentObject extends GameObject {
     PImage icon;
-
+    float rotation= 0.025f;;
     public AirVentObject(GameSketch sketch, PShape body, float x, float y, float z,
                          float scale, int id) {
         super(sketch, body, x, y, z, id);
-        h = 20 * scale;
-        w = 120 * scale;
-        d = 120 * scale;
+        // Same hitbox as skyscraper (not accurate at all)
+        h = 60 * scale;
+        w = 100 * scale;
+        d = 100 * scale;
         icon = sketch.loadImage("FanIcon.png");
+        this.setSolid(false);
     }
 
     public PVector getCoords(){
@@ -39,8 +43,12 @@ public class AirVentObject extends GameObject {
 
     @Override
     public void draw3D() {
+
         sketch.pushMatrix();
         sketch.translate(getCoords().x, getCoords().y, getCoords().z);
+        sketch.tint(211, 126);
+        sketch.rotateY(rotation);
+        rotation += 0.025f;
         sketch.shape(body);
         sketch.popMatrix();
     }
@@ -59,6 +67,7 @@ public class AirVentObject extends GameObject {
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         movement.setVel(collideMod.collideMod);
         movement.setPos(sketch.getLastPosition());
+
     }
 
     @Override

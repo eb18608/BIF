@@ -39,6 +39,7 @@ public class GameSketch extends PApplet{
     private PVector lastNonCollision = new PVector();
     private LevelHandler levelHandler;
     public GameObjectList gameObjects = new GameObjectList();
+    private ArrayList<GameObject> collidingObjects = new ArrayList<>();
 
     private PShape droneBodyShape;
     private PShape buildingShape;
@@ -251,16 +252,19 @@ public class GameSketch extends PApplet{
         arrow.scale(1.2f);
         fuelIcon = loadImage("FuelIcon.png");
         fuelShape = loadShape("fuel.obj");
-        airVentShape = loadShape("textured_drone_sans_propellers.obj");
+        airStreamShape = loadShape("airflow.obj");
+        airVentShape = loadShape("textured_circular_drone.obj");
         floor = new HitboxObject(this, buildingShape, 0,-9.5f,0,0);
         floor.setHWD(20,6000,6000);
+        floor.setSolid(false);
+        floor.setCollisionsEnabled(false);
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
         for (int i = 0; i < 10; i++) {
             prevAccs.add(emptyAcc);
         }
-        startLevel("level1.csv");
+        obs.startLevelSelect();
         setupCompleted = true;
     }
 
@@ -368,10 +372,14 @@ public class GameSketch extends PApplet{
     public void draw() {
         //if (gamePaused || !setupCompleted) { return; }
         if (!setupCompleted) { return; }
-        int i = gameObjects.checkForCollisions(movingObject);
+        gameObjects.checkForCollisions(movingObject, collidingObjects);
+
+        for (GameObject object : collidingObjects){
+            collideMod.accept(visitor, movingObject, this, object);
+        }
 
         if(movingObject.collided == true){
-            collideMod.accept(visitor, movingObject, this, gameObjects.get(i));
+            //collideMod.accept(visitor, movingObject, this, gameObjects.get(i));
             movingObject.collided = false;
         } else {
             setLastPosition(movingObject.getPos());
@@ -391,7 +399,9 @@ public class GameSketch extends PApplet{
         if (fuelLevel == 0) {
             obs.updateGameOver();
         } else if (levelContainsFuel()) {
-            decrementFuelLevel(2);
+            if (io.isUsingJoystick() || io.isUsingSlider()) {
+                decrementFuelLevel(2);
+            }
         }
         updateTimer();
     }

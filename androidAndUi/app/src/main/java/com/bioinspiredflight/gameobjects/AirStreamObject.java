@@ -9,13 +9,17 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 public class AirStreamObject extends GameObject {
-
+    PVector direction = new PVector();
+    float strength = 1.5f;
     public AirStreamObject(GameSketch sketch, PShape body, float x, float y, float z,
-                           float scale, float roty, int id, float rotx, float rotz) {
+                           float scale, float dirY, int id, float dirX, float dirZ) {
         super(sketch, body, x, y, z, id);
-        h = 600 * scale;
-        w = 120 * scale;
-        d = 120 * scale;
+        h = 532 * scale;
+        w = 100 * scale;
+        d = 100 * scale;
+        direction.y = dirY;
+        direction.x = dirX;
+        direction.z = dirZ;
     }
 
     public PVector getCoords(){
@@ -42,6 +46,15 @@ public class AirStreamObject extends GameObject {
             sketch.shape(body);
             sketch.popMatrix();
         }
+
+        /*Possible rotations:   (1, id, 0, 0) .csv -> ( 0, 0, 1) .(Pvector) direction
+                                    points up -> No rotation
+        *                       (0, id, 1, 0) .csv -> ( 1, 0, 0) .(PVector) direction
+                                    points right -> 90* z axis
+        *                       (0, id,-1, 0) .csv -> (-1, 0, 0) .(PVector) direction
+                                    points left -> -90* z axis
+        *                       (0, id, 0, 1) .csv -> ( 0, 0, 1) .(PVector) direction
+                                    points forward -> 90* x axis*/
     }
 
     @Override
@@ -49,9 +62,29 @@ public class AirStreamObject extends GameObject {
 
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
-        sketch.setLastPosition(movement.getPos());
-        //TODO: Custom airstream collision.
-        // ints for each direction
+        // These work just like controlMod,
+        // Values need to be tweaked
+
+        /* File reader reads ( .... yValue, id, xValue, zValue)
+           Put into (PVector)direction = (xValue, zValue, yValue) -> Old physics coordinate scheme
+           Run through physics engine like a control input basically
+                                                                */
+        PVector streamVector = new PVector(direction.x*strength,direction.z*strength , direction.y*strength);
+        movement.setInStream(true);
+        PVector resultantAcc = movement.forceApplied(
+                movement.getAcc(),
+                streamVector,
+                movement.getMass(),
+                movement.frametime);
+        PVector resultantVel = movement.calcVel(
+                movement.getVel(),
+                resultantAcc,
+                movement.frametime);
+        PVector resultantPos = movement.calcPos(
+                movement.getPos(),
+                resultantVel,
+                movement.frametime);
+        movement.updateMover(resultantAcc, resultantVel, resultantPos, movement);
     }
 
     @Override
@@ -60,3 +93,4 @@ public class AirStreamObject extends GameObject {
     }
 
 }
+
