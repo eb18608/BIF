@@ -477,11 +477,6 @@ public class GameSketch extends PApplet{
         for (ObjectiveObject g :gameObjectives){
             if (g.getStatus() == false) { complete = false; }
         }
-        //System.out.println("hiiii");
-        if (complete){
-            gameObjects.setCollisionsEnabled(false);
-            obs.updateUiComplete();
-        }
         return complete;
     }
 
