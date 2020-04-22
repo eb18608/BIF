@@ -60,6 +60,7 @@ public class GameSketch extends PApplet{
     private ReentrantLock lock = new ReentrantLock();
 
     private PImage sky;
+    private PImage floorImage;
 
     private boolean loaded = false;
 
@@ -146,6 +147,18 @@ public class GameSketch extends PApplet{
         endShape();
     }
 
+    public void renderFloor(float wid, float dep, PImage texture) {
+        noTint();
+        beginShape(QUADS);
+        texture(texture);
+        //frontface
+        vertex(0, 0, 0, 1, 1);
+        vertex(0, 0, wid, 0, 1);
+        vertex(0, dep, wid, 0, 0);
+        vertex(0, dep, 0, 1, 0);
+        endShape();
+    }
+
     public float distanceToDrone(GameObject b) {
         float x = Math.abs(drone.coords.x - b.getCoords().x);
         float z = Math.abs(drone.coords.z - b.getCoords().z);
@@ -181,6 +194,7 @@ public class GameSketch extends PApplet{
             sky = loadImage("sky.png");
         }
         sky.resize(width, height);
+        resizeFloor(8000, 8000);
     }
 
     // Loop through the acc values for the last 10 frames.
@@ -255,9 +269,7 @@ public class GameSketch extends PApplet{
         airStreamShape = loadShape("airflow.obj");
         airVentShape = loadShape("textured_circular_drone.obj");
         floor = new HitboxObject(this, buildingShape, 0,-9.5f,0,0);
-        floor.setHWD(20,6000,6000);
-        floor.setSolid(false);
-        floor.setCollisionsEnabled(false);
+        floorImage = loadImage("Junction.png");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
@@ -275,11 +287,13 @@ public class GameSketch extends PApplet{
         drone.move(droneLeftRight, droneUpDown, droneForwardBack);
         setCamera(scale);
 
+        // Floor
         pushMatrix();
-        rotateX(PI/2);
-        fill(200);
-        rect(floor.coords.x - floor.getW()/2, floor.coords.z - floor.getD()/2, floor.getW(), floor.getD());
-        noFill();
+        noLights();
+        translate(floor.getW()/2, 0, -floor.getD()/2);
+        rotateZ(PI/2);
+        renderFloor(floor.getW(), floor.getD(), floorImage);
+        lights();
         popMatrix();
 
         gameObjects.drawNonDroneGameObjects3D();
@@ -390,6 +404,8 @@ public class GameSketch extends PApplet{
         float droneLeftRight = movingObject.getX(movingObject.getPos());
         float droneForwardBack = movingObject.getY(movingObject.getPos());
         float droneUpDown = movingObject.getZ(movingObject.getPos());
+
+        image(floorImage, 0, 0);
 
         draw3d(droneLeftRight, droneUpDown, droneForwardBack);
 
@@ -519,4 +535,10 @@ public class GameSketch extends PApplet{
     public PShape getSkyscraperShape() { return skyscraperShape; }
 
     public PShape getApartmentsShape() { return apartmentsShape; }
+
+    public PImage getFloorImage() { return floorImage; }
+
+    public void setFloorImage(PImage image) { floorImage = image; }
+
+    public void resizeFloor(int x, int z) { floor.setHWD(20, x, z); }
 }

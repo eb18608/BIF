@@ -8,13 +8,15 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 public class ApartmentsObject extends GameObject {
+    float rotation;
 
     public ApartmentsObject(GameSketch sketch, PShape body, float x, float y, float z,
-                            float scale, int id) {
+                            float scale, float roty, int id) {
         super(sketch, body, x, y, z, id);
         h = 1320 * scale;
         w = 2810 * scale;
         d = 1290 * scale;
+        rotation = roty;
         // Lower Body
         createHitbox(x, 295, z, 590, 2475, 1125);
         // Platform
@@ -79,6 +81,7 @@ public class ApartmentsObject extends GameObject {
     public void draw3D() {
         sketch.pushMatrix();
         sketch.translate(getCoords().x, getCoords().y - getH()/2 - 580, getCoords().z);
+        sketch.rotateY(rotation);
         sketch.shape(body);
         sketch.popMatrix();
     }
