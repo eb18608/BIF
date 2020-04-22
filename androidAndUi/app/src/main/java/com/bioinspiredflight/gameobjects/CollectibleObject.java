@@ -10,15 +10,16 @@ import processing.core.PVector;
 
 public class CollectibleObject extends ObjectiveObject {
     boolean visible;
+    float rotation;
 
-    public CollectibleObject(GameSketch sketch, PShape body, float x, float y, float z,
-                      float scale, int id) {
+    public CollectibleObject(GameSketch sketch, PShape body, float x, float y, float z, float scale, float roty, int id) {
         super(sketch, body, x, y, z, scale, id);
         h = 6 * scale;
         w = 50 * scale;
         d = 25 * scale;
         visible = true;
         this.setSolid(false);
+        rotation = roty;
     }
 
     public PVector getCoords(){
@@ -45,6 +46,7 @@ public class CollectibleObject extends ObjectiveObject {
         if ( this.isVisible() ) {
             sketch.pushMatrix();
             sketch.translate(getCoords().x, getCoords().y, getCoords().z);
+            sketch.rotateY(rotation);
             sketch.shape(body);
             sketch.popMatrix();
         }

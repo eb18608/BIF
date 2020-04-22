@@ -11,6 +11,7 @@ public class HitboxObject extends GameObject {
     public PVector coords;  //keeping this public for optimization reasons
     GameSketch sketch;
     float h, w, d;
+    float roty;
     int id;
 
     public HitboxObject(GameSketch sketch, PShape body, float x, float y, float z, int id){
@@ -18,6 +19,7 @@ public class HitboxObject extends GameObject {
         this.sketch = sketch;
         this.coords = new PVector(x, y, z);
         this.id = id;
+        this.roty = roty;
     }
 
     public void setHWD(float hei, float wid, float dep) {
@@ -44,12 +46,6 @@ public class HitboxObject extends GameObject {
 
     @Override
     public void draw3D() {
-        sketch.pushMatrix();
-        sketch.translate(this.coords.x - getW()/2,  this.coords.y - getH()/2,  this.coords.z - getD()/2);
-        sketch.tint(255, 100);
-        sketch.renderBuilding(this.getW(), this.getH(), this.getD());
-        sketch.noTint();
-        sketch.popMatrix();
     }
 
     @Override
