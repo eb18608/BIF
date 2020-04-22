@@ -11,14 +11,15 @@ import processing.core.PVector;
 
 public class CollectionPointObject extends ObjectiveObject {
     PImage icon;
+    float rotation;
 
-    public CollectionPointObject(GameSketch sketch, PShape body, float x, float y, float z,
-                         float scale, int id) {
+    public CollectionPointObject(GameSketch sketch, PShape body, float x, float y, float z, float scale, float roty, int id) {
         super(sketch, body, x, y, z, scale, id);
         h = 266 * scale;
         w = 100* scale;
         d = 100 * scale;
         icon = sketch.loadImage("CollectionPointIcon.png");
+        rotation = roty;
     }
 
     public PVector getCoords(){
@@ -41,6 +42,7 @@ public class CollectionPointObject extends ObjectiveObject {
     public void draw3D() {
         sketch.pushMatrix();
         sketch.translate(getCoords().x, getCoords().y, getCoords().z);
+        sketch.rotateY(rotation);
         sketch.shape(body);
         sketch.popMatrix();
     }

@@ -32,11 +32,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
+import processing.core.PImage;
+
 public class LevelHandler {
 
     private Activity activity;
     private boolean isTimed;
     private long timeLimitSeconds;
+    private int floorW, floorD;
+    private String floorImageFilepath;
     //private ArrayList<> objectivesAccomplished; ObjectiveObjects list here
 
     public LevelHandler(Activity activity){
@@ -100,11 +104,11 @@ public class LevelHandler {
         } else if (key.startsWith("collection")){
             id = Integer.parseInt(key.replace("collection", ""));
             gameObject =
-                    new CollectionPointObject(sketch, sketch.getCollectionPointShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+                    new CollectionPointObject(sketch, sketch.getCollectionPointShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id);
         } else if (key.startsWith("collectible")){
             id = Integer.parseInt(key.replace("collectible", ""));
             gameObject =
-                    new CollectibleObject(sketch, sketch.getCollectibleShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+                    new CollectibleObject(sketch, sketch.getCollectibleShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id);
         } else if (key.startsWith("airvent")){
             id = Integer.parseInt(key.replace("airvent", ""));
             gameObject =
@@ -159,6 +163,10 @@ public class LevelHandler {
                 } else if (record.get(0).equals("timer")){
                     isTimed = true;
                     timeLimitSeconds = Long.parseLong(record.get(1));
+                } else if (record.get(0).equals("levelspecs")) {
+                    floorImageFilepath = record.get(1);
+                    floorW = Integer.parseInt(record.get(2));
+                    floorD = Integer.parseInt(record.get(3));
                 }
             }
             parser.close();
@@ -217,5 +225,9 @@ public class LevelHandler {
             return Optional.empty();
         }
     }
+
+    public int getFloorW() { return floorW; }
+    public int getFloorD() { return floorD; }
+    public String getFloorImageFilepath() { return floorImageFilepath; }
 
 }

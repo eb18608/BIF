@@ -170,6 +170,7 @@ public class GameSketch extends PApplet{
     }
 
     public void startLevel(String level){
+        setupCompleted = false;
         levelHandler.changeLevel(this, gameObjects, level);
         drone = gameObjects.getDrone();
         movingObject.setMovementSize(drone);
@@ -194,7 +195,9 @@ public class GameSketch extends PApplet{
             sky = loadImage("sky.png");
         }
         sky.resize(width, height);
-        resizeFloor(8000, 8000);
+        resizeFloor(levelHandler.getFloorW(), levelHandler.getFloorD());
+        floorImage = loadImage(levelHandler.getFloorImageFilepath());
+        setupCompleted = true;
     }
 
     // Loop through the acc values for the last 10 frames.
@@ -269,7 +272,6 @@ public class GameSketch extends PApplet{
         airStreamShape = loadShape("airflow.obj");
         airVentShape = loadShape("textured_circular_drone.obj");
         floor = new HitboxObject(this, buildingShape, 0,-9.5f,0,0);
-        floorImage = loadImage("Junction.png");
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
