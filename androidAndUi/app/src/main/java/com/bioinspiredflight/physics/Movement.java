@@ -326,17 +326,21 @@ public class Movement {
         droneCentre.x = drone.getX(pos);
         droneCentre.y = drone.getY(pos);
 
+
         //Assign Object's centre:
         objectCentre.x = object2.getCoords().x;
         objectCentre.y = object2.getCoords().z;
+
 
         //Set object's bounds:
         objectBounds.x = object2.getW()/2;
         objectBounds.y = object2.getD()/2;
 
+
         //Get difference vector (of centre's)
         centreDifference.x = droneCentre.x - objectCentre.x;
         centreDifference.y = droneCentre.y - objectCentre.y;
+        System.out.println(centreDifference);
 
         //Set clamped value
         clampedDifference.x = clamp(centreDifference.x, -1*objectBounds.x, objectBounds.x);

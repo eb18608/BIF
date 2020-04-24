@@ -26,6 +26,7 @@ public class DroneObject extends GameObject {
     float flipRotation;
     ArrayList<PShape> sensorBodies = new ArrayList<>();
 
+    // Game instantiator
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
                        final float s, int id) {
         super(sketch, body, x, y, z, id);
@@ -42,6 +43,13 @@ public class DroneObject extends GameObject {
             PShape tempBody = sketch.loadShape(sensor.getBodyfilePath());
             sensorBodies.add(tempBody);
         }
+    }
+    //Testing contructor
+    public DroneObject(float x, float y, float z, final float s, int id){
+        super(x, y, z, id);
+        h = 23 * s;
+        di = 105 * s;
+        scale = s;
     }
 
     private PShape loadPropeller(float scale) {

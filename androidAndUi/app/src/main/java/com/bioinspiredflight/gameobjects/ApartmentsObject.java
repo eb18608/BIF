@@ -60,6 +60,16 @@ public class ApartmentsObject extends GameObject {
         hb.setHWD(h, w, d);
         sketch.gameObjects.add(hb);
     }
+    //Test Instantiator
+    public ApartmentsObject(float x, float y, float z, float scale, float rot, int id){
+        super( x, y, z, id);
+        h = 1320 * scale;
+        w = 2810 * scale;
+        d = 1290 * scale;
+
+        rotation = rot;
+
+    }
 
     public PVector getCoords(){
         return this.coords;

@@ -15,6 +15,14 @@ public abstract class GameObject implements Interactable{
     private boolean collisionsEnabled;
     private boolean isSolid;
 
+    //Constructor for tests (only need position and scales
+    public GameObject(float x, float y, float z, int id){
+        this.coords = new PVector( x, y, z);
+        this.id = id;
+        this.collisionsEnabled = true;
+        this. isSolid = true;
+    }
+
     public GameObject(GameSketch sketch, PShape body, float x, float y, float z, int id){
         this.sketch = sketch;
         this.body = body;
