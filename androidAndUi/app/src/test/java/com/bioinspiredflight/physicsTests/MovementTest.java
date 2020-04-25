@@ -156,7 +156,6 @@ public class MovementTest {
         ApartmentsObject obj = new ApartmentsObject(4000f, 660f, 4000f, 1, 1, 1);
 
 
-        System.out.println(movement.collisionDetectorXY(movement, obj));
         movement.isCollision(movement, obj);
         //        System.out.println(movement.collided);
         assertTrue(movement.collided);

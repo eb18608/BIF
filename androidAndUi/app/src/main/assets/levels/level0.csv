@@ -1,5 +1,8 @@
-levelspecs,"Junction.png",8000,8000
-drone0,0,100,0,0,1,0,0
+levelspecs,"Roundabout.png",12500,9375
+drone0,-1500,400,-1500,0,1,0,0
 airvent0,600,10,600,0,1,0,0
-airstream0,1000,4000,300,1,1,0,0
-skyscraper0,-1000,2020,-1000,0,1,0,0
+airstream0,600,4000,600,1,1,0,0
+skyscraper0,1650,2020,-3200,0,1,0,0
+apartments0,2170,1220,1500,1.5707,1,1,0
+
+

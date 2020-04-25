@@ -340,7 +340,6 @@ public class Movement {
         //Get difference vector (of centre's)
         centreDifference.x = droneCentre.x - objectCentre.x;
         centreDifference.y = droneCentre.y - objectCentre.y;
-        System.out.println(centreDifference);
 
         //Set clamped value
         clampedDifference.x = clamp(centreDifference.x, -1*objectBounds.x, objectBounds.x);
