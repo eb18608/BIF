@@ -191,6 +191,8 @@ public class DroneObject extends GameObject {
         sketch.shape(propellerBR);
         sketch.popMatrix();
 
+        System.out.println(coords);
+
         sketch.popMatrix();
     }
 

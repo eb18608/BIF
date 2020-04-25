@@ -14,9 +14,9 @@ public class AirStreamObject extends GameObject {
     public AirStreamObject(GameSketch sketch, PShape body, float x, float y, float z,
                            float scale, float dirY, int id, float dirX, float dirZ) {
         super(sketch, body, x, y, z, id);
-        h = 532 * scale;
-        w = 100 * scale;
-        d = 100 * scale;
+        h = 2000 * scale;
+        w = 200 * scale;
+        d = 200 * scale;
         direction.y = dirY;
         direction.x = dirX;
         direction.z = dirZ;
