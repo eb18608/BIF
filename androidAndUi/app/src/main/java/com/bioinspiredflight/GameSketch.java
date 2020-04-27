@@ -271,6 +271,8 @@ public class GameSketch extends PApplet{
         airStreamShape = loadShape("airflow.obj");
         airVentShape = loadShape("textured_circular_drone.obj");
         floor = new HitboxObject(this, buildingShape, 0,-9.5f,0,0);
+        floor.setSolid(false);
+        floor.setCollisionsEnabled(false);
         textureMode(NORMAL);
         texture = loadImage("SkyscraperFront.png");
         droneIcon = loadImage("DroneIcon.png");
