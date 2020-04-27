@@ -168,7 +168,7 @@ public class Movement {
 
     public PVector forceApplied(PVector currentAcc, PVector inputForce, float mass, float frametime) {
         float gravity = 0;
-        float scale = 9000;
+        float scale = 10000;
         PVector newAcc = new PVector(0.0f, 0.0f, 0.0f);
         if (gravityOn) {
             newAcc.x = ((frametime * scale * inputForce.x)) / mass;
@@ -187,7 +187,7 @@ public class Movement {
 
     public PVector calcVel(PVector currentVel, PVector accVector, float frametime) {
         PVector newVel = new PVector();
-        float gravity = 6f;
+        float gravity = 10f;
         newVel.x = (currentVel.x + (frametime * accVector.x));
         newVel.y = (currentVel.y + (frametime * accVector.y));
         newVel.z = (currentVel.z + (frametime * accVector.z));
