@@ -76,7 +76,7 @@ public class LevelHandler {
         if (key.startsWith("drone")){
             id = Integer.parseInt(key.replace("drone", ""));
             gameObject =
-                    new DroneObject(sketch, sketch.getDroneBodyShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), id);
+                    new DroneObject(sketch, sketch.getDroneBodyShape(), data.getX(), data.getY(), data.getZ(), data.getScale(), data.getRotation(), id);
         } else if (key.startsWith("building")){
             id = Integer.parseInt(key.replace("building", ""));
             gameObject =

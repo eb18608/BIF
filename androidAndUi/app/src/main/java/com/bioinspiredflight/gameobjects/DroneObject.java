@@ -28,7 +28,7 @@ public class DroneObject extends GameObject {
 
     // Game instantiator
     public DroneObject(GameSketch sketch, PShape body, float x, float y, float z,
-                       final float s, int id) {
+                       final float s, float roty, int id) {
         super(sketch, body, x, y, z, id);
         h =  23 * s;
         di = 105 * s;
@@ -38,7 +38,7 @@ public class DroneObject extends GameObject {
         propellerFR = loadPropeller(scale);
         propellerBL = loadPropeller(scale);
         propellerBR = loadPropeller(scale);
-
+        sketch.setRotation(roty);
         for (SensorContent.SensorItem sensor : SensorContent.ITEMS) {
             PShape tempBody = sketch.loadShape(sensor.getBodyfilePath());
             sensorBodies.add(tempBody);

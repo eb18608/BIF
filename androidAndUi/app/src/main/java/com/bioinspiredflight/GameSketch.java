@@ -180,7 +180,6 @@ public class GameSketch extends PApplet{
         startPos.z = temp;
         movingObject.setPos(startPos);
         movingObject.setVel(new PVector(0,0,0));
-        rotation = 0;
         drone.setInputToOutput(io);
         obs.updateUINewLevel();
         currentLoopID = 0;
@@ -538,4 +537,6 @@ public class GameSketch extends PApplet{
     public void setFloorImage(PImage image) { floorImage = image; }
 
     public void resizeFloor(int x, int z) { floor.setHWD(20, x, z); }
+
+    public void setRotation(float rot) { rotation = rot; }
 }
