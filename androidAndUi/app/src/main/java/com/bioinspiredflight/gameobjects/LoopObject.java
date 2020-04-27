@@ -78,7 +78,7 @@ public class LoopObject extends ObjectiveObject {
             sketch.popMatrix();
 
             if (!this.getStatus() && this.getID() != 0) {
-                colour[1] -= 0.2;
+                colour[1] -= 0.25f;
             }
         }
     }

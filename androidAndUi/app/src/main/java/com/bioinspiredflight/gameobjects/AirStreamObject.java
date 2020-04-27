@@ -11,6 +11,7 @@ import processing.core.PVector;
 public class AirStreamObject extends GameObject {
     PVector direction = new PVector();
     float strength = 1.5f;
+    float rotation = 0.1f;
     public AirStreamObject(GameSketch sketch, PShape body, float x, float y, float z,
                            float scale, float dirY, int id, float dirX, float dirZ) {
         super(sketch, body, x, y, z, id);
@@ -43,7 +44,9 @@ public class AirStreamObject extends GameObject {
         if (SensorContent.ITEMS.get(0).isEquipped()) {
             sketch.pushMatrix();
             sketch.translate(getCoords().x, getCoords().y, getCoords().z);
+            sketch.rotateY(rotation);
             sketch.shape(body);
+            rotation += 0.1f;
             sketch.popMatrix();
         }
 
