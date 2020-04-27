@@ -368,7 +368,7 @@ public class GameSketch extends PApplet{
             pushMatrix();
             rotate(-rotation);
             pushMatrix();
-            translate(-drone.coords.x / 10, drone.coords.z / 10);
+            translate(-drone.coords.x / 20, drone.coords.z / 20);
 
             gameObjects.drawAllGameObjects2D();
             popMatrix();

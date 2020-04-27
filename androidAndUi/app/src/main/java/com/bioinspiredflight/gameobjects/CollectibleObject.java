@@ -54,9 +54,9 @@ public class CollectibleObject extends ObjectiveObject {
 
     @Override
     public void draw2D() {
-        if ((sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500) && this.isVisible() && SensorContent.ITEMS.get(4).isEquipped()) {
+        if ((sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 3000) && this.isVisible() && SensorContent.ITEMS.get(4).isEquipped()) {
             sketch.pushMatrix();
-            sketch.translate(this.getCoords().x/10, -this.getCoords().z/10);
+            sketch.translate(this.getCoords().x/20, -this.getCoords().z/20);
             sketch.fill(sketch.color(0, 200, 200, 100));
             sketch.circle(0, 0, this.getW()/5);
             sketch.popMatrix();

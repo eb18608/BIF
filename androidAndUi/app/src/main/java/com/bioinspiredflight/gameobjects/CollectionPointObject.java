@@ -49,9 +49,9 @@ public class CollectionPointObject extends ObjectiveObject {
 
     @Override
     public void draw2D() {
-        if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 1500 && SensorContent.ITEMS.get(10).isEquipped()) {
+        if (sketch.distanceToDrone(this) + sketch.avg(this.getW()/2, this.getD()/2) < 3000 && SensorContent.ITEMS.get(10).isEquipped()) {
             sketch.pushMatrix();
-            sketch.translate(this.getCoords().x/10 - this.getW()/20, -this.getCoords().z/10 - this.getD()/20);
+            sketch.translate(this.getCoords().x/20 - this.getW()/20, -this.getCoords().z/20 - this.getD()/20);
             sketch.image(icon, 0, 0, this.getW()/10, this.getD()/10);
             sketch.popMatrix();
         }
