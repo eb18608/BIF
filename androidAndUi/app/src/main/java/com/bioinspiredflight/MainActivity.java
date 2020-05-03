@@ -1,10 +1,14 @@
 package com.bioinspiredflight;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
@@ -12,6 +16,7 @@ import android.content.Intent;
 import com.bioinspiredflight.sensor.SensorContent;
 import com.bioinspiredflight.sensor.SensorListActivity;
 import com.bioinspiredflight.utilities.AchievementsFileHandler;
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 
 import java.io.File;
 import java.util.TreeMap;
@@ -59,6 +64,22 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("settingsButton", "Pressed!");
                 Intent settings = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(settings);
+            }
+        });
+        Button aboutButton = findViewById(R.id.aboutButton);
+        final Context context = this;
+        aboutButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Log.i("aboutButton", "Pressed!");
+                WebView view = (WebView) LayoutInflater.from(context).inflate(R.layout.dialog_licenses, null);
+                view.loadUrl("file:///android_asset/licenses.html");
+                AlertDialog mAlertDialog = new AlertDialog.Builder(context, R.style.Theme_AppCompat_Light_Dialog_Alert)
+                        .setTitle(getString(R.string.title_licenses))
+                        .setView(view)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show();
             }
         });
         boolean fileAlreadyExists =
