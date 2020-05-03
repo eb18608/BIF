@@ -61,7 +61,7 @@
         android:layout_width="291dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
-        android:text="About"
+        android:text="Open Source Notice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
 
