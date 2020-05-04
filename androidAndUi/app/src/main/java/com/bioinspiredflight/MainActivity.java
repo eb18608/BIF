@@ -86,22 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(settings);
             }
         });
-        Button aboutButton = findViewById(R.id.aboutButton);
-        final Context context = this;
-        aboutButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Log.i("aboutButton", "Pressed!");
-                WebView view = (WebView) LayoutInflater.from(context).inflate(R.layout.dialog_licenses, null);
-                view.loadUrl("file:///android_asset/licenses.html");
-                AlertDialog mAlertDialog = new AlertDialog.Builder(context, R.style.Theme_AppCompat_Light_Dialog_Alert)
-                        .setTitle(getString(R.string.title_licenses))
-                        .setView(view)
-                        .setPositiveButton(android.R.string.ok, null)
-                        .show();
-            }
-        });
         boolean fileAlreadyExists =
                 AchievementsFileHandler.checkIfFileExists(getApplicationContext(), achievementsFileName);
         if (!fileAlreadyExists){

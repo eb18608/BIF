@@ -20,19 +20,32 @@
 
 package com.bioinspiredflight;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
+
+import static android.widget.Toast.LENGTH_SHORT;
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -51,19 +64,31 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.yourentry, menu);
-        return true;
-    }*/
-
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
+        //Preference openSourceNotice = findPreference("open_source_notice");
+
+        @Override
+        public boolean onPreferenceTreeClick(Preference preference) {
+            if (preference.getKey().equals("open_source_notice")){
+                WebView view = (WebView) LayoutInflater.from(getContext()).inflate(R.layout.dialog_licenses, null);
+                view.loadUrl("file:///android_asset/licenses.html");
+                AlertDialog mAlertDialog = new AlertDialog.Builder(getContext(), R.style.Theme_AppCompat_Light_Dialog_Alert)
+                        .setTitle(getString(R.string.title_licenses))
+                        .setView(view)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show();
+            }
+            return true;
+        }
+    }
+
+    public void showOpenSourceNotice(){
+        //Log.i("aboutButton", "Pressed!");
+
     }
 
     @Override
