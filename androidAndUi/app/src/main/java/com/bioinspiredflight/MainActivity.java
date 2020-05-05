@@ -102,11 +102,9 @@ public class MainActivity extends AppCompatActivity {
         new File(getApplicationContext().getFilesDir(), achievementsFileName).delete();
         TreeMap<String, String> achievementsTable = new TreeMap<>();
         achievementsTable.put("Achievements", "Status");
-        achievementsTable.put("Lorem ipsum", "...");
-        achievementsTable.put("Say Coloradooooo", "I'M A GIRAFFE");
-        achievementsTable.put(
-                "They are rage. Brutal and without mercy. But you...you will be worse.",
-                "Rip and tear until it is DONE.");
+        achievementsTable.put("Complete the letter collection in under a minute.", "Complete");
+        achievementsTable.put("Finish a level with less at least 3 fuel left.", "Incomplete");
+        achievementsTable.put("Description here.", "Complete/Incomplete");
         System.out.printf("Size: %d\n", achievementsTable.entrySet().size());
         return achievementsTable;
     }
