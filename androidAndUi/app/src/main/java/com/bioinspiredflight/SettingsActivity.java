@@ -60,7 +60,6 @@ public class SettingsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            //actionBar.setHomeButtonEnabled(true);
         }
     }
 
@@ -69,7 +68,6 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
-        //Preference openSourceNotice = findPreference("open_source_notice");
 
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
@@ -84,11 +82,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
             return true;
         }
-    }
-
-    public void showOpenSourceNotice(){
-        //Log.i("aboutButton", "Pressed!");
-
     }
 
     @Override

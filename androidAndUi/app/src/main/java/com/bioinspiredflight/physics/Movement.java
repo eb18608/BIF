@@ -113,45 +113,6 @@ public class Movement {
         this.inStream = inStream;
     }
 
-//    //Get the individual components of the position vector to do math on them
-//    public double getPosX() {
-//        return pos.x;
-//    }
-//
-//    public double getPosZ() {
-//        return pos.z;
-//    }
-//
-//    public double getPosY() {
-//        return pos.y;
-//    }
-//
-//    //Get the individual components of the velocity vector to do math on them
-//    public double getVelX() {
-//        return vel.x;
-//    }
-//
-//    public double getVelZ() {
-//        return vel.z;
-//    }
-//
-//    public double getVelY() {
-//        return vel.y;
-//    }
-//
-//    //Get the individual components of the acceleration vector to do math on them
-//    public double getAccX() {
-//        return acc.x;
-//    }
-//
-//    public double getAccZ() {
-//        return acc.z;
-//    }
-//
-//    public double getAccY() {
-//        return acc.y;
-//    }
-
     //Set the values for pos, vel, acc
     public PVector getAcc() {
         return acc;

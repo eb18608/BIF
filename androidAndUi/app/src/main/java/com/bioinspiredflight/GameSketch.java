@@ -407,10 +407,12 @@ public class GameSketch extends PApplet{
     }
 
     public void draw() {
-        //if (gamePaused || !setupCompleted) { return; }
         if (!setupCompleted) { return; }
+
+        // Populate list of colliding objects
         gameObjects.checkForCollisions(movingObject, collidingObjects);
 
+        // For each object colliding with the drone, call its collide function
         for (GameObject object : collidingObjects){
             collideMod.accept(visitor, movingObject, this, object);
         }
