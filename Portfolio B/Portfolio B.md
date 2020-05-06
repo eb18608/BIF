@@ -170,3 +170,7 @@ Heuristics decided collaboratively between our development team and client would
 # Client Documentation
 ## Liscence Documentation
 ## Instruction Manual
+![](usermanual(0).png)
+![](usermanual(1).png)
+![](usermanual(2).png)
+![](usermanual(3).png)
