@@ -171,47 +171,38 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
         return result;
     }
 
+    public void updateJoystick(float x, float y){
+        drawJoystick(x, y);
+        if (listener != null){
+            listener.onJoystickMoved(
+                    (x - centerX) / baseRadius,
+                    (y - centerY) / baseRadius,
+                    getId()
+            );
+        }
+    }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        //return false;
-        //System.out.println("joy");
-        //if (v.equals(this)){
-
             float displacement = (float)
                     Math.sqrt(Math.pow(event.getX() - centerX, 2)
                             + Math.pow(event.getY() - centerY, 2));
             if (displacement < baseRadius){
                 usingJoystick = true;
             }
-            //Log.i("Screen", "Responding...");
             if (event.getAction() != MotionEvent.ACTION_UP && usingJoystick){
                 if (displacement < baseRadius){
-                    drawJoystick(event.getX(), event.getY());
-                    if (listener != null){
-                        listener.onJoystickMoved(
-                                (event.getX() - centerX) / baseRadius,
-                                (event.getY() - centerY) / baseRadius,
-                                getId()
-                        );
-                    }
+                    updateJoystick(event.getX(), event.getY());
                 } else {
                     float ratio = baseRadius/displacement;
                     float constrainedX =
                             centerX + (event.getX() - centerX) * ratio;
                     float constrainedY =
                             centerY + (event.getY() - centerY) * ratio;
-                    drawJoystick(constrainedX, constrainedY);
-                    if (listener != null){
-                        listener.onJoystickMoved(
-                                (constrainedX - centerX) / baseRadius,
-                                (constrainedY - centerY) / baseRadius,
-                                getId()
-                        );
-                    }
+                    updateJoystick(constrainedX, constrainedY);
                 }
                 Log.i("Joystick", "Touched!");
             } else {
-                //Log.i("Joystick", "Released!");
                 usingJoystick = false;
                 joystickOutOfPlace = true;
             }
@@ -219,7 +210,6 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
                 drawJoystick(centerX, centerY);
                 joystickOutOfPlace = false;
             }
-        //}
         return true;
     }
 

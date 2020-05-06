@@ -92,17 +92,13 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (v.equals(this)){
-            //...
             if (event.getPointerCount() > 1){
-                //System.out.println("aituy");
                 int pointerId0 = event.getPointerId(0);
                 int pointerId1 = event.getPointerId(1);
                 MotionEvent.PointerCoords coords1 = new MotionEvent.PointerCoords();
                 MotionEvent.PointerCoords coords2 = new MotionEvent.PointerCoords();
                 event.getPointerCoords(event.findPointerIndex(pointerId0), coords1);
-                //System.out.printf("%.3f, %.3f\n", coords1.x, coords1.y);
                 event.getPointerCoords(event.findPointerIndex(pointerId1), coords2);
-                //System.out.printf("%.3f, %.3f\n", coords2.x, coords2.y);
                 updateUi((int) coords1.x, (int) coords1.y, v, event);
                 updateUi((int) coords2.x, (int) coords2.y, v, event);
                 if (event.getActionMasked() == MotionEvent.ACTION_POINTER_UP
@@ -121,8 +117,6 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                     }
                 }
             } else {
-                //System.out.println("...");
-                //moveJoystick(event.getX(), event.getY());
                 updateUi((int) event.getX(), (int) event.getY(), v, event);
                 if (event.getAction() == MotionEvent.ACTION_UP){
                     resetJoystick(event.getX(), event.getY(), true);
@@ -137,7 +131,6 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
     // Only call this on ACTION_POINTER_UP or ACTION_UP
     private void resetJoystick(float x, float y, boolean ignoreConstraints){
-        //System.out.println("reset");
         if (x > getWidth() / 2 || ignoreConstraints){
             joystick.drawJoystick(joystick.getCenterX(), joystick.getCenterY());
             joystick.setUsingJoystick(false);
@@ -162,10 +155,8 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
     private void updateUi(int x, int y, View v, MotionEvent event){
         if (x > getWidth() / 2){
-            //joystick.onTouch(v, event);
             moveJoystick(x, y);
         } else {
-            //slider.onTouch(v, event);
             moveSlider(x, y);
         }
     }
@@ -178,7 +169,6 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
             io.setUsingJoystick(true);
             joystick.setUsingJoystick(true);
         }
-        //Log.i("Screen", "Responding...");
         if (joystick.isUsingJoystick()){
             if (joystick.withinBounds(x, y)){
                 joystick.drawJoystick(x, y);
@@ -190,7 +180,6 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                             getId()
                     );
                 }
-                //Log.i("Joystick", "Touched!");
             } else {
                 float displacement = (float)
                         Math.sqrt(Math.pow(x - centerX, 2)
@@ -209,7 +198,6 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                             getId()
                     );
                 }
-                //Log.i("Joystick", "Out of bounds!");
             }
 
         } else {
@@ -230,19 +218,14 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
         float centerY = slider.getCenterY();
         float verticalHeightFromCenter = slider.getVerticalSliderHeightFromCenter();
         float horizontalWidthFromCenter = slider.getHorizontalSliderWidthFromCenter();
-        //float displacementX = x - centerX;
         float displacementY = centerY - y;
         float displacementX = centerX - x;
-        //System.out.println(slider.isUsingSlider());
         if (slider.isUsingSlider()) {
-            //System.out.println("Touching slider");
             if (displacementY >= -verticalHeightFromCenter
                     && displacementY <= verticalHeightFromCenter
                     && displacementX >= -horizontalWidthFromCenter
                     && displacementX <= horizontalWidthFromCenter){
                 slider.drawSlider(x, y);
-                //return true;
-                //System.out.printf("X: %.3f, Y: %.3f\n", displacementX, displacementY);
                 if (io != null){
                     io.onSliderMoved(
                             displacementY / verticalHeightFromCenter,
@@ -266,11 +249,8 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
                     constrainedX = centerX - horizontalWidthFromCenter;
                 } else {
                     constrainedX = x;
-                    //System.out.println("lol");
                 }
                 slider.drawSlider(constrainedX, constrainedY);
-                //System.out.printf("X: %.3f, Y: %.3f\n", constrainedX, constrainedY);
-                //System.out.printf("CenterX: %.3f, Width: %.3f\n", centerX, horizontalWidthFromCenter);
                 if (io != null){
                     io.onSliderMoved(
                             (centerY - constrainedY) / verticalHeightFromCenter,
@@ -283,7 +263,6 @@ public class UiSurfaceView extends SurfaceView implements SurfaceHolder.Callback
             slider.setUsingSlider(false);
             io.setUsingSlider(false);
             slider.drawSlider(centerX, centerY + slider.getVerticalSliderHeightFromCenter());
-            //System.out.println("Released slider");
         }
     }
 

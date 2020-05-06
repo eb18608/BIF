@@ -42,7 +42,6 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 /**
- * This is a placeholder class for Processing code.
  * The game is going to run from here.
  */
 public class GameSketch extends PApplet{
@@ -108,7 +107,6 @@ public class GameSketch extends PApplet{
     ArrayList<PVector> prevAccs = new ArrayList<>();
     private boolean gamePaused;
     boolean setupCompleted;
-    private int framesPassed;
     private boolean timerStarted = false;
     int maxFuel = 1275;
     int fuelLevel = maxFuel;
@@ -204,7 +202,6 @@ public class GameSketch extends PApplet{
         obs.updateUINewLevel();
         currentLoopID = 0;
         collectiblesHeld = 0;
-        framesPassed = 0;
         timerStarted = false;
         fuelLevel = maxFuel;
         gameObjects.add(floor);
@@ -418,7 +415,6 @@ public class GameSketch extends PApplet{
         }
 
         if(movingObject.collided == true){
-            //collideMod.accept(visitor, movingObject, this, gameObjects.get(i));
             movingObject.collided = false;
         } else {
             setLastPosition(movingObject.getPos());
@@ -456,9 +452,7 @@ public class GameSketch extends PApplet{
             }
         }
         if (timerStarted){
-            framesPassed++;
             obs.updateUiTimer();
-            framesPassed = 0;
         }
     }
 

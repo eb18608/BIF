@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         boolean fileAlreadyExists =
                 AchievementsFileHandler.checkIfFileExists(getApplicationContext(), achievementsFileName);
         if (!fileAlreadyExists){
-            //Toast.makeText(this, "Creating new achievements file", Toast.LENGTH_SHORT).show();
             TreeMap<String, String> achievementsTable = createNewAchievementsTable();
             AchievementsFileHandler.writeFile(
                     getApplicationContext(),

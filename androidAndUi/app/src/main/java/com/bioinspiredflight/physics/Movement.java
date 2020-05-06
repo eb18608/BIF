@@ -335,50 +335,6 @@ public class Movement {
 
         boolean overlap = lengthOfVector(centreDifference) <= radius;
         return overlap;
-
-
-////      println("Called XY Overlap checker");
-//
-//        //Declaring lots of vectors
-//        //Centre
-//        Vector2d droneCentre = new Vector2d();
-//        Vector2d object2Centre = new Vector2d();
-//        //Difference and Clamp is where we will measure closeness
-//        Vector2d difference = new Vector2d();
-//        Vector2d clampX = new Vector2d();
-//        Vector2d clampY = new Vector2d();
-//
-//        Vector2d closestPoint = new Vector2d();
-//        //Bound of the box
-//        Vector2d object2Bound = new Vector2d();
-//
-//        //Set droneCentre (position of drone)
-//        droneCentre.x = drone.pos.x;
-//        droneCentre.y = drone.pos.y;
-//        println("Position of Drone: " + droneCentre);
-//        println("Position of building: " + object2Centre);
-//        //Set object2's centre (position of building maybe)
-//        object2Centre.x = object2.
-//        object2Centre.y = object2.
-//        //Half-width of object (usually for building)
-//        object2Bound.x = (double)object2.getWidth()/2;
-//        object2Bound.y = (double)object2.getDepth()/2;
-//        //Difference between 2 centres of drone and object
-//        difference.x = droneCentre.x - object2Centre.x;
-//        difference.y = droneCentre.y - object2Centre.y;
-//        println("Difference in positioning: " + difference);
-//        //Difference between them but bounded by the dimensions of the object
-//        clampX.x = clamp(difference.x, object2Bound.x, (-1*object2Bound.x));
-//        clampX.y = clamp(difference.y, object2Bound.y, (-1*object2Bound.y));
-//        //Point on object 2's bound which is closest to drone
-//        closestPoint.add(object2Centre ,clampX);
-//        //Calculating displacement vector between drone and closest point
-//        difference.x = droneCentre.x - closestPoint.x;
-//        difference.y = droneCentre.y - closestPoint.y;
-//        //Absolute distance of drone to closest point
-//        double lengthOfDiff = lengthVector2d(difference);
-//
-//        return lengthOfDiff < drone.width;
     }
 
     public boolean collisionDetectorZ(Movement drone, GameObject object2){
@@ -420,10 +376,4 @@ public class Movement {
         }
     }
 
-
-
-//    public void collide(Movement drone, GameSketch.buildingObject object2){
-//        if (drone.collided == true){
-//            setVel(new Vector3d(0, 0, 0));
-//        }
 }

@@ -44,16 +44,12 @@ public class Ui {
     private GameActivity.GameSketchObserver obs;
     private PlayerControls controls;
     private GameStatus gameStatus = GameStatus.STARTUP;
-    //private final FrameLayout frame;
-    //private final AppCompatActivity gameActivity;
 
     public Ui(final GameActivity gameActivity, InputToOutput io) {
-        //layout = new TableLayout(gameActivity);
         setupWidgets(gameActivity, io);
     }
 
     public Ui(final GameActivity gameActivity, InputToOutput io, boolean sliderToggle) {
-        //layout = new TableLayout(gameActivity);
         setupWidgets(gameActivity, io);
 
     }
@@ -137,8 +133,6 @@ public class Ui {
         }
 
         public void hidePlayerControls(){
-            //testJoystick.setVisibility(View.GONE);
-            //testSlider.setVisibility(View.GONE);
             uiSurfaceView.setVisibility(View.GONE);
         }
 
@@ -311,13 +305,7 @@ public class Ui {
             returnButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*
-                    Toast.makeText(gameActivity.getApplicationContext(), "Exiting",
-                            Toast.LENGTH_SHORT)
-                            .show();*/
                     gameActivity.finish();
-                    //obs.updateGameSketch();
-
                 }
             });
             widgets.add(levelCompleteText);
@@ -335,7 +323,6 @@ public class Ui {
             pauseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(gameActivity, "Pause button pressed!", pauseButton.getId()).show();
                     boolean paused = obs.togglePauseSketch();
                     if (gameStatus == GameStatus.IN_PROGRESS){
                         if (paused){
@@ -384,21 +371,20 @@ public class Ui {
                     params.height = buttonHeight;
                     params.topMargin = topMargin + (numOfRows * buttonHeight);
                     levelButton.setLayoutParams(params);
-                    //levelButton.setHeight(metrics.widthPixels / 20);
                     levelButton.setText(item.replace(".csv", ""));
                     levelButton.setId(CompatUtils.getUniqueViewId());
+
                     levelButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //Toast.makeText(gameActivity, "Switching to " + item.replace(".csv", ""), levelButton.getId()).show();
                             hideLevelSelect();
                             gameStatus = GameStatus.LOADING;
                             resetTimer();
                             obs.updateGameSketch(item);
                         }
                     });
+
                     levelButton.setEnabled(true);
-                    //levelSelectLayout.addView(levelButton);
                     levelButton.setVisibility(View.GONE);
                     levelSelectButtonList.add(levelButton);
                     widgets.add(levelButton);
@@ -417,27 +403,22 @@ public class Ui {
                 params.height = buttonHeight;
                 params.topMargin = topMargin + (numOfRows * buttonHeight);
                 levelBackButton.setLayoutParams(params);
-                //levelButton.setHeight(metrics.widthPixels / 20);
                 levelBackButton.setText("Back");
                 levelBackButton.setTextColor(0xffff0000);
                 levelBackButton.setId(CompatUtils.getUniqueViewId());
+
                 levelBackButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Toast.makeText(gameActivity, "Switching to pause menu", backButton.getId()).show();
                         hideLevelSelect();
                         show();
-                        //pauseButton.setImageResource(android.R.drawable.ic_media_pause);
-                        //pauseButton.invalidate();
                     }
                 });
+
                 levelBackButton.setEnabled(true);
-                //levelSelectLayout.addView(levelButton);
                 levelBackButton.setVisibility(View.GONE);
                 levelSelectButtonList.add(levelBackButton);
                 widgets.add(levelBackButton);
-                //levelSelectLayout.setEnabled(true);
-                //widgets.add(levelSelectLayout);
             }
         }
 
@@ -460,11 +441,8 @@ public class Ui {
             levelBackButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(gameActivity, "Switching to pause menu", backButton.getId()).show();
                     hideLevelSelect();
                     show();
-                    //pauseButton.setImageResource(android.R.drawable.ic_media_pause);
-                    //pauseButton.invalidate();
                 }
             });
             invalidateMenu();
@@ -492,7 +470,6 @@ public class Ui {
 
         public void show(){
             if (gameStatus == GameStatus.COMPLETED || gameStatus == GameStatus.GAME_OVER){
-                //pauseButton.hide();
                 pauseButton.setEnabled(false);
                 pauseButton.setImageResource(android.R.drawable.btn_radio);
                 updateLevelCompletedText();
@@ -509,7 +486,6 @@ public class Ui {
                 pauseButton.setEnabled(true);
                 pauseButton.setImageResource(android.R.drawable.ic_media_pause);
             }
-            //pauseButton.show();
             levelCompleteText.setVisibility(View.GONE);
             newLevelButton.setVisibility(View.GONE);
             returnButton.setVisibility(View.GONE);

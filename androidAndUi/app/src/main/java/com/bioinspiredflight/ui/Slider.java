@@ -1,16 +1,17 @@
-/**The MIT License (MIT)
- *
+/**
+ * The MIT License (MIT)
+ * <p>
  * Copyright © 2020 Bio-Inspired Flight Lab, University of Bristol
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the “Software”), to deal in the Software without restriction,
  * including without limitation the rights to use, copy, modify, merge, publish, distribute,
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
  * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
@@ -115,13 +116,12 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         getHolder().addCallback(this);
         setOnTouchListener(this);
         this.setZOrderOnTop(true);
-        //this.setZOrderMediaOverlay(true);
         this.getHolder()
                 .setFormat(PixelFormat.TRANSPARENT);
         this.usingSlider = false;
     }
 
-    private void setup(){
+    private void setup() {
         float h = getHeight();
         float w = getWidth();
         length = h / 2f;
@@ -144,28 +144,26 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         horizontalBottom = (int) (centerY + horizontalSliderHeightFromCenter);
     }
 
-    public void drawSlider(float x, float y){
-        if (getHolder().getSurface().isValid()){
-            //System.out.println("...");
+    public void drawSlider(float x, float y) {
+        if (getHolder().getSurface().isValid()) {
             Canvas canvas = this.getHolder().lockCanvas();
-            Paint colors  = new Paint();
+            Paint colors = new Paint();
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             colors.setARGB(255, 50, 50, 50);
             canvas.drawRect(new Rect(verticalLeft, verticalTop, verticalRight, verticalBottom), colors);
             canvas.drawRect(new Rect(
-                    horizontalLeft,
-                    (int) (y + horizontalSliderHeightFromCenter),
-                    horizontalRight,
-                    (int) (y - horizontalSliderHeightFromCenter)),
+                            horizontalLeft,
+                            (int) (y + horizontalSliderHeightFromCenter),
+                            horizontalRight,
+                            (int) (y - horizontalSliderHeightFromCenter)),
                     colors);
-            //colors.setARGB(255, 50, 50, 50);
             colors.setARGB(255, 0, 0xdb, 0xff);
             canvas.drawCircle(x, y, sliderRadius, colors);
             getHolder().unlockCanvasAndPost(canvas);
         }
     }
 
-    public boolean withinBounds(float x, float y){
+    public boolean withinBounds(float x, float y) {
         boolean result = false;
         float displacementX = x - centerX;
         float displacementY = y - centerY;
@@ -176,7 +174,7 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         return result;
     }
 
-    public void addSliderListener(SliderListener listener){
+    public void addSliderListener(SliderListener listener) {
         this.listener = listener;
     }
 
@@ -185,29 +183,24 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
     // and NOT as a part of UiSurfaceView
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-//        System.out.println("slide");
-        //if (v.equals(this)) {
-            float displacementX = (float) event.getX() - centerX;
-            float displacementY = (float) event.getY() - centerY;
-            if (displacementX >= -horizontalSliderWidthFromCenter && displacementX <= horizontalSliderWidthFromCenter
-                    && displacementY >= -verticalSliderHeightFromCenter && displacementY <= verticalSliderHeightFromCenter) {
-                usingSlider = true;
+        float displacementX = (float) event.getX() - centerX;
+        float displacementY = (float) event.getY() - centerY;
+        if (displacementX >= -horizontalSliderWidthFromCenter && displacementX <= horizontalSliderWidthFromCenter
+                && displacementY >= -verticalSliderHeightFromCenter && displacementY <= verticalSliderHeightFromCenter) {
+            usingSlider = true;
+        }
+        if (event.getAction() != MotionEvent.ACTION_UP && usingSlider) {
+            if (displacementY >= -verticalSliderHeightFromCenter
+                    && displacementY <= verticalSliderHeightFromCenter
+                    && displacementX >= -horizontalSliderWidthFromCenter
+                    && displacementX <= horizontalSliderWidthFromCenter) {
+                drawSlider(event.getX(), event.getY());
+                return true;
             }
-            if (event.getAction() != MotionEvent.ACTION_UP && usingSlider) {
-//                System.out.println("Touching slider");
-                if (displacementY >= -verticalSliderHeightFromCenter
-                        && displacementY <= verticalSliderHeightFromCenter
-                        && displacementX >= -horizontalSliderWidthFromCenter
-                        && displacementX <= horizontalSliderWidthFromCenter){
-                    drawSlider(event.getX(), event.getY());
-                    return true;
-                }
-            } else {
-                usingSlider = false;
-                drawSlider(centerX, centerY + verticalSliderHeightFromCenter);
-//                System.out.println("Released slider");
-            }
-        //}
+        } else {
+            usingSlider = false;
+            drawSlider(centerX, centerY + verticalSliderHeightFromCenter);
+        }
         return false;
     }
 
@@ -227,7 +220,7 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
 
     }
 
-    public interface SliderListener{
+    public interface SliderListener {
         void onSliderMoved(float zPercent, float rotation, int id);
     }
 

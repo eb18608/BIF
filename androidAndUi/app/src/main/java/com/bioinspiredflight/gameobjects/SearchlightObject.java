@@ -159,7 +159,6 @@ public class SearchlightObject extends GameObject {
 
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
-        //sketch.setLastPosition(movement.getPos());
         //TODO: Game over. "You were seen!"
     }
 

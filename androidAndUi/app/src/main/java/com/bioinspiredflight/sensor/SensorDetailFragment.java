@@ -84,7 +84,7 @@ public class SensorDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.sensor_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        // Show the sensor content as text in a TextView.
         if (mItem != null) {
             String content = "";
             content += "Purpose: " + mItem.getPurpose() + "\n";

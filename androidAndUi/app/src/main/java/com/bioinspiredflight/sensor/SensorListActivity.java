@@ -54,14 +54,11 @@ import java.util.TreeMap;
  * item details side-by-side using two vertical panes.
  */
 public class SensorListActivity extends AppCompatActivity {
-
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
-    //public static TreeMap<String, Boolean> sensorsEquipped = new TreeMap<>();
-    //public static TreeMap<String, Boolean> sensorsUnlocked = new TreeMap<>();
 
     public static void updateSensorContent(Context context){
         SensorFileHandler.readSensorStatusFile(context, SensorFileHandler.sensorsUnlockedFileName);
@@ -155,7 +152,6 @@ public class SensorListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mIdView.setText(mValues.get(position).getId());
-            //holder.mContentView.setText(Boolean.toString(mValues.get(position).getStatus()));
             if (!mValues.get(position).isUnlocked()){
                 holder.mContentView.setText("Locked");
             } else if (mValues.get(position).isEquipped()){

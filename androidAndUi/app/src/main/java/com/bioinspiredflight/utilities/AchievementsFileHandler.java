@@ -42,33 +42,6 @@ import java.util.TreeMap;
 
 public abstract class AchievementsFileHandler {
 
-    public static void createTestFile(Context context){
-        File testFile = new File(context.getFilesDir(), "testing.txt");
-        try {
-            System.out.println(testFile.createNewFile());
-            FileWriter writer = new FileWriter(testFile);
-            writer.write("In the first age, in the first battle, when the shadows first lengthened,\nOne stood.\n");
-            writer.close();
-            FileInputStream inputStream = context.openFileInput("testing.txt");
-            InputStreamReader inputStreamReader = null;
-            inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-            StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(inputStreamReader);
-            String line = reader.readLine();
-            while (line != null){
-                builder.append(line).append('\n');
-                line = reader.readLine();
-            }
-            reader.close();
-            String contents = builder.toString();
-            System.out.printf(contents);
-        } catch (FileNotFoundException e){
-            System.out.println("Dude wtf");
-        } catch (IOException e){
-            System.out.println("Seriously wtf");
-        }
-    }
-
     public static TreeMap<String, String> readFile(Context context, String fileName){
         System.out.println("Reading file...");
         TreeMap<String,String> table = new TreeMap<>();
@@ -100,8 +73,6 @@ public abstract class AchievementsFileHandler {
             f.createNewFile();
             BufferedWriter writer = new BufferedWriter(new FileWriter(f));
             String str;
-            //writer.write(str);
-            //System.out.printf("Size of entry set: %d\n", table.entrySet().size());
             for (Map.Entry<String, String> entry : table.entrySet()){
                 //do stuff
                 str = entry.getKey() + "," + entry.getValue() + "\n";

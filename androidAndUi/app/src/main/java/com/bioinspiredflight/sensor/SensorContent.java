@@ -37,12 +37,12 @@ import java.util.Map;
 public class SensorContent {
 
     /**
-     * An array of sample (dummy) items.
+     * An array of sensor items.
      */
     public static final List<SensorItem> ITEMS = new ArrayList<>();
 
     /**
-     * A map of sample (dummy) items, by ID.
+     * A map of sensor items, by ID.
      */
     public static final Map<String, SensorItem> ITEM_MAP = new HashMap<>();
 
@@ -59,13 +59,8 @@ public class SensorContent {
         ITEM_MAP.put(item.getId(), item);
     }
 
-    /*
-    private static SensorItem createDummyItem(int position) {
-        return new SensorItem(String.valueOf(position), "Item " + position, makeDetails(position));
-    }*/
-
     /**
-     * A dummy item representing a piece of content.
+     * An item representing a piece of content.
      */
     public static class SensorItem {
         private final String id;
@@ -76,7 +71,6 @@ public class SensorContent {
         private final String details;
         private boolean equipped, unlocked;
         private String bodyFilePath;
-        //private Sensor sensor;
 
         public SensorItem(String id, String purpose, String inspiration,
                           double power, double weight, double price,
@@ -92,7 +86,6 @@ public class SensorContent {
             this.equipped = false;
             this.unlocked = false;
             this.bodyFilePath = bodyfilepath;
-            //this.sensor = idToSensor(this.id);
         }
 
         @Override
@@ -150,9 +143,5 @@ public class SensorContent {
 
         public String getBodyfilePath() { return bodyFilePath; }
 
-        /*public Sensor getSensor() {
-            return sensor;
-        }
-         */
     }
 }
