@@ -1,3 +1,23 @@
+/**The MIT License (MIT)
+ *
+ * Copyright © 2020 Bio-Inspired Flight Lab, University of Bristol
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ * associated documentation files (the “Software”), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+ * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package com.bioinspiredflight.ui;
 
 import android.content.Context;
@@ -151,47 +171,38 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
         return result;
     }
 
+    public void updateJoystick(float x, float y){
+        drawJoystick(x, y);
+        if (listener != null){
+            listener.onJoystickMoved(
+                    (x - centerX) / baseRadius,
+                    (y - centerY) / baseRadius,
+                    getId()
+            );
+        }
+    }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        //return false;
-        System.out.println("joy");
-        //if (v.equals(this)){
-
             float displacement = (float)
                     Math.sqrt(Math.pow(event.getX() - centerX, 2)
                             + Math.pow(event.getY() - centerY, 2));
             if (displacement < baseRadius){
                 usingJoystick = true;
             }
-            //Log.i("Screen", "Responding...");
             if (event.getAction() != MotionEvent.ACTION_UP && usingJoystick){
                 if (displacement < baseRadius){
-                    drawJoystick(event.getX(), event.getY());
-                    if (listener != null){
-                        listener.onJoystickMoved(
-                                (event.getX() - centerX) / baseRadius,
-                                (event.getY() - centerY) / baseRadius,
-                                getId()
-                        );
-                    }
+                    updateJoystick(event.getX(), event.getY());
                 } else {
                     float ratio = baseRadius/displacement;
                     float constrainedX =
                             centerX + (event.getX() - centerX) * ratio;
                     float constrainedY =
                             centerY + (event.getY() - centerY) * ratio;
-                    drawJoystick(constrainedX, constrainedY);
-                    if (listener != null){
-                        listener.onJoystickMoved(
-                                (constrainedX - centerX) / baseRadius,
-                                (constrainedY - centerY) / baseRadius,
-                                getId()
-                        );
-                    }
+                    updateJoystick(constrainedX, constrainedY);
                 }
                 Log.i("Joystick", "Touched!");
             } else {
-                //Log.i("Joystick", "Released!");
                 usingJoystick = false;
                 joystickOutOfPlace = true;
             }
@@ -199,7 +210,6 @@ public class Joystick extends SurfaceView implements SurfaceHolder.Callback, Vie
                 drawJoystick(centerX, centerY);
                 joystickOutOfPlace = false;
             }
-        //}
         return true;
     }
 

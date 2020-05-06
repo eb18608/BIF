@@ -1,3 +1,24 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright © 2020 Bio-Inspired Flight Lab, University of Bristol
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ * associated documentation files (the “Software”), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+ * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package com.bioinspiredflight.ui;
 
 import android.content.Context;
@@ -18,9 +39,11 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
     private float sliderRadius;
     private float centerX;
     private float centerY;
-    private float sliderWidthFromCenter;
-    private float sliderHeightFromCenter;
-    private int left, top, right, bottom;
+    private float verticalSliderWidthFromCenter;
+    private float verticalSliderHeightFromCenter;
+    private float horizontalSliderWidthFromCenter, horizontalSliderHeightFromCenter;
+    private int verticalLeft, verticalTop, verticalRight, verticalBottom;
+    private int horizontalLeft, horizontalTop, horizontalRight, horizontalBottom;
     private boolean usingSlider;
     private SliderListener listener;
 
@@ -40,12 +63,20 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         return centerY;
     }
 
-    public float getSliderWidthFromCenter() {
-        return sliderWidthFromCenter;
+    public float getVerticalSliderWidthFromCenter() {
+        return verticalSliderWidthFromCenter;
     }
 
-    public float getSliderHeightFromCenter() {
-        return sliderHeightFromCenter;
+    public float getVerticalSliderHeightFromCenter() {
+        return verticalSliderHeightFromCenter;
+    }
+
+    public float getHorizontalSliderWidthFromCenter() {
+        return horizontalSliderWidthFromCenter;
+    }
+
+    public float getHorizontalSliderHeightFromCenter() {
+        return horizontalSliderHeightFromCenter;
     }
 
     public boolean isUsingSlider() {
@@ -68,12 +99,12 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         this.centerY = centerY;
     }
 
-    public void setSliderWidthFromCenter(float sliderWidthFromCenter) {
-        this.sliderWidthFromCenter = sliderWidthFromCenter;
+    public void setVerticalSliderWidthFromCenter(float verticalSliderWidthFromCenter) {
+        this.verticalSliderWidthFromCenter = verticalSliderWidthFromCenter;
     }
 
-    public void setSliderHeightFromCenter(float sliderHeightFromCenter) {
-        this.sliderHeightFromCenter = sliderHeightFromCenter;
+    public void setVerticalSliderHeightFromCenter(float verticalSliderHeightFromCenter) {
+        this.verticalSliderHeightFromCenter = verticalSliderHeightFromCenter;
     }
 
     public void setUsingSlider(boolean usingSlider) {
@@ -85,13 +116,12 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         getHolder().addCallback(this);
         setOnTouchListener(this);
         this.setZOrderOnTop(true);
-        //this.setZOrderMediaOverlay(true);
         this.getHolder()
                 .setFormat(PixelFormat.TRANSPARENT);
         this.usingSlider = false;
     }
 
-    private void setup(){
+    private void setup() {
         float h = getHeight();
         float w = getWidth();
         length = h / 2f;
@@ -99,73 +129,85 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
         centerX = w / 7f;
         centerY = h - (h / 3.2f);
 
-        sliderWidthFromCenter = w / 40f;
-        sliderHeightFromCenter = h / 6.5f;
-        left = (int) (centerX - sliderWidthFromCenter);
-        top = (int) (centerY - sliderHeightFromCenter);
-        right = (int) (centerX + sliderWidthFromCenter);
-        bottom = (int) (centerY + sliderHeightFromCenter);
+        verticalSliderWidthFromCenter = w / 40f;
+        verticalSliderHeightFromCenter = h / 6.5f;
+        verticalLeft = (int) (centerX - verticalSliderWidthFromCenter);
+        verticalTop = (int) (centerY - verticalSliderHeightFromCenter);
+        verticalRight = (int) (centerX + verticalSliderWidthFromCenter);
+        verticalBottom = (int) (centerY + verticalSliderHeightFromCenter);
+
+        horizontalSliderWidthFromCenter = w / 15f;
+        horizontalSliderHeightFromCenter = h / 20f;
+        horizontalLeft = (int) (centerX - horizontalSliderWidthFromCenter);
+        horizontalTop = (int) (centerY - horizontalSliderHeightFromCenter);
+        horizontalRight = (int) (centerX + horizontalSliderWidthFromCenter);
+        horizontalBottom = (int) (centerY + horizontalSliderHeightFromCenter);
     }
 
-    public void drawSlider(float x, float y){
-        if (getHolder().getSurface().isValid()){
-            //System.out.println("...");
+    public void drawSlider(float x, float y) {
+        if (getHolder().getSurface().isValid()) {
             Canvas canvas = this.getHolder().lockCanvas();
-            Paint colors  = new Paint();
+            Paint colors = new Paint();
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             colors.setARGB(255, 50, 50, 50);
-            canvas.drawRect(new Rect(left, top, right, bottom), colors);
-            //colors.setARGB(255, 50, 50, 50);
+            canvas.drawRect(new Rect(verticalLeft, verticalTop, verticalRight, verticalBottom), colors);
+            canvas.drawRect(new Rect(
+                            horizontalLeft,
+                            (int) (y + horizontalSliderHeightFromCenter),
+                            horizontalRight,
+                            (int) (y - horizontalSliderHeightFromCenter)),
+                    colors);
             colors.setARGB(255, 0, 0xdb, 0xff);
             canvas.drawCircle(x, y, sliderRadius, colors);
             getHolder().unlockCanvasAndPost(canvas);
         }
     }
 
-    public boolean withinBounds(float x, float y){
+    public boolean withinBounds(float x, float y) {
         boolean result = false;
         float displacementX = x - centerX;
         float displacementY = y - centerY;
-        if (displacementX >= -sliderWidthFromCenter && displacementX <= sliderWidthFromCenter
-                && displacementY >= -sliderHeightFromCenter && displacementY <= sliderHeightFromCenter) {
+        if (displacementX >= -verticalSliderWidthFromCenter && displacementX <= verticalSliderWidthFromCenter
+                && displacementY >= -verticalSliderHeightFromCenter && displacementY <= verticalSliderHeightFromCenter) {
             result = true;
         }
         return result;
     }
 
-    public void addSliderListener(SliderListener listener){
+    public void addSliderListener(SliderListener listener) {
         this.listener = listener;
     }
 
+
+    // Note that this function is only called if Slider is used on its own
+    // and NOT as a part of UiSurfaceView
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        System.out.println("slide");
-        //if (v.equals(this)) {
-            float displacementX = (float) event.getX() - centerX;
-            float displacementY = (float) event.getY() - centerY;
-            if (displacementX >= -sliderWidthFromCenter && displacementX <= sliderWidthFromCenter
-                    && displacementY >= -sliderHeightFromCenter && displacementY <= sliderHeightFromCenter) {
-                usingSlider = true;
+        float displacementX = (float) event.getX() - centerX;
+        float displacementY = (float) event.getY() - centerY;
+        if (displacementX >= -horizontalSliderWidthFromCenter && displacementX <= horizontalSliderWidthFromCenter
+                && displacementY >= -verticalSliderHeightFromCenter && displacementY <= verticalSliderHeightFromCenter) {
+            usingSlider = true;
+        }
+        if (event.getAction() != MotionEvent.ACTION_UP && usingSlider) {
+            if (displacementY >= -verticalSliderHeightFromCenter
+                    && displacementY <= verticalSliderHeightFromCenter
+                    && displacementX >= -horizontalSliderWidthFromCenter
+                    && displacementX <= horizontalSliderWidthFromCenter) {
+                drawSlider(event.getX(), event.getY());
+                return true;
             }
-            if (event.getAction() != MotionEvent.ACTION_UP && usingSlider) {
-                //System.out.println("Touching slider");
-                if (displacementY >= -sliderHeightFromCenter && displacementY <= sliderHeightFromCenter){
-                    drawSlider(centerX, event.getY());
-                    return true;
-                }
-            } else {
-                usingSlider = false;
-                drawSlider(centerX, centerY);
-                System.out.println("Released slider");
-            }
-        //}
+        } else {
+            usingSlider = false;
+            drawSlider(centerX, centerY + verticalSliderHeightFromCenter);
+        }
         return false;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         setup();
-        drawSlider(centerX, centerY);
+        drawSlider(centerX, centerY + verticalSliderHeightFromCenter);
     }
 
     @Override
@@ -178,8 +220,8 @@ public class Slider extends SurfaceView implements SurfaceHolder.Callback, View.
 
     }
 
-    public interface SliderListener{
-        void onSliderMoved(float zPercent, int id);
+    public interface SliderListener {
+        void onSliderMoved(float zPercent, float rotation, int id);
     }
 
 }
