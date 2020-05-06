@@ -54,9 +54,9 @@ Out of the user stories above, the ones we will choose to focus on are for the *
 *As a curious student, I want the game to be engaging, informative and representative of real-world scenarios. I would like this so that I can further look into the subjects and be more informed._*
 
 Basic flow:
-[put image here]
+![](studentBasic.png)
 Alternative play flow:
-[put image here]
+![](studentAlternative.png)
 
 While this would not necessarily help the student achieve their initial goals of looking further into the subject of the workshop, it could still lead to the student gaining an interest in drones and/or programming in general, which would push them towards STEM.
 
@@ -66,7 +66,7 @@ _As a PhD student who runs the workshop, I would want this game to be engaging, 
 
 Basic flow:
 
-[put image here]
+![](phdBasic.png)
 
 An alternative flow would be to inform the attendees during a break in their workshop.
 
