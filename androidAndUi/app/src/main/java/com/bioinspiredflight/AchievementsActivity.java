@@ -53,15 +53,13 @@ public class AchievementsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            //actionBar.setHomeButtonEnabled(true);
         }
-        //AchievementsFileHandler.createTestFile(getApplicationContext());
     }
 
     private void displayAchievements(TableLayout tableLayout,
                                      TreeMap<String, String> achievementsTable){
         String string1, string2;
-        TextView text1, text2, spacing;
+        TextView text1, text2;
         TableRow currentRow;
         final int padding = 18;
         int rowNum = 0;

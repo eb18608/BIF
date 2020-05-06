@@ -72,9 +72,6 @@ public class SensorDetailActivity extends AppCompatActivity {
         Resources r = getResources();
         int res = r.getIdentifier(item.getImageFileName(), "drawable", getPackageName());
         ImageView image = findViewById(R.id.header);
-        //DisplayMetrics metrics = new DisplayMetrics();
-        //image.setScaleX(metrics.widthPixels);
-        //image.setScaleY(metrics.heightPixels);
         image.setImageResource(res);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -84,11 +81,6 @@ public class SensorDetailActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                /*
-                Snackbar.make(view, "Replace with unlock/equip action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                 */
-                    //Sensor sensor = SensorContent.idToSensor(id);
                     SensorContent.SensorItem item = SensorContent.ITEM_MAP.get(id);
                     if (item.isUnlocked() == false){
                         item.setUnlocked(true);

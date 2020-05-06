@@ -26,10 +26,7 @@ import android.content.Intent;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-//import android.support.v7.app.AppCompatActivity;
 import androidx.annotation.CallSuper;
-import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
@@ -103,19 +100,6 @@ public class GameActivity extends AppCompatActivity {
         finish();
         super.onPause();
     }
-
-    /*public void onResume() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        if (sketch.setupCompleted) { sketch.resizeSky(); }
-        super.onResume();
-        ui.removeUi(uiLayout);
-        ui.drawUi(uiLayout);
-    }*/
-
-    /*public void onDestroy() {
-        super.onDestroy();
-        System.out.println("DESTROYING");
-    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

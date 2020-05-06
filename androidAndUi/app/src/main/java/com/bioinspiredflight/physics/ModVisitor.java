@@ -50,43 +50,10 @@ public class ModVisitor implements Visitor{
     }
 
     @Override
-    public void visit(EnviroMod enviro, Movement movement) {
-
-    }
-
-    @Override
-    public void visit(CollideMod collide, Movement movement) {
-        movement.setVel(collide.collideMod);
-    }
-
-    @Override
-    public void visit(ControlMod control, Movement movement, GameSketch sketch) {
-
-    }
-
-    @Override
-    public void visit(CollideMod collide, Movement movement, GameSketch sketch) {
-        movement.setVel(collide.collideMod);
-        movement.setPos(sketch.getLastPosition());
-    }
-
-    @Override
     public void visit(CollideMod collide, Movement movement, GameSketch sketch, GameObject gameObject) {
         if (gameObject.isCollisionsEnabled()){
             gameObject.collide(collide, movement, sketch);
         }
-    }
-
-    @Override
-    public void visit(EnviroMod enviro) {
-    }
-
-    @Override
-    public void visit(ControlMod control) {
-    }
-
-    @Override
-    public void visit(CollideMod collide) {
     }
 
 }

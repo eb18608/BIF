@@ -33,8 +33,6 @@ import static java.lang.Math.sin;
 
 public class InputToOutput implements Joystick.JoystickListener, Slider.SliderListener {
 
-    //final private Joystick joystick;
-    //final private float x, y;
     final private PVector vector3d;
     private float rotation;
     private float totalRotation;
@@ -77,9 +75,6 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         totalRotation = 0f;
         usingJoystick = false;
         usingSlider = false;
-        //this.joystick = joystick;
-        //this.x = 0;
-        //this.y = 0;
     }
 
     public void setView(UiSurfaceView view) {
@@ -88,22 +83,15 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
 
     @Override
     public void onJoystickMoved(float xPercent, float yPercent, int id){
-        //System.out.printf("Joystick X: %.3f, Y: %.3f\n", xPercent, yPercent);
         setX(vector3d, xPercent);
         setY(vector3d, -yPercent);
         rotateVector();
-        //vector3d.setZ(0);
-        //System.out.println(vector3d.toString());
     }
 
     @Override
     public void onSliderMoved(float zPercent, float rotation, int id) {
-        //this.zValue = zValue;
         setZ(vector3d, zPercent);
         this.rotation = rotation;
-        //this.totalRotation -= rotation * rotationSpeed;
-        //System.out.println(this.zValue);
-        //System.out.println(vector3d.toString());
     }
 
     public boolean isUsingJoystick(){
@@ -130,10 +118,6 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         return rotation;
     }
 
-    public float getTotalRotation() {
-        return totalRotation;
-    }
-
     public void setTotalRotation(float totalRotation) {
         this.totalRotation = totalRotation;
     }
@@ -143,7 +127,6 @@ public class InputToOutput implements Joystick.JoystickListener, Slider.SliderLi
         float y = getY(vector3d);
         float newX = (float) ((cos(totalRotation) * x) - (sin(totalRotation) * y));
         float newY = (float) ((sin(totalRotation) * x) + (cos(totalRotation) * y));
-        //System.out.printf("NewX: %.3f, NewY: %.3f\n", newX, newY);
         setX(vector3d, newX);
         setY(vector3d, newY);
     }

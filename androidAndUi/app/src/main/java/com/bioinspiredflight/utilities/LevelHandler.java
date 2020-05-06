@@ -61,11 +61,9 @@ public class LevelHandler {
     private long timeLimitSeconds;
     private int floorW, floorD;
     private String floorImageFilepath;
-    //private ArrayList<> objectivesAccomplished; ObjectiveObjects list here
 
     public LevelHandler(Activity activity){
         this.activity = activity;
-        //this.objectivesAccomplished = new ArrayList<>();
     }
 
     public void changeLevel(GameSketch sketch, GameObjectList gameObjects, String fileName){
@@ -88,7 +86,6 @@ public class LevelHandler {
     }
 
     private GameObject createGameObject(GameSketch sketch, Map.Entry<String, Data> entry){
-        //Optional<GameObject> gameObject = Optional.empty();
         GameObject gameObject = null;
         Data data = entry.getValue();
         String key = entry.getKey();
@@ -177,7 +174,6 @@ public class LevelHandler {
                     int finx = Integer.parseInt(record.get(6));
                     int finz = Integer.parseInt(record.get(7));
                     Data data = new Data(x, y, z, rot, scale, finx, finz);
-               // System.out.printf("%f, %f, %f, %f, %f\n", x, y, z, scale);
                     //put string and PVector pair into table
                     table.put(record.get(0), data);
                 } else if (record.get(0).equals("timer")){

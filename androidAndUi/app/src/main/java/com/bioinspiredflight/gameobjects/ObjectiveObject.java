@@ -48,10 +48,6 @@ public class ObjectiveObject extends GameObject {
     @Override
     public void collide(CollideMod collideMod, Movement movement, GameSketch sketch) {
         setStatus(true);
-        Boolean done = sketch.checkCompleted();
-        if(done){
-            //System.out.println("WINNER WINNER CHICKEN DINNER");
-        }
     }
 
     @Override

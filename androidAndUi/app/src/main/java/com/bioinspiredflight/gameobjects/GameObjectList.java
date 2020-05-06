@@ -169,12 +169,6 @@ public class GameObjectList implements Iterable<GameObject>{
 
     }
 
-    public void setCollisionsEnabled(boolean collisionsEnabled){
-        for (GameObject gameObject : list){
-            gameObject.setCollisionsEnabled(collisionsEnabled);
-        }
-    }
-
     @NonNull
     @Override
     public Iterator<GameObject> iterator() {
