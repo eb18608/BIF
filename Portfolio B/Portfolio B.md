@@ -176,9 +176,13 @@ Due to the Covid-19 pandemic that is currently affecting us all, we were unable 
 Due to many factors, including the Covid-19 pandemic, we were unable to completely finish the game to a standard which we are happy with. Due to this, we have offered to continue development in the summer in order to polish and complete the app for our clients. As a result, we will be able to solve many of the issues that have been raised in our product evaluation. Furthermore, we hope to get more feedback from our clients (and potentially more intended end users) in order to make sure that the end result is completed correctly. 
 
 # Source Code
+All source can be found on our git repository:<br>
+[Bioinspired Flight Bitbucket Repository](https://bitbucket.org/antoine1201/bio-inspired-flight/)
 
 # Client Documentation
 ## Liscence Documentation
+All liscence documentation can be found in the LISCENCES folder of our git repository (linked above). It is also listed under the "Settings" menu of our app.
+
 ## Instruction Manual
 ![](usermanual(0).png)
 ![](usermanual(1).png)
