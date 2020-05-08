@@ -164,6 +164,16 @@ Every release was tested with the clients through arranged play-test meetings. B
 Heuristics decided collaboratively between our development team and client would be assigned for a specific release during a meeting. We took these heuristics and planned tests which would prove the heuristics met (shown in **Table 2**). During the play test, the client would be given a device with the game installed onto it and observed as they interacted with the device. Through observations and a questionnaire after the playtest we would mark downt the reseults of the heuristic tests. These results would then go onto influence the decision of the next target heurisitcs for the following release.
 
 # Product Evaluation
+Due to the Covid-19 pandemic that is currently affecting us all, we were unable to work with any of the end users of our product. In an effort to still get some feedback on our design choices and the overall app which we have developed, we opted to instead trial our app with our siblings that are of a similar age and demographic to the intended users. However, this understandably yeilded a much smaller amount of feedback than we would have liked. We decided that the best approach for this evaluation was through observation. We also asked for any extra comments which thye may have had. These can be seen in the table below.
+
+| Comment(s) | Possible solutions | Solvable |
+|:---------------|:-----------|:----------:|
+|"Turning is too sensitive."<br>"It is hard to hover in place."|The slider to control both rotations and height could be made larger, so that more precision can be gained when it is in use. This will allow for slower turning speeds to be used, and should make it easier to find the correct position to hover the drone.|Yes|
+|"The loops turn red too fast."<br>"The loops are too far apart, they don't show up on the minimap until you are close."<br>"The timer ran out too fast."|These are level design issues that we can solve by simply changing the level files.|Yes|
+|"I keep getting stuck on the building, I want to slide across the walls instead."|This is a much harder issue to solve as it would require changing a large part of how our physics engine calcuates collisions.|Not without large changes|
+
+# Extra Notes
+Due to many factors, including the Covid-19 pandemic, we were unable to completely finish the game to a standard which we are happy with. Due to this, we have offered to continue development in the summer in order to polish and complete the app for our clients. As a result, we will be able to solve many of the issues that have been raised in our product evaluation. Furthermore, we hope to get more feedback from our clients (and potentially more intended end users) in order to make sure that the end result is completed correctly. 
 
 # Source Code
 
