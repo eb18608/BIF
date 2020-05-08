@@ -180,8 +180,8 @@ All source can be found on our git repository:<br>
 [Bioinspired Flight Bitbucket Repository](https://bitbucket.org/antoine1201/bio-inspired-flight/)
 
 # Client Documentation
-## Liscence Documentation
-All liscence documentation can be found in the LISCENCES folder of our git repository (linked above). It is also listed under the "Settings" menu of our app.
+## Licence Documentation
+All licence documentation can be found in the LICENCES folder of our git repository (linked above). It is also listed under the "Settings" menu of our app.
 
 ## Instruction Manual
 ![](usermanual(0).png)
