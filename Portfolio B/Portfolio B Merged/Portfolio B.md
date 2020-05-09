@@ -68,9 +68,9 @@ Out of the user stories above, the ones we will choose to focus on are for the *
 *As a curious student, I want the game to be engaging, informative and representative of real-world scenarios. I would like this so that I can further look into the subjects and be more informed._*
 
 Basic flow:
-![Basic Flow - Student](studentBasic.png)
+![Basic Flow - Student](./Assets/phdBasic.png)
 Alternative play flow:
-![Alternative Flow - Student](studentAlternative.png)
+![Alternative Flow - Student](./Assets/studentAlternative.png)
 
 While this would not necessarily help the student achieve their initial goals of looking further into the subject of the workshop, it could still lead to the student gaining an interest in drones and/or programming in general, which would push them towards STEM.
 
@@ -80,7 +80,7 @@ _As a client, I would want this game to be engaging, inspiring and somewhat info
 
 Basic flow:
 
-![Basic Flow - Clients](phdBasic.png)
+![Basic Flow - Clients](./Assets/phdBasic.png)
 
 An alternative flow would be to inform the attendees during a break in their workshop.
 
@@ -113,11 +113,78 @@ Our main goal is to fulfil the client’s request of increasing the attendees’
 | **SEC-1.1**  | Any passwords stored this way must be stored in its database in salted hash form, to ensure a reasonable level of server-side security.                                                                                                                                                          | N/A           | Not applicable |
 | **SEC-2**    | The app must NOT allow the user to store sensitive information (i.e. address, health conditions, etc.), as the app is intended to be used by people of all ages (see **AGE-1**), including children as young as 6 years old, who likely do not understand the implications of sharing such data. | N/A           | Fulfilled      |
 
+# Architecture
+
+After deciding on the project requirements, we went about deciding which ones played a significant feature in deciding the architecture of our final product. We grouped them into 3 main groups: technical contraints, project constraints and quality attributes. We settled on these requirements as our **Architectural Drivers:** 
+- Technical Constraints (1.x)
+  - (1.1) Mobile application
+  - (1.2) Offline functionality
+  - (1.3) 3D graphics 
+- Project Constraints (2.x)
+  - (2.1) Java based project
+  - (2.1) Due 1st May 2020
+- Quality Attributes (3.x)
+  - (3.1) High poly 3D models (Lisence Free)
+  - (3.2) Playability
+    - (3.2.1) Constant high framerate
+    - (3.2.2) Clear UI
+    - (3.2.3) Interactabilty 
+  - (3.3) Concrete fucntionality testing
+
+In order to fulfill these architectural drivers, we employed the following programs:
+  - Android Studio
+  - Processing 3
+  - Maya
+
+Key libraries to the architecture of the project include:
+  - Porcessing Core
+  - Apache Commons .CSV library
+  - JUnit
+
+#### Software
+##### Android Studio:
+
+Android Studio fulfilled a large portion of the architectural drivers as a Java based (2.1), mobile application (1.1) development and distribution platform (2.4). Android Studio also provide a plethora of mobile application support (1.1) such as touchscreen functionality libraries and UI tools which allow us to create and operate front end systems (which include our main menu, level select, settings menu)(3.2.2). As well UI tools and libraries, it provides seemless support of both modular (JUnit)(3.3) as well as our graphics engine (1.3).
+
+##### Processing 3
+
+We chose to use Processing 3 as our 3D graphical engine as it was easily integrated into a larger Android application, due to it also being java-based (2.1), making it ideal for mobile development (1.1). Moreover, known for its efficiency, we thought it would be quite good in keeping graphical rendering overheads to a minimum, especially key when designing software to run on smaller, less powerful mobile processors (3.2.1). Processing also provided seamless support for universal 3D model file types (3.1). 
+
+##### Maya
+
+We decided on using a Maya software to create our very own 3D models (3.1) to eliminate the problem of procuring license-free models. Maya is an easy to learn piece of software, allowing the teammembers in charge of developing models to develop quality 3D assets within the time frame of the project (2.2).
+
+#### Libraries
+
+##### Processsing
+
+The Processing Core library provides graphical engine (3.1) fucntionality to java based projects. Importing this allowed us access to all of Processing's functionality to create the 3D rendering loops in the game (1.1). 
+
+##### Apache Commons .CSV
+
+We planned to utilise the universality of .CSV files as a means of efficient level creation and asset arrangements in our game (2.1). This library provided us with the necessary .CSV parsers we would need.
+
+##### JUnit Testing
+
+To accomplish Test Driven Development, we used the JUnit Testing library in order to test independent features of the game (i.e. our Physics Engine) (3.3).
+
+#### Figure 1: Architecture Diagram
+<img src="./Assets/Architecture_Diagram.png" alt="drawing" width="275" ALIGN="left" HSPACE="15"/>
+
+
+Figure 1 shows the different front and back end systems we will be creating. Our main front-end system will be the **Main Menu**, providing links to the **Settings, Achievements, Level Select** and **Customsations** systems (3.2.2). All will utilise the touchscreen navigation libraries present in Android Studios to enable user interaction (1.1, 3.2). 
+
+User decisiosn in **Level Select** and **Customisations** will interact the various CSV parsers we implemented (using Apache .CSV) in order to determin the state of the loaded game; which in turn will dictate the **3D Models** used by the **Graphics Engine** to display the playable level(3.1, 3.2.3). 
+
+**User Controls** is in its own box as it is a unique user interaction, only working in parallel with game rendering. An Android UI is overlayed on top of the game render to register user controls, passing into the **Physics Engine** to be processed in the back-end. 
+
+The **Physics Engine** uses the inputs from the **User Control** overlay in order to calculate the state of the game every frame through a series of mathematical operations which calculate things like position, acceleration and the presence of collisions/ interactions (3.2.3).
+
 # OO Design & UML
 
 # Development Testing
 
-Consistent with Test Driven Development, we decided on testing strategies for the various systems we had in our architecture diagram. 
+Consistent with Test Driven Development, we decided on testing strategies for the testable systems in our architecture diagram. 
 These testing frameworks were decided on:
 
 - **Front End UI** - APK Build test
@@ -126,28 +193,23 @@ These testing frameworks were decided on:
 - **Physics Engine** - JUnit Testing
 
 #### APK Build Testing
-Android studio provided an **APK Build** feature which allowed us to test things like functionality of certain *non-numeric* features, as well as robustness of integrated systems. This would compile the project state and export it as a testable APK which installed onto a connected mobile device (a terminal would display system messages describing the events occuring and processes running during application usage). This made more sense for complex integrated systems like the **.CSV Level Handler** and **Front End UI**. A full **APK Build** was the only feasible way of testing and monitoring these complex interactions via insightful system messages. As well as testing the functionality of the system's interactions, it also allowed us to test the useability factor of the application. This is equally as important to test when creating a UI and is only really feasible through active use of a testing build.
+Android studio provided an **APK Build** feature which allowed us to test things like functionality of certain *non-numeric* features, as well as robustness of integrated systems. This would compile the project state and export it as a testable APK which installed onto a connected mobile device (a terminal would display system messages describing the events occuring and processes running during application usage). This made more sense for complex integrated systems like the **.CSV Level Handler** and **Front End UI**. We were also able to test the usability factor of the application (which is importatant when a game is concerned).
 
 #### Visual Testing
-Things like graphic output is difficult to emperically test and requires assets (such as 3D models) to be at the ready in order to test. Earlier on in development, where the 3D assets were not ready, we used visual placeholders in order to ensure the correctness of the renderer during the **APK Build Tests**. Through this, we were able to test that objects created in out graphical engine would be rendered in the correct position, orientation and size.
+Earlier on in development, where the 3D assets were not ready, we used visual placeholders in order to ensure the correctness of the renderer during the **APK Build Tests**. Through this, we were able to test that objects created by our graphical engine would be rendered in the correct position, orientation and size.
 
 #### JUnit Testing
-Using the JUnit test framework, method specific tests can created in a separate testing environment. Using a plethora of assertions, testing the correctness of methods in both normal and edge cases prove the robustness of a system and its methods. In back-end systems like our **Physics Engine**, which was implemented with methods that worked completely independent of external systems in the application, creating tests was easy and effective as inputs and expected outcomes could be calculated and could easily be instantiated in the testing framework.
-<br>
-<br>
+Testing the correctness of methods in both normal and edge through the JUnit Testing framework proved the robustness of systems and methods. In back-end systems like our **Physics Engine**, which was implemented with independently functioning methods, it was the only system that made sense to use this kind of testing.
 Below is an example of some **JUnit** test cases used to test the **Physics Engine**:
-<br>
-<br>
 
 ### **Testing Table Sample:**
-<br>
-
 |Test              | Testing Condition | Pass/Fail    |
 |:-------------    | ----------------- |-------------:|
 | @Test<br>forceAppliedTest | `//Set the comparison parameters`<br>`expectedAcc = (240f, 150f, 0f);`<br>`//Set context`<br>`result = forceApplied(initAcc, inputForce, movement.getMass(), movement.frametime);`<br>`assertEquals(expectedAcc, result, delta);`| **Pass** |
 | @Test<br>CalcVelTest | `//Set Comparison Parameters`<br>`inputAcc = (240f, 150f,0f)`<br>`expectedVel = (8f, 5f, -6f);`<br>`//Set Context`<br>`result = movement.calcVel(movement.getVel(), inputAcc, movement.frametime);`<br>`assertEquals(expectedVel, result, delta);` | **Pass**|
 | @Test<br>CollisionTrueTest| `//Set context`<br>`InitPos = (2543f, 3500f,500f );`<br>`movement.setPos(initPos);`<br>`movement.setMovementSize(droneObject);`<br>`obj = ApartmentsObject(4000f, 660f, 4000f, 1, 1, 1);`<br>`movement.isCollision(movement, obj);`<br>`assertTrue(movement.collided);`| **Pass** |
 | @Test<br>UpdateMovement<br>Test |`//Comparison parameters`<br>`expectedAcc = (240f, 150f, 0f);`<br>`expectedVel = (6f, 3f, -4f);`<br>`expectedPos = (0.27f, 0.17f, 0f);`<br>`//Set context`<br>`movement.updateMover(expectedAcc, expectedVel, expectedPos, movement);`<br>`assertEquals(expectedAcc, (movement.getAcc()), delta);`<br>`assertEquals(expectedVel, (movement.getVel()), delta);`<br>`assertEquals(expectedPos, (movement.getPos()), delta);` | **Pass** |
+
 
 # Deployment Testing
 
@@ -187,7 +249,7 @@ All source can be found on our git repository:<br>
 All licence documentation can be found in the LICENCES folder of our git repository (linked above). It is also listed under the "Settings" menu of our app.
 
 ## Instruction Manual
-![Manual Title Page](usermanual(0).png)
-![Manual UI Page](usermanual(1).png)
-![Manual Objectives Page](usermanual(2).png)
-![Manual Obstacles Page](usermanual(3).png)
+![Manual Title Page](./Assets/usermanual(0).png)
+![Manual UI Page](./Assets/usermanual(1).png)
+![Manual Objectives Page](./Assets/usermanual(2).png)
+![Manual Obstacles Page](./Assets/usermanual(3).png)
