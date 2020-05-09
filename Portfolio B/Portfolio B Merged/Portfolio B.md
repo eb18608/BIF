@@ -54,9 +54,9 @@ Out of the user stories above, the ones we will choose to focus on are for the *
 *As a curious student, I want the game to be engaging, informative and representative of real-world scenarios. I would like this so that I can further look into the subjects and be more informed._*
 
 Basic flow:
-![](studentBasic.png)
+![Basic Flow - Student](studentBasic.png)
 Alternative play flow:
-![](studentAlternative.png)
+![Alternative Flow - Student](studentAlternative.png)
 
 While this would not necessarily help the student achieve their initial goals of looking further into the subject of the workshop, it could still lead to the student gaining an interest in drones and/or programming in general, which would push them towards STEM.
 
@@ -66,7 +66,7 @@ _As a PhD student who runs the workshop, I would want this game to be engaging, 
 
 Basic flow:
 
-![](phdBasic.png)
+![Basic Flow - Client](phdBasic.png)
 
 An alternative flow would be to inform the attendees during a break in their workshop.
 
@@ -164,7 +164,7 @@ Every release was tested with the clients through arranged play-test meetings. B
 Heuristics decided collaboratively between our development team and client would be assigned for a specific release during a meeting. We took these heuristics and planned tests which would prove the heuristics met (shown in **Table 2**). During the play test, the client would be given a device with the game installed onto it and observed as they interacted with the device. Through observations and a questionnaire after the playtest we would mark downt the reseults of the heuristic tests. These results would then go onto influence the decision of the next target heurisitcs for the following release.
 
 # Product Evaluation
-Due to the Covid-19 pandemic that is currently affecting us all, we were unable to work with any of the end users of our product. In an effort to still get some feedback on our design choices and the overall app which we have developed, we opted to instead trial our app with our siblings that are of a similar age and demographic to the intended users. However, this understandably yeilded a much smaller amount of feedback than we would have liked. We decided that the best approach for this evaluation was through observation. We also asked for any extra comments which thye may have had. These can be seen in the table below.
+Due to the Covid-19 pandemic that is currently affecting us all, we were unable to work with any of the end users of our product. In an effort to still get some feedback on our design choices and the overall app which we have developed, we opted to instead trial our app with our siblings that are of a similar age and demographic to the intended users. However, this understandably yielded a much smaller amount of feedback than we would have liked. We decided that the best approach for this evaluation was through observation. We also asked for any extra comments which they may have had. These can be seen in the table below.
 
 | Comment(s) | Possible solutions | Solvable |
 |:---------------|:-----------|:----------:|
@@ -184,7 +184,7 @@ All source can be found on our git repository:<br>
 All licence documentation can be found in the LICENCES folder of our git repository (linked above). It is also listed under the "Settings" menu of our app.
 
 ## Instruction Manual
-![](usermanual(0).png)
-![](usermanual(1).png)
-![](usermanual(2).png)
-![](usermanual(3).png)
+![Manual Title Page](usermanual(0).png)
+![Manual UI Page](usermanual(1).png)
+![Manual Objectives Page](usermanual(2).png)
+![Manual Obstacles Page](usermanual(3).png)
