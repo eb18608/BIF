@@ -1,3 +1,4 @@
+# Architecture
 After deciding on the project requirements, we went about deciding which ones played a significant feature in deciding the architecture of our final product. We grouped them into 3 main groups: technical contraints, project constraints and quality attributes. We settled on these requirements as our **Architectural Drivers:** 
 - Technical Constraints (1.x)
   - (1.1) Mobile application
