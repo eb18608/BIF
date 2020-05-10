@@ -10,9 +10,9 @@ All source can be found on our git repository:<br>
 All licence documentation can be found in the LICENCES folder of our git repository (linked above). It is also listed under the "Settings" menu of our app.
 
 ## Instruction Manual
-<img src="./User_Manual/usermanual(0).png" alt="Manual Title Page" ALIGN="centre" HSPACE="15"/>
-<img src="./User_Manual/usermanual(0).png" alt="Manual UI Page" ALIGN="centre" HSPACE="15"/>
-<img src="./User_Manual/usermanual(0).png" alt="Manual Objectives Page" ALIGN="centre" HSPACE="15"/>
-<img src="./User_Manual/usermanual(0).png" alt="Manual Obstacles Page" ALIGN="centre" HSPACE="15"/>
+<img src="./User Manual/usermanual(0).png" alt="Manual Title Page" width="49%"/>
+<img src="./User Manual/usermanual(1).png" alt="Manual UI Page" width="49%"/><br>
+<img src="./User Manual/usermanual(2).png" alt="Manual Objectives Page" width="49%"/>
+<img src="./User Manual/usermanual(3).png" alt="Manual Obstacles Page" width="49%"/>
 
 This instruction manual was designed to be printed off and used as part of our clients' outreach workshop. With this in mind, we chose a bold, colourful design and made sure to keep the text to a minimum so that it can be read and understood easily from a distance.
