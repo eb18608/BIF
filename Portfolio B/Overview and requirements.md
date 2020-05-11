@@ -40,20 +40,31 @@ Alternative play flow:
 
 While this would not necessarily help the student achieve their initial goals of looking further into the subject of the workshop, it could still lead to the student gaining an interest in drones and/or programming in general, which would push them towards STEM.
 
-## Functional Requirements
+## Functional & Non-functional Requirements
+
+### Code Legend
+
+| Code     | Actor(s)                                                           |
+|----------|--------------------------------------------------------------------|
+| **GAME** | The user of the app (as a player)                                  |
+| **INFO** | The clients, as well as the user of the app (as a curious student) |
+| **APP**  | Google Play Store                                                  |
+| **SEC**  | The user's security                                                |
+
+### Functional Requirements
 
 | Code         | Description                                                                                                                                                                                                                           | Overridden by | Status    |
 |--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|-----------|
 | **GAME-1**   | The game must be optimized to run at a constant framerate of at least 30 FPS to ensure a smooth gameplay experience, even with 3D assets and the (relatively) limited hardware of a smartphone.                                       | N/A           | Fulfilled |
 | **GAME-2**   | The core game features will function normally offline. This is to ensure that the user is able to use the app at any time.                                                                                                            | N/A           | Fulfilled |
 | **GAME-3**   | The user interface must have a control scheme that is considered easy to learn by at least 7 out of 10 play-testers.                                                                                                                  | N/A           |           |
-| **GAME-3.1** | The initial design of the user interface will use the same control scheme as the drones in the workshop, to allow participants to learn the controls quickly.                                                                         | **GAME-3**  |           |
+| **GAME-3.1** | The initial design of the user interface will use the same control scheme as the drones in the workshop, to allow participants to learn the controls quickly.                                                                         | **GAME-3**    |           |
 | **GAME-4**   | Collision detection will happen before applying player control during each iteration of the game loop, to ensure that the player does not move when it isn’t supposed to (i.e. if the player is trying to phase through a building).  | N/A           | Fulfilled |
 | **INFO-1**   | The application will include a page with scientifically accurate resources related to the client’s research of bio-inspired flight and sensors, to further the client’s goals of encouraging the user to pursue an education in STEM. | N/A           | Fulfilled |
 | **INFO-1.1** | The main resources related to this research must be accessible offline to allow the user to read through them at any time, at their own pace.                                                                                         | N/A           | Fulfilled |
 | **INFO-2**   | If the game has a loading screen, the application will also include facts related to the client’s research on the loading screen, to allow the user to learn during gameplay without being overly intrusive.                          | N/A           |           |
 
-## Non-functional Requirements
+### Non-functional Requirements
 
 | Code         | Description                                                                                                                                                                                                                                                                                      | Overridden by | Status         |
 |--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|----------------|
@@ -63,4 +74,4 @@ While this would not necessarily help the student achieve their initial goals of
 | **GAME-5.1** | The development team will ask the client for advice if any additional scenarios are to be added to the game, to ensure that a sense of realism is preserved.                                                                                                                                     | N/A           |                |
 | **SEC-1**    | If a login system is implemented, user accounts must be secured with a password of min. length 8, containing at least one uppercase letter, one lowercase letter, and a number. This is to ensure a reasonable level of security on the user’s end.                                              | N/A           | Not applicable |
 | **SEC-1.1**  | Any passwords stored this way must be stored in its database in salted hash form, to ensure a reasonable level of server-side security.                                                                                                                                                          | N/A           | Not applicable |
-| **SEC-2**    | The app must NOT allow the user to store sensitive information (i.e. address, health conditions, etc.), as the app is intended to be used by people of all ages (see **AGE-1**), including children as young as 6 years old, who likely do not understand the implications of sharing such data. | N/A           | Fulfilled      |
+| **SEC-2**    | The app must NOT allow the user to store sensitive information (i.e. address, health conditions, etc.), as the app is intended to be used by people of all ages, including children as young as 6 years old, who likely do not understand the implications of sharing such data.                 | N/A           | Fulfilled      |
