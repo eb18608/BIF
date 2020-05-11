@@ -8,9 +8,11 @@
     -	Attendees are given a problem and asked to solve it using drones, using a budget system to purchase bio-sensors (sensors inspired by natural sensory organs of animals) that may be useful for solving the problem
     -	Attendees then navigate a real drone around a physical obstacle course
 
-**The request:**
-*	A platform similar their workshop to keep attendees engaged with STEM afterwards
-*	The main domain of the product is education, though the solution is also intended to be entertaining to users
+**The domain:**
+*	The main domain of the product is *education*, though the solution is also intended to be entertaining to users
+
+**The problem:**
+*	The client desires a platform similar their workshop to keep attendees engaged with STEM afterwards
 *	The purpose of the product is not an outright replacement of the workshop, but to be something the attendees can take home
 
 **Our solution:**
@@ -37,20 +39,6 @@ Alternative play flow:
 ![](studentAlternative.png)
 
 While this would not necessarily help the student achieve their initial goals of looking further into the subject of the workshop, it could still lead to the student gaining an interest in drones and/or programming in general, which would push them towards STEM.
-
-## PhD students running the workshop
-
-_As a PhD student who runs the workshop, I would want this game to be engaging, inspiring and somewhat informative. I would like this so that the attendees can remember the workshop fondly and may wish to share their experience with other students (via the game)._
-
-Basic flow:
-
-![](phdBasic.png)
-
-An alternative flow would be to inform the attendees during a break in their workshop.
-
-As for exceptional flows, the app will be Android-based, so attendees will be unable to install it on iOS, for example. However, this is not an issue which we can resolve, due to being locked to creating our app for Android by the project requirements.
-
-Our main goal is to fulfil the client’s request of increasing the attendees’ engagement with STEM. As such, we will base our requirements mainly around the user story of the **curious student**, as they are the attendee that is most likely to benefit from such a platform.
 
 ## Functional Requirements
 
