@@ -15,12 +15,17 @@ Our evaluation showed us here that users were not too happy with the UI. They fe
 Evaluation here also found that users were frustrated with our gameplay. They found that the controls seemed too sensitive, especially when turning. They also were irritated by our collisions halting the drone completely when colliding with a building. The former of these issues can be fixed by simply lowering the values associated with our slider, but the latter issue is much less feabile. This would require a major redesign to our physics engine which is not possible in the time that we have left.
 
 ## Sample Material
-| Critical comment(s) | Possible solutions | Solvable |
-|:---------------|:-----------|:----------:|
-|"Turning is too sensitive."<br>"It is hard to hover in place."|The slider to control both rotations and height could be made larger, so that more precision can be gained when it is in use. This will allow for slower turning speeds to be used, and should make it easier to find the correct position to hover the drone.|Yes|
-|"The loops turn red too fast."<br>"The loops are too far apart, they don't show up on the minimap until you are close."<br>"The timer ran out too fast."|These are level design issues that we can solve by simply changing the level files.|Yes|
-|"I keep getting stuck on the building, I want to slide across the walls instead."|This is a much harder issue to solve as it would require changing a large part of how our physics engine calculates collisions.|Not without large changes|
-|”There is a lack of interesting UI”<br>”It’s just basic Android”<br>”It is hard to know when sensors are equipped”|Custom UI could be designed to make the menus more interesting|Yes|
-|”I’m not told how the sensors affect the gameplay”|We simply need to add a sentence to each sensor to explain what it does to the game.|Yes|
-|”The controls are unconventional, they’re not like in other games”|This was an intentional design choice as it was meant to mimic the controls of the drones used in our clients’ workshops.|No|
-|”The camera clips into objects”|This would require us implementing camera culling|Yes|
+### **Gameplay**
+| <div style="width:280px">Critical comment(s)</div> | Possible solution(s) |
+|:---------------|:-----------|
+|"Turning is too sensitive."<br>"It is hard to hover in place."|The slider to control both rotations and height could be made larger, so that more precision can be gained when it is in use. This will allow for slower turning speeds to be used, and should make it easier to find the correct position to hover the drone.|
+|"The loops turn red too fast."<br>"The loops are too far apart, they don't show up on the minimap until you are close."<br>"The timer ran out too fast."|These are level design issues that we can solve by simply changing the level files.|
+|"I keep getting stuck on the building, I want to slide across the walls instead."|This is a much harder issue to solve as it would require changing a large part of how our physics engine calculates collisions.|
+|”The camera clips into objects”|This would require us implementing camera culling, which we did not manage to achieve when we previously attempted it.|
+
+### **UI**
+| <div style="width:280px">Critical comment(s)</div> | Possible solution(s) |
+|:---------------|:-----------|
+|”There is a lack of interesting UI”<br>”It’s just basic Android”<br>”It is hard to know when sensors are equipped”|Custom UI could be designed to make the menus more interesting.|
+|”I’m not told how the sensors affect the gameplay”|We simply need to add a sentence to each sensor to explain what it does to the game.|
+|”The controls are unconventional, they’re not like in other games”|This was an intentional design choice as it was meant to mimic the controls of the drones used in our clients’ workshops, so we do not feel the need to change this.|
