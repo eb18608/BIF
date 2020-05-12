@@ -2,13 +2,9 @@
 Throughout the development of our product, we made sure to evaluate the decisions which we were making. We made sure to get feedback from our clients so that we knew our design choices were on track. These key meetings coincided with our three submission deadlines:
 
 ## Minimum Viable Product
-People involved: clients, mentor, us.
-Tested through observation in meetings (as this was in person with us all, we documented the feedback by directly assigning Jira tasks based on what was discussed) and tested iteratively ourselves while developing.
-MVP involved a lot of fast-paced development, as it is the backbone of the app, so often...?
-Controls; changed slightly with requests from clients.
-Initial physics engine, speeds and camera angles.
-Mock buildings for size comparison.
-Basic UI
+When developing our MVP, we did not have access to the intended users of the app. However, we did still have people who could critique our design and development choices: our clients, our mentor and each other. This evaluation took place as part of our regular in-person meetings which took place either in MVB or in meeting rooms in the Queen’s building. In these meetings we would demonstrate the current state of our app and then ask for and discuss any feedback that both our mentor and/or our clients had. As we were all present during these meetings, we decided that the best way to document the observations made was by directly creating tasks on Jira which corresponded to the new ideas and changes that we had agreed upon. These could then be later assigned as and when they were used.<br>
+The key findings from our evaluation at this stage involved the control scheme for our game. We received feedback that the drone needed to move faster and were asked to add a feature to turn the camera from the left slider, which differed from our initial choice to add a new slider for rotations. It was also requested that we add a minimap to the game. Both of these features were added successfully before the next release. There were other aspects of our app which were evaluated here, such as the initial physics engine for movements and the mock buildings which we used for size comparisons, but no issues were made so we didn’t need to make any refinements here.
+
 
 ## Beta Release
 Tested again through observation.
