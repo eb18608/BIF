@@ -7,14 +7,9 @@ The key findings from our evaluation at this stage involved the control scheme f
 
 
 ## Beta Release
-Tested again through observation.
-People involved: clients, us, other students.
-These tests were often performed while we were programming, so we sometimes didn't document as we just implemented the changes directly. (We often worked as a group, or at least with pair programming, so rarely needed to convey this information outside of face-to-face communication)
-Here we couldn't test with users because the workshops are infrequent and didn't line up.
-Tested outside of the workshop demographic to get a broader sense of feedback. It's gonna go on the play store so anyone can use it.
-Advanced physics engine with collisions.
-Extra game mechanics, loops.
-Menu system extended, achievements and settings
+As with the MVP, we again evaluated the beta release through observation in meetings with our clients and mentor. However, at this stage we also decided to branch out to test with fellow students. We couldn’t test with the intended end-users, as our clients’ workshops are infrequent and did not line up with our schedules. But gaining different insights from other people is still valuable. This is because our app will eventually be released onto the Google Play Store, meaning it can be used by anyone with access to this. As a result, we need to make sure our app fits the expectations of a wider audience than simply the attendees of our clients’ workshops. This evaluation was performed face-to-face as well, so we decided to continue using Jira to track any tasks that arose from this broader feedback.<br>
+Here we were able to test some of the advanced gameplay mechanics that we had implemented. We found that players often had trouble hitting the loops correctly, so decided to alter how their hitboxes were made. We also implemented collision detection in this stage, and had feedback on how the collisions lined up with the models that we had created. Finally, we extended our menu system at this stage. Users did not find any issues with this so we didn’t feel the need to make any refinements.
+
 
 ## Final Release
 Observation, recorded feedback from users. Asked for feedback to be based on two separate parts: the visuals and the gameplay.
