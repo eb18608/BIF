@@ -12,15 +12,10 @@ Here we were able to test some of the advanced gameplay mechanics that we had im
 
 
 ## Final Release
-Observation, recorded feedback from users. Asked for feedback to be based on two separate parts: the visuals and the gameplay.
-This was documented (see sample material) and we used it to make some improvements. 
-Other improvements were not made due to time constraints found as a result of the lockdown, but we will make these changes in the summer. (This might not be needed here, as extra notes contain repetition.)
-People involved: us, two close-to-users, wanted more users but covid.
-New buildings
-More game mechanics, fuel pickups, letter collection, air streams.
-Final physics engine with new speeds
-Customisation
-Levels
+The evaluation around this stage was intended to be the most important, as this is where our game was becoming more polished and levels were being created. The feedback gained here would be the most impactful as it would directly impact how our final app would be made. However, at this time we were put into lockdown due to the Covid-19 pandemic. As a result, we were unable to test with a large number of end-users. Despite this, we did get some feedback from a couple of people who fit the demographic of the students that may attend our clients’ workshops. We proceeded with this stage of evaluation again through observations, but this time recorded their comments and split it into two main categories: gameplay and visuals. This can be seen in the “Sample Material” section below.<br>
+Our evaluation showed us here that users were not too happy with the UI. They felt it was too basic, especially with the menus being the default style found in many Android apps. They also had some trouble with the customisation, as it wasn’t clear what effects the sensors would have on the gameplay. We feel that it is feasible to solve these issues. Given more time, we could design more interesting menus and it would be simple to add an explanation to the sensors.<br>
+Evaluation here also found that users were frustrated with our gameplay. They found that the controls seemed too sensitive, especially when turning. They also were irritated by our collisions halting the drone completely when colliding with a building. The former of these issues can be fixed by simply lowering the values associated with our slider, but the latter issue is much less feabile. This would require a major redesign to our physics engine which is not possible in the time that we have left.
+
 
 ## Sample Material
 | Critical comment(s) | Possible solutions | Solvable |
