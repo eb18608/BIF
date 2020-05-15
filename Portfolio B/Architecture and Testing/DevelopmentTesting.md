@@ -34,10 +34,10 @@ For each system in the high-level architecture diagram (Architecture - **Figure 
 - (3) Physics Engine - **JUnit Testing**
 
 #### APK Build Testing
-Android Studio provide a feature, allowing a applicaiton state to be integrated and built, resulting in an APK which can be distributed and ran to test integrated systems. This was extremely useful for the systems which were either intrinsically intertwined with several others in the application (1.1, 1.2) or systems with no concrete figures to actually test (interaction heavy systems likea UI (1)).
+Android Studio provides a feature, allowing an application state to be integrated and built, resulting in an APK which can be distributed and ran to test integrated systems. This was extremely useful for the systems which were either intrinsically intertwined with several others in the application (1.1, 1.2) or systems with no concrete figures to actually test (interaction heavy systems like UI (1)).
 
 #### End-To-End Testing
-This involves the use of APK Build Testing (defined above) but including system calls which help represent the state of the back-end system and its front-end visualisation. This was the only feasible way of testing the output of the graphics engine (2) as it is dependent on the state of the physics engine (3). This allowed us to check the consistency of the values between these 2 interacting systems.
+This involves the use of APK Build Testing (defined above) as well as including system calls which help represent the state of the back-end system and its front-end visualisation. This was the only feasible way of testing the output of the graphics engine (2) as it is dependent on the state of the physics engine (3). This allowed us to check the consistency of the values between these 2 interacting systems.
 
 #### JUnit Testing
 JUnit Testing allows independent testing on the correctness of a system and its functions. Due to the independent nature and concrete values that is ouputted by the physics engine, it became the only system in the application that would benefit from unit testing. This allowed us to test the correctness of the methods calculating the physics interactions in normal and edge cases to prove the robustness of the back-end system.
