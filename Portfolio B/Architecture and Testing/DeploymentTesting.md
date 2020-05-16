@@ -9,15 +9,10 @@
 
 Through our project through APK Build Testing (defined in **Development Testing**), we were very easily able to test high-level heuristics (above). The dev team provided a wealth of heuristic feedback from build testing, but we also conducted external testing.
 
-Releases were tested with the clients through arranged play-test meetings. A meeting with the client would be arranged to test the current stage of the game against the heuristics defined in the release testing strategy table. As 
-<!--an example of a user story and-->
-<span style="background-color: #00DBFF">the client was</span>
-already aware of the heuristics set out for the current release (decided in the prior meeting), the client made for the perfect test user.
+Releases were tested with the clients through arranged play-test meetings. A meeting with the client would be arranged to test the current stage of the game against the heuristics defined in the release testing strategy table. As the client was already aware of the heuristics set out for the current release (decided in the prior meeting), the client made for the perfect test user.
 
 #### Method:
-We took the heuristics decided for the specific release and planned tests which would prove the heuristics met (shown in **Table 2**). During the play test, the client would be given a device with the game installed on it and we observed as they interacted with the application. Through observations 
-<mark>and a questionnaire after the playtest</mark>
- we would mark down the results of the heuristic tests. These results would then go onto influence the decision of the next target heurisitcs for the following release.
+We took the heuristics decided for the specific release and planned tests which would prove the heuristics met (shown in **Table 2**). During the play test, the client would be given a device with the game installed on it and we observed as they interacted with the application. Through observations and a questionnaire after the playtest we would mark down the results of the heuristic tests. These results would then go onto influence the decision of the next target heurisitcs for the following release.
 
 
 

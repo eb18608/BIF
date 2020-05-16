@@ -28,9 +28,7 @@ Key libraries to the architecture of the project include:
 #### Software
 ##### Android Studio:
 
-Android Studio fulfilled a large portion of the architectural drivers as a Java based (2.1), mobile application (1.1) 
-<mark>development and distribution platform (2.4)</mark>
-. Android Studio also provides a plethora of mobile application support (1.1) such as touchscreen functionality libraries and UI tools, which allow us to create and operate front end systems (<!--which include our-->main menu, level select, settings menu etc.)(3.2.2). As well UI tools and libraries, it provides seamless support of both modular (JUnit)(3.3) as well as our graphics engine (1.3).
+Android Studio fulfilled a large portion of the architectural drivers as a Java based (2.1), mobile application (1.1) development and distribution platform. Android Studio also provides a plethora of mobile application support (1.1) such as touchscreen functionality libraries and UI tools, which allow us to create and operate front end systems (main menu, level select, settings menu etc.)(3.2.2). As well UI tools and libraries, it provides seamless support of both modular (JUnit)(3.3) as well as our graphics engine (1.3).
 
 ##### Processing 3
 
@@ -58,9 +56,7 @@ To accomplish Test Driven Development, we used the JUnit Testing library in orde
 <img src="./Architecture%20Diagram/Architecture_Diagram.png" alt="drawing" width="275" ALIGN="left" HSPACE="15"/>
 
 
-Figure 1 shows the different front and back end systems we will be creating. Our main front-end system will be the **Main Menu**, providing links to the **Settings, Achievements, Level Select** and **Customisations** systems (3.2.2). All 
-<span style="background-color: #00DBFF">components in the system</span>
- will utilise the touchscreen navigation libraries present in Android Studios to enable user interaction (1.1, 3.2). 
+Figure 1 shows the different front and back end systems we will be creating. Our main front-end system will be the **Main Menu**, providing links to the **Settings, Achievements, Level Select** and **Customisations** systems (3.2.2). All components in the system will utilise the touchscreen navigation libraries present in Android Studios to enable user interaction (1.1, 3.2). 
 
 User decision in **Level Select** and **Customisations** will interact with the various CSV parsers we implemented (using Apache .CSV) in order to determine the state of the loaded game; which in turn will dictate the **3D Models** used by the **Graphics Engine** to display the playable level(3.1, 3.2.3). 
 

@@ -1,24 +1,5 @@
 # Development Testing
 
-
-<!-- Consistent with Test Driven Development, we decided on testing strategies for the testable systems in our architecture diagram. 
-These testing frameworks were decided on:
-
-- **Front End UI** - APK Build test
-- **Graphics Rendering** - Visual Testing
-- **.CSV Level Handler** - APK Build Testing
-- **Physics Engine** - JUnit Testing
-
-#### APK Build Testing
-Android studio provided an **APK Build** feature which allowed us to test things like functionality of certain *non-numeric* features, as well as robustness of integrated systems. This would compile the project state and export it as a testable APK which installed onto a connected mobile device (a terminal would display system messages describing the events occuring and processes running during application usage). This made more sense for complex integrated systems like the **.CSV Level Handler** and **Front End UI**. We were also able to test the usability factor of the application (which is importatant when a game is concerned).
-
-#### Visual Testing
-Earlier on in development, where the 3D assets were not ready, we used visual placeholders in order to ensure the correctness of the renderer during the **APK Build Tests**. Through this, we were able to test that objects created by our graphical engine would be rendered in the correct position, orientation and size.
-
-#### JUnit Testing
-Testing the correctness of methods in both normal and edge through the JUnit Testing framework proved the robustness of systems and methods. In back-end systems like our **Physics Engine**, which was implemented with independently functioning methods, it was the only system that made sense to use this kind of testing.
-Below is an example of some **JUnit** test cases used to test the **Physics Engine**: -->
-
 ### Challenges
 - The cooperative nature of our systems make it very hard to test individual systems and their methods. Systems like our **Front-End UI** (including front-end sub-systems like the **Level Handler**, **Customizations**, etc) and **Graphics Engine** make it very difficult to use unit testing frameworks (i.e. JUnit Testing).
 - Continuous Integration was only partly achieveable as we were not able to test the deployability of the whole system (via the Google Playstore).
