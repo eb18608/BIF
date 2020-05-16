@@ -1,6 +1,6 @@
 ﻿# Overview
 **The client:**
-*	<!--A group of PhD students --> The PhD research group at the Bioinspired Flight Lab in the University of Bristol conducting research on the flight behaviour of urban gulls in Bristol
+*   The PhD research group at the Bioinspired Flight Lab in the University of Bristol conducting research on the flight behaviour of urban gulls in Bristol
     -	Research includes how gulls utilise thermal air currents to conserve energy, how their behaviour differs from gulls living in a rural area, etc.
     -	The research is used to find ways to maximise the potential of drones and their possible contribution to society
 *	The students run a SCEEM Outreach workshop related to the research
