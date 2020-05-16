@@ -2,18 +2,17 @@
 **The client:**
 *	<!--A group of PhD students --> The PhD research group at the Bioinspired Flight Lab in the University of Bristol conducting research on the flight behaviour of urban gulls in Bristol
     -	Research includes how gulls utilise thermal air currents to conserve energy, how their behaviour differs from gulls living in a rural area, etc.
-    -	The research is used to find ways to maximis<!--e the potential of drones to solve problems and contribute to society-->e the potential of drones and their possible contribution to society
+    -	The research is used to find ways to maximise the potential of drones and their possible contribution to society
 *	The students run a SCEEM Outreach workshop related to the research
-    -	The purpose of the workshop is to engage attendees with <!--STEM--> a possible future in STEM
-    -	Attendees are given a problem and asked to solve it using drones, using a budget system to purchase bio-sensors (<!--sensors--> attachments inspired by natural sensory organs of animals) that may be useful for solving the problem
-    -	Attendees then <!--navigate a--> real drones around a physical obstacle course
+    -	The purpose of the workshop is to engage attendees with a possible future in STEM
+    -	Attendees are given a problem and asked to solve it using drones, using a budget system to purchase bio-sensors (attachments inspired by natural sensory organs of animals) that may be useful for solving the problem
+    -	Attendees then pilot a real drone around a physical obstacle course
 
 **The domain:**
-*	The main domain of the product is *education*, though the solution is also intended <!--to be entertaining to users--> to entertain users
+*	The main domain of the product is *education*, though the solution is also intended to entertain users
 
 **The problem:**
-*	The client desires a platform similar their workshop to keep attendees engaged with STEM <!--afterwards--> post workshop
-*	<!--The purpose of -->The product is not an outright replacement of the workshop, but to be something the attendees can take home
+*	The client desires a platform similar their workshop to keep attendees engaged with STEM post workshop
 
 **Our solution:**
 *	A mobile (Android-based) 3D game intended to replicate the challenges given to the participants of the workshop
@@ -22,7 +21,7 @@
 *	A customization system will also be available outside of gameplay
     -	Different bio-sensors can be equipped on the drone
     -	Each bio-sensor adds some functionality to either the UI (i.e. minimap) or the drone itself (i.e. the ability to pick up more than one object)
-    -	Bio-sensors will also contain educational flavour text about the <!--animal that inspired it--> STEM research that inspired it
+    -	Bio-sensors will also contain educational flavour text about the STEM research that inspired it
 
 # Requirements:
 ## Core user stories and flow steps:
@@ -39,7 +38,7 @@ Basic flow:
 Alternative play flow:
 <img src="./Portfolio%20B%20Merged/Assets/studentAlternative.png" alt="drawing" width="600" ALIGN="center" HSPACE="15"/>
 
-While this would not necessarily help the student achieve their initial goals of looking further into the subject of the workshop, it could still lead to the student gaining an interest in drones and/or <!--programming in general--> further topics involved with the engineering of drones, which would push them towards STEM.
+While this would not necessarily help the student achieve their initial goals of looking further into the subject of the workshop, it could still lead to the student gaining an interest in drones and/or further topics involved with the engineering of drones, which would push them towards STEM.
 
 ## Clients
 
