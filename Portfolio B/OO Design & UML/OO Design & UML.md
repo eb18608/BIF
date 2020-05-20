@@ -7,7 +7,7 @@
 }
 </style>
 <div class="img-container">
-<img src="dynamic-uml.jpg" alt="Dynamic UML">
+<img src="dynamic-uml.png" alt="Dynamic UML">
 </div>
 
 The motivations behind the Dynamic UML were to demonstrate a core aspect of any game system, the `Draw loop`. This system is particularly key to our system as it housed our handling of interactions on a per frame basis, as well as creatively render all the objects in the game that require rendering - doubling as a game loop as well as a rendering loop.
@@ -21,9 +21,9 @@ With regards to the rendering the various objects we have in the game, `draw3D()
 ## Static UML
 </style>
 <div class="img-container">
-<img src="static-uml.jpg" alt="Static UML">
+<img src="static-uml.png" alt="Static UML">
 </div>
 
-Our static diagram was designed to be more broad than the dynamic diagram as we wanted to represent how our systems are interconnected throughout the whole app. Our app has fairly complex interactions that would be lost if we only showcased a smaller subsystem. We chose to use the visitor pattern as it provided a clear way to let our objects interact with each other. As there are multiple different types of **GameObject**, it seemed sensible to have them visit the **Physics Engine** and then allow that to manage the different collisions, etc. that would then take place.
+Our static diagram was designed to be more broad than the dynamic diagram as we wanted to represent how our systems are interconnected throughout the whole app. Our app has fairly complex interactions that would be lost if we only showcased a smaller subsystem. We chose to use the visitor pattern as it provided a clear way to let our objects interact with each other. As there are multiple different types of `GameObject`, it seemed sensible to have them visit the `Physics Engine` and then allow that to manage the different collisions, etc. that would then take place.
 
-It is also worth noting that **GameSketch** is represented centrally on our diagram. It is one of the most integral parts of our app; it uses and connects to the other key classes and handles the rendering functions and gameplay features as part of an overall *“game loop”*, which are vital to our game being playable. However, implementing our app in this way did raise challenges. We had issues making sure that the **GameObjects** interact as intended with the sketch, especially when they also needed to use data from the **IO** or the **Physics Engine** directly.  In order to solve this, we developed the **Collide Interactable** to allow any **GameObject** to be visited by our visitor pattern. This taught us the importance of designing class structure and hierarchies fully before we start implementing any functionality into our project.
+It is also worth noting that `GameSketch` is represented centrally on our diagram. It is one of the most integral parts of our app; it uses and connects to the other key classes and handles the rendering functions and gameplay features as part of an overall *“game loop”*, which are vital to our game being playable. However, implementing our app in this way did raise challenges. We had issues making sure that the `GameObjects` interact as intended with the sketch, especially when they also needed to use data from the `IO` or the `Physics Engine` directly.  In order to solve this, we developed the `Collide Interactable` to allow any `GameObject` to be visited by our visitor pattern. This taught us the importance of designing class structure and hierarchies fully before we start implementing any functionality into our project.
