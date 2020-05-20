@@ -33,10 +33,10 @@ Out of the user stories above, the ones we will choose to focus on are for the *
 *As a curious student, I want the game to be engaging, informative and representative of real-world scenarios. I would like this so that I can further look into the subjects and be more informed._*
 
 Basic flow:
-<img src="./Port%20B%20Merged%20(2)/Assets/studentAlternative.png" alt="drawing" width="700" ALIGN="center" HSPACE="15"/>
+<img src="./Assets/studentBasic.png" alt="drawing" width="700" ALIGN="center" HSPACE="15"/>
 
 Alternative play flow:
-<img src="./Port%20B%20Merged%20(2)/Assets/studentAlternative.png" alt="drawing" width="600" ALIGN="center" HSPACE="15"/>
+<img src="./Assets/studentAlternative.png" alt="drawing" width="600" ALIGN="center" HSPACE="15"/>
 
 While this would not necessarily help the student achieve their initial goals of looking further into the subject of the workshop, it could still lead to the student gaining an interest in drones and/or further topics involved with the engineering of drones, which would push them towards STEM.
 
@@ -46,7 +46,7 @@ _As a client, I would want this game to be engaging, inspiring and somewhat info
 
 Basic flow:
 
-<img src="./Portfolio%20B%20Merged/Assets/phdBasic.png" alt="drawing" width="600" ALIGN="center" HSPACE="15"/>
+<img src="./Assets/phdBasic.png" alt="drawing" width="600" ALIGN="center" HSPACE="15"/>
 
 An alternative flow would be to inform the attendees during a break in their workshop.
 
